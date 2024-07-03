@@ -1,4 +1,5 @@
 import { SectorComponent } from "./styles";
+import HenryCalvo from "../../assets/henrycalvo.svg";
 
 export default function SectorCard() {
   return (
@@ -6,9 +7,8 @@ export default function SectorCard() {
       <section>
         <div className="all-sector">
           <div className="header-sector">
-            <h1>aaaa</h1>
             <h3>aaaa</h3>
-            <img src="" />
+            <img src={HenryCalvo} />
           </div>
 
           <div className="p-sector">

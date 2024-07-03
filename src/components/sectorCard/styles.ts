@@ -9,7 +9,10 @@ export const SectorComponent = styled.section`
     border-radius: 16px;
     display: flex;
     flex-direction: column;
-    padding: 10px;
+    padding: 15px;
+    gap: 10px;
+    background-color: white;
+
     
 
     p{
@@ -18,12 +21,20 @@ export const SectorComponent = styled.section`
 
     }
 
+    h2{
+        font-size: 15px;
+    }
+
+}
+
+.header-sector{
+    display: grid;
+    grid-template-columns: 1fr 30px;
 }
 
 .p-sector{
-    display: flex;
-    flex-direction: column;
-    
+    display: grid;
+    grid-template-columns: 1fr 25px;
 }
 
 

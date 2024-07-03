@@ -1,0 +1,18 @@
+import styled from "styled-components";
+
+
+export const SectorContainer = styled.section`
+
+
+.sector-div{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+
+    h1{
+        font-size: 32px;
+    }
+}
+
+`

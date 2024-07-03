@@ -15,19 +15,15 @@ export const LoginContainer = styled.section`
 
 
 .section-login{
+    padding: 50px;
     align-items: center;
     justify-content: center;
     display: flex;
     gap: 200px;
     width: 100%;
-    height: 940px;
-
-
-
+    height: 700px;
    
 }
-
-
 
 .login-left{
     background-image: linear-gradient(#0054A4, #280741 ) ;

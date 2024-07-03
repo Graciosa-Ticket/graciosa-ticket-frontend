@@ -8,5 +8,19 @@ section{
 }
 
 
+.div-home{
+    width: 100%;
+    height: 400px;
+    display: flex;
+    justify-content: center;
+    gap: 200px;
+    align-items: center;
+}
+
+.graph{
+    width: 100%;
+    height: 350px;
+}
+
 
 `

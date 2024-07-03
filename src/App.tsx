@@ -1,11 +1,11 @@
 import "./App.css";
-import { Routes } from "react-router-dom";
+import AppRoutes from "../src/routes/Routes";
 
 function App() {
   return (
-    <>
-      <Routes />
-    </>
+    <div>
+      <AppRoutes />
+    </div>
   );
 }
 
