@@ -10,6 +10,7 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 const ButtonComponent = ({
   buttonStyles = "primary",
+  type = "button",
   ...props
 }: ButtonProps) => {
   return (

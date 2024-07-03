@@ -1,8 +1,10 @@
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Navigate, Outlet, Route, Routes } from "react-router-dom";
 import Home from "../pages/home";
 import Login from "../pages/login";
 import Sector from "../pages/sector";
 import { useAuth } from "../hooks/auth";
+import { DefaultContainer } from "./styles";
+import MenuHeader from "../components/menu";
 
 const AppRoutes = () => {
   const { signed } = useAuth();
@@ -25,10 +27,25 @@ const AuthRoute = () => {
 const UserRoute = () => {
   return (
     <Routes>
-      <Route path="*" element={<Navigate replace to="/home" />} />
-      <Route path="/home" element={<Home />} />
-      <Route path="/setor" element={<Sector />} />
+      <Route element={<DefaultLayout />}>
+        <Route path="*" element={<Navigate replace to="/home" />} />
+        <Route path="/home" element={<Home />} />
+        <Route path="/setor" element={<Sector />} />
+      </Route>
     </Routes>
+  );
+};
+
+const DefaultLayout = () => {
+  return (
+    <DefaultContainer>
+      <div className="menu-default-container">
+        <MenuHeader />
+      </div>
+      <section className="page-default">
+        <Outlet />
+      </section>
+    </DefaultContainer>
   );
 };
 
