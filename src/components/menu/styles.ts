@@ -28,6 +28,7 @@ ul{
     background-color: white;
 
     box-shadow: 0px 0px 8px 2px rgba(0, 0, 0, 0.08);
+    
 
 }
 
@@ -38,13 +39,18 @@ a  {
 
     padding: 10px;
     border-radius: 8px;
+     transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: #0072c8; */
+    }
 }
 
 .menu img{
     width: 36px;
 }
 
-.new-ticket-btn{
+.new-ticket-btn {
     background-color: #0054A4;
     width: 120px;
     height: 33px;
@@ -54,8 +60,13 @@ a  {
     color: white;
     font-size: 13px;
     font-weight: 400;
-
+    transition: background-color 0.3s ease;
 }
+
+.new-ticket-btn:hover {
+    background-color: #0072c8;
+}
+
 
 .menu-right-img{
     display: flex;

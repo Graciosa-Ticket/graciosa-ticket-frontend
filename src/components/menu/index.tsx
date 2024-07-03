@@ -15,7 +15,7 @@ export default function MenuHeader() {
 
           <ul>
             <li>
-              <a href="">Inicio</a>
+              <a href="/home">Inicio</a>
             </li>
             <li>
               <a href="/setor">Setores</a>
@@ -24,7 +24,7 @@ export default function MenuHeader() {
               <a href="">Chamados</a>
             </li>
             <li>
-              <a href="">Usuários</a>
+              <a href="/usuarios">Usuários</a>
             </li>
             <li>
               <a href="">Configurações</a>
