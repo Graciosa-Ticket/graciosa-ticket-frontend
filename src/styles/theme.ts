@@ -3,8 +3,7 @@ import { SistemTheme } from "../models/sistemTheme";
 export const light = {
   colors: {
     brand: {
-      tiffany: "#3EB3BE",
-      tiffany_dark: "#218891",
+      blue: "#0054a4",
       white: "#FFFFFF",
       black: "#212E2F",
     },
@@ -99,8 +98,7 @@ export const light = {
 export const dark = {
   colors: {
     brand: {
-      tiffany_dark: "#3EB3BE",
-      tiffany: "#218891",
+      blue: "#0054a4",
       black: "#fff",
       white: "#212E2F",
     },

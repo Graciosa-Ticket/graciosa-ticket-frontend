@@ -7,8 +7,7 @@ declare module "styled-components" {
   export interface DefaultTheme {
     colors: {
       brand: {
-        tiffany: string;
-        tiffany_dark: string;
+        blue: string;
         white: string;
         black: string;
       };

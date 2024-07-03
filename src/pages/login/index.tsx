@@ -1,4 +1,3 @@
-import Button from "../../components/buttons";
 import Input from "../../components/inputs";
 import { LoginContainer } from "./styles";
 import Logo from "../../assets/graciosa-logo 2.svg";

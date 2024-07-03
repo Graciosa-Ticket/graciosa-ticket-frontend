@@ -4,6 +4,7 @@ import { InputLogin } from "./styles";
 import eye from "../../assets/ph_eye.svg";
 import { useAuth } from "../../hooks/auth";
 import { useForm } from "react-hook-form";
+import ButtonComponent from "../buttons";
 
 interface login {
   email: string;
@@ -36,7 +37,10 @@ export default function Input() {
             <img src={eye} onClick={handleShow} className="eye-svg" />
           </div>
         </div>
-        <button type="submit">enviar</button>
+        <ButtonComponent type="submit">Enviar</ButtonComponent>
+        <ButtonComponent type="button" buttonStyles="error">
+          teste
+        </ButtonComponent>
       </form>
     </InputLogin>
   );

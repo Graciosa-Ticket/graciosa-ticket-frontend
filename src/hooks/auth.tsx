@@ -43,9 +43,8 @@ export const AuthProvider = ({ children }: authProp) => {
   const [loading, setLoading] = useState(false);
 
   const signOut = () => {
-    localStorage.removeItem("tiempo/token");
-    localStorage.removeItem("tiempo/user");
-    localStorage.removeItem("tiempo/selectedOrgID");
+    localStorage.removeItem("gcc_ticket/token");
+    localStorage.removeItem("gcc_ticket/user");
 
     delete (api as any).defaults.headers.Authorization;
     if (!data?.user || !data?.token) return;
@@ -54,7 +53,7 @@ export const AuthProvider = ({ children }: authProp) => {
   };
 
   const updateProfile = (data: UserModel) => {
-    localStorage.setItem("tiempo/user", JSON.stringify(data));
+    localStorage.setItem("gcc_ticket/user", JSON.stringify(data));
     setData((old) => ({ token: old.token, user: data }));
   };
 
