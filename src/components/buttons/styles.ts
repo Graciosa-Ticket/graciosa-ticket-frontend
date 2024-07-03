@@ -1,24 +1,33 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
+import { buttonStyles } from ".";
 
-
-export const ButtonsLoginContainer = styled.section`
-
-.btn-2{
-    background-color: #0054A4;
-    border: none;
-    border-radius: 8px;
-    width: 290px;
-    height: 43px;
-    color: #FFFFFF;
-    cursor: pointer;
-    transition: .4s;
-    box-shadow: 0px 4px 6.1px -5px #0000009E;
-
+interface buttonProps {
+  $buttonStyles: buttonStyles;
 }
-:hover{
 
-        background-color: #0073e0;
-        border-radius: 8px;
+const primaryStyle = css`
+  background-color: ${({ theme }) => theme.colors.brand.blue};
+  color: ${({ theme }) => theme.colors.brand.white};
+  box-shadow: 0px 4px 6.1px -5px #0000009e;
+`;
 
-    }
-`
+const errorStyle = css`
+  background-color: ${({ theme }) => theme.colors.support.error};
+  color: ${({ theme }) => theme.colors.brand.white};
+  box-shadow: 0px 4px 6.1px -5px #0000009e;
+`;
+
+const styles = {
+  primary: primaryStyle,
+  error: errorStyle,
+};
+
+export const ButtonsLoginContainer = styled.button<buttonProps>`
+  padding: 1em;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.4s;
+
+  ${({ $buttonStyles }) => styles[$buttonStyles]}
+`;

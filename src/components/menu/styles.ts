@@ -1,79 +1,50 @@
 import styled from "styled-components";
 
+export const MenuHeaderHome = styled.header`
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  gap: 1em;
 
-
-export const MenuHeaderHome = styled.section`
-
-.menu{
+  .menu {
     width: 100%;
-    height: auto;
     justify-content: center;
     align-items: center;
     padding-top: 20px;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+  }
 
-}
-
-ul{
+  ul {
     padding: 20px;
     display: flex;
     align-items: center;
-    gap: 60px;
-    max-width: 710px;
-    font-size: 13px;
+    gap: 1em;
     list-style: none;
-    height: 50px;
-    border-radius:15px ;
-    background-color: white;
-
+    border-radius: 15px;
+    background-color: ${({ theme }) => theme.colors.brand.white};
     box-shadow: 0px 0px 8px 2px rgba(0, 0, 0, 0.08);
-    
+  }
 
-}
-
-a  {
+  a {
     text-decoration: none;
-    background-color: #0054A4;
-    color: white;
-
+    color: ${({ theme }) => theme.colors.brand.black};
     padding: 10px;
     border-radius: 8px;
-     transition: background-color 0.3s ease;
+    transition: 0.3s;
 
-    &:hover {
-      background-color: #0072c8; */
+    &.active-button {
+      background-color: ${({ theme }) => theme.colors.brand.blue};
+
+      color: ${({ theme }) => theme.colors.brand.white};
     }
-}
+  }
 
-.menu img{
-    width: 36px;
-}
-
-.new-ticket-btn {
-    background-color: #0054A4;
-    width: 120px;
-    height: 33px;
-    border: none;
-    border-radius: 8px;
-    box-shadow: 0px 13px 5.5px -12px rgba(0, 0, 0, 0.08);
-    color: white;
-    font-size: 13px;
-    font-weight: 400;
-    transition: background-color 0.3s ease;
-}
-
-.new-ticket-btn:hover {
-    background-color: #0072c8;
-}
-
-
-.menu-right-img{
+  .menu-right-img {
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 5px;
     font-size: 14px;
     color: #535353;
-}
-`
+  }
+`;

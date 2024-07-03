@@ -1,20 +1,22 @@
+import { format } from "date-fns";
+import { TicketModel } from "../../models/ticket";
 import { TicketContainer } from "./styles";
 
-export default function TicketCard() {
+interface ticketCardProps {
+  data: TicketModel;
+}
+
+export default function TicketCard({ data }: ticketCardProps) {
   return (
     <TicketContainer>
       <section>
         <div className="ticketCard-div">
           <div className="top-ticketCard">
-            <h1>Titulo</h1>
-            <p>03 de set</p>
-            <div className="mockup-teste">Urgente</div>
+            <h1>{data?.title}</h1>
+            <p>{format(data?.date, "dd/MM/yyyy")}</p>
+            <div className="mockup-teste">{data?.status}</div>
           </div>
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim...
-          </p>
+          <p>{data?.description}</p>
         </div>
       </section>
     </TicketContainer>

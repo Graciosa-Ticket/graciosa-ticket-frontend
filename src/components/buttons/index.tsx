@@ -1,14 +1,23 @@
-import "./styles";
+import { ButtonHTMLAttributes } from "react";
 import { ButtonsLoginContainer } from "./styles";
 
-export default function Button() {
+export type buttonStyles = "primary" | "error";
+
+export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  //tipos personalizados
+  buttonStyles?: buttonStyles;
+}
+
+const ButtonComponent = ({
+  buttonStyles = "primary",
+  type = "button",
+  ...props
+}: ButtonProps) => {
   return (
-    <ButtonsLoginContainer>
-      <section>
-        <div className="btn-login">
-          <button className="btn-2">Entrar</button>
-        </div>
-      </section>
+    <ButtonsLoginContainer $buttonStyles={buttonStyles}>
+      {props.children}
     </ButtonsLoginContainer>
   );
-}
+};
+
+export default ButtonComponent;
