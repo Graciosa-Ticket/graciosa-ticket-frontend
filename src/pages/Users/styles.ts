@@ -1,24 +1,29 @@
 import styled from "styled-components";
 
 export const UserContainer = styled.section`
- .user-header{
-   margin: 10px 0 20px;
-display:flex;
-align-items:center;
-gap:1em;
+  .user-header {
+    margin: 10px 0 20px;
+    display: flex;
+    align-items: center;
+    gap: 1em;
 
-h1 {
-   ${({theme}) => theme.font.h1}; 
-}
- }
-
-    .user-cards {
-      margin-top:2em;
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 20px;
+    h1 {
+      ${({ theme }) => theme.font.h1};
     }
+  }
 
+  .sector-selector {
+    margin-bottom: 20px; /* Espaçamento abaixo da seção de seleção */
+    display: flex;
+    gap: 20px; /* Espaçamento entre os botões */
+  }
+
+  .user-cards {
+    margin-top: 2em;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+  }
 
   .btn {
     background-color: #808080; /* Cor cinza */
@@ -34,22 +39,17 @@ h1 {
     margin-right: 10px; /* Espaçamento entre os botões */
     cursor: pointer; /* Altera o cursor para indicar que o botão é clicável */
 
+    &.selected {
+      background-color: ${({ theme }) => theme.colors.brand.blue};
+    }
 
-&.selected{
-    background-color: ${({theme}) => theme.colors.brand.blue}; 
-}
+    &:hover {
+      background-color: #a9a9a9;
+    }
 
-
-&:hover {
-    background-color: #a9a9a9;
+    &:focus {
+      background-color: #0054a4; /* Cor azul ao ser selecionado */
+      outline: none; /* Remove o outline padrão */
+    }
   }
-
-  &:focus {
-    background-color: #0054a4; /* Cor azul ao ser selecionado */
-    outline: none; /* Remove o outline padrão */
-  }
-
-  }
-
-  
 `;

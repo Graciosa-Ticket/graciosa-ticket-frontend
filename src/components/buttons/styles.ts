@@ -10,10 +10,19 @@ const primaryStyle = css`
   color: ${({ theme }) => theme.colors.brand.white};
   box-shadow: 0px 4px 6.1px -5px #0000009e;
 `;
+
 const textStyle = css`
   background-color: transparent;
   color: ${({ theme }) => theme.colors.brand.black};
 `;
+const addStyle = css`
+  background-color: transparent;
+  color: ${({ theme }) => theme.colors.brand.black};
+  font-size: 50px;
+  padding: 5px 10px;
+  padding-left: 20px;
+`;
+
 
 const errorStyle = css`
   background-color: ${({ theme }) => theme.colors.support.error};
@@ -24,7 +33,8 @@ const errorStyle = css`
 const styles = {
   primary: primaryStyle,
   error: errorStyle,
-  text:textStyle
+  text: textStyle,
+  add: addStyle
 };
 
 export const ButtonsLoginContainer = styled.button<buttonProps>`
