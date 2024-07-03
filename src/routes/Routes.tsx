@@ -32,7 +32,7 @@ const UserRoute = () => {
         <Route path="*" element={<Navigate replace to="/home" />} />
         <Route path="/home" element={<Home />} />
         <Route path="/setor" element={<Sector />} />
-        <Route path="/usuarios" element={<Users />} />
+        <Route path="/users" element={<Users />} />
       </Route>
     </Routes>
   );

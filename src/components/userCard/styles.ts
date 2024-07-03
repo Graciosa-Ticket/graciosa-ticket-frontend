@@ -1,10 +1,7 @@
 import styled from "styled-components";
 
 export const UserComponent = styled.section`
-
-.all-sector{
     width: 100%;
-    max-width: 240px;
     border-radius: 16px;
     display: flex;
     flex-direction: column;
@@ -37,7 +34,7 @@ export const UserComponent = styled.section`
         text-align: right;
     }
 
-}
+
 
 .header-sector{
     display: flex;

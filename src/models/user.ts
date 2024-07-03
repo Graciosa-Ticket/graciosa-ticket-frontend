@@ -3,4 +3,6 @@ export interface UserModel {
   name: string;
   email: string;
   profile_picture?: string;
+  type?: "admin" | "supervisor" | "collaborator"
+  status?:boolean
 }

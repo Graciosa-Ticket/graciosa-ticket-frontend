@@ -1,74 +1,97 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import MenuHeader from "../../components/menu";
 import UserCard from "../../components/userCard";
 import { UserContainer } from "./styles";
+import { UserModel } from "../../models/user";
+import ButtonComponent from "../../components/buttons";
+
+
+const fakeUserData: UserModel[] = [
+  {
+    email: "teste@teste.com",
+    id: "1",
+    name: "Teste da silva",
+    type: "admin",
+  
+  },
+  {
+    email: "teste@teste.com",
+    id: "1",
+    name: "Teste da silva 2",
+    type: "collaborator",
+  
+  },
+  {
+    email: "teste@teste.com",
+    id: "1",
+    name: "Teste da silva 3",
+    type: "supervisor",
+  
+  },
+  {
+    email: "teste@teste.com",
+    id: "1",
+    name: "Teste da silva 4",
+    type: "admin",
+  
+  },
+]
+
+
+
 
 export default function Sector() {
-  const [selectedBtn, setSelectedBtn] = useState<number | null>(null);
+  const [selectedBtn, setSelectedBtn] = useState<UserModel["type"]>("admin");
 
-  const handleBtnClick = (btnId: number) => {
-    setSelectedBtn(btnId === selectedBtn ? null : btnId);
+  const handleBtnClick = (type: UserModel["type"]) => {
+    setSelectedBtn(type);
   };
+
+
+const userList = useMemo(() => {
+
+  return fakeUserData.filter(user => user.type === selectedBtn)
+}, [selectedBtn])
+
 
   return (
     <UserContainer>
-      <section>
-        <MenuHeader />
-        <div className="user-div">
+        <div className="user-header">
           <h1>Usuários</h1>
+
+          <ButtonComponent buttonStyles="text">+</ButtonComponent>
+          </div>
+
           <div className="sector-selector">
-            <button
-              className={`btn ${selectedBtn === 1 ? "selected" : ""}`}
-              onClick={() => handleBtnClick(1)}
+            <ButtonComponent
+              // className={selectedBtn === "admin" ? "btn selected" : "btn"}
+              buttonStyles={selectedBtn === "admin" ? "primary" : "text"}
+              onClick={() => handleBtnClick("admin")}
             >
               Administradores
-            </button>
-            <button
-              className={`btn ${selectedBtn === 2 ? "selected" : ""}`}
-              onClick={() => handleBtnClick(2)}
+            </ButtonComponent>
+            <ButtonComponent
+              buttonStyles={selectedBtn === "supervisor" ? "primary" : "text"}
+              onClick={() => handleBtnClick("supervisor")}
             >
               Supervisores
-            </button>
-            <button
-              className={`btn ${selectedBtn === 3 ? "selected" : ""}`}
-              onClick={() => handleBtnClick(3)}
+            </ButtonComponent>
+            <ButtonComponent
+             buttonStyles={selectedBtn === "collaborator" ? "primary" : "text"}
+              onClick={() => handleBtnClick("collaborator")}
             >
               Colaboradores
-            </button>
+            </ButtonComponent>
           </div>
 
           <div className="user-cards">
-            {selectedBtn === 1 && (
-              <>
-                <UserCard />
-                <UserCard />
-                <UserCard />
-                <UserCard />
-                <UserCard />
-                <UserCard />
-                <UserCard />
-                <UserCard />
-              </>
-            )}
-            {selectedBtn === 2 && (
-              <> 
-                <UserCard />
-                <UserCard />
-                <UserCard />
-                <UserCard />
-                <UserCard />
-              </>
-            )}
-            {selectedBtn === 3 && (
-              <>
-                <UserCard />
-                <UserCard />
-                <UserCard />
-              </>
-            )}
+            {userList.map((e, i) => (
+              <UserCard data={e} key={i}/>
+
+            ))}
+           
           </div>
-        </div>
-      </section>
+        
     </UserContainer>
   );
 }
