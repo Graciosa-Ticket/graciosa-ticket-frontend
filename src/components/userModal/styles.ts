@@ -11,14 +11,30 @@ export const UserComponent = styled.section`
   transition: transform 0.2s ease-in-out;
   position: relative;
 
+  h1 {
+    font-size: 1.5em;
+    color: #0054a4;
+    text-align: start;
+  }
+
+  .user-header {
+    font-weight: 600;
+    font-size: 3em;
+    color: #0054a4;
+    text-align: start;
+    display: flex; /* exibir em coluna */
+    flex-direction: row; /* organizar em coluna */
+    gap: 20px;
+  }
+
   p {
     font-size: 10px;
     color: #858585;
     text-align: center;
   }
-  
+
   h3 {
-    font-size: 10px;
+    font-size: .5em;
     color: #858585;
     margin-right: 5px;
   }
@@ -39,14 +55,13 @@ export const UserComponent = styled.section`
   .h3-container {
     display: flex;
     align-items: center;
-    position: absolute;
     top: 15px;
     right: 15px;
   }
 
   .status-ball {
-    width: 10px;
-    height: 10px;
+    width: 0.5em;
+    height: 0.5em;
     border-radius: 50%;
   }
 
@@ -57,5 +72,18 @@ export const UserComponent = styled.section`
   .status-ball.inactive {
     background-color: red;
   }
-  
+
+  .user-info-area {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    row-gap: 2em;
+    column-gap: 20px;
+  }
+
+  .img-sector{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 18px;
+  }
 `;

@@ -78,7 +78,7 @@ const fakeUserData: UserModel[] = [
     status: false,
     sector: "3",
     code: 1000,
-    birthdate: "10/10/2010",
+    birthdate: "15/10/2010",
     postalCode: "88888-888",
     phone: "41 3333-3333",
     address: "BR,PR,Curitiba"

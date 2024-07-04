@@ -5,6 +5,7 @@ import { UserModel } from "../../models/user";
 import { UserComponent } from "./styles";
 import  Modal  from '../modal';
 import UserModal from "../userModal";
+import SectorIcon from "../sectorIcon";
 
 
 interface UserCardProps {
@@ -50,11 +51,7 @@ const [open, setOpen] = useState(false)
         <p>{data.type}</p>
       </div>
       {data.type !== "admin" && <div className="sector-container">
-        {renderSectorIcon(data.sector)}
-        <div className="p-sector">
-          <h2>Setor</h2>
-          <p className="sector-text">{data.sector}</p>
-        </div>
+        <SectorIcon data={data} />
       </div>
         }
     </UserComponent>
