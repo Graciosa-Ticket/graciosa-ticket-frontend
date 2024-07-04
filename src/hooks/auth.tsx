@@ -71,7 +71,7 @@ export const AuthProvider = ({ children }: authProp) => {
         id: "2",
         profile_picture: "https://cdn.britannica.com/34/254634-050-C62ACCB9/British-Actor-Henry-Cavill-February-2024.jpg",
         type: "admin",
-        setor: ""
+        sector: ""
       };
 
       setData(() => ({
