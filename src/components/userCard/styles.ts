@@ -7,9 +7,14 @@ export const UserComponent = styled.button`
   flex-direction: column;
   padding: 15px;
   gap: 10px;
+  grid-template-columns: repeat(3, 1fr);
+  row-gap: 2em;
+  column-gap: 20px;
   background-color: white;
   transition: transform 0.2s ease-in-out;
   position: relative;
+  justify-content: flex-end; 
+  align-items: center;
 
   &:hover {
     transform: translateY(-5px);

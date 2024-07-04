@@ -1,14 +1,12 @@
 import { FaClipboard, FaIndustry, FaRegBuilding } from "react-icons/fa";
 import { UserModel } from "../../models/user";
-import { sectorIconComponent } from "./styles";
-
+import { IconComponent } from "./styles"; // Importe o estilo aqui
 
 interface UserCardProps {
-    data: UserModel;
-  }
+  data: UserModel;
+}
 
-  const SectorIcon = ({ data }:UserCardProps) => {
-
+const SectorIcon = ({ data }: UserCardProps) => {
   const renderSectorIcon = (setor: string) => {
     switch (setor.toLowerCase()) {
       case 'administrativo':
@@ -22,17 +20,17 @@ interface UserCardProps {
     }
   };
 
-  return(
-    <sectorIconComponent>
-        {renderSectorIcon(data.sector)}
-        <div className="p-sector">
-            <h2>Setor</h2>
-            <p className="sector-text">{data.sector}</p>
+  return (
+    <IconComponent>
+        <div className="icon-sector">
+        {renderSectorIcon(data.sector)} 
         </div>
-    </sectorIconComponent>
-    
-  )
+      <div className="print-sector">
+        <h2>Setor</h2>
+        <p className="text-sector">{data.sector}</p>
+      </div>
+    </IconComponent>
+    );
+};
 
-
-}
-  export default SectorIcon;
+export default SectorIcon;

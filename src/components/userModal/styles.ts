@@ -22,8 +22,8 @@ export const UserComponent = styled.section`
     font-size: 3em;
     color: #0054a4;
     text-align: start;
-    display: flex; /* exibir em coluna */
-    flex-direction: row; /* organizar em coluna */
+    display: flex;
+    flex-direction: row;
     gap: 20px;
   }
 
@@ -85,5 +85,9 @@ export const UserComponent = styled.section`
     align-items: center;
     justify-content: center;
     margin: 18px;
+  }
+
+  .function-area{
+    width: 100%;
   }
 `;

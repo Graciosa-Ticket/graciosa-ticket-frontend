@@ -16,26 +16,11 @@ const UserCard = ({ data }:UserCardProps) => {
 
 const [open, setOpen] = useState(false)
 
-  const renderSectorIcon = (setor: string) => {
-    switch (setor.toLowerCase()) {
-      case 'administrativo':
-        return <FaRegBuilding className="sector-icon" />;
-      case 'manutenção':
-        return <FaIndustry className="sector-icon" />;
-      case 'produção':
-        return <FaClipboard className="sector-icon" />;
-      default:
-        return null;
-    }
-  };
-
-
   return (
     <>
 <Modal  open={open} onOpenChange={() => setOpen(!open)}>
 <UserModal data={data} onClose={()=> setOpen(false)}/>
 </Modal>
-
 
     <UserComponent type="button" onClick={()=> setOpen(true)}>
       
