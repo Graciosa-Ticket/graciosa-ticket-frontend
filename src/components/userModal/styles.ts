@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const UserComponent = styled.button`
+export const UserComponent = styled.section`
   width: 100%;
   border-radius: 16px;
   display: flex;
@@ -11,22 +11,12 @@ export const UserComponent = styled.button`
   transition: transform 0.2s ease-in-out;
   position: relative;
 
-  &:hover {
-    transform: translateY(-5px);
-  }
-
   p {
     font-size: 10px;
     color: #858585;
     text-align: center;
   }
-
-  h2 {
-    font-size: 15px;
-    text-align: center;
-    color: #0054a4;
-  }
-
+  
   h3 {
     font-size: 10px;
     color: #858585;
@@ -35,7 +25,7 @@ export const UserComponent = styled.button`
 
   .header-sector {
     display: flex;
-    justify-content: flex-end; 
+    justify-content: center;
     align-items: center;
   }
 
@@ -51,7 +41,7 @@ export const UserComponent = styled.button`
     align-items: center;
     position: absolute;
     top: 15px;
-    right: 15px; 
+    right: 15px;
   }
 
   .status-ball {
@@ -67,29 +57,5 @@ export const UserComponent = styled.button`
   .status-ball.inactive {
     background-color: red;
   }
-
-  .sector-container {
-    display: flex;
-    align-items: center;
-  }
-
-  .p-sector {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-left: 20px;
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .sector-icon {
-    font-size: 24px;
-    color: #0054a4;
-  }
-
-  .sector-text {
-    font-size: 30px;
-    text-align: start;
-    color: #003366;
-  }
+  
 `;

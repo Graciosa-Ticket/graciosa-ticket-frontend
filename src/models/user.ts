@@ -5,5 +5,11 @@ export interface UserModel {
   profile_picture?: string;
   type: "admin" | "supervisor" | "collaborator"
   status?:boolean,
-  setor: string
+  sector: string,
+  code?: number,
+  birthdate?: string,
+  postalCode?: string,
+  phone?: string,
+  address?: string
+
 }

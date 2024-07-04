@@ -21,8 +21,20 @@ const addStyle = css`
   font-size: 50px;
   padding: 5px 10px;
   padding-left: 20px;
+  &:hover {
+    color: green;
+  }
 `;
-
+const deleteStyle = css`
+  background-color: transparent;
+  color: red;
+  font-size: 50px;
+  padding: 5px 10px;
+  padding-left: 20px;
+  &:hover {
+    color: green;
+  }
+`;
 
 const errorStyle = css`
   background-color: ${({ theme }) => theme.colors.support.error};
@@ -34,7 +46,8 @@ const styles = {
   primary: primaryStyle,
   error: errorStyle,
   text: textStyle,
-  add: addStyle
+  add: addStyle,
+  delete: deleteStyle
 };
 
 export const ButtonsLoginContainer = styled.button<buttonProps>`

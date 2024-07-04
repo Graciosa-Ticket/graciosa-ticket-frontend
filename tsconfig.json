@@ -20,6 +20,6 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src", "src/routes"],
+  "include": ["src", "src/routes", "src/components/userview/.tsx"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
