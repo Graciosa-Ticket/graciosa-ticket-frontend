@@ -11,20 +11,20 @@ export const DisplayComponent = styled.section`
   flex-direction: column;
 
   .label {
-    color: #858585;
+    color: ${({theme}) => theme.colors.grayscale.gray_60};
     margin-bottom: 5px; 
   }
 
   .content {
-    font-size: 2em;
-    color: #0054a4;
-    margin-right: 5px;
+    ${({theme}) => theme.font.h3};
+    color: ${({theme}) => theme.colors.brand.blue};
   }
 
   .suffix {
-    font-size: 1em;
-    color: #858585;
-    margin-right: 5px;
-    left:0;
-  }
+    ${({theme}) => theme.font.p.extra_small};
+    color: ${({theme}) => theme.colors.grayscale.gray_60};
+    margin-top: 5px;
+    align-items: end;
+}
+
 `;

@@ -56,13 +56,22 @@ export const ModalHeaderContainer = styled.section`
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
-    font-weight: 500;
-    font-size: 1em;
+    ${({theme}) => theme.font.h3};
+    color: ${({theme}) => theme.colors.brand.blue};
+    font-weight: 600;
+  }
+
+  .left-side{
+    display: flex;
+    align-items: center;
+    gap: 10px;
   }
 
   @media screen and (max-width: 1000px) {
     padding: 7px 1.2em;
   }
+
+  
 `;
 
 export const ModalTriggerCloseStyle = styled(Dialog.Close)`

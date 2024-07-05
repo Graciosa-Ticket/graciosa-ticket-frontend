@@ -18,26 +18,6 @@ export const UserComponent = styled.section`
     text-align: start;
   }
 
-  .user-header {
-    font: ${({ theme }) => theme.font.h1.large};
-    text-align: start;
-    display: flex;
-    flex-direction: row;
-    gap: 20px;
-  }
-
-  p {
-    font-size: 10px;
-    color: #858585;
-    text-align: center;
-  }
-
-  h3 {
-    font-size: .5em;
-    color: #858585;
-    margin-right: 5px;
-  }
-
   .header-sector {
     display: flex;
     justify-content: center;
@@ -89,11 +69,51 @@ export const UserComponent = styled.section`
   .function-area{
     width: 100%;
     display: flex;
-    flex-direction: row;
   }
 
-  .foooter-buttons{
-    position: absolute;
-  bottom: 0;
+  .right-side {
+    flex: 1;
+    padding: 10px;
   }
+  
+  .left-side {
+    flex: 1;
+    padding: 10px;
+  }
+
+  .sector-display{
+    width: 100%;
+  }
+
+  .footer{
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end; 
+    margin: 18px;
+    gap: 10px;
+  }
+`;
+
+export const Userheader = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 20px;
+
+  .status-ball {
+    width: 1em;
+    height: 1em;
+    border-radius: 50%;
+
+    &.active{
+      background-color: ${({theme}) => theme.colors.support.success};
+    }
+    &.inactive {
+      background-color: ${({theme}) => theme.colors.support.error};
+    }
+  }
+
+  .span{
+    ${({theme}) => theme.font.p.small};
+  }
+
 `;

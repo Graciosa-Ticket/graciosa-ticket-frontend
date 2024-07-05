@@ -15,8 +15,7 @@ interface DisplayProps {
         <div className="label">{label}</div>
         <div className="content">{content}</div>
         {label === "Nascimento" && 
-          <div className="suffix">{(suffix)} anos</div>
-  }
+          <div className="suffix">{(suffix)} anos</div>  }
       </DisplayComponent>
     );
   }

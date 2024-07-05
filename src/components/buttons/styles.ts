@@ -23,14 +23,25 @@ const addStyle = css`
   background-color: transparent;
   color: ${({ theme }) => theme.colors.brand.black};
 `;
-const deleteStyle = css`
-  background-color: transparent;
-  color: red;
-`;
+
 
 const errorStyle = css`
   background-color: ${({ theme }) => theme.colors.support.error};
   color: ${({ theme }) => theme.colors.brand.white};
+  box-shadow: 0px 4px 6.1px -5px #0000009e;
+`;
+
+const deleteStyle = css`
+  border: 1px solid red;
+  color: ${({ theme }) => theme.colors.support.error};
+  ${({ theme }) => theme.font.p.small};  
+  box-shadow: 0px 4px 6.1px -5px #0000009e;
+`;
+
+const editStyle = css`
+  border: 1px solid blue;
+  color: blue;
+  ${({ theme }) => theme.font.p.small};  
   box-shadow: 0px 4px 6.1px -5px #0000009e;
 `;
 
@@ -40,6 +51,7 @@ const styles = {
   text: textStyle,
   add: addStyle,
   delete: deleteStyle,
+  edit: editStyle
 };
 
 export const ButtonsLoginContainer = styled.button<buttonProps>`

@@ -3,12 +3,7 @@ import styled from "styled-components";
 export const IconComponent = styled.section`
     width: 100%;
     display: flex;
-    flex-direction: column;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    row-gap: 2em;
     column-gap: 20px;
-
 
   .print-sector {
     color: #858585;
@@ -22,14 +17,21 @@ export const IconComponent = styled.section`
   }
 
   .icon-sector {
-    display: flex;
-    justify-content: center;
-    align-items: center;   
-    color: #0054a4; 
+    display: flex;  
+    justify-content: center; /* Centraliza horizontalmente */
+    align-items: center; /* Centraliza verticalmente */
+    color: ${({ theme }) => theme.colors.brand.blue};
+    margin-top: 20px; /* Exemplo de margem superior para espaçamento */
   }
 
   h2{
-    size: 1em;
+    ${({theme}) => theme.font.p.small}
   }
+  
+  p{
+    color: ${({theme}) => theme.colors.brand.blue};
+  }
+  
+  .icon-size{}
 
 `;

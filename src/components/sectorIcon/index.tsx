@@ -10,11 +10,11 @@ const SectorIcon = ({ data }: UserCardProps) => {
   const renderSectorIcon = (setor: string) => {
     switch (setor.toLowerCase()) {
       case 'administrativo':
-        return <FaRegBuilding className="sector-icon" />;
+        return <FaRegBuilding className="icon-size"/>;
       case 'manutenção':
-        return <FaIndustry className="sector-icon" />;
+        return <FaIndustry className="icon-size"/>;
       case 'produção':
-        return <FaClipboard className="sector-icon" />;
+        return <FaClipboard className="icon-size"/>;
       default:
         return null;
     }
@@ -22,13 +22,16 @@ const SectorIcon = ({ data }: UserCardProps) => {
 
   return (
     <IconComponent>
-        <div className="icon-sector">
+      <div className="icon-sector">
         {renderSectorIcon(data.sector)} 
         </div>
-      <div className="print-sector">
-        <h2>Setor</h2>
-        <p className="text-sector">{data.sector}</p>
+      <div>
+        <div className="print-sector">
+          <h2>Setor</h2>
+          <p className="text-sector">{data.sector}</p>
+        </div>
       </div>
+      
     </IconComponent>
     );
 };

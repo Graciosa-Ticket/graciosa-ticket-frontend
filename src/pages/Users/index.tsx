@@ -5,6 +5,7 @@ import { UserModel } from "../../models/user";
 import { UserContainer } from "./styles";
 import CreateUserModal from "../../components/createUserModal";
 import Modal from "../../components/modal";
+import { AiOutlinePlus } from "react-icons/ai";
 
 
 const fakeUserData: UserModel[] = [
@@ -111,7 +112,7 @@ const [open, setOpen] = useState(false)
 
         <div className="user-header">
           <h1>Usuários</h1>
-          <ButtonComponent buttonStyles="add" title="Criar novo Usuario" onClick={() => setOpen(true)}> +</ButtonComponent>
+          <ButtonComponent buttonStyles="add" title="Criar novo Usuario" onClick={() => setOpen(true)}><AiOutlinePlus /></ButtonComponent>
 
         </div>
 
