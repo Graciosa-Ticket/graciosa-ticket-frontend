@@ -29,9 +29,7 @@ export default function Input() {
     <InputLogin>
       <form onSubmit={onSubmit}>
         <div className="input-login">
-          <p>Login</p>
           <input type="text" placeholder="Login" />
-          <p>Senha</p>
           <div className="pass-div">
             <input type={show ? "text" : "password"} placeholder="Senha" />
             <img src={eye} onClick={handleShow} className="eye-svg" />

@@ -13,7 +13,6 @@ const AppRoutes = () => {
   if (signed) {
     return <UserRoute />;
   }
-
   return <AuthRoute />;
 };
 
@@ -41,9 +40,7 @@ const UserRoute = () => {
 const DefaultLayout = () => {
   return (
     <DefaultContainer>
-      <div className="menu-default-container">
-        <MenuHeader />
-      </div>
+      <MenuHeader />
       <section className="page-default">
         <Outlet />
       </section>
