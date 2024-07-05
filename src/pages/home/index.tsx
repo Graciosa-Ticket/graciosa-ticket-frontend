@@ -1,4 +1,4 @@
-import SectorCardComponent from "../sector/components/sectorsCards";
+import SectorCard from "../../components/sectorCard";
 import HomeTicketComponent from "./components/tickets";
 import { HomeSection } from "./styles";
 
@@ -9,7 +9,7 @@ export default function Home() {
 
       <div className="div-home">
         <HomeTicketComponent />
-        <SectorCardComponent />
+        <SectorCard />
       </div>
     </HomeSection>
   );

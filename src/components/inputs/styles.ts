@@ -1,21 +1,6 @@
 import styled from "styled-components";
 
-
-
-
-const loginStyle = css`
-
-
-
-`
-
-
 export const InputLogin = styled.section`
-
-
-
-
-
   input {
     background-color: transparent;
     border: 1px solid #9f9f9f;

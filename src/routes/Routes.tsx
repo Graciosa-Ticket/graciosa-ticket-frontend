@@ -5,6 +5,7 @@ import Sector from "../pages/sector";
 import { useAuth } from "../hooks/auth";
 import { DefaultContainer } from "./styles";
 import MenuHeader from "../components/menu";
+import Users from "../pages/Users";
 
 const AppRoutes = () => {
   const { signed } = useAuth();
@@ -31,6 +32,7 @@ const UserRoute = () => {
         <Route path="*" element={<Navigate replace to="/home" />} />
         <Route path="/home" element={<Home />} />
         <Route path="/setor" element={<Sector />} />
+        <Route path="/users" element={<Users />} />
       </Route>
     </Routes>
   );

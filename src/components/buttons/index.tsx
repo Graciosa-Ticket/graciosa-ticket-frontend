@@ -1,7 +1,7 @@
 import { ButtonHTMLAttributes } from "react";
 import { ButtonsLoginContainer } from "./styles";
 
-export type buttonStyles = "primary" | "error";
+export type buttonStyles = "primary" | "error" | "text" | "add" | "delete";
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   //tipos personalizados
@@ -14,7 +14,7 @@ const ButtonComponent = ({
   ...props
 }: ButtonProps) => {
   return (
-    <ButtonsLoginContainer $buttonStyles={buttonStyles}>
+    <ButtonsLoginContainer $buttonStyles={buttonStyles} {...props}>
       {props.children}
     </ButtonsLoginContainer>
   );
