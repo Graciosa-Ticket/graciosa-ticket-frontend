@@ -51,7 +51,7 @@ const editStyle = css`
   &:hover {
     background-color: blue;
     color: white;
-  }
+  } 
 `;
 
 
