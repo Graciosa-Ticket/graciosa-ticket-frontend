@@ -1,8 +1,11 @@
-import { useMemo, useState } from "react";
-import UserCard from "../../components/userCard";
-import { UserContainer } from "./styles";
-import { UserModel } from "../../models/user";
+import { useState, useMemo } from "react";
 import ButtonComponent from "../../components/buttons";
+import UserCard from "../../components/userCard";
+import { UserModel } from "../../models/user";
+import { UserContainer } from "./styles";
+import CreateUserModal from "../../components/createUserModal";
+import Modal from "../../components/modal";
+
 
 const fakeUserData: UserModel[] = [
   {
@@ -97,39 +100,47 @@ export default function User() {
     return fakeUserData.filter(user => user.type === selectedBtn);
   }, [selectedBtn]);
 
+  
+const [open, setOpen] = useState(false)
+
   return (
-    <UserContainer>
-      <div className="user-header">
-        <h1>Usuários</h1>
-        <ButtonComponent buttonStyles="add" title="Criar novo Usuario">+</ButtonComponent>
-      </div>
 
-      <div className="sector-selector">
-        <ButtonComponent
-          buttonStyles={selectedBtn === "admin" ? "primary" : "text"}
-          onClick={() => handleBtnClick("admin")}
-        >
-          Administradores
-        </ButtonComponent>
-        <ButtonComponent
-          buttonStyles={selectedBtn === "supervisor" ? "primary" : "text"}
-          onClick={() => handleBtnClick("supervisor")}
-        >
-          Supervisores
-        </ButtonComponent>
-        <ButtonComponent
-          buttonStyles={selectedBtn === "collaborator" ? "primary" : "text"}
-          onClick={() => handleBtnClick("collaborator")}
-        >
-          Colaboradores
-        </ButtonComponent>
-      </div>
+    <><Modal open={open} onOpenChange={() => setOpen(!open)}>
+      <CreateUserModal onClose={() => setOpen(false)} />
+    </Modal><UserContainer>
 
-      <div className="user-cards">
-        {userList.map((e, i) => (
-          <UserCard data={e} key={i} />
-        ))}
-      </div>
-    </UserContainer>
+        <div className="user-header">
+          <h1>Usuários</h1>
+          <ButtonComponent buttonStyles="add" title="Criar novo Usuario" onClick={() => setOpen(true)}> +</ButtonComponent>
+
+        </div>
+
+        <div className="sector-selector">
+          <ButtonComponent
+            buttonStyles={selectedBtn === "admin" ? "primary" : "text"}
+            onClick={() => handleBtnClick("admin")}
+          >
+            Administradores
+          </ButtonComponent>
+          <ButtonComponent
+            buttonStyles={selectedBtn === "supervisor" ? "primary" : "text"}
+            onClick={() => handleBtnClick("supervisor")}
+          >
+            Supervisores
+          </ButtonComponent>
+          <ButtonComponent
+            buttonStyles={selectedBtn === "collaborator" ? "primary" : "text"}
+            onClick={() => handleBtnClick("collaborator")}
+          >
+            Colaboradores
+          </ButtonComponent>
+        </div>
+
+        <div className="user-cards">
+          {userList.map((e, i) => (
+            <UserCard data={e} key={i} />
+          ))}
+        </div>
+      </UserContainer></>
   );
 }

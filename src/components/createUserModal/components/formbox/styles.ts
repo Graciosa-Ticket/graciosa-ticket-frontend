@@ -1,9 +1,7 @@
 import styled from "styled-components";
 
-export const DisplayComponent = styled.section`
+export const DisplayComponent = styled.form`
   width: 100%;
-  border-radius: 10px;
-  border: 1px solid slategray;
   color: white; 
   padding: 10px; 
   font-size: 15px;
@@ -19,12 +17,14 @@ export const DisplayComponent = styled.section`
     font-size: 2em;
     color: #0054a4;
     margin-right: 5px;
+    padding: 5px;
   }
 
   .suffix {
     font-size: 1em;
     color: #858585;
     margin-right: 5px;
-    left:0;
+    align-self: flex-end;
+    cursor: pointer;
   }
 `;

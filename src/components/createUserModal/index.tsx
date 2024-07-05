@@ -1,22 +1,22 @@
 import { UserModel } from "../../models/user";
 import { UserComponent } from "./styles";
 import HenryCalvo from "../../assets/henrycalvo.svg"; 
-import Display from "./components/display";
 import SectorIcon from "../sectorIcon";
+import Display from "./components/formbox";
+
 
 interface userModalProps {
-  data:UserModel;
   onClose:()=>void;
 }
 
-export default function UserModal({data, onClose}:userModalProps){
+export default function CreateUserModal({onClose}:userModalProps){
 
 
   return (
     <UserComponent>
-      <div className="user-header">
+      <div className="modal-header">
         <button onClick={onClose}>X</button>        
-        <div>{data.name}</div>
+        <div>{}</div>
         <h3>{data.status ? "ativo" : "inativo"}</h3>
         <div className={`status-ball ${data.status ? 'active' : 'inactive'}`} />
       </div>
@@ -25,10 +25,14 @@ export default function UserModal({data, onClose}:userModalProps){
       </div>
       <h1>informacoes Pessoais</h1>
       <div className="user-info-area">
-          <Display label={"Código"} content={data.code + "" || "Não informado"}></Display>
-          <Display label={"Nome"} content={data.name}></Display>
-          <Display label={"Nascimento"} content={data.birthdate + "" || "Não informado"} suffix=""></Display>
-          <Display label={"Endereço"} content={data.address + "" || "Não informado" }></Display>
+          <Display label={""} onSubmit={function (value: string): void {
+                  throw new Error("Function not implemented.");
+              } }></Display>
+          <Display label={"pao"} onSubmit={function (value: string): void {
+                  throw new Error("Function not implemented.");
+              } } ></Display>
+          <Display label={"pao"} ></Display>
+          <Display label={"pao"} content={data.address + "" || "Não informado" }></Display>
           <Display label={"Cep"} content={data.postalCode + "" || "Não informado"}></Display>
           <Display label={"Telefone/Ramal"} content={data.phone + "" || "Não informado"}></Display>
       </div>

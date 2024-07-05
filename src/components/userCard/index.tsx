@@ -18,6 +18,7 @@ const [open, setOpen] = useState(false)
 
   return (
     <>
+    
 <Modal  open={open} onOpenChange={() => setOpen(!open)}>
 <UserModal data={data} onClose={()=> setOpen(false)}/>
 </Modal>

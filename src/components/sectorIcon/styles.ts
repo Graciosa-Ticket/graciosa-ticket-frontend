@@ -2,15 +2,17 @@ import styled from "styled-components";
 
 export const IconComponent = styled.section`
     width: 100%;
-    display: flex; /* torna os elementos filhos flexíveis */
-    flex-direction: column; /* organiza os elementos em coluna */
+    display: flex;
+    flex-direction: column;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     row-gap: 2em;
     column-gap: 20px;
+
+
   .print-sector {
     color: #858585;
-    margin-bottom: 5px; /* adicione espaçamento entre label e content */
+    margin-bottom: 5px; 
   }
 
   .text-sector {
@@ -21,9 +23,13 @@ export const IconComponent = styled.section`
 
   .icon-sector {
     display: flex;
-    justify-content: center; /* Centraliza horizontalmente */
-    align-items: center; /* Centraliza verticalmente */
-    margin-top: 200px; /* Exemplo de margem superior para espaçamento */
+    justify-content: center;
+    align-items: center;   
+    color: #0054a4; 
+  }
+
+  h2{
+    size: 1em;
   }
 
 `;
