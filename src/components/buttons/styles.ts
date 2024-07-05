@@ -14,26 +14,18 @@ const primaryStyle = css`
 const textStyle = css`
   background-color: transparent;
   color: ${({ theme }) => theme.colors.brand.black};
+
+  &:hover {
+    background-color: ${({ theme }) => theme.colors.grayscale.gray_10};
+  }
 `;
 const addStyle = css`
   background-color: transparent;
   color: ${({ theme }) => theme.colors.brand.black};
-  font-size: 50px;
-  padding: 5px 10px;
-  padding-left: 20px;
-  &:hover {
-    color: green;
-  }
 `;
 const deleteStyle = css`
   background-color: transparent;
   color: red;
-  font-size: 50px;
-  padding: 5px 10px;
-  padding-left: 20px;
-  &:hover {
-    color: green;
-  }
 `;
 
 const errorStyle = css`
@@ -47,7 +39,7 @@ const styles = {
   error: errorStyle,
   text: textStyle,
   add: addStyle,
-  delete: deleteStyle
+  delete: deleteStyle,
 };
 
 export const ButtonsLoginContainer = styled.button<buttonProps>`

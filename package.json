@@ -11,19 +11,13 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^3.7.0",
-<<<<<<< HEAD
-=======
     "@radix-ui/react-dialog": "^1.1.1",
->>>>>>> 8999a2abfb8d8a76695ec6cd8519a571a6781b1b
     "axios": "^1.7.2",
     "date-fns": "^3.6.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.52.1",
-<<<<<<< HEAD
-=======
     "react-icons": "^5.2.1",
->>>>>>> 8999a2abfb8d8a76695ec6cd8519a571a6781b1b
     "react-router-dom": "^6.23.1",
     "sonner": "^1.5.0",
     "styled-components": "^6.1.11",
