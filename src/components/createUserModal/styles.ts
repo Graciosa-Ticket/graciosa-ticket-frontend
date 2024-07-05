@@ -92,8 +92,7 @@ export const UserComponent = styled.section`
     flex-direction: row;
   }
 
-  .foooter-buttons{
-    position: absolute;
-  bottom: 0;
-  }
+ .submit-button{
+    background-color: green;
+ }
 `;
