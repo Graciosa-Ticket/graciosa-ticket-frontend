@@ -18,10 +18,10 @@ export const IconComponent = styled.section`
 
   .icon-sector {
     display: flex;  
-    justify-content: center; /* Centraliza horizontalmente */
-    align-items: center; /* Centraliza verticalmente */
+    justify-content: center; 
+    align-items: center; 
     color: ${({ theme }) => theme.colors.brand.blue};
-    margin-top: 20px; /* Exemplo de margem superior para espaçamento */
+    margin-top: 20px; 
   }
 
   h2{

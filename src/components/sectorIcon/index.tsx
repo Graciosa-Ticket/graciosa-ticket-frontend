@@ -28,6 +28,7 @@ const SectorIcon = ({ data }: UserCardProps) => {
       <div>
         <div className="print-sector">
           <h2>Setor</h2>
+          
           <p className="text-sector">{data.sector}</p>
         </div>
       </div>

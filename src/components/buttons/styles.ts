@@ -36,14 +36,24 @@ const deleteStyle = css`
   color: ${({ theme }) => theme.colors.support.error};
   ${({ theme }) => theme.font.p.small};  
   box-shadow: 0px 4px 6.1px -5px #0000009e;
-`;
 
+  &:hover {
+    background-color: ${({ theme }) => theme.colors.support.error};
+    color: white;
+  }
+`;
 const editStyle = css`
   border: 1px solid blue;
   color: blue;
   ${({ theme }) => theme.font.p.small};  
   box-shadow: 0px 4px 6.1px -5px #0000009e;
+
+  &:hover {
+    background-color: blue;
+    color: white;
+  }
 `;
+
 
 const styles = {
   primary: primaryStyle,
