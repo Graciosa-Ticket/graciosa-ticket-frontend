@@ -51,7 +51,6 @@ export const UserComponent = styled.section`
     grid-template-columns: repeat(2, 1fr);
     row-gap: 2em;
     column-gap: 30px;
-    
   }
   
   .button-div{

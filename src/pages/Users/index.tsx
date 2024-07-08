@@ -6,7 +6,7 @@ import { UserContainer } from "./styles";
 import CreateUserModal from "../../components/createUserModal";
 import Modal from "../../components/modal";
 import { AiOutlinePlus } from "react-icons/ai";
-
+import PageHeaderComponent from "../../components/pagesHeader";
 
 const fakeUserData: UserModel[] = [
   {
@@ -20,7 +20,7 @@ const fakeUserData: UserModel[] = [
     birthdate: "10/10/2010",
     postalCode: "88888-888",
     phone: "41 3333-3333",
-    address: "BR,PR,Curitiba"
+    address: "BR,PR,Curitiba",
   },
   {
     email: "teste@teste.com",
@@ -33,7 +33,7 @@ const fakeUserData: UserModel[] = [
     birthdate: "10/10/2010",
     postalCode: "88888-888",
     phone: "41 3333-3333",
-    address: "BR,PR,Curitiba"  
+    address: "BR,PR,Curitiba",
   },
   {
     email: "teste@teste.com",
@@ -46,7 +46,7 @@ const fakeUserData: UserModel[] = [
     birthdate: "10/10/2010",
     postalCode: "88888-888",
     phone: "41 3333-3333",
-    address: "BR,PR,Curitiba"  
+    address: "BR,PR,Curitiba",
   },
   {
     email: "teste@teste.com",
@@ -59,7 +59,7 @@ const fakeUserData: UserModel[] = [
     birthdate: "10/10/2010",
     postalCode: "88888-888",
     phone: "41 3333-3333",
-    address: "BR,PR,Curitiba"
+    address: "BR,PR,Curitiba",
   },
   {
     email: "teste@teste.com",
@@ -72,7 +72,7 @@ const fakeUserData: UserModel[] = [
     birthdate: "10/10/2010",
     postalCode: "88888-888",
     phone: "41 3333-3333",
-    address: "BR,PR,Curitiba"
+    address: "BR,PR,Curitiba",
   },
   {
     email: "teste@teste.com",
@@ -85,10 +85,9 @@ const fakeUserData: UserModel[] = [
     birthdate: "15/10/2010",
     postalCode: "88888-888",
     phone: "41 3333-3333",
-    address: "BR,PR,Curitiba"
+    address: "BR,PR,Curitiba",
   },
 ];
-
 
 export default function User() {
   const [selectedBtn, setSelectedBtn] = useState<UserModel["type"]>("admin");
@@ -98,23 +97,21 @@ export default function User() {
   };
 
   const userList = useMemo(() => {
-    return fakeUserData.filter(user => user.type === selectedBtn);
+    return fakeUserData.filter((user) => user.type === selectedBtn);
   }, [selectedBtn]);
 
-  
-const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState(false);
 
   return (
-
-    <><Modal open={open} onOpenChange={() => setOpen(!open)}>
-      <CreateUserModal onClose={() => setOpen(false)} />
-    </Modal><UserContainer>
-
-        <div className="user-header">
-          <h1>Usuários</h1>
-          <ButtonComponent buttonStyles="add" title="Criar novo Usuario" onClick={() => setOpen(true)}><AiOutlinePlus /></ButtonComponent>
-
-        </div>
+    <>
+      <Modal open={open} onOpenChange={() => setOpen(!open)}>
+        <CreateUserModal onClose={() => setOpen(false)} />
+      </Modal>
+      <UserContainer>
+        <PageHeaderComponent.container>
+          <PageHeaderComponent.title>Usuários</PageHeaderComponent.title>
+          <PageHeaderComponent.button onClick={() => console.log("aaa")} />
+        </PageHeaderComponent.container>
 
         <div className="sector-selector">
           <ButtonComponent
@@ -142,6 +139,7 @@ const [open, setOpen] = useState(false)
             <UserCard data={e} key={i} />
           ))}
         </div>
-      </UserContainer></>
+      </UserContainer>
+    </>
   );
 }

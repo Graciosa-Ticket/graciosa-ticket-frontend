@@ -1,7 +1,7 @@
 import { SectorsHomeContainer } from "./styles";
 
 const HomeSector = () => {
-  return <SectorsHomeContainer></SectorsHomeContainer>;
+  return <SectorsHomeContainer>TESTE</SectorsHomeContainer>;
 };
 
 export default HomeSector;

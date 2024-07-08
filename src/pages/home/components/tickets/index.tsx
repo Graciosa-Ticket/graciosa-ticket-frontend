@@ -9,7 +9,7 @@ const fakeTicketData: Partial<TicketModel>[] = [
     created_at: new Date(),
     description:
       " Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vel impedit est ipsa facere iusto quod tenetur consequuntur temporibus, id esse beatae dolor voluptate tempore iste mollitia error tempora cumque optio.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vel impedit est ipsa facere iusto quod tenetur consequuntur temporibus, id esse beatae dolor voluptate tempore iste mollitia error tempora cumque optio.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vel impedit est ipsa facere iusto quod tenetur consequuntur temporibus, id esse beatae dolor voluptate tempore iste mollitia error tempora cumque optio.",
-    status: "Andamento",
+    status: "Em andamento",
     title: "Teste",
   },
   {
