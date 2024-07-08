@@ -43,7 +43,7 @@ export default function UserModal({ data, onClose }: userModalProps) {
           <Display label={"Nome"} content={data.name}></Display>
           <Display
             label={"Nascimento"}
-            content={data.birthdate + "" || "Não informado"}
+            content={data.birth_date ? data.birth_date.toLocaleDateString() : "Não informado"}
             suffix="24"
           ></Display>
           <Display
@@ -52,18 +52,18 @@ export default function UserModal({ data, onClose }: userModalProps) {
           ></Display>
           <Display
             label={"Cep"}
-            content={data.postalCode + "" || "Não informado"}
+            content={data.cep + "" || "Não informado"}
           ></Display>
           <Display
             label={"Telefone/Ramal"}
-            content={data.phone + "" || "Não informado"}
+            content={data.phone_number + "" || "Não informado"}
           ></Display>
         </div>
-        {data.type !== "admin" &&
+        {data.role !== "Administrator" &&
         <div className="function-area">
           <div className="left-side">
             <p>Função</p>
-            <h3>{data.sector}</h3>
+            <h3>{data.role}</h3>
           </div>
           <div className="right-side">
             <SectorIcon data={data} />

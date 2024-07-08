@@ -32,9 +32,9 @@ const [open, setOpen] = useState(false)
       </div>
       <div className="userdata-container">
       <h2>{data.name.slice(0, 10) + "."}</h2>
-        <p>{data.type}</p>
+        <p>{data.role}</p>
       </div>
-      {data.type !== "admin" && <div>
+      {data.role !== "Administrator" && <div>
         <SectorIcon data={data} />
       </div>
         }

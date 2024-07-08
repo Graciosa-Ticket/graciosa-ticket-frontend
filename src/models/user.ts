@@ -1,15 +1,16 @@
 export interface UserModel {
-  id: string;
+  code?: string;
+  role: "Administrator" | "Supervisor" | "Collaborator";
   name: string;
   email: string;
-  profile_picture?: string;
-  type: "admin" | "supervisor" | "collaborator"
-  status?:boolean,
-  sector: string,
-  code?: number,
-  birthdate?: string,
-  postalCode?: string,
-  phone?: string,
-  address?: string
-
+  password: string;
+  birth_date?: Date;
+  address: string;
+  cep: string;
+  phone_number: string;
+  profile_picture: string;
+  created_at?: Date;
+  updated_at?: Date;
+  deleted_at?: Date;
+  status?: boolean;
 }

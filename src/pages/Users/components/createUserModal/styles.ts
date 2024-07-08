@@ -46,7 +46,7 @@ export const UserComponent = styled.section`
   }
 
   .confirm-btn{
-    font-size: 20px;
+    font-size: 24px;
     padding: 12px 24px;
   }
 `;

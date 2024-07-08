@@ -9,13 +9,13 @@ interface UserCardProps {
 }
 
 const SectorIcon = ({ data }: UserCardProps) => {
-  const renderSectorIcon = (setor: string) => {
-    switch (setor.toLowerCase()) {
-      case 'administrativo':
+  const renderSectorIcon = (role: string) => {
+    switch (role.toString()) {
+      case 'Administrator':
         return <AiFillClockCircle fontSize={"1.5em"} className="icon"/>
-      case 'manutenção':
+      case 'Supervisor':
         return <AiFillClockCircle fontSize={"1.5em"} className="icon"/>
-      case 'produção':
+      case 'Collaborator':
         return <AiFillClockCircle fontSize={"1.5em"} className="icon"/>
       default:
         return null;
@@ -24,10 +24,10 @@ const SectorIcon = ({ data }: UserCardProps) => {
 
   return (
     <IconComponent>
-      {renderSectorIcon(data.sector)}
+      {renderSectorIcon(data.role)}
       <div className="prints">         
         <p>Setor</p>          
-        <h2>{data.sector}</h2>
+        <h2>{data.role}</h2>
       </div>      
     </IconComponent>
     );

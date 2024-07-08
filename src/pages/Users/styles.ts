@@ -9,6 +9,7 @@ export const UserContainer = styled.section`
 
     h1 {
       ${({ theme }) => theme.font.h1};
+      font-weight: 700;
     }
   }
 

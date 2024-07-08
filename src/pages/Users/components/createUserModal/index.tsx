@@ -7,6 +7,7 @@ import { ModalHeader } from "../../../../components/modal";
 import { UserModel } from "../../../../models/user";
 import ButtonComponent from "../../../../components/buttons";
 import Input from "../../../../components/form/input";
+import { Select } from "../../../../components/form/select";
 
 
 
@@ -42,11 +43,12 @@ console.log(data)
                   <form className="form" onSubmit={onSubmit}>
                       <Input label="Código" placeholder="Digite o Código" register={{ ...register("code") }} />
                       <Input label="Nome" placeholder="Digite o Nome" register={{ ...register("name") }} />
-                      <Input label="Nascimento" placeholder="Digite o Nascimento" register={{ ...register("birthdate") }} />
+                      <Input label="Email" placeholder="Digite o Email" register={{ ...register("email") }} />
+                      <Input label="Nascimento" placeholder="Digite o Nascimento" register={{ ...register("birth_date") }} />
                       <Input label="Endereço" placeholder="Digite o Endereço" register={{ ...register("address") }} />
-                      <Input label="Cep" placeholder="Digite o Cep" register={{ ...register("postalCode") }} />
-                      <Input label="Telefone/Ramal" placeholder="Digite o Telefone" register={{ ...register("phone") }} />
-                      <Input label="Setor" placeholder="Digite o Setor" register={{ ...register("type") }} />
+                      <Input label="Cep" placeholder="Digite o Cep" register={{ ...register("cep") }} />
+                      <Input label="Telefone/Ramal" placeholder="Digite o Telefone" register={{ ...register("phone_number") }} />
+                      <Input label="role" placeholder="Digite o Setor" register={{ ...register("role") }} />
                   </form>                        
               </div>
               <div className="button-div">
