@@ -8,7 +8,7 @@ export const DefaultContainer = styled.main`
 
   .page-default {
     max-width: 1200px;
-    margin: 2em auto 0;
+    margin: 4em auto 0;
     display: flex;
     flex-direction: column;
   }

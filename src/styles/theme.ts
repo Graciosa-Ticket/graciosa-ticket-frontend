@@ -1,9 +1,19 @@
 import { SistemTheme } from "../models/sistemTheme";
 
+export type ticketStatus =
+  | "open"
+  | "on_going"
+  | "re_open"
+  | "canceled"
+  | "waiting_approval"
+  | "impediment"
+  | "done";
+
 export const light = {
   colors: {
     brand: {
       blue: "#0054a4",
+      dark_blue: "#012648",
       white: "#FFFFFF",
       black: "#212E2F",
     },
@@ -27,8 +37,17 @@ export const light = {
       support_01_dark: "#3c7585",
       support_02_dark: "#6ea348",
     },
+    ticket_status: {
+      open: "#2253CF",
+      on_going: "#A222CF",
+      re_open: "#B01313",
+      canceled: "#202020",
+      waiting_approval: "#969696",
+      impediment: "#6F028A",
+      done: "#02BA2A",
+    },
     grayscale: {
-      gray_05: "#FAFAFA",
+      gray_05: "#F1F1F1",
       gray_10: "#E9EAEA",
       gray_20: "#D3D5D5",
       gray_30: "#BCC0C1",
@@ -56,6 +75,9 @@ export const light = {
       "font: 2.4em 'Poppins', sans-serif; font-weight: 400; line-height: 1.2em; ",
     ],
     h3: [
+      "font: 2em 'Poppins', sans-serif; font-weight: 400; line-height: 1.2em; ",
+    ],
+    h4: [
       "font: 1.5em 'Poppins', sans-serif; font-weight: 400; line-height: 1.2em; ",
     ],
     p: {
@@ -99,6 +121,7 @@ export const dark = {
   colors: {
     brand: {
       blue: "#0054a4",
+      dark_blue: "#012648",
       black: "#fff",
       white: "#212E2F",
     },
@@ -121,6 +144,15 @@ export const dark = {
       //dark
       support_01_dark: "#3c7585",
       support_02_dark: "#6ea348",
+    },
+    ticket_status: {
+      open: "#2253CF",
+      on_going: "#A222CF",
+      re_open: "#B01313",
+      canceled: "#202020",
+      waiting_approval: "#969696",
+      impediment: "#6F028A",
+      done: "#02BA2A",
     },
     grayscale: {
       gray_90: "#FAFAFA",

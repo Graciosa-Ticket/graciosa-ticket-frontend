@@ -50,7 +50,7 @@ button{
   html, body {
   min-height: 100%;
   height: 100%;
-  background: ${({ theme }) => theme.colors.grayscale.gray_05} ;
+  background: ${({ theme }) => theme.colors.grayscale.gray_05};
   scroll-behavior: smooth;
 }
 

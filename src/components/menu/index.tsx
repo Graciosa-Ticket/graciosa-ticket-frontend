@@ -35,7 +35,12 @@ export default function MenuHeader() {
             >
               Setores
             </NavLink>
-            <a href="">Chamados</a>
+            <NavLink
+              to={"/chamados"}
+              className={({ isActive }) => (isActive ? "active-button" : "")}
+            >
+              Chamados
+            </NavLink>
             <NavLink
               to={"/users"}
               className={({ isActive }) => (isActive ? "active-button" : "")}

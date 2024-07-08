@@ -8,6 +8,7 @@ declare module "styled-components" {
     colors: {
       brand: {
         blue: string;
+        dark_blue: string;
         white: string;
         black: string;
       };
@@ -30,6 +31,15 @@ declare module "styled-components" {
         //dark
         support_01_dark: string;
         support_02_dark: string;
+      };
+      ticket_status: {
+        open: string;
+        on_going: string;
+        re_open: string;
+        canceled: string;
+        waiting_approval: string;
+        impediment: string;
+        done: string;
       };
       grayscale: {
         gray_05: string;
@@ -54,6 +64,7 @@ declare module "styled-components" {
       h1: string[];
       h2: string[];
       h3: string[];
+      h4: string[];
       p: {
         large: string[];
         medium: string[];

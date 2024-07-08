@@ -2,10 +2,9 @@ import styled, { css, keyframes } from "styled-components";
 import * as Dialog from "@radix-ui/react-dialog";
 
 export interface modalProps {
-    position?: "left" | "right";
-    $closeAnimation: boolean;
-  }
-  
+  position?: "left" | "right";
+  $closeAnimation: boolean;
+}
 
 export const entranceAnimation = keyframes`
 from{
@@ -44,34 +43,36 @@ export const ModalRoot = styled(Dialog.Root)``;
 export const ModalPortal = styled(Dialog.Portal)``;
 
 export const ModalHeaderContainer = styled.section`
-  padding: 0.6em 1em;
+  padding: 0.9em 1em;
   display: flex;
   gap: 20px;
   align-items: center;
   justify-content: space-between;
-  border-bottom: solid 1px ${({ theme }) => theme.colors.grayscale.gray_10};
 
-  h3 {
-    max-width: 400px;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
-    ${({theme}) => theme.font.h3};
-    color: ${({theme}) => theme.colors.brand.blue};
-    font-weight: 600;
-  }
-
-  .left-side{
+  .left-side {
     display: flex;
     align-items: center;
     gap: 10px;
+    color: ${({ theme }) => theme.colors.brand.dark_blue};
+
+    button {
+      padding: 0.4em;
+    }
+
+    h3 {
+      max-width: 400px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+      ${({ theme }) => theme.font.h4};
+      color: ${({ theme }) => theme.colors.brand.dark_blue};
+      font-weight: 700;
+    }
   }
 
   @media screen and (max-width: 1000px) {
     padding: 7px 1.2em;
   }
-
-  
 `;
 
 export const ModalTriggerCloseStyle = styled(Dialog.Close)`
@@ -113,10 +114,8 @@ export const ModalOverlay = styled(Dialog.Overlay)<modalProps>`
   }}
 `;
 
-
 export const StyledModalContent = styled(Dialog.Content)<modalProps>`
   min-width: 500px;
-  max-width: 50vw;
   top: 0.7em;
   bottom: 0.7em;
   background: ${({ theme }) => theme.colors.brand.white};
@@ -139,7 +138,7 @@ export const StyledModalContent = styled(Dialog.Content)<modalProps>`
       animation: 0.4s ${entranceAnimation} ease;
     `;
   }}
-  
+
   ${({ position }) => {
     if (position == "left") {
       return css`

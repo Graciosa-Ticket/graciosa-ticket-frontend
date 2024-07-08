@@ -6,6 +6,7 @@ import { useAuth } from "../hooks/auth";
 import { DefaultContainer } from "./styles";
 import MenuHeader from "../components/menu";
 import Users from "../pages/Users";
+import TicketsPage from "../pages/tickets";
 
 const AppRoutes = () => {
   const { signed } = useAuth();
@@ -32,6 +33,7 @@ const UserRoute = () => {
         <Route path="/home" element={<Home />} />
         <Route path="/setor" element={<Sector />} />
         <Route path="/users" element={<Users />} />
+        <Route path="/chamados" element={<TicketsPage />} />
       </Route>
     </Routes>
   );
