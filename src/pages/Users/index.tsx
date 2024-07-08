@@ -1,93 +1,15 @@
 import { useState, useMemo } from "react";
 import ButtonComponent from "../../components/buttons";
-import UserCard from "../../components/userCard";
 import { UserModel } from "../../models/user";
 import { UserContainer } from "./styles";
-import CreateUserModal from "../../components/createUserModal";
 import Modal from "../../components/modal";
 import { AiOutlinePlus } from "react-icons/ai";
+import { fakeUserData } from "./fakeData";
+import CreateUserModal from "./components/createUserModal";
+import UserCard from "./components/userCard";
+import PageHeaderComponent from "../../components/pagesHeader";
 
 
-const fakeUserData: UserModel[] = [
-  {
-    email: "teste@teste.com",
-    id: "1",
-    name: "Teste da silva",
-    type: "admin",
-    status: true,
-    sector: "1",
-    code: 1000,
-    birthdate: "10/10/2010",
-    postalCode: "88888-888",
-    phone: "41 3333-3333",
-    address: "BR,PR,Curitiba"
-  },
-  {
-    email: "teste@teste.com",
-    id: "2",
-    name: "Teste da silva 2",
-    type: "collaborator",
-    status: true,
-    sector: "administrativo",
-    code: 1000,
-    birthdate: "10/10/2010",
-    postalCode: "88888-888",
-    phone: "41 3333-3333",
-    address: "BR,PR,Curitiba"  
-  },
-  {
-    email: "teste@teste.com",
-    id: "3",
-    name: "Teste da manutenção",
-    type: "collaborator",
-    status: true,
-    sector: "manutenção",
-    code: 1000,
-    birthdate: "10/10/2010",
-    postalCode: "88888-888",
-    phone: "41 3333-3333",
-    address: "BR,PR,Curitiba"  
-  },
-  {
-    email: "teste@teste.com",
-    id: "4",
-    name: "Teste da produção",
-    type: "collaborator",
-    status: true,
-    sector: "produção",
-    code: 1000,
-    birthdate: "10/10/2010",
-    postalCode: "88888-888",
-    phone: "41 3333-3333",
-    address: "BR,PR,Curitiba"
-  },
-  {
-    email: "teste@teste.com",
-    id: "5",
-    name: "Teste da silva 3",
-    type: "supervisor",
-    status: true,
-    sector: "produção",
-    code: 1000,
-    birthdate: "10/10/2010",
-    postalCode: "88888-888",
-    phone: "41 3333-3333",
-    address: "BR,PR,Curitiba"
-  },
-  {
-    email: "teste@teste.com",
-    id: "6",
-    name: "Teste da silva 4",
-    type: "admin",
-    status: false,
-    sector: "3",
-    code: 1000,
-    birthdate: "15/10/2010",
-    postalCode: "88888-888",
-    phone: "41 3333-3333",
-    address: "BR,PR,Curitiba"
-  },
-];
 
 
 export default function User() {
@@ -112,7 +34,7 @@ const [open, setOpen] = useState(false)
 
         <div className="user-header">
           <h1>Usuários</h1>
-          <ButtonComponent buttonStyles="add" title="Criar novo Usuario" onClick={() => setOpen(true)}><AiOutlinePlus /></ButtonComponent>
+          <PageHeaderComponent.button buttonStyles="add" title="Criar novo Usuario" onClick={() => setOpen(true)}><AiOutlinePlus /></PageHeaderComponent.button>
 
         </div>
 
@@ -120,18 +42,21 @@ const [open, setOpen] = useState(false)
           <ButtonComponent
             buttonStyles={selectedBtn === "admin" ? "primary" : "text"}
             onClick={() => handleBtnClick("admin")}
+            className="seletor"
           >
             Administradores
           </ButtonComponent>
           <ButtonComponent
             buttonStyles={selectedBtn === "supervisor" ? "primary" : "text"}
             onClick={() => handleBtnClick("supervisor")}
+            className="seletor"
           >
             Supervisores
           </ButtonComponent>
           <ButtonComponent
             buttonStyles={selectedBtn === "collaborator" ? "primary" : "text"}
             onClick={() => handleBtnClick("collaborator")}
+            className="seletor"
           >
             Colaboradores
           </ButtonComponent>

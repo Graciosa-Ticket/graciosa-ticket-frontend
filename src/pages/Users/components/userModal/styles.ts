@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 export const UserComponent = styled.section`
   width: 100%;
+  height: 100%;
   border-radius: 16px;
   display: flex;
   flex-direction: column;
@@ -11,45 +12,16 @@ export const UserComponent = styled.section`
   transition: transform 0.2s ease-in-out;
   position: relative;
   
-
-  h1 {
-    font-size: 1.5em;
-    color: #0054a4;
-    text-align: start;
-  }
-
-  .header-sector {
+  .img-sector{
     display: flex;
+    align-items: center;
     justify-content: center;
-    align-items: center;
+    padding: 20px;
   }
 
-  .user-avatar {
-    width: 100px;
-    height: 100px;
-    object-fit: cover;
-    border-radius: 50%;
-  }
-
-  .h3-container {
-    display: flex;
-    align-items: center;
-    top: 15px;
-    right: 15px;
-  }
-
-  .status-ball {
-    width: 0.5em;
-    height: 0.5em;
-    border-radius: 50%;
-  }
-
-  .status-ball.active {
-    background-color: green;
-  }
-
-  .status-ball.inactive {
-    background-color: red;
+  h3{
+    ${({theme}) => theme.font.h3};
+    color: ${({theme}) => theme.colors.brand.dark_blue};
   }
 
   .user-info-area {
@@ -59,38 +31,46 @@ export const UserComponent = styled.section`
     column-gap: 20px;
   }
 
-  .img-sector{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 18px;
-  }
-
   .function-area{
     width: 100%;
     display: flex;
   }
 
+  .left-side {
+    flex: 1;
+    padding: 10px;
+    gap: 20px;
+  }
+  
   .right-side {
     flex: 1;
     padding: 10px;
   }
-  
-  .left-side {
-    flex: 1;
-    padding: 10px;
+
+  h1 {
+    font-size: 1.5em;
+    color: ${({theme}) => theme.colors.brand.dark_blue};
+    text-align: start;
   }
 
-  .sector-display{
-    width: 100%;
+  .user-avatar {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 50%;
   }
 
   .footer{
     display: flex;
-    align-items: flex-end;
-    justify-content: flex-end; 
-    margin: 18px;
-    gap: 10px;
+    justify-content: flex-end;
+    margin-top: auto;
+    gap: 20px;
+  }
+
+  .btn{
+    font-size: 20px;
+    padding: 12px 24px;
+
   }
 `;
 

@@ -1,11 +1,10 @@
-import  {useState} from "react"
-import { FaRegBuilding, FaIndustry, FaClipboard } from 'react-icons/fa'; 
-import HenryCalvo from "../../assets/henrycalvo.svg"; 
-import { UserModel } from "../../models/user";
-import { UserComponent } from "./styles";
-import  Modal  from '../modal';
-import UserModal from "../userModal";
+import { useState } from "react";
+import Modal from "../../../../components/modal";
+import { UserModel } from "../../../../models/user";
 import SectorIcon from "../sectorIcon";
+import UserModal from "../userModal";
+import { UserComponent } from "./styles";
+import HenryCalvo from "../../../../assets/henrycalvo.svg";
 
 
 interface UserCardProps {
@@ -23,20 +22,19 @@ const [open, setOpen] = useState(false)
 <UserModal data={data} onClose={()=> setOpen(false)}/>
 </Modal>
 
-    <UserComponent type="button" onClick={()=> setOpen(true)}>
-      
-      <div className="h3-container">
-        <h3>{data.status ? "ativo" : "inativo"}</h3>
+    <UserComponent type="button" onClick={()=> setOpen(true)}>      
+      <div className="status-container">
+        <p>{data.status ? "ativo" : "inativo"}</p>
         <div className={`status-ball ${data.status ? 'active' : 'inactive'}`} />
       </div>
       <div className="header-sector">
         <img src={HenryCalvo} alt="" className="user-avatar" />
       </div>
-      <div className="text-container">
-        <h2>{data.name}</h2>
+      <div className="userdata-container">
+      <h2>{data.name.slice(0, 10) + "."}</h2>
         <p>{data.type}</p>
       </div>
-      {data.type !== "admin" && <div className="sector-container">
+      {data.type !== "admin" && <div>
         <SectorIcon data={data} />
       </div>
         }

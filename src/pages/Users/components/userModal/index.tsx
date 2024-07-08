@@ -1,12 +1,12 @@
-import { UserModel } from "../../models/user";
-import { UserComponent, Userheader } from "./styles";
-import HenryCalvo from "../../assets/henrycalvo.svg";
-import Display from "./components/display";
-import SectorIcon from "../sectorIcon";
-import { ModalHeader } from "../modal";
-import ButtonComponent from "../buttons";
-import { AiOutlineEdit, AiOutlineDelete } from "react-icons/ai";
+import { AiOutlineDelete, AiOutlineEdit } from "react-icons/ai";
 import { FaAngleLeft } from "react-icons/fa";
+import ButtonComponent from "../../../../components/buttons";
+import { ModalHeader } from "../../../../components/modal";
+import { UserModel } from "../../../../models/user";
+import SectorIcon from "../sectorIcon";
+import Display from "./components/display";
+import { Userheader, UserComponent } from "./styles";
+import HenryCalvo from "../../../../assets/henrycalvo.svg";
 
 interface userModalProps {
   data: UserModel;
@@ -18,13 +18,13 @@ export default function UserModal({ data, onClose }: userModalProps) {
     <>
       <ModalHeader>
         <div className="left-side">
-          <ButtonComponent buttonStyles="text" onClick={onClose}>
+          <ButtonComponent buttonStyles="text" title="Voltar" onClick={onClose}>
             <FaAngleLeft fontSize="1.9em" />
           </ButtonComponent>
           <h3>{data.name}</h3>
         </div>
         <Userheader>
-          <span className="span">{data.status ? "ativo" : "inativo"}</span>
+          <p>{data.status ? "ativo" : "inativo"}</p>
           <div
             className={`status-ball ${data.status ? "active" : "inactive"}`}
           />
@@ -34,7 +34,7 @@ export default function UserModal({ data, onClose }: userModalProps) {
         <div className="img-sector">
           <img src={HenryCalvo} alt="" className="user-avatar" />
         </div>
-        <h1>informacoes Pessoais</h1>
+        <h3>informações Pessoais</h3>
         <div className="user-info-area">
           <Display
             label={"Código"}
@@ -59,20 +59,21 @@ export default function UserModal({ data, onClose }: userModalProps) {
             content={data.phone + "" || "Não informado"}
           ></Display>
         </div>
+        {data.type !== "admin" &&
         <div className="function-area">
-          <div className="right-side">
-            <h3>Função</h3>
-            <p>{data.sector}</p>
-          </div>
           <div className="left-side">
+            <p>Função</p>
+            <h3>{data.sector}</h3>
+          </div>
+          <div className="right-side">
             <SectorIcon data={data} />
           </div>
-        </div>
+        </div>}
         <div className="footer">
-          <ButtonComponent buttonStyles="delete" className="delete-button">
+          <ButtonComponent buttonStyles="delete" className="btn">
             <AiOutlineDelete /> Deletar
           </ButtonComponent>
-          <ButtonComponent buttonStyles="edit">
+          <ButtonComponent buttonStyles="edit" className="btn">
             <AiOutlineEdit /> Editar
           </ButtonComponent>
         </div>

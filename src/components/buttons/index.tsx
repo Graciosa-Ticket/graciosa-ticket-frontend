@@ -1,7 +1,7 @@
 import { ButtonHTMLAttributes } from "react";
 import { ButtonsLoginContainer } from "./styles";
 
-export type buttonStyles = "primary" | "error" | "text" | "add" | "delete" | "edit";
+export type buttonStyles = "primary" | "error" | "text" | "add" | "delete" | "edit" | "confirm";
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   //tipos personalizados

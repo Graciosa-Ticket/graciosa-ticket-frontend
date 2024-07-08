@@ -1,27 +1,19 @@
 import styled from "styled-components";
 
 export const UserComponent = styled.section`
-
-  width: 100%;
+   width: 100%;
+  height: 100%;
   border-radius: 16px;
   display: flex;
   flex-direction: column;
   padding: 15px;
   gap: 10px;
   background-color: white;
-  transition: transform 0.2s ease-in-out;
-  position: relative;
 
   h1 {
     ${({theme}) => theme.font.h3};
-    color: ${({theme}) => theme.colors.brand.blue};
+    color: ${({theme}) => theme.colors.brand.dark_blue};
     text-align: start;
-  }
-
-  .header-sector {
-    display: flex;
-    justify-content: center;
-    align-items: center;
   }
 
   .user-avatar {
@@ -29,14 +21,6 @@ export const UserComponent = styled.section`
     height: 100px;
     object-fit: cover;
     border-radius: 50%;
-  }
-
-
-  .user-info-area {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    row-gap: 2em;
-    column-gap: 20px;
   }
 
   .img-sector{
@@ -51,12 +35,18 @@ export const UserComponent = styled.section`
     grid-template-columns: repeat(2, 1fr);
     row-gap: 2em;
     column-gap: 30px;
+    margin-top: 20px;
     
   }
   
   .button-div{
     display: flex;
     justify-content: flex-end;
-    margin-top: 20px;
+    margin-top: auto;
+  }
+
+  .confirm-btn{
+    font-size: 20px;
+    padding: 12px 24px;
   }
 `;

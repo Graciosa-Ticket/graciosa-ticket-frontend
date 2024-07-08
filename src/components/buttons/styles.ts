@@ -41,6 +41,7 @@ const deleteStyle = css`
     color: white;
   }
 `;
+
 const editStyle = css`
   border: 1px solid blue;
   color: blue;
@@ -53,6 +54,18 @@ const editStyle = css`
   }
 `;
 
+const confirmStyle = css`
+  border: 1px solid green;
+  color: green;
+  ${({ theme }) => theme.font.p.small};
+  box-shadow: 0px 4px 6.1px -5px #0000009e;
+
+  &:hover {
+    background-color: green;
+    color: white;
+  }
+`;
+
 const styles = {
   primary: primaryStyle,
   error: errorStyle,
@@ -60,6 +73,7 @@ const styles = {
   add: addStyle,
   delete: deleteStyle,
   edit: editStyle,
+  confirm: confirmStyle,
 };
 
 export const ButtonsLoginContainer = styled.button<buttonProps>`

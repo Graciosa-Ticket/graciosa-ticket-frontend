@@ -13,9 +13,9 @@ export const UserContainer = styled.section`
   }
 
   .sector-selector {
-    margin-bottom: 20px; /* Espaçamento abaixo da seção de seleção */
+    margin-bottom: 20px; 
     display: flex;
-    gap: 20px; /* Espaçamento entre os botões */
+    gap: 20px; 
   }
 
   .user-cards {
@@ -25,4 +25,11 @@ export const UserContainer = styled.section`
     gap: 20px;
   }
 
+  .seletor{
+    font-weight: 700;
+    width: 15%;
+    justify-content: center;
+    ${({ theme }) => theme.font.p.extra_small_bold};
+    
+  }
 `;
