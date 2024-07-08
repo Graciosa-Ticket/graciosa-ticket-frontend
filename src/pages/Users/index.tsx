@@ -34,8 +34,7 @@ const [open, setOpen] = useState(false)
 
         <div className="user-header">
           <h1>Usuários</h1>
-          <PageHeaderComponent.button buttonStyles="add" title="Criar novo Usuario" onClick={() => setOpen(true)}><AiOutlinePlus /></PageHeaderComponent.button>
-
+          <PageHeaderComponent.button title="Criar novo Usuario" className="btn" onClick={() => setOpen(true)}></PageHeaderComponent.button>
         </div>
 
         <div className="sector-selector">

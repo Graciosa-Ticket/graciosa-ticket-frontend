@@ -12,6 +12,10 @@ export const UserContainer = styled.section`
     }
   }
 
+  .btn:hover {
+    color:green;
+}
+
   .sector-selector {
     margin-bottom: 20px; 
     display: flex;
