@@ -1,21 +1,40 @@
 import { AiOutlineDelete, AiOutlineEdit } from "react-icons/ai";
 import { FaAngleLeft } from "react-icons/fa";
 import ButtonComponent from "../../../../components/buttons";
-import { ModalHeader } from "../../../../components/modal";
+import Modal, { ModalHeader } from "../../../../components/modal";
 import { UserModel } from "../../../../models/user";
 import SectorIcon from "../sectorIcon";
 import Display from "./components/display";
 import { Userheader, UserComponent } from "./styles";
 import HenryCalvo from "../../../../assets/henrycalvo.svg";
+import { useState } from "react";
+import UpdateUserModal from "../editUserModal";
+import DeleteConfirmationModal from "../../../../components/deleteConfirmationModal";
+
 
 interface userModalProps {
   data: UserModel;
   onClose: () => void;
 }
+ 
+
 
 export default function UserModal({ data, onClose }: userModalProps) {
+  
+
+  const [open, setOpen] = useState(false);
+  const [open1, setOpen1] = useState(false);
+  
   return (
     <>
+    <Modal open={open1} onOpenChange={() => setOpen1(!open1)}>
+        <DeleteConfirmationModal onClose={() => setOpen1(false)}></DeleteConfirmationModal>
+    </Modal>
+
+    <Modal open={open} onOpenChange={() => setOpen(!open)}>
+        <UpdateUserModal onClose={() => setOpen(false)} />
+    </Modal>
+      
       <ModalHeader>
         <div className="left-side">
           <ButtonComponent buttonStyles="text" title="Voltar"  onClick={onClose}>
@@ -70,10 +89,10 @@ export default function UserModal({ data, onClose }: userModalProps) {
           </div>
         </div>}
         <div className="footer">
-          <ButtonComponent buttonStyles="delete" className="btn">
+          <ButtonComponent buttonStyles="delete" className="btn" onClick={()=> setOpen1(true)}>
             <AiOutlineDelete /> Deletar
           </ButtonComponent>
-          <ButtonComponent buttonStyles="edit" className="btn">
+          <ButtonComponent buttonStyles="edit" className="btn" onClick={()=> setOpen(true)}>
             <AiOutlineEdit /> Editar
           </ButtonComponent>
         </div>
