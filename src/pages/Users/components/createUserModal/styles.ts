@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const UserComponent = styled.section`
-   width: 100%;
+  width: 100%;
   height: 100%;
   border-radius: 16px;
   display: flex;
@@ -11,8 +11,8 @@ export const UserComponent = styled.section`
   background-color: white;
 
   h1 {
-    ${({theme}) => theme.font.h3};
-    color: ${({theme}) => theme.colors.brand.dark_blue};
+    ${({ theme }) => theme.font.h3};
+    color: ${({ theme }) => theme.colors.brand.dark_blue};
     text-align: start;
   }
 
@@ -23,29 +23,27 @@ export const UserComponent = styled.section`
     border-radius: 50%;
   }
 
-  .img-sector{
+  .img-sector {
     display: flex;
     align-items: center;
     justify-content: center;
     margin: 18px;
   }
 
-  .form{
+  .form {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     row-gap: 2em;
     column-gap: 30px;
-    margin-top: 20px;
-    
   }
-  
-  .button-div{
+
+  .button-div {
     display: flex;
     justify-content: flex-end;
     margin-top: auto;
   }
 
-  .confirm-btn{
+  .confirm-btn {
     font-size: 24px;
     padding: 12px 24px;
   }

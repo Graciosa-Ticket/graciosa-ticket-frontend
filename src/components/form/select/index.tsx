@@ -1,12 +1,14 @@
 import React, { CSSProperties, ForwardedRef } from "react";
 import * as SelectPrimitive from "@radix-ui/react-select";
-import { FaAngleDown } from "react-icons/fa";
+import { FaAngleDown, FaAngleUp } from "react-icons/fa";
 import { SelectItemProps, SelectProps } from "@radix-ui/react-select";
 import {
   SelectContent,
   SelectItemContainer,
   SelectItemText,
   SelectRoot,
+  SelectScrollDown,
+  SelectScrollUp,
   SelectTrigger,
   SelectValue,
   SelectViewport,
@@ -31,7 +33,13 @@ export const Select = React.forwardRef(
         </SelectTrigger>
         <SelectPrimitive.Portal>
           <SelectContent>
+            <SelectScrollUp>
+              <FaAngleUp />
+            </SelectScrollUp>
             <SelectViewport>{children}</SelectViewport>
+            <SelectScrollDown>
+              <FaAngleDown />
+            </SelectScrollDown>
           </SelectContent>
         </SelectPrimitive.Portal>
       </SelectRoot>

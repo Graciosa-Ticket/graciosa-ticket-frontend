@@ -25,6 +25,11 @@ export const SectorComponent = styled.section`
         font-size: 15px;
     }
 
+    h3{
+        font-size: 16px;
+        font-weight: 500;
+    }
+
 }
 
 .header-sector{

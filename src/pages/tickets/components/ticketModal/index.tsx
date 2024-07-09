@@ -1,13 +1,14 @@
 import { ModalActions } from "../../../../models/global";
 import { TicketModel } from "../../../../models/ticket";
 import ButtonComponent from "../../../../components/buttons";
-import { ModalHeader } from "../../../../components/modal";
+import { ModalHeader, ModalTitle } from "../../../../components/modal";
 import { FaAngleLeft } from "react-icons/fa";
 import { ModalContentBody, ModalHeaderSection } from "./styles";
 import { format } from "date-fns";
 import { Select, SelectItem } from "../../../../components/form/select";
 import { theme, ticketStatus } from "../../../../styles/theme";
 import { CSSProperties } from "react";
+import ChatComponent from "./chat";
 
 const selectItemStyle = (status: TicketModel["status"]): CSSProperties => {
   const statusStyle = {
@@ -37,7 +38,7 @@ const TicketModal = ({ onOpenChange, data }: ModalActions<TicketModel>) => {
           >
             <FaAngleLeft fontSize="1.9em" />
           </ButtonComponent>
-          <h3>{`#${data.code} - ${data.title}`}</h3>
+          <ModalTitle>{`#${data.code} - ${data.title}`}</ModalTitle>
         </div>
 
         <ModalHeaderSection>
@@ -87,6 +88,8 @@ const TicketModal = ({ onOpenChange, data }: ModalActions<TicketModel>) => {
           <div className="comment-section-header">
             <h6>Chat</h6>
           </div>
+
+          <ChatComponent />
         </section>
       </ModalContentBody>
     </>

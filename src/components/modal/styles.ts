@@ -158,3 +158,13 @@ export const StyledModalContent = styled(Dialog.Content)<modalProps>`
     min-width: 50px;
   }
 `;
+
+export const StyledModalTitle = styled(Dialog.Title)`
+  max-width: 400px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  ${({ theme }) => theme.font.h4};
+  color: ${({ theme }) => theme.colors.brand.dark_blue};
+  font-weight: 700;
+`;

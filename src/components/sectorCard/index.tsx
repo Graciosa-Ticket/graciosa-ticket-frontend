@@ -1,6 +1,6 @@
 import { SectorComponent } from "./styles";
 import HenryCalvo from "../../assets/henrycalvo.svg";
-import { SectorCardModel } from "../../models/sectorCard";
+import { SectorCardModel } from "../../models/sector";
 
 interface sectorCardProps {
   data: SectorCardModel;
@@ -12,7 +12,7 @@ export default function SectorCard({ data }: sectorCardProps) {
       <section>
         <div className="all-sector">
           <div className="header-sector">
-            <h3>{data?.title}</h3>
+            <h3>{`${data.name} ${data.code}`}</h3>
             <img src={HenryCalvo} />
           </div>
 

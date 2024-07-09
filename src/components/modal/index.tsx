@@ -6,6 +6,7 @@ import {
   ModalPortal,
   ModalHeaderContainer,
   ModalTriggerCloseStyle,
+  StyledModalTitle,
 } from "./styles";
 import { DialogProps } from "@radix-ui/react-dialog";
 import { useEffect, useState } from "react";
@@ -56,3 +57,4 @@ export default Modal;
 export const ModalTriggerClose = ModalTriggerCloseStyle;
 
 export const ModalHeader = ModalHeaderContainer;
+export const ModalTitle = StyledModalTitle;
