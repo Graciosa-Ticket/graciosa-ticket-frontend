@@ -2,10 +2,7 @@ import * as yup from 'yup';
 
 export const createUserValidation = yup.object().shape({
 
-  role: yup.mixed<"Administrator" | "Supervisor" | "Collaborator">()
-    .oneOf(["Administrator", "Supervisor", "Collaborator"], 'Setor Invalido')
-    .required('Setor é obrigatorio'),
-
+  role: yup.string(),
   name: yup.string().required('Nome é obrigatorio').min(3, 'Minimo 3 caracteres'),
 
   email: yup.string().email('email Invalido').required('Email é obrigatorio'),

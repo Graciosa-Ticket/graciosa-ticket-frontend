@@ -1,4 +1,3 @@
-
 import { useForm } from "react-hook-form";
 import { UserComponent } from "./styles";
 import HenryCalvo from "../../../../assets/henrycalvo.svg";
@@ -8,6 +7,7 @@ import ButtonComponent from "../../../../components/buttons";
 import Input from "../../../../components/form/input";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { createUserValidation } from "./validation/createUserValidation";
+import { Select, SelectItem } from "../../../../components/form/select";
 
 
 interface userModalProps {
@@ -15,7 +15,7 @@ interface userModalProps {
 }
 
 export default function CreateUserModal({onClose}:userModalProps){
-  const { handleSubmit, register, formState: { errors } } = useForm({
+  const { handleSubmit, register, formState: { errors }, setValue } = useForm({
     resolver: yupResolver(createUserValidation)
   });
 
@@ -27,11 +27,10 @@ export default function CreateUserModal({onClose}:userModalProps){
       birth_date: data.birth_date,
       address: data.address,
       cep: data.cep,
-      phone_number: phoneMask('99 9977625'),
+      phone_number: phoneMask(data.phone_number),
       role: data.role,
       created_at: new Date(),
       status: true,
-
     };
     console.log(userData); 
   });
@@ -86,6 +85,7 @@ export default function CreateUserModal({onClose}:userModalProps){
                       maxLength={4} 
                       error={errors.birth_date?.message}  
                       register={{ ...register("birth_date") }}
+                      
                       />
                     <Input 
                       label="Endereço" 
@@ -101,16 +101,20 @@ export default function CreateUserModal({onClose}:userModalProps){
                       />
                     <Input 
                       label="Telefone" 
-                      placeholder="Digite o Telefone" 
+                      placeholder="Digite DD + Telefone" 
                       error={errors.phone_number?.message} 
                       register={{ ...register("phone_number") }}  
                       />
-                      <Input 
-                      label="Setor" 
-                      placeholder="Digite o Setor" 
-                      error={errors.role?.message} 
-                      register={{ ...register("role") }} 
-                      />
+
+                    <Select 
+                      defaultValue={"Collaborator"} 
+                      triggerStyle={{}} 
+                      onValueChange={(value) => setValue("role", value)}>
+                      <SelectItem value="Administrator">Administrator</SelectItem>
+                      <SelectItem value="Supervisor">Supervisor</SelectItem>
+                      <SelectItem value="Collaborator">Collaborator</SelectItem> 
+                    </Select>    
+
                   </form>                        
               </div>
               <div className="button-div">

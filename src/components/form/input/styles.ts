@@ -5,9 +5,9 @@ const primary = css`
   ${({ theme }) => {
     return css`
       background-color: ${theme.colors.support.support_01_light};
-      border: 1px solid ${theme.colors.grayscale.gray_10};
+      border: 1px solid ${theme.colors.grayscale.gray_80};
       ${theme.font.p.normal};
-      color: ${theme.colors.grayscale.gray_60};
+      color: ${theme.colors.grayscale.gray_80};
     `;
   }}
 `;
