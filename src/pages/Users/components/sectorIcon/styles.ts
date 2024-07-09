@@ -8,8 +8,8 @@ export const IconComponent = styled.section`
 
 
  p{
-    ${({ theme }) => theme.font.p.small};
-    color: ${({ theme }) => theme.colors.grayscale.gray_50};
+    ${({ theme }) => theme.font.p.small_bold};
+    color: ${({ theme }) => theme.colors.grayscale.gray_80};
     text-align: start;
   }  
   

@@ -24,6 +24,13 @@ export const UserComponent = styled.section`
     padding: 20px;
   }
 
+    
+  h2 {
+    ${({ theme }) => theme.font.p.large};
+    color: ${({ theme }) => theme.colors.brand.dark_blue};
+    font-weight: 700;
+  }  
+
   .user-info-area {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -34,12 +41,12 @@ export const UserComponent = styled.section`
   .function-area{
     width: 100%;
     display: flex;
+    align-items: center;
   }
 
   .left-side {
     flex: 1;
     padding: 10px;
-    gap: 20px;
   }
   
   .right-side {

@@ -17,10 +17,11 @@ export const UserContainer = styled.section`
     color:green;
 }
 
-  .sector-selector {
-    margin-bottom: 20px; 
+  .select-buttons-area {
+    margin-top: 2em;
     display: flex;
     gap: 20px; 
+    width: 100%;
   }
 
   .user-cards {
@@ -30,7 +31,7 @@ export const UserContainer = styled.section`
     gap: 20px;
   }
 
-  .seletor{
+  .select-button{
     font-weight: 700;
     width: 15%;
     justify-content: center;

@@ -6,17 +6,17 @@ import { ModalHeader } from "../../../../components/modal";
 import ButtonComponent from "../../../../components/buttons";
 import Input from "../../../../components/form/input";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { createUserValidation } from "./validation/createUserValidation";
 import { Select, SelectItem } from "../../../../components/form/select";
+import { updadeUserValidation } from "./validation/updateUserValidation";
 
 
-interface userModalProps {
+interface updateUserModalProps {
   onClose:()=>void;  
 }
 
-export default function CreateUserModal({onClose}:userModalProps){
+export default function UpdateUserModal({onClose}:updateUserModalProps){
   const { handleSubmit, register, formState: { errors }, setValue } = useForm({
-    resolver: yupResolver(createUserValidation)
+    resolver: yupResolver(updadeUserValidation)
   });
 
 
@@ -29,6 +29,7 @@ export default function CreateUserModal({onClose}:userModalProps){
       cep: data.cep,
       phone_number: phoneMask(data.phone_number),
       role: data.role,
+      created_at: new Date(),
       status: true,
     };
     console.log(userData); 
@@ -55,14 +56,14 @@ export default function CreateUserModal({onClose}:userModalProps){
     <><ModalHeader>
           <div className="left-side">
               <ButtonComponent buttonStyles="text" title="Voltar" onClick={onClose}><AiOutlineLeft fontSize={"20px"} /></ButtonComponent>
-              <h3>Cadastro</h3>
+              <h3>Editar Cadastro</h3>
           </div>
       </ModalHeader>
       <UserComponent>
               <div className="img-sector">
                   <img src={HenryCalvo} alt="" className="user-avatar" />
               </div>
-              <h1>Informe Dados Pessoais</h1>
+              <h1>Informe Dados Pessoais Atualizados</h1>
               <div>
                   <form className="form" onSubmit={onSubmit}>
                     <Input 
@@ -115,7 +116,7 @@ export default function CreateUserModal({onClose}:userModalProps){
                   </form>                        
               </div>
               <div className="button-div">
-                  <ButtonComponent type="submit" buttonStyles="confirm" title="Cadastrar Novo Usuario" className="confirm-btn" onClick={onSubmit}>Cadastrar</ButtonComponent>
+                  <ButtonComponent type="submit" buttonStyles="edit" title="Salvar edição" className="confirm-btn" onClick={onSubmit}>Salvar edição</ButtonComponent>
                   </div>
           </UserComponent></>
   )}

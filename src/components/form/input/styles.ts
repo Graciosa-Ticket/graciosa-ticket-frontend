@@ -5,9 +5,9 @@ const primary = css`
   ${({ theme }) => {
     return css`
       background-color: ${theme.colors.support.support_01_light};
-      border: 1px solid ${theme.colors.grayscale.gray_10};
+      border: 1px solid ${theme.colors.grayscale.gray_80};
       ${theme.font.p.normal};
-      color: ${theme.colors.grayscale.gray_60};
+      color: ${theme.colors.grayscale.gray_80};
     `;
   }}
 `;
@@ -70,6 +70,7 @@ export const InputContainer = styled.div<inputStyleProps>`
   .error-container {
     ${({ theme }) => theme.font.p.small};
     color: ${({ theme }) => theme.colors.support.error};
+    margin-top: .5em;
   }
 
   .affix-container {
