@@ -12,6 +12,13 @@ export const SectorComponent = styled.section`
     padding: 15px;
     gap: 10px;
     background-color: white;
+    cursor: pointer;
+
+
+    &:hover{
+        transition: .3s;
+        transform: translateY(-5px)
+    }
 
     
 

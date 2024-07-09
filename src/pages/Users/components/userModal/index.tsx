@@ -43,7 +43,11 @@ export default function UserModal({ data, onClose }: userModalProps) {
           <Display label={"Nome"} content={data.name}></Display>
           <Display
             label={"Nascimento"}
-            content={data.birth_date ? data.birth_date.toLocaleDateString() : "Não informado"}
+            content={
+              data.birth_date
+                ? data.birth_date.toLocaleDateString()
+                : "Não informado"
+            }
             suffix="24"
           ></Display>
           <Display
@@ -59,16 +63,17 @@ export default function UserModal({ data, onClose }: userModalProps) {
             content={data.phone_number + "" || "Não informado"}
           ></Display>
         </div>
-        {data.role !== "Administrator" &&
-        <div className="function-area">
-          <div className="left-side">
-            <p>Função</p>
-            <h3>{data.role}</h3>
+        {data.role !== "Administrator" && (
+          <div className="function-area">
+            <div className="left-side">
+              <p>Função</p>
+              <h3>{data.role}</h3>
+            </div>
+            <div className="right-side">
+              <SectorIcon data={data} />
+            </div>
           </div>
-          <div className="right-side">
-            <SectorIcon data={data} />
-          </div>
-        </div>}
+        )}
         <div className="footer">
           <ButtonComponent buttonStyles="delete" className="btn">
             <AiOutlineDelete /> Deletar
