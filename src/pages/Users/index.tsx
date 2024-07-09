@@ -6,21 +6,8 @@ import Modal from "../../components/modal";
 import PageHeaderComponent from "../../components/pagesHeader";
 import CreateUserModal from "./components/createUserModal";
 import UserCard from "./components/userCard";
+import { fakeUserData } from "./fakeData";
 
-const fakeUserData: UserModel[] = [
-  {
-    email: "teste@teste.com",
-    id: "1",
-    name: "Teste da silva",
-    role: "Administrator",
-    status: true,
-    code: "1000",
-    birth_date: "10/10/2010",
-    address: "Rua jose carlos",
-    cep: "00000-22",
-    phone_number: "41 3333-3333",
-  },
-];
 
 export default function User() {
   const [selectedBtn, setSelectedBtn] =
@@ -41,31 +28,32 @@ export default function User() {
       <Modal open={open} onOpenChange={() => setOpen(!open)}>
         <CreateUserModal onClose={() => setOpen(false)} />
       </Modal>
+
       <UserContainer>
         <PageHeaderComponent.container>
           <PageHeaderComponent.title>Usuários</PageHeaderComponent.title>
-          <PageHeaderComponent.button onClick={() => console.log("aaa")} />
+          <PageHeaderComponent.button className="btn" title="Cadastrar Novo Usuario" onClick={()=> setOpen(true)} />
         </PageHeaderComponent.container>
 
-        <div className="sector-selector">
+        <div className="select-buttons-area">
           <ButtonComponent
             buttonStyles={selectedBtn === "Administrator" ? "primary" : "text"}
             onClick={() => handleBtnClick("Administrator")}
-            className="seletor"
+            className="select-button"
           >
             Administradores
           </ButtonComponent>
           <ButtonComponent
             buttonStyles={selectedBtn === "Supervisor" ? "primary" : "text"}
             onClick={() => handleBtnClick("Supervisor")}
-            className="seletor"
+            className="select-button"
           >
             Supervisores
           </ButtonComponent>
           <ButtonComponent
             buttonStyles={selectedBtn === "Collaborator" ? "primary" : "text"}
             onClick={() => handleBtnClick("Collaborator")}
-            className="seletor"
+            className="select-button"
           >
             Colaboradores
           </ButtonComponent>

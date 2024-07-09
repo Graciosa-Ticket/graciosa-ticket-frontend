@@ -18,7 +18,7 @@ export default function UserModal({ data, onClose }: userModalProps) {
     <>
       <ModalHeader>
         <div className="left-side">
-          <ButtonComponent buttonStyles="text" title="Voltar" onClick={onClose}>
+          <ButtonComponent buttonStyles="text" title="Voltar"  onClick={onClose}>
             <FaAngleLeft fontSize="1.9em" />
           </ButtonComponent>
           <h3>{data.name}</h3>
@@ -43,7 +43,7 @@ export default function UserModal({ data, onClose }: userModalProps) {
           <Display label={"Nome"} content={data.name}></Display>
           <Display
             label={"Nascimento"}
-            content={data.birth_date ? data.birth_date.toLocaleDateString() : "Não informado"}
+            content={data.birth_date ? data.birth_date.toLocaleString() : "Não informado"}
             suffix="24"
           ></Display>
           <Display
@@ -63,7 +63,7 @@ export default function UserModal({ data, onClose }: userModalProps) {
         <div className="function-area">
           <div className="left-side">
             <p>Função</p>
-            <h3>{data.role}</h3>
+            <h2>{data.role}</h2>
           </div>
           <div className="right-side">
             <SectorIcon data={data} />

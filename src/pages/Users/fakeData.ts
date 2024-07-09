@@ -13,9 +13,10 @@ export const fakeUserData: UserModel[] = [
       phone_number: "41 3333-3333",
       address: "BR,PR,Curitiba",
       password: "",
-      profile_picture: "", 
+      profile_picture: "",
       created_at: new Date(),
       updated_at: new Date(),
+      id: ""
     },
     {
       email: "teste@teste.com",
@@ -28,9 +29,10 @@ export const fakeUserData: UserModel[] = [
       phone_number: "41 3333-3333",
       address: "BR,PR,Curitiba",
       password: "",
-      profile_picture: "", 
+      profile_picture: "",
       created_at: new Date(),
-      updated_at: new Date(), 
+      updated_at: new Date(),
+      id: ""
     },
     {
       email: "teste@teste.com",
@@ -43,24 +45,26 @@ export const fakeUserData: UserModel[] = [
       phone_number: "41 3333-3333",
       address: "BR,PR,Curitiba",
       password: "",
-      profile_picture: "", 
+      profile_picture: "",
       created_at: new Date(),
-      updated_at: new Date(), 
+      updated_at: new Date(),
+      id: ""
     },
     {
       email: "teste@teste.com",
       name: "Teste da produção",
       role: "Collaborator",
-      status: true,      
+      status: true,
       code: "1000",
       birth_date: new Date("2010-10-10"),
       cep: "88888-888",
       phone_number: "41 3333-3333",
       address: "BR,PR,Curitiba",
       password: "",
-      profile_picture: "", 
+      profile_picture: "",
       created_at: new Date(),
       updated_at: new Date(),
+      id: ""
     },
     {
       email: "teste@teste.com",
@@ -73,9 +77,10 @@ export const fakeUserData: UserModel[] = [
       phone_number: "41 3333-3333",
       address: "BR,PR,Curitiba",
       password: "",
-      profile_picture: "", 
+      profile_picture: "",
       created_at: new Date(),
       updated_at: new Date(),
+      id: ""
     },
    
   ];

@@ -70,6 +70,7 @@ export const InputContainer = styled.div<inputStyleProps>`
   .error-container {
     ${({ theme }) => theme.font.p.small};
     color: ${({ theme }) => theme.colors.support.error};
+    margin-top: .5em;
   }
 
   .affix-container {
