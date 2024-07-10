@@ -29,6 +29,10 @@ export const UserComponent = styled.section`
     justify-content: center;
     margin: 18px;
   }
+  .user-info-title {
+    ${({ theme }) => theme.font.p.small};
+    color: ${({ theme }) => theme.colors.brand.dark_blue};
+  }
 
   .form {
     display: grid;
@@ -38,13 +42,9 @@ export const UserComponent = styled.section`
   }
 
   .button-div {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
     justify-content: flex-end;
     margin-top: auto;
-  }
-
-  .confirm-btn {
-    font-size: 24px;
-    padding: 12px 24px;
   }
 `;

@@ -6,39 +6,31 @@ export const UserComponent = styled.section`
   border-radius: 16px;
   display: flex;
   flex-direction: column;
-  padding: 15px;
+  padding: 0 15px 15px;
   gap: 10px;
   background-color: white;
   transition: transform 0.2s ease-in-out;
   position: relative;
-  
-  h3{
-    ${({theme}) => theme.font.h3};
-    color: ${({theme}) => theme.colors.brand.dark_blue};
-  }
 
-  .img-sector{
+  .img-sector {
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 20px;
   }
 
-    
-  h2 {
-    ${({ theme }) => theme.font.p.large};
+  .user-info-title {
+    ${({ theme }) => theme.font.p.small};
     color: ${({ theme }) => theme.colors.brand.dark_blue};
-    font-weight: 700;
-  }  
-
+  }
   .user-info-area {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     row-gap: 2em;
-    column-gap: 20px;
+    column-gap: 3em;
   }
 
-  .function-area{
+  .function-area {
     width: 100%;
     display: flex;
     align-items: center;
@@ -47,8 +39,19 @@ export const UserComponent = styled.section`
   .left-side {
     flex: 1;
     padding: 10px;
+
+    span {
+      ${({ theme }) => theme.font.p.extra_small};
+      color: ${({ theme }) => theme.colors.grayscale.gray_80};
+    }
+
+    h5 {
+      ${({ theme }) => theme.font.p.small};
+      font-weight: 500;
+      color: ${({ theme }) => theme.colors.brand.dark_blue};
+    }
   }
-  
+
   .right-side {
     flex: 1;
     padding: 10px;
@@ -61,35 +64,35 @@ export const UserComponent = styled.section`
     border-radius: 50%;
   }
 
-  .footer{
-    display: flex;
+  .footer {
+    display: grid;
+    grid-template-columns: 100px 1fr 1fr;
     justify-content: flex-end;
     margin-top: auto;
     gap: 20px;
-  }
-
-  .btn{
-    font-size: 24px;
-    padding: 12px 24px;
   }
 `;
 
 export const Userheader = styled.div`
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 8px;
+
+  p {
+    ${({ theme }) => theme.font.p.small};
+    color: ${({ theme }) => theme.colors.grayscale.gray_90};
+  }
 
   .status-ball {
     width: 1em;
     height: 1em;
     border-radius: 50%;
 
-    &.active{
-      background-color: ${({theme}) => theme.colors.support.success};
+    &.active {
+      background-color: ${({ theme }) => theme.colors.support.success};
     }
     &.inactive {
-      background-color: ${({theme}) => theme.colors.support.error};
+      background-color: ${({ theme }) => theme.colors.support.error};
     }
   }
-
 `;

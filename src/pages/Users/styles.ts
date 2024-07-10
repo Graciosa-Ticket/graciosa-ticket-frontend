@@ -14,28 +14,27 @@ export const UserContainer = styled.section`
   }
 
   .btn:hover {
-    color:green;
-}
+    color: green;
+  }
 
   .select-buttons-area {
     margin-top: 2em;
     display: flex;
-    gap: 20px; 
+    gap: 20px;
     width: 100%;
   }
 
   .user-cards {
     margin-top: 2em;
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(147px, 1fr));
     gap: 20px;
   }
 
-  .select-button{
+  .select-button {
     font-weight: 700;
     width: 15%;
     justify-content: center;
     ${({ theme }) => theme.font.p.extra_small_bold};
-    
   }
 `;
