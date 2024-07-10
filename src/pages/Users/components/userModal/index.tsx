@@ -4,9 +4,16 @@ import ButtonComponent from "../../../../components/buttons";
 import Modal, { ModalHeader, ModalTitle } from "../../../../components/modal";
 import { UserModel } from "../../../../models/user";
 import SectorIcon from "../sectorIcon";
-import Display from "./components/display";
 import { Userheader, UserComponent } from "./styles";
 import HenryCalvo from "../../../../assets/henrycalvo.svg";
+import { formatDate } from "date-fns";
+import { useState } from "react";
+import InputPlaceholder from "../../../../components/form/inputPlaceholder";
+import { calculateAge } from "../../../../utils/calculateAge";
+import UpdateUserModal from "../editUserModal";
+import ConfirmationModal from "../../../../components/deleteConfirmationModal";
+import CenterModal  from "../../../../components/centerModal";
+import { useMutationQuery } from "../../../../services/hooks/useMutationQuery";
 
 interface userModalProps {
   data: UserModel;
@@ -18,18 +25,23 @@ interface userModalProps {
 export default function UserModal({ data, onClose }: userModalProps) {
   
 
-  const [open, setOpen] = useState(false);
-  const [open1, setOpen1] = useState(false);
+  const [OpenDelete, setOpenDelete] = useState(false);
+  const [openUpdate, setOpenUpdate] = useState(false);
   
+  const {mutate, } = useMutationQuery(`/users/${data.code}`, "delete");
+
+
   return (
     <>
-    <Modal open={open1} onOpenChange={() => setOpen1(!open1)}>
-        <DeleteConfirmationModal onClose={() => setOpen1(false)}></DeleteConfirmationModal>
+    <Modal open={openUpdate} onOpenChange={() => setOpenUpdate(!openUpdate)}>
+        <UpdateUserModal  data={data} onClose={() => setOpenUpdate(true)}/>
     </Modal>
 
-    <Modal open={open} onOpenChange={() => setOpen(!open)}>
-        <UpdateUserModal onClose={() => setOpen(false)} />
-    </Modal>
+    <CenterModal open={OpenDelete} onOpenChange={() => setOpenDelete(!OpenDelete)}>
+        <ConfirmationModal message="confimr delete" onDelete={
+          () => mutate({})
+        } onClose={onClose}/>
+    </CenterModal>
       
       <ModalHeader>
         <div className="left-side">
@@ -81,10 +93,10 @@ export default function UserModal({ data, onClose }: userModalProps) {
           </div>
         )}
         <div className="footer">
-          <ButtonComponent buttonStyles="delete" className="btn">
+          <ButtonComponent buttonStyles="delete" className="btn" onClick={() => setOpenDelete(true)}>
             <AiOutlineDelete /> Deletar
           </ButtonComponent>
-          <ButtonComponent buttonStyles="edit" className="btn">
+          <ButtonComponent buttonStyles="edit" className="btn" onClick={() => setOpenUpdate(true)}>
             <AiOutlineEdit /> Editar
           </ButtonComponent>
         </div>

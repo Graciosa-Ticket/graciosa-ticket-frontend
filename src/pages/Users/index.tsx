@@ -6,10 +6,33 @@ import Modal from "../../components/modal";
 import PageHeaderComponent from "../../components/pagesHeader";
 import CreateUserModal from "./components/createUserModal";
 import UserCard from "./components/userCard";
-import { fakeUserData } from "./fakeData";
+import { useFetch } from "../../services/hooks/getQuery";
+import NotFoundComponent from "../../components/notFound";
 
 
 export default function User() {
+
+  const [dataSource, setDataSource] = useState<UserModel[]>([]);
+
+  const { isLoading, isFetching } = useFetch<UserModel[]>(
+    "/users",
+    ["users"],
+    {
+      onSuccess: (data) => {
+        console.log(data);
+        setDataSource(data);
+      },
+      onError: (error) => {
+        console.log(error);
+      },
+    }
+  );
+
+  
+
+  const isLoadingFecth = isLoading || isFetching;
+
+
   const [selectedBtn, setSelectedBtn] =
     useState<UserModel["role"]>("Administrator");
 
@@ -17,11 +40,9 @@ export default function User() {
     setSelectedBtn(role);
   };
 
-  const userList = useMemo(() => {
-    return fakeUserData.filter((user) => user.role === selectedBtn);
-  }, [selectedBtn]);
-
   const [open, setOpen] = useState(false);
+
+  const userlist = useMemo(()=> {if (dataSource.length) { return dataSource.filter(filter => filter.role)}}, [dataSource, selectedBtn])
 
   return (
     <>
@@ -60,9 +81,15 @@ export default function User() {
         </div>
 
         <div className="user-cards">
-          {userList.map((e, i) => (
-            <UserCard data={e} key={i} />
-          ))}
+          {!dataSource.length && !isLoadingFecth ?(
+            <NotFoundComponent />
+          ) : isLoadingFecth ?(
+           <p>Carregando...</p>
+          ) : 
+            userlist?.map((e, i) => (
+              <UserCard data={e} key={i} />
+            )
+          )}
         </div>
       </UserContainer>
     </>

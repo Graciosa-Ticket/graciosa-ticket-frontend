@@ -38,13 +38,9 @@ export const UserComponent = styled.section`
   }
 
   .button-div {
-    display: flex;
+    grid-template-columns: 100px 1fr 1fr;
     justify-content: flex-end;
     margin-top: auto;
-  }
-
-  .confirm-btn {
-    font-size: 24px;
-    padding: 12px 24px;
+    gap: 20px;
   }
 `;

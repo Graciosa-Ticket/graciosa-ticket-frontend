@@ -60,27 +60,20 @@ export const AuthProvider = ({ children }: authProp) => {
   const signIn = async (email: string, password: string) => {
     setLoading(true);
     try {
-      //   const { data } = await api.post("/session/login", {
-      //     email,
-      //     password,
-      //   });
+     const { data } : any = await api.post("/auth/login", {
+     email,
+     password,
+     });
 
-      const fakeUserData: UserModel = {
-        name: "Joseph",
-        email: "teste@teste.com",
-        id: "2",
-        profile_picture: "https://cdn.britannica.com/34/254634-050-C62ACCB9/British-Actor-Henry-Cavill-February-2024.jpg",
-        type: "admin",
-        sector: ""
-      };
-
+     const{token, user}=data
+     api.defaults.headers.Authorization = `Bearer ${token}`
       setData(() => ({
-        user: fakeUserData,
-        token: "aaaa",
+        user,
+        token,
       }));
 
-      localStorage.setItem("gcc_ticket/token", "aaaa");
-      localStorage.setItem("gcc_ticket/user", JSON.stringify(fakeUserData));
+      localStorage.setItem("gcc_ticket/token", token);
+      localStorage.setItem("gcc_ticket/user", JSON.stringify(user));
 
       setLoading(false);
     } catch (error: any) {

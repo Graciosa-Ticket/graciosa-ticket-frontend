@@ -20,7 +20,7 @@ export default function Login() {
           <p>Lorem Ipsum dolor asimet</p>
         </div>
         <div className="div-login-ib">
-          <Input />
+          <Input  />
           <a href="/setor">Esqueci minha senha</a>
         </div>
       </div>
