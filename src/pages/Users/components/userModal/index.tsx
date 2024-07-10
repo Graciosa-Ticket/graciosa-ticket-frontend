@@ -1,10 +1,9 @@
 import { AiOutlineDelete, AiOutlineEdit } from "react-icons/ai";
 import { FaAngleLeft } from "react-icons/fa";
 import ButtonComponent from "../../../../components/buttons";
-import Modal, { ModalHeader } from "../../../../components/modal";
+import Modal, { ModalHeader, ModalTitle } from "../../../../components/modal";
 import { UserModel } from "../../../../models/user";
 import SectorIcon from "../sectorIcon";
-import Display from "./components/display";
 import { Userheader, UserComponent } from "./styles";
 import HenryCalvo from "../../../../assets/henrycalvo.svg";
 import { useState } from "react";
@@ -37,10 +36,10 @@ export default function UserModal({ data, onClose }: userModalProps) {
           <ButtonComponent buttonStyles="text" title="Voltar" onClick={onClose}>
             <FaAngleLeft fontSize="1.9em" />
           </ButtonComponent>
-          <h3>{data.name}</h3>
+          <ModalTitle>{data.name}</ModalTitle>
         </div>
         <Userheader>
-          <p>{data.status ? "ativo" : "inativo"}</p>
+          <p>{data.status ? "Ativo" : "Inativo"}</p>
           <div
             className={`status-ball ${data.status ? "active" : "inactive"}`}
           />
@@ -50,7 +49,7 @@ export default function UserModal({ data, onClose }: userModalProps) {
         <div className="img-sector">
           <img src={HenryCalvo} alt="" className="user-avatar" />
         </div>
-        <h3>informações Pessoais</h3>
+        <h3 className="user-info-title">informações Pessoais</h3>
         <div className="user-info-area">
           <Display
             label={"Código"}

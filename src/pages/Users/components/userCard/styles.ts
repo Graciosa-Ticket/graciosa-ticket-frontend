@@ -3,57 +3,63 @@ import styled from "styled-components";
 export const UserComponent = styled.button`
   width: 100%;
   height: 100%;
-  border-radius: 24px;
+  border-radius: 12px;
   display: flex;
   flex-direction: column;
-  padding: 15px;
+  padding: 12px;
   gap: 10px;
-  row-gap: 2em;
-  background-color: white;
-  transition: transform 0.2s ease-in-out;
+  background-color: ${({ theme }) => theme.colors.brand.white};
+  transition: 0.2s ease-in-out;
   align-items: center;
-  max-width: 500px;
-  overflow: hidden;
-  
 
   &:hover {
-    transform: translateY(-5px);
-  }
-
-  p {
-    ${({theme}) => theme.font.p.extra_small};
-    color: ${({theme}) => theme.colors.grayscale.gray_60}; 
-  }
-
-  h2 {
-    ${({theme}) => theme.font.h3};
-    color: ${({theme}) => theme.colors.brand.dark_blue};
-  }
-
-  .user-avatar {
-    width: 100px;
-    height: 100px;
-    object-fit: cover;
-    border-radius: 50%;
+    transform: translateY(-3px);
   }
 
   .status-container {
-  display: flex;
-  justify-content: flex-end; 
-  gap: 20px; 
-  margin-left: auto;
-}
-  .status-ball {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 8px;
+    margin-left: auto;
+
+    p {
+      ${({ theme }) => theme.font.p.small};
+      color: ${({ theme }) => theme.colors.grayscale.gray_80};
+    }
+
+    .status-ball {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      &.active {
+        background-color: ${({ theme }) => theme.colors.support.success};
+      }
+      &.inactive {
+        background-color: ${({ theme }) => theme.colors.support.error};
+      }
+    }
   }
 
-  .status-ball.active {
-    background-color: green;
+  .header-container {
+    .user-avatar {
+      width: 66px;
+      height: 66px;
+      object-fit: cover;
+      border-radius: 50%;
+    }
   }
 
-  .status-ball.inactive {
-    background-color: red;
+  .userdata-container {
+    h5 {
+      ${({ theme }) => theme.font.p.medium};
+      font-weight: 500;
+      color: ${({ theme }) => theme.colors.brand.dark_blue};
+    }
+
+    p {
+      ${({ theme }) => theme.font.p.extra_small};
+      color: ${({ theme }) => theme.colors.grayscale.gray_70};
+    }
   }
 `;
