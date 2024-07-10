@@ -67,7 +67,7 @@ export default function CreateUserModal({ onClose }: userModalProps) {
         <div className="img-sector">
           <img src={HenryCalvo} alt="" className="user-avatar" />
         </div>
-        <h3 className="user-info-title ">Informe Dados Pessoais</h3>
+        <h1 className="user-info-title ">Informe Dados Pessoais</h1>
         <div>
           <form className="form" onSubmit={onSubmit}>
             <Input
@@ -108,7 +108,6 @@ export default function CreateUserModal({ onClose }: userModalProps) {
               error={errors.phone_number?.message}
               register={{ ...register("phone_number") }}
             />
-
             <Select
               defaultValue={"Collaborator"}
               triggerStyle={{}}
@@ -121,7 +120,6 @@ export default function CreateUserModal({ onClose }: userModalProps) {
           </form>
         </div>
         <div className="button-div">
-          <div />
           <ButtonComponent
             type="submit"
             buttonStyles="confirm"

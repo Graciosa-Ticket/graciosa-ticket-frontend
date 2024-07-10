@@ -1,12 +1,14 @@
 import { AiOutlineDelete, AiOutlineEdit } from "react-icons/ai";
 import { FaAngleLeft } from "react-icons/fa";
 import ButtonComponent from "../../../../components/buttons";
-import { ModalHeader, ModalTitle } from "../../../../components/modal";
+import Modal, { ModalHeader, ModalTitle } from "../../../../components/modal";
 import { UserModel } from "../../../../models/user";
 import SectorIcon from "../sectorIcon";
-import Display from "./components/display";
 import { Userheader, UserComponent } from "./styles";
 import HenryCalvo from "../../../../assets/henrycalvo.svg";
+import { useState } from "react";
+import UpdateUserModal from "../editUserModal";
+import DeleteConfirmationModal from "../../../../components/deleteConfirmationModal";
 import InputPlaceholder from "../../../../components/form/inputPlaceholder";
 import { formatDate } from "date-fns";
 import { calculateAge } from "../../../../utils/calculateAge";
@@ -17,8 +19,21 @@ interface userModalProps {
 }
 
 export default function UserModal({ data, onClose }: userModalProps) {
+  const [open, setOpen] = useState(false);
+  const [open1, setOpen1] = useState(false);
+
   return (
     <>
+      <Modal open={open1} onOpenChange={() => setOpen1(!open1)}>
+        <DeleteConfirmationModal
+          onClose={() => setOpen1(false)}
+        ></DeleteConfirmationModal>
+      </Modal>
+
+      <Modal open={open} onOpenChange={() => setOpen(!open)}>
+        <UpdateUserModal onClose={() => setOpen(false)} />
+      </Modal>
+
       <ModalHeader>
         <div className="left-side">
           <ButtonComponent buttonStyles="text" title="Voltar" onClick={onClose}>
@@ -69,11 +84,10 @@ export default function UserModal({ data, onClose }: userModalProps) {
           </div>
         )}
         <div className="footer">
-          <div />
-          <ButtonComponent buttonStyles="delete">
+          <ButtonComponent buttonStyles="delete" onClick={() => setOpen1(true)}>
             <AiOutlineDelete /> Deletar
           </ButtonComponent>
-          <ButtonComponent buttonStyles="edit">
+          <ButtonComponent buttonStyles="edit" onClick={() => setOpen(true)}>
             <AiOutlineEdit /> Editar
           </ButtonComponent>
         </div>
