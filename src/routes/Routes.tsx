@@ -5,6 +5,8 @@ import Sector from "../pages/sector";
 import { useAuth } from "../hooks/auth";
 import { DefaultContainer } from "./styles";
 import MenuHeader from "../components/menu";
+import Users from "../pages/Users";
+import TicketsPage from "../pages/tickets";
 
 const AppRoutes = () => {
   const { signed } = useAuth();
@@ -12,7 +14,6 @@ const AppRoutes = () => {
   if (signed) {
     return <UserRoute />;
   }
-
   return <AuthRoute />;
 };
 
@@ -31,6 +32,8 @@ const UserRoute = () => {
         <Route path="*" element={<Navigate replace to="/home" />} />
         <Route path="/home" element={<Home />} />
         <Route path="/setor" element={<Sector />} />
+        <Route path="/users" element={<Users />} />
+        <Route path="/chamados" element={<TicketsPage />} />
       </Route>
     </Routes>
   );
@@ -39,9 +42,7 @@ const UserRoute = () => {
 const DefaultLayout = () => {
   return (
     <DefaultContainer>
-      <div className="menu-default-container">
-        <MenuHeader />
-      </div>
+      <MenuHeader />
       <section className="page-default">
         <Outlet />
       </section>

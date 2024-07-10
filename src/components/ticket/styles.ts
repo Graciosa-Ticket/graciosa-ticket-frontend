@@ -1,50 +1,75 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
+import { TicketModel } from "../../models/ticket";
 
-
-
-
-export const TicketContainer = styled.section`
-
-.ticketCard-div{
-    width: 100%;
-    max-width: 356px;
-    height: 100px;
-    background-color: white;
-    color: #9E9E9E;
-    border-radius: 15px;
-    padding: 10px;
-
-    h1{
-        font-size: 16px;
-        color: #012648;
-    }
-
-    p{
-    font-size: 10px;
-
-    }
+interface ticketContainerProps {
+  $status: TicketModel["status"];
 }
 
+export const TicketContainer = styled.section<ticketContainerProps>`
+  width: 100%;
+  background-color: ${({ theme }) => theme.colors.brand.white};
+  border-radius: 15px;
+  padding: 10px;
+  box-shadow: 0 4px 20px -3px rgba(0, 0, 0, 0.1);
 
-.top-ticketCard{
-    display: grid;
-    grid-template-columns: 1fr 200px 1fr;
-    justify-content: center;
+  h4 {
+    ${({ theme }) => theme.font.p.normal_bold};
+    color: ${({ theme }) => theme.colors.grayscale.gray_90};
+  }
+
+  p {
+    ${({ theme }) => theme.font.p.extra_small};
+    color: ${({ theme }) => theme.colors.grayscale.gray_60};
+    -webkit-line-clamp: 3; /* number of lines to show */
+    line-clamp: 3;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .top-ticketCard {
+    display: flex;
+    justify-content: space-between;
     align-items: center;
     gap: 5px;
-}
 
+    .left-side {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
 
-.mockup-teste{
-    background-color: #AA0D0D;
-    color: #FFFFFF;
-    font-size: 10px;
-    border-radius: 6px;
-    width: 80px;
-    height: 25px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
+    .mockup-teste {
+      min-width: 80px;
+      ${({ theme }) => theme.font.p.extra_small};
+      border-radius: 6px;
+      text-align: center;
+      padding: 3px 4px;
 
-`
+      ${({ $status }) => {
+        if ($status === "Urgente") {
+          return css`
+            background-color: ${({ theme }) => theme.colors.support.error};
+            color: ${({ theme }) => theme.colors.brand.white};
+          `;
+        }
+        if ($status === "Andamento") {
+          return css`
+            background-color: ${({ theme }) => theme.colors.support.support_01};
+            color: ${({ theme }) => theme.colors.brand.white};
+          `;
+        }
+        if ($status === "Concluído") {
+          return css`
+            background-color: ${({ theme }) => theme.colors.support.success};
+            color: ${({ theme }) => theme.colors.brand.white};
+          `;
+        }
+      }}
+    }
+  }
+
+  .description {
+    margin-top: 1em;
+  }
+`;

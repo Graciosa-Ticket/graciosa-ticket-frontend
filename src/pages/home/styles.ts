@@ -1,26 +1,20 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
+import { UserModel } from "../../models/user";
 
-
-export const HomeSection = styled.section`
-
-section{
-    background-color: #F1F1F1;
+interface homeSectionProps {
+  $view: UserModel["type"];
 }
 
+export const HomeSection = styled.section<homeSectionProps>`
+  display: grid;
+  column-gap: 1em;
+  row-gap: 3em;
 
-.div-home{
-    width: 100%;
-    height: 400px;
-    display: flex;
-    justify-content: center;
-    gap: 200px;
-    align-items: center;
-}
-
-.graph{
-    width: 100%;
-    height: 350px;
-}
-
-
-`
+  ${({ $view }) => {
+    if ($view === "admin") {
+      return css`
+        grid-template-columns: 1fr 2fr;
+      `;
+    }
+  }}
+`;

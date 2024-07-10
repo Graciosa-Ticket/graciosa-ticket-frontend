@@ -1,18 +1,19 @@
 import styled from "styled-components";
 
-
 export const SectorContainer = styled.section`
-
-
-.sector-div{
+  .div-sector-all {
     width: 100%;
+  }
+
+  h1 {
+    font-size: 32px;
+  }
+
+  ul {
     display: flex;
-    flex-direction: column;
+    gap: 20px;
     padding: 20px;
-
-    h1{
-        font-size: 32px;
-    }
-}
-
-`
+    width: 100%;
+    flex-wrap: wrap;
+  }
+`;

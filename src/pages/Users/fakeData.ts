@@ -1,0 +1,86 @@
+import { UserModel } from "../../models/user";
+
+
+export const fakeUserData: UserModel[] = [
+    {
+      email: "teste@teste.com",
+      name: "Teste da silva",
+      role: "Administrator",
+      status: true,
+      code: "1000",
+      birth_date: new Date("2010-10-10"),
+      cep: "88888-888",
+      phone_number: "41 3333-3333",
+      address: "BR,PR,Curitiba",
+      password: "",
+      profile_picture: "",
+      created_at: new Date(),
+      updated_at: new Date(),
+      id: ""
+    },
+    {
+      email: "teste@teste.com",
+      name: "Teste da silva 2",
+      role: "Supervisor",
+      status: true,
+      code: "1000",
+      birth_date: new Date("2010-10-10"),
+      cep: "88888-888",
+      phone_number: "41 3333-3333",
+      address: "BR,PR,Curitiba",
+      password: "",
+      profile_picture: "",
+      created_at: new Date(),
+      updated_at: new Date(),
+      id: ""
+    },
+    {
+      email: "teste@teste.com",
+      name: "Teste da manutenção",
+      role: "Collaborator",
+      status: true,
+      code: "1000",
+      birth_date: new Date("2010-10-10"),
+      cep: "88888-888",
+      phone_number: "41 3333-3333",
+      address: "BR,PR,Curitiba",
+      password: "",
+      profile_picture: "",
+      created_at: new Date(),
+      updated_at: new Date(),
+      id: ""
+    },
+    {
+      email: "teste@teste.com",
+      name: "Teste da produção",
+      role: "Collaborator",
+      status: true,
+      code: "1000",
+      birth_date: new Date("2010-10-10"),
+      cep: "88888-888",
+      phone_number: "41 3333-3333",
+      address: "BR,PR,Curitiba",
+      password: "",
+      profile_picture: "",
+      created_at: new Date(),
+      updated_at: new Date(),
+      id: ""
+    },
+    {
+      email: "teste@teste.com",
+      name: "Teste da silva 3",
+      role: "Collaborator",
+      status: true,
+      code: "1000",
+      birth_date: new Date("2010-10-10"),
+      cep: "88888-888",
+      phone_number: "41 3333-3333",
+      address: "BR,PR,Curitiba",
+      password: "",
+      profile_picture: "",
+      created_at: new Date(),
+      updated_at: new Date(),
+      id: ""
+    },
+   
+  ];

@@ -1,16 +1,16 @@
-import SectorCard from "../../components/sectorCard";
+import { useAuth } from "../../hooks/auth";
+import HomeGraph from "./components/graphs";
+import HomeSector from "./components/sectors";
 import HomeTicketComponent from "./components/tickets";
 import { HomeSection } from "./styles";
 
 export default function Home() {
+  const { user } = useAuth();
   return (
-    <HomeSection>
-      <div className="graph">GRÁFICOS</div>
-
-      <div className="div-home">
-        <HomeTicketComponent />
-        <SectorCard />
-      </div>
+    <HomeSection $view={user.type}>
+      <HomeGraph />
+      <HomeTicketComponent />
+      <HomeSector />
     </HomeSection>
   );
 }
