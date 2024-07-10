@@ -11,33 +11,30 @@ import { useState } from "react";
 import UpdateUserModal from "../editUserModal";
 import DeleteConfirmationModal from "../../../../components/deleteConfirmationModal";
 
-
 interface userModalProps {
   data: UserModel;
   onClose: () => void;
 }
- 
-
 
 export default function UserModal({ data, onClose }: userModalProps) {
-  
-
   const [open, setOpen] = useState(false);
   const [open1, setOpen1] = useState(false);
-  
+
   return (
     <>
-    <Modal open={open1} onOpenChange={() => setOpen1(!open1)}>
-        <DeleteConfirmationModal onClose={() => setOpen1(false)}></DeleteConfirmationModal>
-    </Modal>
+      <Modal open={open1} onOpenChange={() => setOpen1(!open1)}>
+        <DeleteConfirmationModal
+          onClose={() => setOpen1(false)}
+        ></DeleteConfirmationModal>
+      </Modal>
 
-    <Modal open={open} onOpenChange={() => setOpen(!open)}>
+      <Modal open={open} onOpenChange={() => setOpen(!open)}>
         <UpdateUserModal onClose={() => setOpen(false)} />
-    </Modal>
-      
+      </Modal>
+
       <ModalHeader>
         <div className="left-side">
-          <ButtonComponent buttonStyles="text" title="Voltar"  onClick={onClose}>
+          <ButtonComponent buttonStyles="text" title="Voltar" onClick={onClose}>
             <FaAngleLeft fontSize="1.9em" />
           </ButtonComponent>
           <h3>{data.name}</h3>
@@ -62,15 +59,11 @@ export default function UserModal({ data, onClose }: userModalProps) {
           <Display label={"Nome"} content={data.name}></Display>
           <Display
             label={"Nascimento"}
-<<<<<<< HEAD
             content={
               data.birth_date
                 ? data.birth_date.toLocaleDateString()
                 : "Não informado"
             }
-=======
-            content={data.birth_date ? data.birth_date.toLocaleString() : "Não informado"}
->>>>>>> 4c525f98a1591fad29f67ca60d9832bc6a824f1d
             suffix="24"
           ></Display>
           <Display
@@ -86,7 +79,6 @@ export default function UserModal({ data, onClose }: userModalProps) {
             content={data.phone_number + "" || "Não informado"}
           ></Display>
         </div>
-<<<<<<< HEAD
         {data.role !== "Administrator" && (
           <div className="function-area">
             <div className="left-side">
@@ -96,20 +88,21 @@ export default function UserModal({ data, onClose }: userModalProps) {
             <div className="right-side">
               <SectorIcon data={data} />
             </div>
-=======
-        {data.role !== "Administrator" &&
-        <div className="function-area">
-          <div className="left-side">
-            <p>Função</p>
-            <h2>{data.role}</h2>
->>>>>>> 4c525f98a1591fad29f67ca60d9832bc6a824f1d
           </div>
         )}
         <div className="footer">
-          <ButtonComponent buttonStyles="delete" className="btn" onClick={()=> setOpen1(true)}>
+          <ButtonComponent
+            buttonStyles="delete"
+            className="btn"
+            onClick={() => setOpen1(true)}
+          >
             <AiOutlineDelete /> Deletar
           </ButtonComponent>
-          <ButtonComponent buttonStyles="edit" className="btn" onClick={()=> setOpen(true)}>
+          <ButtonComponent
+            buttonStyles="edit"
+            className="btn"
+            onClick={() => setOpen(true)}
+          >
             <AiOutlineEdit /> Editar
           </ButtonComponent>
         </div>
