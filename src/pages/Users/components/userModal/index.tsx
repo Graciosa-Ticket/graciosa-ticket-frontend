@@ -24,11 +24,9 @@ export default function UserModal({ data, onClose }: userModalProps) {
 
   return (
     <>
-      <Modal open={open1} onOpenChange={() => setOpen1(!open1)}>
-        <DeleteConfirmationModal
-          onClose={() => setOpen1(false)}
-        ></DeleteConfirmationModal>
-      </Modal>
+      <DeleteConfirmationModal
+        onOpenChange={() => setOpen1(!open1)}
+      ></DeleteConfirmationModal>
 
       <Modal open={open} onOpenChange={() => setOpen(!open)}>
         <UpdateUserModal onClose={() => setOpen(false)} />
