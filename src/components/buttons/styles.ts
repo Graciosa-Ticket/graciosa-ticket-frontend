@@ -27,14 +27,12 @@ const addStyle = css`
 const errorStyle = css`
   background-color: ${({ theme }) => theme.colors.support.error};
   color: ${({ theme }) => theme.colors.brand.white};
-  box-shadow: 0px 4px 6.1px -5px #0000009e;
 `;
 
 const deleteStyle = css`
   border: 1px solid red;
   color: ${({ theme }) => theme.colors.support.error};
   ${({ theme }) => theme.font.p.small};
-  box-shadow: 0px 4px 6.1px -5px #0000009e;
 
   &:hover {
     background-color: ${({ theme }) => theme.colors.support.error};
@@ -43,25 +41,23 @@ const deleteStyle = css`
 `;
 
 const editStyle = css`
-  border: 1px solid blue;
-  color: blue;
+  color: ${({ theme }) => theme.colors.brand.light_blue};
+  border: 1px solid;
   ${({ theme }) => theme.font.p.small};
-  box-shadow: 0px 4px 6.1px -5px #0000009e;
 
   &:hover {
-    background-color: blue;
+    background-color: ${({ theme }) => theme.colors.brand.light_blue};
     color: white;
   }
 `;
 
 const confirmStyle = css`
-  border: 1px solid green;
-  color: green;
+  border: 1px solid;
+  color: ${({ theme }) => theme.colors.support.success};
   ${({ theme }) => theme.font.p.small};
-  box-shadow: 0px 4px 6.1px -5px #0000009e;
 
   &:hover {
-    background-color: green;
+    background-color: ${({ theme }) => theme.colors.support.success};
     color: white;
   }
 `;
@@ -77,12 +73,13 @@ const styles = {
 };
 
 export const ButtonsLoginContainer = styled.button<buttonProps>`
-  padding: 0.8em;
+  padding: 0.5em 0.8em;
   border: 0;
   border-radius: 8px;
   cursor: pointer;
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 10px;
   transition: 0.4s;
 

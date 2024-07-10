@@ -9,6 +9,7 @@ declare module "styled-components" {
       brand: {
         blue: string;
         dark_blue: string;
+        light_blue: string;
         white: string;
         black: string;
       };

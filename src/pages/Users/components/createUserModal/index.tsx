@@ -8,17 +8,25 @@ import Input from "../../../../components/form/input";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { createUserValidation } from "./validation/createUserValidation";
 import { Select, SelectItem } from "../../../../components/form/select";
-
+import phoneMask from "../../../../utils/phoneMask";
+import { useMutationQuery } from "../../../../services/hooks/useMutationQuery";
+import { toast } from "sonner";
 
 interface userModalProps {
-  onClose:()=>void;  
+  onClose: () => void;
 }
 
-export default function CreateUserModal({onClose}:userModalProps){
-  const { handleSubmit, register, formState: { errors }, setValue } = useForm({
-    resolver: yupResolver(createUserValidation)
+export default function CreateUserModal({ onClose }: userModalProps) {
+  const {
+    handleSubmit,
+    register,
+    formState: { errors },
+    setValue,
+  } = useForm({
+    resolver: yupResolver(createUserValidation),
   });
 
+  const {mutate, } = useMutationQuery('/users',);
 
   const onSubmit = handleSubmit((data) => {
     const userData = {
@@ -28,35 +36,28 @@ export default function CreateUserModal({onClose}:userModalProps){
       address: data.address,
       cep: data.cep,
       phone_number: phoneMask(data.phone_number),
-      role: data.role,
+      role: data.role || "Collaborator",
       status: true,
+      password: data.password
     };
-    console.log(userData); 
+    mutate(userData, {
+      onSuccess: () => {
+        toast.success("Cadastro concluído");
+      },
+      onError: () => {
+      }
+    });
   });
-
-  function phoneMask(phone_number: string) {
-
-    let r = phone_number.replace(/\D/g, "");
-    r = r.replace(/^0/, "");
-  
-    if (r.length > 11) {
-      r = r.replace(/^(\d\d)(\d{5})(\d{4}).*/, "($1) $2-$3");
-    } else if (r.length > 7) {
-      r = r.replace(/^(\d\d)(\d{5})(\d{0,4}).*/, "($1) $2-$3");
-    } else if (r.length > 2) {
-      r = r.replace(/^(\d\d)(\d{0,5})/, "($1) $2");
-    } else if (phone_number.trim() !== "") {
-      r = r.replace(/^(\d*)/, "($1");
-    }
-    return r;
-  }
-
+    
   return (
-    <><ModalHeader>
-          <div className="left-side">
-              <ButtonComponent buttonStyles="text" title="Voltar" onClick={onClose}><AiOutlineLeft fontSize={"20px"} /></ButtonComponent>
-              <h3>Cadastro</h3>
-          </div>
+    <>
+      <ModalHeader>
+        <div className="left-side">
+          <ButtonComponent buttonStyles="text" title="Voltar" onClick={onClose}>
+            <AiOutlineLeft fontSize={"20px"} />
+          </ButtonComponent>
+          <h3>Cadastro</h3>
+        </div>
       </ModalHeader>
       <UserComponent>
               <div className="img-sector">
@@ -102,6 +103,12 @@ export default function CreateUserModal({onClose}:userModalProps){
                       placeholder="Digite DD + Telefone" 
                       error={errors.phone_number?.message} 
                       register={{ ...register("phone_number") }}  
+                      />
+                    <Input 
+                      label="Senha" 
+                      placeholder="Minimo de 8 digitos." 
+                      error={errors.password?.message} 
+                      register={{ ...register("password") }}  
                       />
                     <Select 
                       defaultValue={"Collaborator"} 

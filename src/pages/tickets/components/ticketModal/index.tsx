@@ -47,6 +47,7 @@ const TicketModal = ({ onOpenChange, data }: ModalActions<TicketModel>) => {
           <Select
             defaultValue={data.status}
             triggerStyle={selectItemStyle(data.status)}
+            onValueChange={(data) => console.log(data)}
           >
             <SelectItem value="Aberto">Aberto</SelectItem>
             <SelectItem value="Em andamento">Em andamento</SelectItem>
