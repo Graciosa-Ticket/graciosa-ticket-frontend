@@ -35,7 +35,7 @@ export default function UserModal({ data, onClose }: userModalProps) {
   return (
     <>
     <Modal open={openUpdate} onOpenChange={() => setOpenUpdate(!openUpdate)}>
-        <UpdateUserModal  data={data} onClose={() => setOpenUpdate(true)}/>
+        <UpdateUserModal  data={data} onClose={() => setOpenUpdate(false)}/>
     </Modal>
 
     {/* <CenterModal open={OpenDelete} onOpenChange={() => setOpenDelete(!OpenDelete)}>

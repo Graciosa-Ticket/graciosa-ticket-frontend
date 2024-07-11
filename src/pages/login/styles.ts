@@ -31,7 +31,7 @@ export const LoginContainer = styled.section`
     }
   }
 
-  .right-container{
+  .right-container {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -39,61 +39,45 @@ export const LoginContainer = styled.section`
     gap: 50px;
 
     img {
-      width: 5em;
+      width: 74px;
+      color: ${({ theme }) => theme.colors.brand.blue};
     }
 
-    h1 {
+    h2 {
       ${({ theme }) => theme.font.h2};
       color: ${({ theme }) => theme.colors.brand.black};
       font-weight: 900;
     }
 
     p {
-      color: ${({ theme }) => theme.colors.grayscale.gray_50};
-      ${({ theme }) => theme.font.p.small};
-    }
-  }
-
-
-
-  .top-right {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .div-login-ib {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-
-    a {
       color: ${({ theme }) => theme.colors.brand.black};
       ${({ theme }) => theme.font.p.small};
-      margin-top: 1em;
     }
   }
 
-  .eye-svg.eye-svg {
-    width: 20px;
-    cursor: pointer;
-  }
-
-  .input-login {
+  .logo-container{
     display: flex;
     flex-direction: column;
-    gap: 5px;
-    padding-bottom: 10px;
-
-    p {
-      width: auto;
-      margin: 0;
-      font-size: 12px;
-    }
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
   }
 
+  .login-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .login-input{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+    gap: 20px;
+  }
   
   input {
     background-color: transparent;
@@ -103,6 +87,25 @@ export const LoginContainer = styled.section`
     height: 40px;
     padding: 0 15px;
   }
-  
+
+  .password-input {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+  }
+
+  .eye-svg.eye-svg {
+  width: 20px;
+  cursor: pointer;
+}
+
+.buttons-container{
+  display: flex;
+  margin-right: auto;
+  width: 50%;
+  padding: 20px;
+}
 
 `;

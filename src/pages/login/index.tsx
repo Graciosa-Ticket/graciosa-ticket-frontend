@@ -4,16 +4,14 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useAuth } from "../../hooks/auth";
 import eye from "../../assets/ph_eye.svg";
-
+import ButtonComponent from "../../components/buttons";
 
 interface login {
   code: string;
   password: string;
 }
 
-
 export default function LoginPage() {
-
   const [show, setShow] = useState(false);
 
   const handleShow = () => {
@@ -24,11 +22,10 @@ export default function LoginPage() {
 
   const { handleSubmit, register } = useForm<login>();
 
-
   const onSubmit = handleSubmit(({ code, password }) => {
     signIn(code, password);
   });
-  
+
   return (
     <LoginContainer>
       <div className="left-container">
@@ -40,24 +37,32 @@ export default function LoginPage() {
         </p>
       </div>
 
-
       <div className="right-container">
-
         <div className="logo-container">
           <img src={Logo} />
-          <h1>Bem vindo</h1>
+          <h2>Bem vindo</h2>
           <p>ao sistema de chamados graciosa country club</p>
         </div>
 
-
-        <div className="div-login-ib">
+        <div className="login-container">
           <form onSubmit={onSubmit}>
-            <div className="input-login">
+            <div className="login-input">
               <input type="text" placeholder="Login" {...register("code")} />
-                <div className="pass-div">
-                  <input type={show ? "text" : "password"} placeholder="Senha" {...register("password")} />
-                  <img src={eye} onClick={handleShow} className="eye-svg" />
-                </div>
+              <div className="password-input">
+                <input
+                  type={show ? "text" : "password"}
+                  placeholder="Senha"
+                  {...register("password")}
+                />
+                <img src={eye} onClick={handleShow} className="eye-svg" />
+              </div>
+            </div>
+
+            <div className="buttons-container">
+              <ButtonComponent type="submit">Enviar</ButtonComponent>
+              <ButtonComponent type="button" buttonStyles="error">
+                teste
+              </ButtonComponent>
             </div>
           </form>
           <a href="/setor">Esqueci minha senha</a>

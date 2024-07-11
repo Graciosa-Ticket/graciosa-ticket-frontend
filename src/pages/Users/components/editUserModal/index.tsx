@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import { UserComponent } from "./styles";
 import HenryCalvo from "../../../../assets/henrycalvo.svg";
-import { AiOutlineEdit, AiOutlineLeft } from "react-icons/ai";
+import { AiOutlineEdit } from "react-icons/ai";
 import { ModalHeader } from "../../../../components/modal";
 import ButtonComponent from "../../../../components/buttons";
 import Input from "../../../../components/form/input";
@@ -13,8 +13,6 @@ import { format } from "date-fns";
 import { useMutationQuery } from "../../../../services/hooks/useMutationQuery";
 import { toast } from "sonner";
 import { FaAngleLeft } from "react-icons/fa";
-import useUserListRefresh from "../../../../utils/userListRefrash";
-
 
 
 interface updateUserModalProps {
@@ -51,7 +49,7 @@ export default function UpdateUserModal({data,onClose}:updateUserModalProps){
     mutate(userData, {
       onSuccess: () => {
         toast.success("Cadastro Atualizado");
-        refreshUserList();
+
       },
       onError: () => {
       }
@@ -122,8 +120,3 @@ export default function UpdateUserModal({data,onClose}:updateUserModalProps){
                   </div>
           </UserComponent></>
   )}
-
-function refreshUserList() {
-  throw new Error("Function not implemented.");
-}
-  
