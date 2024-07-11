@@ -6,8 +6,7 @@ import { useMemo, useState } from "react";
 import ButtonComponent from "../buttons";
 import { NavLink } from "react-router-dom";
 import { useAuth } from "../../hooks/auth";
-import CreateUserModal from "../../pages/Users/components/createUserModal";
-import UserModal from "../../pages/Users/components/userModal";
+import UserViewModal from "../../pages/Users/components/userViewModal";
 
 export default function MenuHeader() {
   const [openModal, setOpenModal] = useState(false);
@@ -85,17 +84,7 @@ const UserCaller = () => {
     <>
       <Modal open={openModal} onOpenChange={() => setOpenModal(!openModal)}>
         <>
-          <UserModal data={user} onClose={() => setOpenModal(false)} />
-
-          <section>
-            <button
-              style={{ height: 20, background: "red" }}
-              type="button"
-              onClick={signOut}
-            >
-              logout
-            </button>
-          </section>
+          <UserViewModal data={user} onClose={() => setOpenModal(false)} />
         </>
       </Modal>
       <UserCallerContainer

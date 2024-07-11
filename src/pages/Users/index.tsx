@@ -23,6 +23,7 @@ export default function User() {
     {
       onSuccess: (data) => {
         setDataSource(data);
+        console.log(data)
       },
       // onError: (error) => {
       //   console.log(error);
