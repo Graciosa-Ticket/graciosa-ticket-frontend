@@ -8,15 +8,23 @@ import HenryCalvo from "../../../../assets/henrycalvo.svg";
 
 interface UserCardProps {
   data: UserModel;
+  refetch: () => void;
 }
 
-const UserCard = ({ data }: UserCardProps) => {
+const UserCard = ({ data, refetch }: UserCardProps) => {
   const [open, setOpen] = useState(false);
 
   return (
     <>
       <Modal open={open} onOpenChange={() => setOpen(!open)}>
-        <UserModal data={data} onClose={() => setOpen(false)} />
+        <UserModal
+          data={data}
+          onClose={() => setOpen(false)}
+          onUpdate={() => {
+            setOpen(false);
+            refetch();
+          }}
+        />
       </Modal>
 
       <UserComponent type="button" onClick={() => setOpen(true)}>

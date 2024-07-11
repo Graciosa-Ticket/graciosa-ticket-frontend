@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import { UserComponent } from "./styles";
 import HenryCalvo from "../../../../assets/henrycalvo.svg";
 import { AiOutlineLeft } from "react-icons/ai";
-import { ModalHeader } from "../../../../components/modal";
+import { ModalHeader, ModalTitle } from "../../../../components/modal";
 import ButtonComponent from "../../../../components/buttons";
 import Input from "../../../../components/form/input";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -10,20 +10,29 @@ import { createUserValidation } from "./validation/createUserValidation";
 import { Select, SelectItem } from "../../../../components/form/select";
 import { useMutationQuery } from "../../../../services/hooks/useMutationQuery";
 import { toast } from "sonner";
+import { modalActions } from "../../../../shared/global.interface";
+import { useEffect } from "react";
 
-interface userModalProps {
-  onClose: () => void;
-}
-
-export default function CreateUserModal({ onClose }: userModalProps) {
+export default function CreateUserModal({
+  onClose,
+  onUpdate,
+  onSetEditedData,
+}: modalActions) {
   const {
     handleSubmit,
     register,
-    formState: { errors },
+    formState: { errors, isDirty, dirtyFields },
     setValue,
   } = useForm({
     resolver: yupResolver(createUserValidation),
   });
+
+  useEffect(() => {
+    console.log(isDirty, dirtyFields);
+    if (isDirty) {
+      onSetEditedData?.(true);
+    }
+  }, [isDirty, dirtyFields]);
 
   const { mutate } = useMutationQuery("/users");
 
@@ -42,6 +51,7 @@ export default function CreateUserModal({ onClose }: userModalProps) {
     mutate(userData, {
       onSuccess: () => {
         toast.success("Cadastro concluído");
+        onUpdate?.();
       },
       onError: () => {},
     });
@@ -54,7 +64,7 @@ export default function CreateUserModal({ onClose }: userModalProps) {
           <ButtonComponent buttonStyles="text" title="Voltar" onClick={onClose}>
             <AiOutlineLeft fontSize={"20px"} />
           </ButtonComponent>
-          <h3>Cadastro</h3>
+          <ModalTitle>Cadastro</ModalTitle>
         </div>
       </ModalHeader>
       <UserComponent>
@@ -110,7 +120,6 @@ export default function CreateUserModal({ onClose }: userModalProps) {
             />
             <Select
               defaultValue={"Collaborator"}
-              triggerStyle={{}}
               onValueChange={(value) => setValue("role", value)}
             >
               <SelectItem value="Administrator">Administrator</SelectItem>

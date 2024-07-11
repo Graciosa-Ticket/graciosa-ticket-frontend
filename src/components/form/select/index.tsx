@@ -15,7 +15,7 @@ import {
 } from "./styles";
 
 interface SelectComponentProps extends SelectProps {
-  triggerStyle: CSSProperties;
+  triggerStyle?: CSSProperties;
 }
 
 export const Select = React.forwardRef(

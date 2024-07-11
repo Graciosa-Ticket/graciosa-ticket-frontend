@@ -31,78 +31,46 @@ export const LoginContainer = styled.section`
     }
   }
 
-  .right-container{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 50px;
+  .right-container {
+    .logo-container {
+      display: grid;
+      justify-items: center;
 
-    img {
-      width: 5em;
-    }
+      img {
+        width: 80px;
+        text-align: center;
+        mix-blend-mode: multiply;
+      }
 
-    h1 {
-      ${({ theme }) => theme.font.h2};
-      color: ${({ theme }) => theme.colors.brand.black};
-      font-weight: 900;
-    }
+      h1 {
+        ${({ theme }) => theme.font.h2};
+        color: ${({ theme }) => theme.colors.brand.black};
+        font-weight: 900;
+      }
 
-    p {
-      color: ${({ theme }) => theme.colors.grayscale.gray_50};
-      ${({ theme }) => theme.font.p.small};
-    }
-  }
-
-
-
-  .top-right {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .div-login-ib {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-
-    a {
-      color: ${({ theme }) => theme.colors.brand.black};
-      ${({ theme }) => theme.font.p.small};
-      margin-top: 1em;
+      p {
+        color: ${({ theme }) => theme.colors.grayscale.gray_50};
+        ${({ theme }) => theme.font.p.small};
+        margin-top: 0.5em;
+      }
     }
   }
 
-  .eye-svg.eye-svg {
-    width: 20px;
-    cursor: pointer;
-  }
+  form {
+    display: grid;
+    gap: 10px;
+    margin-top: 2em;
 
-  .input-login {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    padding-bottom: 10px;
+    .buttons-container {
+      display: grid;
 
-    p {
-      width: auto;
-      margin: 0;
-      font-size: 12px;
+      button {
+        padding: 0.6em 2em;
+        ${({ theme }) => theme.font.p.normal};
+        &:hover {
+          scale: 1.01;
+        }
+      }
     }
   }
-
-  
-  input {
-    background-color: transparent;
-    border: 1px solid #9f9f9f;
-    border-radius: 8px;
-    width: 290px;
-    height: 40px;
-    padding: 0 15px;
-  }
-  
-
 `;

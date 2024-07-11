@@ -1,11 +1,11 @@
+import { Toaster } from "sonner";
 import { BrowserRouter } from "react-router-dom";
+import { ThemeProvider } from "styled-components";
 import AppRoutes from "../src/routes/Routes";
 import GlobalStyle from "./styles/global";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { AuthProvider } from "./hooks/auth";
-import { ThemeProvider } from "styled-components";
 import { themesOptions } from "./styles/theme";
-import { Toaster } from "sonner";
 
 const queryClient = new QueryClient();
 
@@ -20,11 +20,6 @@ function App() {
             closeButton
             position="top-right"
             duration={8000}
-            toastOptions={{
-              style: {
-                whiteSpace: "pre-line",
-              },
-            }}
           />
           <BrowserRouter>
             <AppRoutes />

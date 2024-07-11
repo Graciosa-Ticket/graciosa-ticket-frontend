@@ -6,6 +6,8 @@ import { useMemo, useState } from "react";
 import ButtonComponent from "../buttons";
 import { NavLink } from "react-router-dom";
 import { useAuth } from "../../hooks/auth";
+import CreateUserModal from "../../pages/Users/components/createUserModal";
+import UserModal from "../../pages/Users/components/userModal";
 
 export default function MenuHeader() {
   const [openModal, setOpenModal] = useState(false);
@@ -64,7 +66,8 @@ export default function MenuHeader() {
 }
 
 const UserCaller = () => {
-  const { user } = useAuth();
+  const { user, signOut } = useAuth();
+  const [openModal, setOpenModal] = useState(false);
 
   const greetingUser = useMemo(() => {
     const currentTime = new Date().getHours();
@@ -79,11 +82,31 @@ const UserCaller = () => {
   }, []);
 
   return (
-    <UserCallerContainer buttonStyles="text">
-      <span>
-        {greetingUser}, {user.name}
-      </span>
-      <img src={HenryCalvo} />
-    </UserCallerContainer>
+    <>
+      <Modal open={openModal} onOpenChange={() => setOpenModal(!openModal)}>
+        <>
+          <UserModal data={user} onClose={() => setOpenModal(false)} />
+
+          <section>
+            <button
+              style={{ height: 20, background: "red" }}
+              type="button"
+              onClick={signOut}
+            >
+              logout
+            </button>
+          </section>
+        </>
+      </Modal>
+      <UserCallerContainer
+        buttonStyles="text"
+        onClick={() => setOpenModal(true)}
+      >
+        <span>
+          {greetingUser}, {user.name}
+        </span>
+        <img src={HenryCalvo} />
+      </UserCallerContainer>
+    </>
   );
 };
