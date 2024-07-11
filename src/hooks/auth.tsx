@@ -57,16 +57,16 @@ export const AuthProvider = ({ children }: authProp) => {
     setData((old) => ({ token: old.token, user: data }));
   };
 
-  const signIn = async (email: string, password: string) => {
+  const signIn = async (code: string, password: string) => {
     setLoading(true);
     try {
      const { data } : any = await api.post("/auth/login", {
-     email,
+      code,
      password,
      });
 
      const{token, user}=data
-     api.defaults.headers.Authorization = `Bearer ${token}`
+     api.defaults.headers.Authorization = `Bearer ${token}`;
       setData(() => ({
         user,
         token,
