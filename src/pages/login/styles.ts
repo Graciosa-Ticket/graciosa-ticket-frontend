@@ -32,80 +32,45 @@ export const LoginContainer = styled.section`
   }
 
   .right-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 50px;
+    .logo-container {
+      display: grid;
+      justify-items: center;
 
-    img {
-      width: 74px;
-      color: ${({ theme }) => theme.colors.brand.blue};
-    }
+      img {
+        width: 80px;
+        text-align: center;
+        mix-blend-mode: multiply;
+      }
 
-    h2 {
-      ${({ theme }) => theme.font.h2};
-      color: ${({ theme }) => theme.colors.brand.black};
-      font-weight: 900;
-    }
+      h1 {
+        ${({ theme }) => theme.font.h2};
+        color: ${({ theme }) => theme.colors.brand.black};
+        font-weight: 900;
+      }
 
-    p {
-      color: ${({ theme }) => theme.colors.brand.black};
-      ${({ theme }) => theme.font.p.small};
+      p {
+        color: ${({ theme }) => theme.colors.grayscale.gray_50};
+        ${({ theme }) => theme.font.p.small};
+        margin-top: 0.5em;
+      }
     }
   }
 
-  .logo-container{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+  form {
+    display: grid;
     gap: 10px;
+    margin-top: 2em;
+
+    .buttons-container {
+      display: grid;
+
+      button {
+        padding: 0.6em 2em;
+        ${({ theme }) => theme.font.p.normal};
+        &:hover {
+          scale: 1.01;
+        }
+      }
+    }
   }
-
-  .login-container{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-  }
-
-  .login-input{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: start;
-    gap: 20px;
-  }
-  
-  input {
-    background-color: transparent;
-    border: 1px solid #9f9f9f;
-    border-radius: 8px;
-    width: 290px;
-    height: 40px;
-    padding: 0 15px;
-  }
-
-  .password-input {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 20px;
-    width: 100%;
-  }
-
-  .eye-svg.eye-svg {
-  width: 20px;
-  cursor: pointer;
-}
-
-.buttons-container{
-  display: flex;
-  margin-right: auto;
-  width: 50%;
-  padding: 20px;
-}
-
 `;

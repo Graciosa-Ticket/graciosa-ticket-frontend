@@ -1,18 +1,19 @@
 import { createGlobalStyle } from "styled-components";
 
 export default createGlobalStyle`
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    list-style-type: none;
-    -webkit-font-smoothing: antialiased;
-  }
 
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+list-style-type: none;
+-webkit-font-smoothing: antialiased;
+}
   #root {
     width: 100%;
     min-height: 100% !important;
     display: flex;
+
   }
 
 
@@ -40,7 +41,7 @@ button{
   cursor:pointer;
 }
 
-  input, button, *{
+  input, button{
       background:none;
       border:0;
   }
@@ -82,6 +83,11 @@ input{
   cursor:pointer;
   }
 
+}
+
+
+li[data-mounted="true"]{
+  padding: 1em;
 }
 
 `;

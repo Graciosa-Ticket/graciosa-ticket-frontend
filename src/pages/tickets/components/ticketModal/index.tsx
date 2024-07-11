@@ -1,4 +1,3 @@
-import { ModalActions } from "../../../../models/global";
 import { TicketModel } from "../../../../models/ticket";
 import ButtonComponent from "../../../../components/buttons";
 import { ModalHeader, ModalTitle } from "../../../../components/modal";
@@ -9,6 +8,7 @@ import { Select, SelectItem } from "../../../../components/form/select";
 import { theme, ticketStatus } from "../../../../styles/theme";
 import { CSSProperties } from "react";
 import ChatComponent from "./chat";
+import { modalActions } from "../../../../shared/global.interface";
 
 const selectItemStyle = (status: TicketModel["status"]): CSSProperties => {
   const statusStyle = {
@@ -27,26 +27,23 @@ const selectItemStyle = (status: TicketModel["status"]): CSSProperties => {
   };
 };
 
-const TicketModal = ({ onOpenChange, data }: ModalActions<TicketModel>) => {
+const TicketModal = ({ onClose, data }: modalActions<TicketModel>) => {
   return (
     <>
       <ModalHeader>
         <div className="left-side">
-          <ButtonComponent
-            buttonStyles="text"
-            onClick={() => onOpenChange(false)}
-          >
+          <ButtonComponent buttonStyles="text" onClick={onClose}>
             <FaAngleLeft fontSize="1.9em" />
           </ButtonComponent>
-          <ModalTitle>{`#${data.code} - ${data.title}`}</ModalTitle>
+          <ModalTitle>{`#${data?.code} - ${data?.title}`}</ModalTitle>
         </div>
 
         <ModalHeaderSection>
           <span>Status do chamado</span>
 
           <Select
-            defaultValue={data.status}
-            triggerStyle={selectItemStyle(data.status)}
+            defaultValue={data?.status}
+            triggerStyle={selectItemStyle(data?.status || "Em andamento")}
             onValueChange={(data) => console.log(data)}
           >
             <SelectItem value="Aberto">Aberto</SelectItem>
@@ -65,16 +62,16 @@ const TicketModal = ({ onOpenChange, data }: ModalActions<TicketModel>) => {
       <ModalContentBody>
         <section className="ticket-content-side">
           <div className="ticket-content-header">
-            <h2>{data.title}</h2>
+            <h2>{data?.title}</h2>
 
             <div className="right-side">
               <span>
-                {format(data.created_at as Date, "dd/MM/yyyy 'ás' HH'h'mm")}
+                {format(data?.created_at as Date, "dd/MM/yyyy 'ás' HH'h'mm")}
               </span>
             </div>
           </div>
 
-          <p className="description">{data.description}</p>
+          <p className="description">{data?.description}</p>
 
           <section className="details-section">
             <div className="details-header">

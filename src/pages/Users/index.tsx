@@ -8,52 +8,47 @@ import CreateUserModal from "./components/createUserModal";
 import UserCard from "./components/userCard";
 import { useFetch } from "../../services/hooks/getQuery";
 import NotFoundComponent from "../../components/notFound";
+import UserSkeletonLoading from "./skeleton";
+import { modalActions } from "../../shared/global.interface";
+import EditedFormPopUp from "../../components/EditedFormPopUp";
 
 export default function User() {
-
   const [dataSource, setDataSource] = useState<UserModel[]>([]);
+  const [selectedBtn, setSelectedBtn] =
+    useState<UserModel["role"]>("Administrator");
 
-  const { isLoading, isFetching } = useFetch<UserModel[]>(
+  const { isLoading, isFetching, refetch } = useFetch<UserModel[]>(
     "/users",
     ["users"],
     {
       onSuccess: (data) => {
-        console.log(data);
         setDataSource(data);
       },
-      onError: (error) => {
-        console.log(error);
-      },
+      // onError: (error) => {
+      //   console.log(error);
+      // },
     }
   );
 
   const isLoadingFecth = isLoading || isFetching;
 
-  const [selectedBtn, setSelectedBtn] = useState<UserModel["role"]>("Administrator");
-
   const handleBtnClick = (role: UserModel["role"]) => {
     setSelectedBtn(role);
   };
 
-  const [open, setOpen] = useState(false);
-
   const userlist = useMemo(() => {
     if (dataSource.length) {
-      return dataSource.filter((user) => user.role === selectedBtn);  
+      return dataSource.filter((user) => user.role === selectedBtn);
     }
     return [];
   }, [dataSource, selectedBtn]);
 
   return (
     <>
-      <Modal open={open} onOpenChange={() => setOpen(!open)}>
-        <CreateUserModal onClose={() => setOpen(false)} />
-      </Modal>
-
       <UserContainer>
         <PageHeaderComponent.container>
           <PageHeaderComponent.title>Usuários</PageHeaderComponent.title>
-          <PageHeaderComponent.button className="btn" title="Cadastrar Novo Usuario" onClick={() => setOpen(true)} />
+          <AddNewButton />
         </PageHeaderComponent.container>
 
         <div className="select-buttons-area">
@@ -84,10 +79,10 @@ export default function User() {
           {!dataSource.length && !isLoadingFecth ? (
             <NotFoundComponent />
           ) : isLoadingFecth ? (
-            <p>Carregando...</p>
+            <UserSkeletonLoading />
           ) : (
             userlist.map((user, index) => (
-              <UserCard data={user} key={index} />
+              <UserCard data={user} key={index} refetch={refetch} />
             ))
           )}
         </div>
@@ -95,3 +90,57 @@ export default function User() {
     </>
   );
 }
+
+const AddNewButton = ({ onUpdate }: modalActions) => {
+  const [openModal, setOpenModal] = useState(false);
+  const [openConfirmCloseModal, setOpenConfirmCloseModal] = useState(false);
+  const [hasEditedData, setHasEditedData] = useState(false);
+
+  const onOpenChange = () => {
+    if (hasEditedData) {
+      setOpenConfirmCloseModal(true);
+      return;
+    }
+
+    setOpenModal(!openModal);
+  };
+
+  const onConfirmCloseModal = () => {
+    setHasEditedData(false);
+    setOpenConfirmCloseModal(false);
+    setOpenModal(false);
+  };
+
+  const handleOpenModal = () => {
+    setOpenModal(true);
+    setHasEditedData(false);
+    setOpenConfirmCloseModal(false);
+  };
+
+  const handleSuccess = () => {
+    onUpdate?.();
+    onConfirmCloseModal();
+  };
+
+  return (
+    <>
+      <EditedFormPopUp
+        open={hasEditedData && openConfirmCloseModal}
+        onOpenChange={() => setOpenConfirmCloseModal(!openConfirmCloseModal)}
+        onConfirmCloseModal={onConfirmCloseModal}
+      />
+      <Modal open={openModal} onOpenChange={onOpenChange}>
+        <CreateUserModal
+          onClose={onOpenChange}
+          onUpdate={handleSuccess}
+          onSetEditedData={setHasEditedData}
+        />
+      </Modal>
+      <PageHeaderComponent.button
+        className="btn"
+        title="Cadastrar Novo Usuario"
+        onClick={handleOpenModal}
+      />
+    </>
+  );
+};

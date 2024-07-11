@@ -55,7 +55,7 @@ const Input = forwardRef(
         {label && <label className="input-label">{label}</label>}
         <div className="input-container">
           {prefix}
-          <input type="text" ref={ref} {...register} {...props} />
+          <input type="text" ref={ref} {...props} {...register} />
           {suffix}
         </div>
         {error && <div className="error-container">{error}</div>}

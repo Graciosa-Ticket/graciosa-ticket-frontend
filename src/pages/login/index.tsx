@@ -3,8 +3,10 @@ import Logo from "../../assets/graciosa-logo 2.svg";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useAuth } from "../../hooks/auth";
-import eye from "../../assets/ph_eye.svg";
+import Input from "../../components/form/input";
 import ButtonComponent from "../../components/buttons";
+import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
+import LoadingScreen from "../../components/loading/loadingScreen";
 
 interface login {
   code: string;
@@ -12,14 +14,12 @@ interface login {
 }
 
 export default function LoginPage() {
-  const [show, setShow] = useState(false);
+  const { signIn, loading } = useAuth();
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleShow = () => {
-    setShow(!show);
+    setShowPassword(!showPassword);
   };
-
-  const { signIn } = useAuth();
-
   const { handleSubmit, register } = useForm<login>();
 
   const onSubmit = handleSubmit(({ code, password }) => {
@@ -27,47 +27,52 @@ export default function LoginPage() {
   });
 
   return (
-    <LoginContainer>
-      <div className="left-container">
-        <h1>Gestão de chamados graciosa country club</h1>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-          minim.
-        </p>
-      </div>
+    <>
+      {loading && <LoadingScreen />}
 
-      <div className="right-container">
-        <div className="logo-container">
-          <img src={Logo} />
-          <h2>Bem vindo</h2>
-          <p>ao sistema de chamados graciosa country club</p>
+      <LoginContainer>
+        <div className="left-container">
+          <h1>Gestão de chamados graciosa country club</h1>
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
+            ad minim.
+          </p>
         </div>
 
-        <div className="login-container">
+        <div className="right-container">
+          <div className="logo-container">
+            <img src={Logo} />
+            <h1>Bem vindo</h1>
+            <p>ao sistema de chamados graciosa country club</p>
+          </div>
+
           <form onSubmit={onSubmit}>
-            <div className="login-input">
-              <input type="text" placeholder="Login" {...register("code")} />
-              <div className="password-input">
-                <input
-                  type={show ? "text" : "password"}
-                  placeholder="Senha"
-                  {...register("password")}
-                />
-                <img src={eye} onClick={handleShow} className="eye-svg" />
-              </div>
-            </div>
+            <Input
+              placeholder="login"
+              label="Login"
+              register={{ ...register("code") }}
+            />
+            <Input
+              placeholder="Senha"
+              label="Senha"
+              type={showPassword ? "text" : "password"}
+              affix={{
+                suffix: (
+                  <ButtonComponent onClick={handleShow} buttonStyles="text">
+                    {showPassword ? <FaRegEyeSlash /> : <FaRegEye />}
+                  </ButtonComponent>
+                ),
+              }}
+              register={{ ...register("password") }}
+            />
 
             <div className="buttons-container">
-              <ButtonComponent type="submit">Enviar</ButtonComponent>
-              <ButtonComponent type="button" buttonStyles="error">
-                teste
-              </ButtonComponent>
+              <ButtonComponent type="submit"> Entrar</ButtonComponent>
             </div>
           </form>
-          <a href="/setor">Esqueci minha senha</a>
         </div>
-      </div>
-    </LoginContainer>
+      </LoginContainer>
+    </>
   );
 }
