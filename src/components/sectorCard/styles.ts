@@ -1,9 +1,7 @@
 import styled from "styled-components";
 
-
 export const SectorComponent = styled.section`
-
-.all-sector{
+  .all-sector {
     width: 100%;
     max-width: 240px;
     border-radius: 16px;
@@ -13,41 +11,34 @@ export const SectorComponent = styled.section`
     gap: 10px;
     background-color: white;
     cursor: pointer;
+    transition: 0.3s;
 
-
-    &:hover{
-        transition: .3s;
-        transform: translateY(-5px)
+    &:hover {
+      transform: translateY(-5px);
     }
 
-    
-
-    p{
-        font-size: 10px;
-        color: #858585;
-
+    p {
+      font-size: 10px;
+      color: #858585;
     }
 
-    h2{
-        font-size: 15px;
+    h2 {
+      font-size: 15px;
     }
 
-    h3{
-        font-size: 16px;
-        font-weight: 500;
+    h3 {
+      font-size: 16px;
+      font-weight: 500;
     }
+  }
 
-}
-
-.header-sector{
+  .header-sector {
     display: grid;
     grid-template-columns: 1fr 30px;
-}
+  }
 
-.p-sector{
+  .p-sector {
     display: grid;
     grid-template-columns: 1fr 25px;
-}
-
-
-`
+  }
+`;

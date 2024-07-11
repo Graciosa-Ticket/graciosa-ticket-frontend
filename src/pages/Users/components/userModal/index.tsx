@@ -9,6 +9,9 @@ import HenryCalvo from "../../../../assets/henrycalvo.svg";
 import { useState } from "react";
 import UpdateUserModal from "../editUserModal";
 import DeleteConfirmationModal from "../../../../components/deleteConfirmationModal";
+import InputPlaceholder from "../../../../components/form/inputPlaceholder";
+import { formatDate } from "date-fns";
+import { calculateAge } from "../../../../utils/calculateAge";
 
 interface userModalProps {
   data: UserModel;
@@ -21,11 +24,9 @@ export default function UserModal({ data, onClose }: userModalProps) {
 
   return (
     <>
-      <Modal open={open1} onOpenChange={() => setOpen1(!open1)}>
-        <DeleteConfirmationModal
-          onClose={() => setOpen1(false)}
-        ></DeleteConfirmationModal>
-      </Modal>
+      <DeleteConfirmationModal
+        onOpenChange={() => setOpen1(!open1)}
+      ></DeleteConfirmationModal>
 
       <Modal open={open} onOpenChange={() => setOpen(!open)}>
         <UpdateUserModal onClose={() => setOpen(false)} />
@@ -51,38 +52,29 @@ export default function UserModal({ data, onClose }: userModalProps) {
         </div>
         <h3 className="user-info-title">informações Pessoais</h3>
         <div className="user-info-area">
-          <Display
-            label={"Código"}
-            content={data.code + "" || "Não informado"}
-          ></Display>
-          <Display label={"Nome"} content={data.name}></Display>
-          <Display
-            label={"Nascimento"}
-            content={
-              data.birth_date
-                ? data.birth_date.toLocaleDateString()
-                : "Não informado"
+          <InputPlaceholder label="Código" value={data.code} />
+          <InputPlaceholder label="Nome" value={data.name} />
+
+          <InputPlaceholder
+            label="Nascimento"
+            value={
+              data.birth_date ? formatDate(data.birth_date, "dd/MM/yyyy") : ""
             }
-            suffix="24"
-          ></Display>
-          <Display
-            label={"Endereço"}
-            content={data.address + "" || "Não informado"}
-          ></Display>
-          <Display
-            label={"Cep"}
-            content={data.cep + "" || "Não informado"}
-          ></Display>
-          <Display
-            label={"Telefone/Ramal"}
-            content={data.phone_number + "" || "Não informado"}
-          ></Display>
+            affix={{
+              suffix: data.birth_date
+                ? calculateAge(data.birth_date) + " Anos"
+                : undefined,
+            }}
+          />
+          <InputPlaceholder label="Endereço" value={data.address} />
+          <InputPlaceholder label="CEP" value={data.cep} />
+          <InputPlaceholder label="Telefone/Ramal" value={data.phone_number} />
         </div>
         {data.role !== "Administrator" && (
           <div className="function-area">
             <div className="left-side">
-              <p>Função</p>
-              <h3>{data.role}</h3>
+              <span>Função</span>
+              <h5>{data.role}</h5>
             </div>
             <div className="right-side">
               <SectorIcon data={data} />
@@ -90,18 +82,10 @@ export default function UserModal({ data, onClose }: userModalProps) {
           </div>
         )}
         <div className="footer">
-          <ButtonComponent
-            buttonStyles="delete"
-            className="btn"
-            onClick={() => setOpen1(true)}
-          >
+          <ButtonComponent buttonStyles="delete" onClick={() => setOpen1(true)}>
             <AiOutlineDelete /> Deletar
           </ButtonComponent>
-          <ButtonComponent
-            buttonStyles="edit"
-            className="btn"
-            onClick={() => setOpen(true)}
-          >
+          <ButtonComponent buttonStyles="edit" onClick={() => setOpen(true)}>
             <AiOutlineEdit /> Editar
           </ButtonComponent>
         </div>

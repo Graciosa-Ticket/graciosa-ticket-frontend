@@ -12,32 +12,34 @@ export default function SectorCard({ data }: sectorCardProps) {
   const [openModal, setOpenModal] = useState(false);
 
   return (
-    <SectorComponent>
+    <>
       <Modal open={openModal} onOpenChange={() => setOpenModal(!openModal)}>
         Modal Aberto
       </Modal>
-      <section>
-        <div className="all-sector" onClick={() => setOpenModal(true)}>
-          <div className="header-sector">
-            <h3>{`${data.name} ${data.code}`}</h3>
-            <img src={HenryCalvo} />
-          </div>
+      <SectorComponent>
+        <section>
+          <div className="all-sector" onClick={() => setOpenModal(true)}>
+            <div className="header-sector">
+              <h3>{data.name}</h3>
+              <img src={HenryCalvo} />
+            </div>
 
-          <div className="p-sector">
-            <p>Lorem Ipsum</p>
-            <p>35</p>
-            <p>Lorem Ipsum</p>
-            <p>35</p>
-            <p>Lorem Ipsum</p>
-            <p>35</p>
-            <p>Lorem Ipsum</p>
-            <p>35</p>
-          </div>
+            <div className="p-sector">
+              <p>Lorem Ipsum</p>
+              <p>35</p>
+              <p>Lorem Ipsum</p>
+              <p>35</p>
+              <p>Lorem Ipsum</p>
+              <p>35</p>
+              <p>Lorem Ipsum</p>
+              <p>35</p>
+            </div>
 
-          <h2>Lorem Ipsum</h2>
-          <p>{data?.description}</p>
-        </div>
-      </section>
-    </SectorComponent>
+            <h2>Descrição</h2>
+            <p>{data?.description}</p>
+          </div>
+        </section>
+      </SectorComponent>
+    </>
   );
 }
