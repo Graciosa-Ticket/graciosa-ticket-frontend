@@ -2,7 +2,7 @@ import Input from "../../components/inputs";
 import { LoginContainer } from "./styles";
 import Logo from "../../assets/graciosa-logo 2.svg";
 
-export default function Login() {
+export default function LoginPage() {
   return (
     <LoginContainer>
       <div className="login-left">

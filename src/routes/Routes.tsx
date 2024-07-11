@@ -7,6 +7,7 @@ import { DefaultContainer } from "./styles";
 import MenuHeader from "../components/menu";
 import Users from "../pages/Users";
 import TicketsPage from "../pages/tickets";
+import LoginPage from "../pages/login";
 
 const AppRoutes = () => {
   const { signed } = useAuth();
@@ -34,6 +35,7 @@ const UserRoute = () => {
         <Route path="/setor" element={<Sector />} />
         <Route path="/users" element={<Users />} />
         <Route path="/chamados" element={<TicketsPage />} />
+        <Route path="/login" element={<LoginPage/>} />
       </Route>
     </Routes>
   );

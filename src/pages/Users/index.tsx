@@ -9,7 +9,6 @@ import UserCard from "./components/userCard";
 import { useFetch } from "../../services/hooks/getQuery";
 import NotFoundComponent from "../../components/notFound";
 
-
 export default function User() {
 
   const [dataSource, setDataSource] = useState<UserModel[]>([]);
@@ -28,13 +27,9 @@ export default function User() {
     }
   );
 
-  
-
   const isLoadingFecth = isLoading || isFetching;
 
-
-  const [selectedBtn, setSelectedBtn] =
-    useState<UserModel["role"]>("Administrator");
+  const [selectedBtn, setSelectedBtn] = useState<UserModel["role"]>("Administrator");
 
   const handleBtnClick = (role: UserModel["role"]) => {
     setSelectedBtn(role);
@@ -42,7 +37,12 @@ export default function User() {
 
   const [open, setOpen] = useState(false);
 
-  const userlist = useMemo(()=> {if (dataSource.length) { return dataSource.filter(filter => filter.role)}}, [dataSource, selectedBtn])
+  const userlist = useMemo(() => {
+    if (dataSource.length) {
+      return dataSource.filter((user) => user.role === selectedBtn);
+    }
+    return [];
+  }, [dataSource, selectedBtn]);
 
   return (
     <>
@@ -53,7 +53,7 @@ export default function User() {
       <UserContainer>
         <PageHeaderComponent.container>
           <PageHeaderComponent.title>Usuários</PageHeaderComponent.title>
-          <PageHeaderComponent.button className="btn" title="Cadastrar Novo Usuario" onClick={()=> setOpen(true)} />
+          <PageHeaderComponent.button className="btn" title="Cadastrar Novo Usuario" onClick={() => setOpen(true)} />
         </PageHeaderComponent.container>
 
         <div className="select-buttons-area">
@@ -81,14 +81,14 @@ export default function User() {
         </div>
 
         <div className="user-cards">
-          {!dataSource.length && !isLoadingFecth ?(
+          {!dataSource.length && !isLoadingFecth ? (
             <NotFoundComponent />
-          ) : isLoadingFecth ?(
-           <p>Carregando...</p>
-          ) : 
-            userlist?.map((e, i) => (
-              <UserCard data={e} key={i} />
-            )
+          ) : isLoadingFecth ? (
+            <p>Carregando...</p>
+          ) : (
+            userlist.map((user, index) => (
+              <UserCard data={user} key={index} />
+            ))
           )}
         </div>
       </UserContainer>

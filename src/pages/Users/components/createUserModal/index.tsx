@@ -35,7 +35,7 @@ export default function CreateUserModal({ onClose }: userModalProps) {
       birth_date: data.birth_date,
       address: data.address,
       cep: data.cep,
-      phone_number: phoneMask(data.phone_number),
+      phone_number: data.phone_number,
       role: data.role || "Collaborator",
       status: true,
       password: data.password

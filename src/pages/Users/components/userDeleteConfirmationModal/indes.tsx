@@ -1,7 +1,7 @@
 import { AiOutlineClose} from "react-icons/ai";
-import ButtonComponent from "../buttons";
-import { ModalHeader } from "../modal";
 import { UserComponent } from "./styles";
+import ButtonComponent from "../../../../components/buttons";
+import { ModalHeader } from "../../../../components/modal";
 
 interface confirmationModalProps {
   onClose:()=>void;
@@ -10,14 +10,14 @@ interface confirmationModalProps {
 }
 
 
-export default function ConfirmationModal({onClose, message, onDelete}: confirmationModalProps) {  
+export default function UserDeleteConfirmationModal({onClose, message, onDelete}: confirmationModalProps) {  
 
   return (
     <>
       <ModalHeader>
         <h3>Confirmar</h3>
           <ButtonComponent buttonStyles="text" title="Voltar" onClick={onClose}>
-            <AiOutlineClose fontSize={"30px"} />
+            <AiOutlineClose fontSize={"20px"} />
           </ButtonComponent>
       </ModalHeader>
       <UserComponent>          
@@ -25,7 +25,7 @@ export default function ConfirmationModal({onClose, message, onDelete}: confirma
             <p>
               {message}
             </p>
-
+            
               </div>                 
                 <div className="button-div">
                   <ButtonComponent 
@@ -34,6 +34,9 @@ export default function ConfirmationModal({onClose, message, onDelete}: confirma
                     buttonStyles="delete" 
                     title="Confirmar" 
                     className="confirm-btn">Deletar
+                  </ButtonComponent>
+                  <ButtonComponent>
+
                   </ButtonComponent>
                 </div>
       </UserComponent></>

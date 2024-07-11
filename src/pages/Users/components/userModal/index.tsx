@@ -11,9 +11,12 @@ import { useState } from "react";
 import InputPlaceholder from "../../../../components/form/inputPlaceholder";
 import { calculateAge } from "../../../../utils/calculateAge";
 import UpdateUserModal from "../editUserModal";
-import ConfirmationModal from "../../../../components/deleteConfirmationModal";
 import CenterModal  from "../../../../components/centerModal";
 import { useMutationQuery } from "../../../../services/hooks/useMutationQuery";
+import phoneMask from "../../../../utils/phoneMask";
+import formatCEP from "../../../../utils/cepMask";
+import UserDeleteConfirmationModal from "../userDeleteConfirmationModal/indes";
+import ActionsModalComponent from "../../../../components/actionModal";
 
 interface userModalProps {
   data: UserModel;
@@ -37,11 +40,11 @@ export default function UserModal({ data, onClose }: userModalProps) {
         <UpdateUserModal  data={data} onClose={() => setOpenUpdate(true)}/>
     </Modal>
 
-    <CenterModal open={OpenDelete} onOpenChange={() => setOpenDelete(!OpenDelete)}>
-        <ConfirmationModal message="confimr delete" onDelete={
+    {/* <CenterModal open={OpenDelete} onOpenChange={() => setOpenDelete(!OpenDelete)}>
+        <UserDeleteConfirmationModal message="Confirme para deletar este usuário. Esta ação não pode ser desfeita."  onDelete={
           () => mutate({})
         } onClose={onClose}/>
-    </CenterModal>
+    </CenterModal> */}
       
       <ModalHeader>
         <div className="left-side">
@@ -78,8 +81,8 @@ export default function UserModal({ data, onClose }: userModalProps) {
             }}
           />
           <InputPlaceholder label="Endereço" value={data.address} />
-          <InputPlaceholder label="CEP" value={data.cep} />
-          <InputPlaceholder label="Telefone/Ramal" value={data.phone_number} />
+          <InputPlaceholder label="CEP" value={formatCEP(data.cep)} />
+          <InputPlaceholder label="Telefone/Ramal" value={phoneMask(data.phone_number)} />
         </div>
         {data.role !== "Administrator" && (
           <div className="function-area">
@@ -93,9 +96,25 @@ export default function UserModal({ data, onClose }: userModalProps) {
           </div>
         )}
         <div className="footer">
-          <ButtonComponent buttonStyles="delete" className="btn" onClick={() => setOpenDelete(true)}>
+          {/* <ButtonComponent buttonStyles="delete" className="btn" onClick={() => setOpenDelete(true)}>
+          </ButtonComponent> */}
+<ActionsModalComponent 
+message="Confirme para deletar este usuário. Esta ação não pode ser desfeita."
+actionButton={(
+  <ButtonComponent buttonStyles="delete">
+
+Confirmar Deletar usuário
+
+  </ButtonComponent>
+
+)}
+buttonProps={{
+  buttonStyles: "delete"
+}}>
             <AiOutlineDelete /> Deletar
-          </ButtonComponent>
+
+  </ActionsModalComponent>
+
           <ButtonComponent buttonStyles="edit" className="btn" onClick={() => setOpenUpdate(true)}>
             <AiOutlineEdit /> Editar
           </ButtonComponent>

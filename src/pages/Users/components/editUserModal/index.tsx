@@ -11,6 +11,8 @@ import { updadeUserValidation } from "./validation/updateUserValidation";
 import phoneMask from "../../../../utils/phoneMask";
 import { UserModel } from "../../../../models/user";
 import { format } from "date-fns";
+import { useMutationQuery } from "../../../../services/hooks/useMutationQuery";
+import { toast } from "sonner";
 
 
 interface updateUserModalProps {
@@ -19,33 +21,42 @@ interface updateUserModalProps {
 }
 
 export default function UpdateUserModal({data,onClose}:updateUserModalProps){
-  const { handleSubmit, register, formState: { errors }, setValue } = useForm({
+  const { 
+    handleSubmit, 
+    register, 
+    formState: { errors },
+    setValue } = useForm({
     resolver: yupResolver(updadeUserValidation) as any, 
     defaultValues: {...data, birth_date:data.birth_date ? format(data.birth_date, "yyyy-MM-dd"): ""}
   });
 
+  const {mutate, } = useMutationQuery('/users', "put");
 
   const onSubmit = handleSubmit((data) => {
 
     const userData = {
+      code: data.code,
+      role: data.role,
       name: data.name,
       email: data.email,
       birth_date: data.birth_date,
       address: data.address,
       cep: data.cep,
-      phone_number: phoneMask(data.phone_number),
-      role: data.role,
-      created_at: new Date(),
-      status: true,
+      phone_number: data.phone_number,
+      profile_picture: data.profile_picture
     };
-
-
-    
-    console.log(userData); 
-  });
+    mutate(userData, {
+      onSuccess: () => {
+        toast.success("Cadastro concluído");
+      },
+      onError: () => {
+      }
+    });
+  });  
 
   return (
-    <><ModalHeader>
+    <>
+    <ModalHeader>
           <div className="left-side">
               <ButtonComponent buttonStyles="text" title="Voltar" onClick={onClose}><AiOutlineLeft fontSize={"20px"} /></ButtonComponent>
               <h3>Editar Cadastro</h3>

@@ -7,6 +7,11 @@ export const UserComponent = styled.section`
   gap: 20px;
   align-items: center;
   justify-content: flex-end;
+
+  .p {
+    max-width: 50px; 
+  } 
+
 .button-div{
   padding: 0.4em;
   margin-right: auto;
