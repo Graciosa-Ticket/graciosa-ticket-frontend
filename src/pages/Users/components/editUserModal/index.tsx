@@ -8,11 +8,13 @@ import Input from "../../../../components/form/input";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Select, SelectItem } from "../../../../components/form/select";
 import { updadeUserValidation } from "./validation/updateUserValidation";
-import phoneMask from "../../../../utils/phoneMask";
 import { UserModel } from "../../../../models/user";
 import { format } from "date-fns";
 import { useMutationQuery } from "../../../../services/hooks/useMutationQuery";
 import { toast } from "sonner";
+import { FaAngleLeft } from "react-icons/fa";
+import useUserListRefresh from "../../../../utils/userListRefrash";
+
 
 
 interface updateUserModalProps {
@@ -25,7 +27,8 @@ export default function UpdateUserModal({data,onClose}:updateUserModalProps){
     handleSubmit, 
     register, 
     formState: { errors },
-    setValue } = useForm({
+    setValue
+   } = useForm({
     resolver: yupResolver(updadeUserValidation) as any, 
     defaultValues: {...data, birth_date:data.birth_date ? format(data.birth_date, "yyyy-MM-dd"): ""}
   });
@@ -47,7 +50,8 @@ export default function UpdateUserModal({data,onClose}:updateUserModalProps){
     };
     mutate(userData, {
       onSuccess: () => {
-        toast.success("Cadastro concluído");
+        toast.success("Cadastro Atualizado");
+        refreshUserList();
       },
       onError: () => {
       }
@@ -58,15 +62,15 @@ export default function UpdateUserModal({data,onClose}:updateUserModalProps){
     <>
     <ModalHeader>
           <div className="left-side">
-              <ButtonComponent buttonStyles="text" title="Voltar" onClick={onClose}><AiOutlineLeft fontSize={"20px"} /></ButtonComponent>
-              <h3>Editar Cadastro</h3>
+              <ButtonComponent buttonStyles="text" title="Voltar" onClick={onClose}><FaAngleLeft fontSize="1.9em" /></ButtonComponent>
+              <h3>Atualizar Cadastro</h3>
           </div>
       </ModalHeader>
       <UserComponent>
               <div className="img-sector">
                   <img src={HenryCalvo} alt="" className="user-avatar" />
               </div>
-              <h1>Informe Dados Pessoais Atualizados</h1>
+              <h1>Atualizar Dados</h1>
               <div>
                   <form className="form" onSubmit={onSubmit}>
                     <Input 
@@ -118,4 +122,8 @@ export default function UpdateUserModal({data,onClose}:updateUserModalProps){
                   </div>
           </UserComponent></>
   )}
+
+function refreshUserList() {
+  throw new Error("Function not implemented.");
+}
   

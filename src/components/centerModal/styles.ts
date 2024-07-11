@@ -44,16 +44,16 @@ export const ModalPortal = styled(Dialog.Portal)``;
 export const CenterModalHeaderContainer = styled.section`
   padding: 0.9em 1em;
   display: flex;
-  flex-direction: column;
   gap: 20px;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: space-between;
 
   .right-side {
     display: flex;
     align-items: center;
     gap: 10px;
     color: ${({ theme }) => theme.colors.brand.dark_blue};
+    ${({ theme }) => theme.font.p.extra_small};
 
     button {
       padding: 0.4em;
@@ -64,9 +64,8 @@ export const CenterModalHeaderContainer = styled.section`
       text-overflow: ellipsis;
       white-space: nowrap;
       overflow: hidden;
-      ${({ theme }) => theme.font.h4};
+      ${({ theme }) => theme.font.p.extra_small};
       color: ${({ theme }) => theme.colors.brand.dark_blue};
-      font-weight: 700;
     }
   }
 
@@ -74,6 +73,8 @@ export const CenterModalHeaderContainer = styled.section`
     padding: 7px 1.2em;
   }
 `;
+
+export const CenterModalHeader = CenterModalHeaderContainer;
 
 export const ModalTriggerCloseStyle = styled(Dialog.Close)`
   padding: 0.4em;

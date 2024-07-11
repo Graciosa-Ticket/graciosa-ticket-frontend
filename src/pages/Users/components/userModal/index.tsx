@@ -11,11 +11,9 @@ import { useState } from "react";
 import InputPlaceholder from "../../../../components/form/inputPlaceholder";
 import { calculateAge } from "../../../../utils/calculateAge";
 import UpdateUserModal from "../editUserModal";
-import CenterModal from "../../../../components/centerModal";
 import { useMutationQuery } from "../../../../services/hooks/useMutationQuery";
 import phoneMask from "../../../../utils/phoneMask";
 import formatCEP from "../../../../utils/cepMask";
-import UserDeleteConfirmationModal from "../userDeleteConfirmationModal/indes";
 import ActionsModalComponent from "../../../../components/actionModal";
 
 interface userModalProps {
@@ -94,8 +92,6 @@ export default function UserModal({ data, onClose }: userModalProps) {
           </div>
         )}
         <div className="footer">
-          {/* <ButtonComponent buttonStyles="delete" className="btn" onClick={() => setOpenDelete(true)}>
-          </ButtonComponent> */}
           <ActionsModalComponent
             message="Confirme para deletar este usuário. Esta ação não pode ser desfeita."
             actionButton={

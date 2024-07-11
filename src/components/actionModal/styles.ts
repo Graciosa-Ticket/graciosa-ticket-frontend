@@ -8,9 +8,7 @@ export const ActionModalContainer = styled.section`
   align-items: center;
   justify-content: flex-end;
 
-.content-container{
-
-  
+.content-container{  
   p {
     max-width: 250px;
     ${({ theme }) => theme.font.p.normal};

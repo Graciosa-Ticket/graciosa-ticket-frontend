@@ -1,12 +1,10 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState } from "react";
 import { UserModel } from "../models/user";
 import { useFetch } from "../services/hooks/getQuery";
 
 export default function useUserListRefresh() {
   const [dataSource, setDataSource] = useState<UserModel[]>([]);
-  const [refreshFlag, setRefreshFlag] = useState(false);
-
-  const { isLoading, isFetching, refetch } = useFetch<UserModel[]>(
+  const { isLoading, isFetching } = useFetch<UserModel[]>(
     "/users",
     ["users"],
     {
@@ -20,17 +18,7 @@ export default function useUserListRefresh() {
     }
   );
 
-  const refreshUserList = useCallback(() => {
-    setRefreshFlag((prev) => !prev);
-  }, []);
+  const isLoadingFetch = isLoading || isFetching;
 
-  useEffect(() => {
-    if (refreshFlag) {
-      refetch();
-    }
-  }, [refreshFlag, refetch]);
-
-  const isLoadingFecth = isLoading || isFetching;
-
-  return { dataSource, isLoadingFecth, refreshUserList };
+  return { dataSource, isLoadingFetch };
 }

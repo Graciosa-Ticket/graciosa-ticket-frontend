@@ -55,7 +55,6 @@ export const SelectItemContainer = styled(SelectPrimitive.Item)`
 
 export const SelectItemText = styled(SelectPrimitive.ItemText)`
   ${({ theme }) => theme.font.p.small};
-
   color: ${({ theme }) => theme.colors.grayscale.gray_70};
 `;
 
