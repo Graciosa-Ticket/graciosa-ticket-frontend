@@ -6,12 +6,17 @@ import { UserModel } from "../../../../models/user";
 import SectorIcon from "../sectorIcon";
 import { Userheader, UserComponent } from "./styles";
 import HenryCalvo from "../../../../assets/henrycalvo.svg";
-import { useState } from "react";
-import UpdateUserModal from "../editUserModal";
-import DeleteConfirmationModal from "../../../../components/deleteConfirmationModal";
-import InputPlaceholder from "../../../../components/form/inputPlaceholder";
 import { formatDate } from "date-fns";
+import { useState } from "react";
+import InputPlaceholder from "../../../../components/form/inputPlaceholder";
 import { calculateAge } from "../../../../utils/calculateAge";
+import UpdateUserModal from "../editUserModal";
+import CenterModal from "../../../../components/centerModal";
+import { useMutationQuery } from "../../../../services/hooks/useMutationQuery";
+import phoneMask from "../../../../utils/phoneMask";
+import formatCEP from "../../../../utils/cepMask";
+import UserDeleteConfirmationModal from "../userDeleteConfirmationModal/indes";
+import ActionsModalComponent from "../../../../components/actionModal";
 
 interface userModalProps {
   data: UserModel;
@@ -19,18 +24,22 @@ interface userModalProps {
 }
 
 export default function UserModal({ data, onClose }: userModalProps) {
-  const [open, setOpen] = useState(false);
-  const [open1, setOpen1] = useState(false);
+  const [OpenDelete, setOpenDelete] = useState(false);
+  const [openUpdate, setOpenUpdate] = useState(false);
+
+  const { mutate } = useMutationQuery(`/users/${data.code}`, "delete");
 
   return (
     <>
-      <DeleteConfirmationModal
-        onOpenChange={() => setOpen1(!open1)}
-      ></DeleteConfirmationModal>
-
-      <Modal open={open} onOpenChange={() => setOpen(!open)}>
-        <UpdateUserModal onClose={() => setOpen(false)} />
+      <Modal open={openUpdate} onOpenChange={() => setOpenUpdate(!openUpdate)}>
+        <UpdateUserModal data={data} onClose={() => setOpenUpdate(true)} />
       </Modal>
+
+      {/* <CenterModal open={OpenDelete} onOpenChange={() => setOpenDelete(!OpenDelete)}>
+        <UserDeleteConfirmationModal message="Confirme para deletar este usuário. Esta ação não pode ser desfeita."  onDelete={
+          () => mutate({})
+        } onClose={onClose}/>
+    </CenterModal> */}
 
       <ModalHeader>
         <div className="left-side">
@@ -67,8 +76,11 @@ export default function UserModal({ data, onClose }: userModalProps) {
             }}
           />
           <InputPlaceholder label="Endereço" value={data.address} />
-          <InputPlaceholder label="CEP" value={data.cep} />
-          <InputPlaceholder label="Telefone/Ramal" value={data.phone_number} />
+          <InputPlaceholder label="CEP" value={formatCEP(data.cep)} />
+          <InputPlaceholder
+            label="Telefone/Ramal"
+            value={phoneMask(data.phone_number)}
+          />
         </div>
         {data.role !== "Administrator" && (
           <div className="function-area">
@@ -82,10 +94,27 @@ export default function UserModal({ data, onClose }: userModalProps) {
           </div>
         )}
         <div className="footer">
-          <ButtonComponent buttonStyles="delete" onClick={() => setOpen1(true)}>
+          {/* <ButtonComponent buttonStyles="delete" className="btn" onClick={() => setOpenDelete(true)}>
+          </ButtonComponent> */}
+          <ActionsModalComponent
+            message="Confirme para deletar este usuário. Esta ação não pode ser desfeita."
+            actionButton={
+              <ButtonComponent buttonStyles="delete">
+                Confirmar Deletar usuário
+              </ButtonComponent>
+            }
+            buttonProps={{
+              buttonStyles: "delete",
+            }}
+          >
             <AiOutlineDelete /> Deletar
-          </ButtonComponent>
-          <ButtonComponent buttonStyles="edit" onClick={() => setOpen(true)}>
+          </ActionsModalComponent>
+
+          <ButtonComponent
+            buttonStyles="edit"
+            className="btn"
+            onClick={() => setOpenUpdate(true)}
+          >
             <AiOutlineEdit /> Editar
           </ButtonComponent>
         </div>

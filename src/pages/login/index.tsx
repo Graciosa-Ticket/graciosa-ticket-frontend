@@ -2,7 +2,7 @@ import Input from "../../components/inputs";
 import { LoginContainer } from "./styles";
 import Logo from "../../assets/graciosa-logo 2.svg";
 
-export default function Login() {
+export default function LoginPage() {
   return (
     <LoginContainer>
       <div className="login-left">
@@ -20,7 +20,7 @@ export default function Login() {
           <p>Lorem Ipsum dolor asimet</p>
         </div>
         <div className="div-login-ib">
-          <Input />
+          <Input  />
           <a href="/setor">Esqueci minha senha</a>
         </div>
       </div>

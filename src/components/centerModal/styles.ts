@@ -41,14 +41,15 @@ from{
 export const ModalRoot = styled(Dialog.Root)``;
 export const ModalPortal = styled(Dialog.Portal)``;
 
-export const ModalHeaderContainer = styled.section`
+export const CenterModalHeaderContainer = styled.section`
   padding: 0.9em 1em;
   display: flex;
+  flex-direction: column;
   gap: 20px;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
 
-  .left-side {
+  .right-side {
     display: flex;
     align-items: center;
     gap: 10px;
@@ -114,11 +115,10 @@ export const ModalOverlay = styled(Dialog.Overlay)<modalProps>`
 `;
 
 export const StyledModalContent = styled(Dialog.Content)<modalProps>`
-  min-width: 200px;
+  min-width: 500px;
   top: 0.7em;
   bottom: 0.7em;
   background: ${({ theme }) => theme.colors.brand.white};
-  position: absolute;
   transition: 0.3s;
   overflow: hidden;
   box-shadow: 0px 0.4em 1.4em -0.7em rgba(22, 23, 24, 0.35),

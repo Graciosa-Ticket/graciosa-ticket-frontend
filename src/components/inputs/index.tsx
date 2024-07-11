@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form";
 import ButtonComponent from "../buttons";
 
 interface login {
-  email: string;
+  code: string;
   password: string;
 }
 
@@ -19,19 +19,20 @@ export default function Input() {
 
   const { signIn } = useAuth();
 
-  const { handleSubmit } = useForm<login>();
+  const { handleSubmit, register } = useForm<login>();
 
-  const onSubmit = handleSubmit(({ email, password }) => {
-    signIn(email, password);
+
+  const onSubmit = handleSubmit(({ code, password }) => {
+    signIn(code, password);
   });
 
   return (
     <InputLogin>
       <form onSubmit={onSubmit}>
         <div className="input-login">
-          <input type="text" placeholder="Login" />
+          <input type="text" placeholder="Login" {...register("code")} />
           <div className="pass-div">
-            <input type={show ? "text" : "password"} placeholder="Senha" />
+            <input type={show ? "text" : "password"} placeholder="Senha" {...register("password")} />
             <img src={eye} onClick={handleShow} className="eye-svg" />
           </div>
         </div>

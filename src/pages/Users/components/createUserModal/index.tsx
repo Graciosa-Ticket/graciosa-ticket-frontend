@@ -8,6 +8,8 @@ import Input from "../../../../components/form/input";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { createUserValidation } from "./validation/createUserValidation";
 import { Select, SelectItem } from "../../../../components/form/select";
+import { useMutationQuery } from "../../../../services/hooks/useMutationQuery";
+import { toast } from "sonner";
 
 interface userModalProps {
   onClose: () => void;
@@ -23,6 +25,8 @@ export default function CreateUserModal({ onClose }: userModalProps) {
     resolver: yupResolver(createUserValidation),
   });
 
+  const { mutate } = useMutationQuery("/users");
+
   const onSubmit = handleSubmit((data) => {
     const userData = {
       name: data.name,
@@ -30,28 +34,18 @@ export default function CreateUserModal({ onClose }: userModalProps) {
       birth_date: data.birth_date,
       address: data.address,
       cep: data.cep,
-      phone_number: phoneMask(data.phone_number),
-      role: data.role,
+      phone_number: data.phone_number,
+      role: data.role || "Collaborator",
       status: true,
+      password: data.password,
     };
-    console.log(userData);
+    mutate(userData, {
+      onSuccess: () => {
+        toast.success("Cadastro concluído");
+      },
+      onError: () => {},
+    });
   });
-
-  function phoneMask(phone_number: string) {
-    let r = phone_number.replace(/\D/g, "");
-    r = r.replace(/^0/, "");
-
-    if (r.length > 11) {
-      r = r.replace(/^(\d\d)(\d{5})(\d{4}).*/, "($1) $2-$3");
-    } else if (r.length > 7) {
-      r = r.replace(/^(\d\d)(\d{5})(\d{0,4}).*/, "($1) $2-$3");
-    } else if (r.length > 2) {
-      r = r.replace(/^(\d\d)(\d{0,5})/, "($1) $2");
-    } else if (phone_number.trim() !== "") {
-      r = r.replace(/^(\d*)/, "($1");
-    }
-    return r;
-  }
 
   return (
     <>
@@ -67,7 +61,7 @@ export default function CreateUserModal({ onClose }: userModalProps) {
         <div className="img-sector">
           <img src={HenryCalvo} alt="" className="user-avatar" />
         </div>
-        <h1 className="user-info-title ">Informe Dados Pessoais</h1>
+        <h1 className="user-info-title">Informe Dados Pessoais</h1>
         <div>
           <form className="form" onSubmit={onSubmit}>
             <Input
@@ -108,6 +102,12 @@ export default function CreateUserModal({ onClose }: userModalProps) {
               error={errors.phone_number?.message}
               register={{ ...register("phone_number") }}
             />
+            <Input
+              label="Senha"
+              placeholder="Minimo de 8 digitos."
+              error={errors.password?.message}
+              register={{ ...register("password") }}
+            />
             <Select
               defaultValue={"Collaborator"}
               triggerStyle={{}}
@@ -124,6 +124,7 @@ export default function CreateUserModal({ onClose }: userModalProps) {
             type="submit"
             buttonStyles="confirm"
             title="Cadastrar Novo Usuario"
+            className="confirm-btn"
             onClick={onSubmit}
           >
             Cadastrar

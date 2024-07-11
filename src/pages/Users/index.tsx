@@ -6,22 +6,43 @@ import Modal from "../../components/modal";
 import PageHeaderComponent from "../../components/pagesHeader";
 import CreateUserModal from "./components/createUserModal";
 import UserCard from "./components/userCard";
-import { fakeUserData } from "./fakeData";
-
+import { useFetch } from "../../services/hooks/getQuery";
+import NotFoundComponent from "../../components/notFound";
 
 export default function User() {
-  const [selectedBtn, setSelectedBtn] =
-    useState<UserModel["role"]>("Administrator");
+
+  const [dataSource, setDataSource] = useState<UserModel[]>([]);
+
+  const { isLoading, isFetching } = useFetch<UserModel[]>(
+    "/users",
+    ["users"],
+    {
+      onSuccess: (data) => {
+        console.log(data);
+        setDataSource(data);
+      },
+      onError: (error) => {
+        console.log(error);
+      },
+    }
+  );
+
+  const isLoadingFecth = isLoading || isFetching;
+
+  const [selectedBtn, setSelectedBtn] = useState<UserModel["role"]>("Administrator");
 
   const handleBtnClick = (role: UserModel["role"]) => {
     setSelectedBtn(role);
   };
 
-  const userList = useMemo(() => {
-    return fakeUserData.filter((user) => user.role === selectedBtn);
-  }, [selectedBtn]);
-
   const [open, setOpen] = useState(false);
+
+  const userlist = useMemo(() => {
+    if (dataSource.length) {
+      return dataSource.filter((user) => user.role === selectedBtn);
+    }
+    return [];
+  }, [dataSource, selectedBtn]);
 
   return (
     <>
@@ -32,7 +53,7 @@ export default function User() {
       <UserContainer>
         <PageHeaderComponent.container>
           <PageHeaderComponent.title>Usuários</PageHeaderComponent.title>
-          <PageHeaderComponent.button className="btn" title="Cadastrar Novo Usuario" onClick={()=> setOpen(true)} />
+          <PageHeaderComponent.button className="btn" title="Cadastrar Novo Usuario" onClick={() => setOpen(true)} />
         </PageHeaderComponent.container>
 
         <div className="select-buttons-area">
@@ -60,9 +81,15 @@ export default function User() {
         </div>
 
         <div className="user-cards">
-          {userList.map((e, i) => (
-            <UserCard data={e} key={i} />
-          ))}
+          {!dataSource.length && !isLoadingFecth ? (
+            <NotFoundComponent />
+          ) : isLoadingFecth ? (
+            <p>Carregando...</p>
+          ) : (
+            userlist.map((user, index) => (
+              <UserCard data={user} key={index} />
+            ))
+          )}
         </div>
       </UserContainer>
     </>
