@@ -1,5 +1,4 @@
 import { useState } from "react";
-import "./styles";
 import { InputLogin } from "./styles";
 import eye from "../../assets/ph_eye.svg";
 import { useAuth } from "../../hooks/auth";
@@ -36,11 +35,13 @@ export default function Input() {
             <img src={eye} onClick={handleShow} className="eye-svg" />
           </div>
         </div>
+      </form>
+        <div className="buttons-container">
         <ButtonComponent type="submit">Enviar</ButtonComponent>
         <ButtonComponent type="button" buttonStyles="error">
           teste
         </ButtonComponent>
-      </form>
+        </div>
     </InputLogin>
   );
 }

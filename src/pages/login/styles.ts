@@ -8,7 +8,7 @@ export const LoginContainer = styled.section`
   display: flex;
   gap: 200px;
 
-  .login-left {
+  .left-container {
     width: 100%;
     max-width: 612px;
     height: 100%;
@@ -31,7 +31,7 @@ export const LoginContainer = styled.section`
     }
   }
 
-  .login-right {
+  .right-container{
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -39,7 +39,7 @@ export const LoginContainer = styled.section`
     gap: 50px;
 
     img {
-      width: 74px;
+      width: 5em;
     }
 
     h1 {
@@ -49,10 +49,12 @@ export const LoginContainer = styled.section`
     }
 
     p {
-      color: ${({ theme }) => theme.colors.brand.black};
+      color: ${({ theme }) => theme.colors.grayscale.gray_50};
       ${({ theme }) => theme.font.p.small};
     }
   }
+
+
 
   .top-right {
     display: flex;
@@ -73,4 +75,34 @@ export const LoginContainer = styled.section`
       margin-top: 1em;
     }
   }
+
+  .eye-svg.eye-svg {
+    width: 20px;
+    cursor: pointer;
+  }
+
+  .input-login {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding-bottom: 10px;
+
+    p {
+      width: auto;
+      margin: 0;
+      font-size: 12px;
+    }
+  }
+
+  
+  input {
+    background-color: transparent;
+    border: 1px solid #9f9f9f;
+    border-radius: 8px;
+    width: 290px;
+    height: 40px;
+    padding: 0 15px;
+  }
+  
+
 `;

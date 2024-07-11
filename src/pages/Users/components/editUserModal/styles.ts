@@ -11,9 +11,9 @@ export const UserComponent = styled.section`
   background-color: white;
 
   h1 {
-    ${({ theme }) => theme.font.h3};
+    ${({ theme }) => theme.font.p.small};
     color: ${({ theme }) => theme.colors.brand.dark_blue};
-    text-align: start;
+    font-weight: 500;
   }
 
   .user-avatar {
