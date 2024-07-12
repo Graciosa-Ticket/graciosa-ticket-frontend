@@ -2,7 +2,7 @@ import { FaAngleLeft } from "react-icons/fa";
 import ButtonComponent from "../../../../components/buttons";
 import Modal, { ModalHeader, ModalTitle } from "../../../../components/modal";
 import SectorIcon from "../sectorIcon";
-import { Userheader, UserComponent } from "./styles";
+import { UserComponent } from "./styles";
 import HenryCalvo from "../../../../assets/henrycalvo.svg";
 import { formatDate } from "date-fns";
 import { useState } from "react";
@@ -14,6 +14,7 @@ import formatCEP from "../../../../utils/cepMask";
 import { modalActions } from "../../../../shared/global.interface";
 import { UserModel } from "../../../../models/user";
 import { useAuth } from "../../../../hooks/auth";
+import UserStatus from "../userStatus";
 
 export default function UserViewModal({
             data,
@@ -38,13 +39,8 @@ export default function UserViewModal({
             <FaAngleLeft fontSize="1.9em" />
           </ButtonComponent>
           <ModalTitle>{data?.name}</ModalTitle>
-        </div>
-        <Userheader>
-          <p>{data?.status ? "Ativo" : "Inativo"}</p>
-          <div
-            className={`status-ball ${data?.status ? "active" : "inactive"}`}
-          />
-        </Userheader>
+        </div>  
+        {data && <UserStatus data={data} />}
       </ModalHeader>
       <UserComponent>
         <div className="img-sector">

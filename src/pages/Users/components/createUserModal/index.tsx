@@ -34,7 +34,7 @@ export default function CreateUserModal({
     }
   }, [isDirty, dirtyFields]);
 
-  const { mutate } = useMutationQuery("/users");
+  const { mutate: createUser, isLoading: isLoadingUpdate} = useMutationQuery("/users");
 
   const onSubmit = handleSubmit((data) => {
     const userData = {
@@ -48,7 +48,7 @@ export default function CreateUserModal({
       status: true,
       password: data.password,
     };
-    mutate(userData, {
+    createUser(userData, {
       onSuccess: () => {
         toast.success("Cadastro concluído");
         onUpdate?.();
@@ -135,8 +135,9 @@ export default function CreateUserModal({
             title="Cadastrar Novo Usuario"
             className="confirm-btn"
             onClick={onSubmit}
+            isLoading={isLoadingUpdate}
           >
-            Cadastrar
+            {isLoadingUpdate ? isLoadingUpdate : "Cadastrar"}
           </ButtonComponent>
         </div>
       </UserComponent>

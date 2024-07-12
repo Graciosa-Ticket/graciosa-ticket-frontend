@@ -8,19 +8,16 @@ import Input from "../../../../components/form/input";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Select, SelectItem } from "../../../../components/form/select";
 import { updadeUserValidation } from "./validation/updateUserValidation";
-import { UserModel } from "../../../../models/user";
 import { format } from "date-fns";
 import { useMutationQuery } from "../../../../services/hooks/useMutationQuery";
 import { toast } from "sonner";
 import { FaAngleLeft } from "react-icons/fa";
+import { UserModel } from "../../../../models/user";
+import { modalActions } from "../../../../shared/global.interface";
 
 
-interface updateUserModalProps {
-  onClose:()=>void;  
-  data: UserModel;
-}
 
-export default function UpdateUserModal({data,onClose}:updateUserModalProps){
+export default function UpdateUserModal({data,onClose, onUpdate}: modalActions<UserModel>){
   const { 
     handleSubmit, 
     register, 
@@ -28,13 +25,12 @@ export default function UpdateUserModal({data,onClose}:updateUserModalProps){
     setValue
    } = useForm({
     resolver: yupResolver(updadeUserValidation) as any, 
-    defaultValues: {...data, birth_date:data.birth_date ? format(data.birth_date, "yyyy-MM-dd"): ""}
+    defaultValues: {...data, birth_date:data?.birth_date ? format(data.birth_date, "yyyy-MM-dd"): ""}
   });
 
-  const {mutate, } = useMutationQuery('/users', "put");
+  const {mutate: updateUser, isLoading: isLoadingUpdate } = useMutationQuery('/users', "put");
 
   const onSubmit = handleSubmit((data) => {
-
     const userData = {
       code: data.code,
       role: data.role,
@@ -46,12 +42,10 @@ export default function UpdateUserModal({data,onClose}:updateUserModalProps){
       phone_number: data.phone_number,
       profile_picture: data.profile_picture
     };
-    mutate(userData, {
+    updateUser(userData, {
       onSuccess: () => {
         toast.success("Cadastro Atualizado");
-
-      },
-      onError: () => {
+        onUpdate?.();    
       }
     });
   });  
@@ -103,7 +97,7 @@ export default function UpdateUserModal({data,onClose}:updateUserModalProps){
                       register={{ ...register("phone_number") }}  
                       />
                     <Select 
-                      defaultValue={data.role || "Collaborator"} 
+                      defaultValue={data?.role || "Collaborator"} 
                       triggerStyle={{}} 
                       onValueChange={(value:UserModel["role"]) => setValue("role", value)}>
                       <SelectItem value="Administrator">Administrator</SelectItem>
@@ -114,8 +108,13 @@ export default function UpdateUserModal({data,onClose}:updateUserModalProps){
                   </form>                        
               </div>
               <div className="button-div">
-                   <ButtonComponent buttonStyles="edit" className="btn" title="Confirmar edição" onClick={onSubmit} >
-                      <AiOutlineEdit /> Confirmar edição
+                   <ButtonComponent 
+                   buttonStyles="edit" 
+                   className="btn"
+                    title="Confirmar edição" 
+                    onClick={onSubmit}
+                    isLoading={isLoadingUpdate} >
+                      <AiOutlineEdit /> {isLoadingUpdate ? isLoadingUpdate : "Confirmar edição"}
                     </ButtonComponent>
                   </div>
           </UserComponent></>

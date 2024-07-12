@@ -44,12 +44,14 @@ export default function User() {
     return [];
   }, [dataSource, selectedBtn]);
 
+  
+
   return (
     <>
       <UserContainer>
         <PageHeaderComponent.container>
           <PageHeaderComponent.title>Usuários</PageHeaderComponent.title>
-          <AddNewButton />
+          <AddNewButton onUpdate={refetch} />
         </PageHeaderComponent.container>
 
         <div className="select-buttons-area">
@@ -77,6 +79,15 @@ export default function User() {
         </div>
 
         <div className="user-cards">
+          {!dataSource.length && !isLoadingFecth ? (
+            <NotFoundComponent />
+          ) : isLoadingFecth ? (
+            <UserSkeletonLoading />
+          ) : (
+            userlist.map((user, index) => (
+              <UserCard data={user} key={index} refetch={refetch} />
+            ))
+          )}
           {!dataSource.length && !isLoadingFecth ? (
             <NotFoundComponent />
           ) : isLoadingFecth ? (

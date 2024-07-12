@@ -72,27 +72,3 @@ export const UserComponent = styled.section`
     gap: 20px;
   }
 `;
-
-export const Userheader = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 8px;
-
-  p {
-    ${({ theme }) => theme.font.p.small};
-    color: ${({ theme }) => theme.colors.grayscale.gray_90};
-  }
-
-  .status-ball {
-    width: 1em;
-    height: 1em;
-    border-radius: 50%;
-
-    &.active {
-      background-color: ${({ theme }) => theme.colors.support.success};
-    }
-    &.inactive {
-      background-color: ${({ theme }) => theme.colors.support.error};
-    }
-  }
-`;

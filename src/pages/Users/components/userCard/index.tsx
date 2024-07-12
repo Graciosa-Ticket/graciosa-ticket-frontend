@@ -5,6 +5,7 @@ import SectorIcon from "../sectorIcon";
 import UserModal from "../userModal";
 import { UserComponent } from "./styles";
 import HenryCalvo from "../../../../assets/henrycalvo.svg";
+import UserStatus from "../userStatus";
 
 interface UserCardProps {
   data: UserModel;
@@ -29,10 +30,7 @@ const UserCard = ({ data, refetch }: UserCardProps) => {
 
       <UserComponent type="button" onClick={() => setOpen(true)}>
         <div className="status-container">
-          <p>{data.status ? "ativo" : "inativo"}</p>
-          <div
-            className={`status-ball ${data.status ? "active" : "inactive"}`}
-          />
+        <UserStatus data={data} /> 
         </div>
         <div className="header-container">
           <img src={HenryCalvo} alt="" className="user-avatar" />

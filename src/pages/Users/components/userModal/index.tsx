@@ -3,7 +3,7 @@ import { FaAngleLeft } from "react-icons/fa";
 import ButtonComponent from "../../../../components/buttons";
 import Modal, { ModalHeader, ModalTitle } from "../../../../components/modal";
 import SectorIcon from "../sectorIcon";
-import { Userheader, UserComponent } from "./styles";
+import { UserComponent } from "./styles";
 import HenryCalvo from "../../../../assets/henrycalvo.svg";
 import { formatDate } from "date-fns";
 import { useState } from "react";
@@ -17,6 +17,7 @@ import ActionsModalComponent from "../../../../components/actionModal";
 import { modalActions } from "../../../../shared/global.interface";
 import { UserModel } from "../../../../models/user";
 import { toast } from "sonner";
+import UserStatus from "../userStatus";
 
 export default function UserModal({
   data,
@@ -51,25 +52,15 @@ export default function UserModal({
         />
       </Modal>
 
-      {/* <CenterModal open={OpenDelete} onOpenChange={() => setOpenDelete(!OpenDelete)}>
-        <UserDeleteConfirmationModal message="Confirme para deletar este usuário. Esta ação não pode ser desfeita."  onDelete={
-          () => mutate({})
-        } onClose={onClose}/>
-    </CenterModal> */}
 
       <ModalHeader>
         <div className="left-side">
           <ButtonComponent buttonStyles="text" title="Voltar" onClick={onClose}>
             <FaAngleLeft fontSize="1.9em" />
           </ButtonComponent>
-          <ModalTitle>{data?.name}</ModalTitle>
-        </div>
-        <Userheader>
-          <p>{data?.status ? "Ativo" : "Inativo"}</p>
-          <div
-            className={`status-ball ${data?.status ? "active" : "inactive"}`}
-          />
-        </Userheader>
+            <ModalTitle>{data?.name}</ModalTitle>
+        </div>            
+              {data && <UserStatus data={data} />}
       </ModalHeader>
       <UserComponent>
         <div className="img-sector">
