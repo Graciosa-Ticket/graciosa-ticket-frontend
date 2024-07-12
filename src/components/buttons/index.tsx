@@ -1,5 +1,6 @@
 import { ButtonHTMLAttributes } from "react";
 import { ButtonsLoginContainer } from "./styles";
+import { AiOutlineLoading } from "react-icons/ai";
 
 export type buttonStyles =
   | "primary"
@@ -16,6 +17,7 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   isLoading?: boolean;
 }
 
+
 const ButtonComponent = ({
   buttonStyles = "primary",
   type = "button",
@@ -25,7 +27,11 @@ const ButtonComponent = ({
     <ButtonsLoginContainer $buttonStyles={buttonStyles} {...{ type, ...props }}>
       {props.children}
 
-      {props.isLoading && "Carregando..."}
+      {props.isLoading && (
+        <div className="loading-button">
+          <AiOutlineLoading className="load-icon"/>
+        </div>
+      )}
     </ButtonsLoginContainer>
   );
 };

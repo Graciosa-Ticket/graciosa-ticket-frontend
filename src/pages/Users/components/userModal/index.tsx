@@ -47,8 +47,9 @@ export default function UserModal({
     <>
       <Modal open={openUpdate} onOpenChange={() => setOpenUpdate(!openUpdate)}>
         <UpdateUserModal
-          data={data as UserModel}
+          data={data}
           onClose={() => setOpenUpdate(true)}
+          onUpdate={onUpdate}
         />
       </Modal>
 
@@ -61,6 +62,7 @@ export default function UserModal({
             <ModalTitle>{data?.name}</ModalTitle>
         </div>            
               {data && <UserStatus data={data} />}
+
       </ModalHeader>
       <UserComponent>
         <div className="img-sector">

@@ -40,7 +40,7 @@ export default function CreateUserModal({
     const userData = {
       name: data.name,
       email: data.email,
-      birth_date: data.birth_date,
+      birth_date: data.birth_date,  
       address: data.address,
       cep: data.cep,
       phone_number: data.phone_number,
@@ -52,6 +52,7 @@ export default function CreateUserModal({
       onSuccess: () => {
         toast.success("Cadastro concluído");
         onUpdate?.();
+        onClose?.();
       },
       onError: () => {},
     });

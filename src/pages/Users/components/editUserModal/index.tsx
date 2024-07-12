@@ -44,8 +44,9 @@ export default function UpdateUserModal({data,onClose, onUpdate}: modalActions<U
     };
     updateUser(userData, {
       onSuccess: () => {
+        onUpdate?.();
+        onClose?.();  
         toast.success("Cadastro Atualizado");
-        onUpdate?.();    
       }
     });
   });  
@@ -114,7 +115,7 @@ export default function UpdateUserModal({data,onClose, onUpdate}: modalActions<U
                     title="Confirmar edição" 
                     onClick={onSubmit}
                     isLoading={isLoadingUpdate} >
-                      <AiOutlineEdit /> {isLoadingUpdate ? isLoadingUpdate : "Confirmar edição"}
+                      <AiOutlineEdit /> Confirmar edição
                     </ButtonComponent>
                   </div>
           </UserComponent></>

@@ -24,10 +24,7 @@ export default function User() {
       onSuccess: (data) => {
         setDataSource(data);
         console.log(data)
-      },
-      // onError: (error) => {
-      //   console.log(error);
-      // },
+      },  
     }
   );
 
@@ -37,9 +34,18 @@ export default function User() {
     setSelectedBtn(role);
   };
 
+
+
   const userlist = useMemo(() => {
     if (dataSource.length) {
-      return dataSource.filter((user) => user.role === selectedBtn);
+      return dataSource.filter((user) => user.role === selectedBtn && !user.deleted_at);
+    }
+    return [];
+  }, [dataSource, selectedBtn]);
+
+  const deletedUserlist = useMemo(() => {
+    if (dataSource.length) {
+      return dataSource.filter((user) => user.role === selectedBtn && user.deleted_at);
     }
     return [];
   }, [dataSource, selectedBtn]);
@@ -93,7 +99,7 @@ export default function User() {
           ) : isLoadingFecth ? (
             <UserSkeletonLoading />
           ) : (
-            userlist.map((user, index) => (
+            deletedUserlist.map((user, index) => (
               <UserCard data={user} key={index} refetch={refetch} />
             ))
           )}
@@ -104,6 +110,7 @@ export default function User() {
 }
 
 const AddNewButton = ({ onUpdate }: modalActions) => {
+
   const [openModal, setOpenModal] = useState(false);
   const [openConfirmCloseModal, setOpenConfirmCloseModal] = useState(false);
   const [hasEditedData, setHasEditedData] = useState(false);
