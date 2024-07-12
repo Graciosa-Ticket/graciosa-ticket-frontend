@@ -30,7 +30,7 @@ const EditedFormPopUp = ({
         <div className="buttons-container">
           <ModalTriggerClose>Voltar</ModalTriggerClose>
 
-          <ButtonComponent buttonStyles="error" onClick={handleConfirmClose}>
+          <ButtonComponent buttonStyles="delete" onClick={handleConfirmClose}>
             Fechar
           </ButtonComponent>
         </div>

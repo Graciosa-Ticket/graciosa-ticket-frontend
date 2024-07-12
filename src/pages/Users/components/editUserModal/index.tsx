@@ -15,20 +15,28 @@ import { FaAngleLeft } from "react-icons/fa";
 import { UserModel } from "../../../../models/user";
 import { modalActions } from "../../../../shared/global.interface";
 
-
-
-export default function UpdateUserModal({data,onClose, onUpdate}: modalActions<UserModel>){
-  const { 
-    handleSubmit, 
-    register, 
+export default function UpdateUserModal({
+  data,
+  onClose,
+  onUpdate,
+}: modalActions<UserModel>) {
+  const {
+    handleSubmit,
+    register,
     formState: { errors },
-    setValue
-   } = useForm({
-    resolver: yupResolver(updadeUserValidation) as any, 
-    defaultValues: {...data, birth_date:data?.birth_date ? format(data.birth_date, "yyyy-MM-dd"): ""}
+    setValue,
+  } = useForm({
+    resolver: yupResolver(updadeUserValidation) as any,
+    defaultValues: {
+      ...data,
+      birth_date: data?.birth_date ? format(data.birth_date, "yyyy-MM-dd") : "",
+    },
   });
 
-  const {mutate: updateUser, isLoading: isLoadingUpdate } = useMutationQuery('/users', "put");
+  const { mutate: updateUser, isLoading: isLoadingUpdate } = useMutationQuery(
+    "/users",
+    "put"
+  );
 
   const onSubmit = handleSubmit((data) => {
     const userData = {
@@ -40,83 +48,91 @@ export default function UpdateUserModal({data,onClose, onUpdate}: modalActions<U
       address: data.address,
       cep: data.cep,
       phone_number: data.phone_number,
-      profile_picture: data.profile_picture
+      profile_picture: data.profile_picture,
     };
     updateUser(userData, {
       onSuccess: () => {
         onUpdate?.();
-        onClose?.();  
+        onClose?.();
         toast.success("Cadastro Atualizado");
-      }
+      },
     });
-  });  
+  });
 
   return (
     <>
-    <ModalHeader>
-          <div className="left-side">
-              <ButtonComponent buttonStyles="text" title="Voltar" onClick={onClose}><FaAngleLeft fontSize="1.9em" /></ButtonComponent>
-              <h3>Atualizar Cadastro</h3>
-          </div>
+      <ModalHeader>
+        <div className="left-side">
+          <ButtonComponent buttonStyles="text" title="Voltar" onClick={onClose}>
+            <FaAngleLeft fontSize="1.9em" />
+          </ButtonComponent>
+          <h3>Atualizar Cadastro</h3>
+        </div>
       </ModalHeader>
       <UserComponent>
-              <div className="img-sector">
-                  <img src={HenryCalvo} alt="" className="user-avatar" />
-              </div>
-              <h1>Atualizar Dados</h1>
-              <div>
-                  <form className="form" onSubmit={onSubmit}>
-                    <Input 
-                      label="Nome" 
-                      error={errors.name?.message} 
-                      register={{ ...register("name") }} 
-                      />
-                    <Input 
-                      label="Email" 
-                      error={errors.email?.message} 
-                      register={{ ...register("email") }}
-                      />
-                    <Input 
-                      type="date" 
-                      label="Nascimento" 
-                      error={errors.birth_date?.message}  
-                      register={{ ...register("birth_date") }}                      
-                      />
-                    <Input 
-                      label="Endereço"
-                      error={errors.address?.message} 
-                      register={{ ...register("address") }} 
-                      />
-                    <Input 
-                      label="Cep" 
-                      error={errors.cep?.message} 
-                      register={{ ...register("cep") }} 
-                      />
-                    <Input 
-                      label="Telefone" 
-                      error={errors.phone_number?.message} 
-                      register={{ ...register("phone_number") }}  
-                      />
-                    <Select 
-                      defaultValue={data?.role || "Collaborator"} 
-                      triggerStyle={{}} 
-                      onValueChange={(value:UserModel["role"]) => setValue("role", value)}>
-                      <SelectItem value="Administrator">Administrator</SelectItem>
-                      <SelectItem value="Supervisor">Supervisor</SelectItem>
-                      <SelectItem value="Collaborator">Collaborator</SelectItem> 
-                    </Select>    
-
-                  </form>                        
-              </div>
-              <div className="button-div">
-                   <ButtonComponent 
-                   buttonStyles="edit" 
-                   className="btn"
-                    title="Confirmar edição" 
-                    onClick={onSubmit}
-                    isLoading={isLoadingUpdate} >
-                      <AiOutlineEdit /> Confirmar edição
-                    </ButtonComponent>
-                  </div>
-          </UserComponent></>
-  )}
+        <div className="img-sector">
+          <img src={HenryCalvo} alt="" className="user-avatar" />
+        </div>
+        <h1>Atualizar Dados</h1>
+        <div>
+          <form className="form" onSubmit={onSubmit}>
+            <Input
+              label="Nome"
+              error={errors.name?.message}
+              register={{ ...register("name") }}
+            />
+            <Input
+              label="Email"
+              error={errors.email?.message}
+              register={{ ...register("email") }}
+            />
+            <Input
+              type="date"
+              label="Nascimento"
+              error={errors.birth_date?.message}
+              register={{ ...register("birth_date") }}
+            />
+            <Input
+              label="Endereço"
+              error={errors.address?.message}
+              register={{ ...register("address") }}
+            />
+            <Input
+              label="Cep"
+              error={errors.cep?.message}
+              register={{ ...register("cep") }}
+            />
+            <Input
+              label="Telefone"
+              error={errors.phone_number?.message}
+              register={{ ...register("phone_number") }}
+            />
+            <Select
+              defaultValue={data?.role || "Collaborator"}
+              triggerStyle={{}}
+              onValueChange={(value: UserModel["role"]) =>
+                setValue("role", value)
+              }
+            >
+              <SelectItem value="Administrator">Administrator</SelectItem>
+              <SelectItem value="Supervisor">Supervisor</SelectItem>
+              <SelectItem value="Collaborator">Collaborator</SelectItem>
+            </Select>
+          </form>
+        </div>
+        <div className="button-div">
+          <div />
+          <ButtonComponent
+            className="btn"
+            buttonStylesType="outline"
+            title="Confirmar edição"
+            onClick={onSubmit}
+            isLoading={isLoadingUpdate}
+          >
+            <AiOutlineEdit /> Confirmar edição
+          </ButtonComponent>
+        </div>
+      </UserComponent>
+    </>
+  );
+}

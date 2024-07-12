@@ -4,8 +4,8 @@ import { UserModel } from "../../../../models/user";
 import SectorIcon from "../sectorIcon";
 import UserModal from "../userModal";
 import { UserComponent } from "./styles";
-import HenryCalvo from "../../../../assets/henrycalvo.svg";
 import UserStatus from "../userStatus";
+import Avatar from "../../../../components/Avatar";
 
 interface UserCardProps {
   data: UserModel;
@@ -30,10 +30,10 @@ const UserCard = ({ data, refetch }: UserCardProps) => {
 
       <UserComponent type="button" onClick={() => setOpen(true)}>
         <div className="status-container">
-        <UserStatus data={data} /> 
+          <UserStatus data={data} />
         </div>
         <div className="header-container">
-          <img src={HenryCalvo} alt="" className="user-avatar" />
+          <Avatar src={data?.profile_picture} alt="" className="user-avatar" />
         </div>
         <div className="userdata-container">
           <h5>{data.name.slice(0, 10) + "."}</h5>

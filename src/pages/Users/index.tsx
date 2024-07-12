@@ -11,20 +11,21 @@ import NotFoundComponent from "../../components/notFound";
 import UserSkeletonLoading from "./skeleton";
 import { modalActions } from "../../shared/global.interface";
 import EditedFormPopUp from "../../components/EditedFormPopUp";
+import CheckBoxComponent from "../../components/form/checkbox";
 
 export default function User() {
   const [dataSource, setDataSource] = useState<UserModel[]>([]);
   const [selectedBtn, setSelectedBtn] =
     useState<UserModel["role"]>("Administrator");
-
+  const [showDeleted, setShowDeleted] = useState(false);
   const { isLoading, isFetching, refetch } = useFetch<UserModel[]>(
     "/users",
     ["users"],
     {
       onSuccess: (data) => {
         setDataSource(data);
-        console.log(data)
-      },  
+        console.log(data);
+      },
     }
   );
 
@@ -34,23 +35,27 @@ export default function User() {
     setSelectedBtn(role);
   };
 
-
-
   const userlist = useMemo(() => {
     if (dataSource.length) {
-      return dataSource.filter((user) => user.role === selectedBtn && !user.deleted_at);
+      return dataSource
+        .filter((user) => {
+          if (showDeleted) {
+            return user.role === selectedBtn;
+          }
+
+          return user.role === selectedBtn && !user?.deleted_at;
+        })
+        .sort((a) => {
+          const hasDeletedAt = a?.deleted_at;
+
+          if (hasDeletedAt) {
+            return 1;
+          }
+          return 0;
+        });
     }
     return [];
-  }, [dataSource, selectedBtn]);
-
-  const deletedUserlist = useMemo(() => {
-    if (dataSource.length) {
-      return dataSource.filter((user) => user.role === selectedBtn && user.deleted_at);
-    }
-    return [];
-  }, [dataSource, selectedBtn]);
-
-  
+  }, [dataSource, selectedBtn, showDeleted]);
 
   return (
     <>
@@ -82,6 +87,12 @@ export default function User() {
           >
             Colaboradores
           </ButtonComponent>
+
+          <CheckBoxComponent
+            id="show-deleted"
+            label="Mostrar Inativos"
+            onCheckedChange={(val) => setShowDeleted(val)}
+          />
         </div>
 
         <div className="user-cards">
@@ -94,15 +105,6 @@ export default function User() {
               <UserCard data={user} key={index} refetch={refetch} />
             ))
           )}
-          {!dataSource.length && !isLoadingFecth ? (
-            <NotFoundComponent />
-          ) : isLoadingFecth ? (
-            <UserSkeletonLoading />
-          ) : (
-            deletedUserlist.map((user, index) => (
-              <UserCard data={user} key={index} refetch={refetch} />
-            ))
-          )}
         </div>
       </UserContainer>
     </>
@@ -110,7 +112,6 @@ export default function User() {
 }
 
 const AddNewButton = ({ onUpdate }: modalActions) => {
-
   const [openModal, setOpenModal] = useState(false);
   const [openConfirmCloseModal, setOpenConfirmCloseModal] = useState(false);
   const [hasEditedData, setHasEditedData] = useState(false);

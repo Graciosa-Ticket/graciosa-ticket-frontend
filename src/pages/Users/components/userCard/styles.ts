@@ -1,4 +1,17 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
+
+const entranceAnimation = keyframes`
+
+from{
+  transform: rotateX(180);
+  opacity: 0;
+}
+
+to{
+  transform: rotateX(0);
+  opacity: 1;
+}
+`;
 
 export const UserComponent = styled.button`
   width: 100%;
@@ -11,6 +24,8 @@ export const UserComponent = styled.button`
   background-color: ${({ theme }) => theme.colors.brand.white};
   transition: 0.2s ease-in-out;
   align-items: center;
+  animation: 0.5s ${entranceAnimation} ease;
+  transform-origin: left;
 
   &:hover {
     transform: translateY(-3px);

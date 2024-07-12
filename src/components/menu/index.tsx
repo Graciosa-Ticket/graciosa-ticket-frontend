@@ -7,10 +7,10 @@ import ButtonComponent from "../buttons";
 import { NavLink } from "react-router-dom";
 import { useAuth } from "../../hooks/auth";
 import UserViewModal from "../../pages/Users/components/userViewModal";
+import { AiOutlinePlus } from "react-icons/ai";
 
 export default function MenuHeader() {
   const [openModal, setOpenModal] = useState(false);
-  const { user } = useAuth();
 
   return (
     <>
@@ -52,7 +52,7 @@ export default function MenuHeader() {
           </div>
 
           <ButtonComponent onClick={() => setOpenModal(true)}>
-            + Novo Ticket
+            <AiOutlinePlus fontSize="1em" />
           </ButtonComponent>
         </nav>
 
@@ -65,7 +65,7 @@ export default function MenuHeader() {
 }
 
 const UserCaller = () => {
-  const { user, signOut } = useAuth();
+  const { user } = useAuth();
   const [openModal, setOpenModal] = useState(false);
 
   const greetingUser = useMemo(() => {
@@ -92,7 +92,7 @@ const UserCaller = () => {
         onClick={() => setOpenModal(true)}
       >
         <span>
-          {greetingUser}, {user.name}
+          {greetingUser},<span className="user-name">{user.name}</span>
         </span>
         <img src={HenryCalvo} />
       </UserCallerContainer>

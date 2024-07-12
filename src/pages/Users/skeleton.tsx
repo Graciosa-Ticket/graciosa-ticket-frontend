@@ -4,7 +4,7 @@ const arr = [0, 1, 2, 3];
 
 const UserSkeletonLoading = () => {
   return (
-    <div style={{ display: "flex", gap: 20 }}>
+    <div style={{ display: "flex", gridColumn: "span 4", gap: 20 }}>
       {arr.map((e) => (
         <SkeletonAnimation.base key={e} $columns={1} style={{ width: "200px" }}>
           <SkeletonAnimation.card

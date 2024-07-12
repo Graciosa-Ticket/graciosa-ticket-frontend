@@ -53,16 +53,14 @@ export default function UserModal({
         />
       </Modal>
 
-
       <ModalHeader>
         <div className="left-side">
           <ButtonComponent buttonStyles="text" title="Voltar" onClick={onClose}>
             <FaAngleLeft fontSize="1.9em" />
           </ButtonComponent>
-            <ModalTitle>{data?.name}</ModalTitle>
-        </div>            
-              {data && <UserStatus data={data} />}
-
+          <ModalTitle>{data?.name}</ModalTitle>
+        </div>
+        {data && <UserStatus data={data} />}
       </ModalHeader>
       <UserComponent>
         <div className="img-sector">
@@ -106,6 +104,7 @@ export default function UserModal({
           </div>
         )}
         <div className="footer">
+          <div />
           <ActionsModalComponent
             message="Confirme para deletar este usuário. Esta ação não pode ser desfeita."
             actionButton={
@@ -119,14 +118,15 @@ export default function UserModal({
             }
             buttonProps={{
               buttonStyles: "delete",
+              buttonStylesType: "outline",
             }}
           >
             <AiOutlineDelete /> Deletar
           </ActionsModalComponent>
 
           <ButtonComponent
-            buttonStyles="edit"
             className="btn"
+            buttonStylesType="outline"
             onClick={() => setOpenUpdate(true)}
           >
             <AiOutlineEdit /> Editar
