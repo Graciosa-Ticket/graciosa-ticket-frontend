@@ -19,6 +19,7 @@ const ButtonComponent = ({
   buttonStylesType = "fill",
   buttonSize = "normal",
   type = "button",
+  isLoading,
   ...props
 }: ButtonProps) => {
   return (
@@ -30,7 +31,7 @@ const ButtonComponent = ({
     >
       {props.children}
 
-      {props.isLoading && (
+      {isLoading && (
         <div className="loading-button">
           <AiOutlineLoading className="load-icon" />
         </div>

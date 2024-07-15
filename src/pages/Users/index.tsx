@@ -17,14 +17,15 @@ export default function User() {
   const [dataSource, setDataSource] = useState<UserModel[]>([]);
   const [selectedBtn, setSelectedBtn] =
     useState<UserModel["role"]>("Administrator");
+
   const [showDeleted, setShowDeleted] = useState(false);
+
   const { isLoading, isFetching, refetch } = useFetch<UserModel[]>(
     "/users",
     ["users"],
     {
       onSuccess: (data) => {
         setDataSource(data);
-        console.log(data);
       },
     }
   );
@@ -157,7 +158,6 @@ const AddNewButton = ({ onUpdate }: modalActions) => {
         />
       </Modal>
       <PageHeaderComponent.button
-        className="btn"
         title="Cadastrar Novo Usuario"
         onClick={handleOpenModal}
       />

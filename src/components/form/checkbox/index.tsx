@@ -38,7 +38,6 @@ const CheckBoxComponent = ({
 
   return (
     <Container style={style}>
-      {label && <label htmlFor={id}>{label} </label>}
       {!reloadBox && (
         <CheckboxRoot
           id={id}
@@ -50,6 +49,7 @@ const CheckBoxComponent = ({
           </CheckboxIndication>
         </CheckboxRoot>
       )}
+      {label && <label htmlFor={id}>{label} </label>}
       {error && <p>{error}</p>}
     </Container>
   );

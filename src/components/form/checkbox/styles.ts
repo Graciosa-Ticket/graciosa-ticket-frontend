@@ -10,8 +10,7 @@ interface ContainerProps {
 }
 
 export const Container = styled.div<ContainerProps>`
-  max-width: ${(prop) => prop.maxWidth || 200}px;
-  min-width: ${(prop) => (prop.maxWidth ? 0 : 100)}px;
+  width: fit-content;
   display: flex;
   align-items: center;
   justify-content: space-between;

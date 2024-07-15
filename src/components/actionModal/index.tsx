@@ -2,7 +2,7 @@ import { ReactNode, useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { ActionModalContainer } from "./styles";
 import ButtonComponent, { ButtonProps } from "../buttons";
-import CenterModal, { CenterModalHeader } from "../centerModal";
+import CenterModal, { CenterModalHeader, ModalTitle } from "../centerModal";
 
 interface actionModalProps {
   message: string;
@@ -32,7 +32,7 @@ const ActionsModalComponent = ({
         onOpenChange={() => setOpenModal(!openModal)}
       >
         <CenterModalHeader>
-          <h3>{modalTitle}</h3>
+          <ModalTitle>{modalTitle}</ModalTitle>
           <ButtonComponent
             buttonStyles="text"
             title="Voltar"

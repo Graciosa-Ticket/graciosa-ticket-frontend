@@ -1,27 +1,26 @@
 import styled, { css, keyframes } from "styled-components";
 import * as Dialog from "@radix-ui/react-dialog";
-
-export interface modalProps {
-  $closeAnimation: boolean;
-}
+import { modalProps } from "../modal/styles";
 
 export const entranceAnimation = keyframes`
 from{
-    transform: rotateY(90deg) ;
+    transform: scale(0);
     opacity:0;    
   }
   to{
-    transform: rotateY(0deg);
+    transform: scale(1);
+
     opacity:1;
 }
 `;
 
 export const closeModalAnimation = keyframes`
 from{
-    transform: rotateY(0deg) ;
+  transform: scale(1);
+
   }
   to{
-    transform: rotateY(90deg);
+    transform: scale(0);
 }
 `;
 
@@ -139,8 +138,7 @@ export const StyledModalContent = styled(Dialog.Content)<modalProps>`
     `;
   }}
 
-
-@media screen and (max-width: 760px) {
+  @media screen and (max-width: 760px) {
     max-width: 100vw;
     min-width: 50px;
   }

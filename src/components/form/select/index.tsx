@@ -3,6 +3,7 @@ import * as SelectPrimitive from "@radix-ui/react-select";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa";
 import { SelectItemProps, SelectProps } from "@radix-ui/react-select";
 import {
+  SelectContainer,
   SelectContent,
   SelectItemContainer,
   SelectItemText,
@@ -14,35 +15,52 @@ import {
   SelectViewport,
 } from "./styles";
 
+export type selectStyles = "primary" | "secondary";
+
 interface SelectComponentProps extends SelectProps {
   triggerStyle?: CSSProperties;
+  label?: string;
+  selectStyle?: selectStyles;
 }
 
 export const Select = React.forwardRef(
   (
-    { children, triggerStyle, ...props }: SelectComponentProps,
+    {
+      children,
+      triggerStyle,
+      selectStyle = "primary",
+      label,
+      ...props
+    }: SelectComponentProps,
     forwardedRef: ForwardedRef<HTMLButtonElement>
   ) => {
     return (
-      <SelectRoot {...props}>
-        <SelectTrigger ref={forwardedRef} style={triggerStyle}>
-          <SelectValue />
-          <SelectPrimitive.Icon>
-            <FaAngleDown />
-          </SelectPrimitive.Icon>
-        </SelectTrigger>
-        <SelectPrimitive.Portal>
-          <SelectContent>
-            <SelectScrollUp>
-              <FaAngleUp />
-            </SelectScrollUp>
-            <SelectViewport>{children}</SelectViewport>
-            <SelectScrollDown>
+      <SelectContainer>
+        {label && <span className="select-label">{label}</span>}
+        <SelectRoot {...props}>
+          <SelectTrigger
+            ref={forwardedRef}
+            style={triggerStyle}
+            $selectStyle={selectStyle}
+          >
+            <SelectValue />
+            <SelectPrimitive.Icon>
               <FaAngleDown />
-            </SelectScrollDown>
-          </SelectContent>
-        </SelectPrimitive.Portal>
-      </SelectRoot>
+            </SelectPrimitive.Icon>
+          </SelectTrigger>
+          <SelectPrimitive.Portal>
+            <SelectContent>
+              <SelectScrollUp>
+                <FaAngleUp />
+              </SelectScrollUp>
+              <SelectViewport>{children}</SelectViewport>
+              <SelectScrollDown>
+                <FaAngleDown />
+              </SelectScrollDown>
+            </SelectContent>
+          </SelectPrimitive.Portal>
+        </SelectRoot>
+      </SelectContainer>
     );
   }
 );

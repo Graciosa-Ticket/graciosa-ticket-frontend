@@ -6,8 +6,12 @@ import { useMemo, useState } from "react";
 import ButtonComponent from "../buttons";
 import { NavLink } from "react-router-dom";
 import { useAuth } from "../../hooks/auth";
-import UserViewModal from "../../pages/Users/components/userViewModal";
 import { AiOutlinePlus } from "react-icons/ai";
+import UserViewModal from "../userModal";
+import { modalActions } from "../../shared/global.interface";
+import EditedFormPopUp from "../EditedFormPopUp";
+import CreateTicketModal from "../../pages/tickets/components/createTicketModal";
+import { FaPlus } from "react-icons/fa";
 
 export default function MenuHeader() {
   const [openModal, setOpenModal] = useState(false);
@@ -51,9 +55,7 @@ export default function MenuHeader() {
             <a href="">Configurações</a>
           </div>
 
-          <ButtonComponent onClick={() => setOpenModal(true)}>
-            <AiOutlinePlus fontSize="1em" />
-          </ButtonComponent>
+          <AddNewTicketButton />
         </nav>
 
         <div className="menu-right-img">
@@ -96,6 +98,58 @@ const UserCaller = () => {
         </span>
         <img src={HenryCalvo} />
       </UserCallerContainer>
+    </>
+  );
+};
+
+const AddNewTicketButton = ({ onUpdate }: modalActions) => {
+  const [openModal, setOpenModal] = useState(false);
+  const [openConfirmCloseModal, setOpenConfirmCloseModal] = useState(false);
+  const [hasEditedData, setHasEditedData] = useState(false);
+
+  const onOpenChange = () => {
+    if (hasEditedData) {
+      setOpenConfirmCloseModal(true);
+      return;
+    }
+
+    setOpenModal(!openModal);
+  };
+
+  const onConfirmCloseModal = () => {
+    setHasEditedData(false);
+    setOpenConfirmCloseModal(false);
+    setOpenModal(false);
+  };
+
+  const handleOpenModal = () => {
+    setOpenModal(true);
+    setHasEditedData(false);
+    setOpenConfirmCloseModal(false);
+  };
+
+  const handleSuccess = () => {
+    onUpdate?.();
+    onConfirmCloseModal();
+  };
+
+  return (
+    <>
+      <EditedFormPopUp
+        open={hasEditedData && openConfirmCloseModal}
+        onOpenChange={() => setOpenConfirmCloseModal(!openConfirmCloseModal)}
+        onConfirmCloseModal={onConfirmCloseModal}
+      />
+      <Modal open={openModal} onOpenChange={onOpenChange}>
+        <CreateTicketModal
+          onClose={onOpenChange}
+          onUpdate={handleSuccess}
+          onSetEditedData={setHasEditedData}
+        />
+      </Modal>
+      <ButtonComponent title="Cadastrar Novo Ticket" onClick={handleOpenModal}>
+        <FaPlus />
+      </ButtonComponent>
     </>
   );
 };

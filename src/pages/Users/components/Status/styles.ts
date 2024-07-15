@@ -2,14 +2,18 @@ import styled from "styled-components";
 
 export const StatusLayout = styled.section`
   display: flex;
-  grid-template-columns: auto 1fr;
-  gap: 10px;
-  justify-self: center; 
   align-items: center;
+  gap: 6px;
+
+  p {
+    ${({ theme }) => theme.font.p.extra_small};
+    line-height: 0em;
+    color: ${({ theme }) => theme.colors.grayscale.gray_60};
+  }
 
   .status-ball {
-    width: 1em;
-    height: 1em;
+    width: 0.6em;
+    height: 0.6em;
     border-radius: 50%;
 
     &.active {
