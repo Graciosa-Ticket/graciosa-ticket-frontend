@@ -1,56 +1,70 @@
 import { useForm } from "react-hook-form";
 import { UserComponent } from "./styles";
-import HenryCalvo from "../../../../assets/henrycalvo.svg";
-import { AiOutlineLeft } from "react-icons/ai";
 import { ModalHeader, ModalTitle } from "../../../../components/modal";
 import ButtonComponent from "../../../../components/buttons";
 import Input from "../../../../components/form/input";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { createUserValidation } from "./validation/createUserValidation";
+import {
+  createUserValidation,
+  updateUserValidation,
+} from "./validation/createUserValidation";
 import { Select, SelectItem } from "../../../../components/form/select";
 import { useMutationQuery } from "../../../../services/hooks/useMutationQuery";
 import { toast } from "sonner";
 import { modalActions } from "../../../../shared/global.interface";
 import { useEffect } from "react";
+import { UserModel } from "../../../../models/user";
+import getDirtyFields from "../../../../utils/getDirtyFields";
+import Avatar from "../../../../components/Avatar";
+import { FaAngleLeft } from "react-icons/fa";
 
 export default function CreateUserModal({
   onClose,
   onUpdate,
   onSetEditedData,
-}: modalActions) {
+  data: userData,
+}: modalActions<UserModel>) {
   const {
     handleSubmit,
     register,
+    getValues,
     formState: { errors, isDirty, dirtyFields },
     setValue,
-  } = useForm({
-    resolver: yupResolver(createUserValidation),
+  } = useForm<UserModel>({
+    resolver: yupResolver(
+      userData ? updateUserValidation : (createUserValidation as any)
+    ),
+    defaultValues: userData,
   });
 
   useEffect(() => {
-    console.log(isDirty, dirtyFields);
-    if (isDirty) {
+    const hasDirty = Object.keys(dirtyFields).length;
+    if (hasDirty) {
       onSetEditedData?.(true);
     }
-  }, [isDirty, dirtyFields]);
+  }, [dirtyFields]);
 
-  const { mutate: createUser, isLoading: isLoadingUpdate} = useMutationQuery("/users");
+  const { mutate: createUser, isLoading: isLoadingUpdate } = useMutationQuery(
+    "/users",
+    userData ? "put" : "post"
+  );
 
-  const onSubmit = handleSubmit((data) => {
+  const onSubmit = handleSubmit(() => {
+    const { ...rest } = getDirtyFields(dirtyFields, getValues);
+
     const userData = {
-      name: data.name,
-      email: data.email,
-      birth_date: data.birth_date,  
-      address: data.address,
-      cep: data.cep,
-      phone_number: data.phone_number,
-      role: data.role || "Collaborator",
+      ...rest,
       status: true,
-      password: data.password,
+      role: rest?.role || "Collaborator",
     };
+
     createUser(userData, {
       onSuccess: () => {
-        toast.success("Cadastro concluído");
+        if (userData) {
+          toast.success("Cadastro Atualizado!");
+        } else {
+          toast.success("Cadastro concluído!");
+        }
         onUpdate?.();
         onClose?.();
       },
@@ -63,14 +77,18 @@ export default function CreateUserModal({
       <ModalHeader>
         <div className="left-side">
           <ButtonComponent buttonStyles="text" title="Voltar" onClick={onClose}>
-            <AiOutlineLeft fontSize={"20px"} />
+            <FaAngleLeft fontSize="1.9em" />
           </ButtonComponent>
-          <ModalTitle>Cadastro</ModalTitle>
+          <ModalTitle>{userData ? userData.name : "Cadastro"}</ModalTitle>
         </div>
       </ModalHeader>
       <UserComponent>
         <div className="img-sector">
-          <img src={HenryCalvo} alt="" className="user-avatar" />
+          <Avatar
+            src={userData?.profile_picture}
+            alt=""
+            className="user-avatar"
+          />
         </div>
         <h1 className="user-info-title">Informe Dados Pessoais</h1>
         <div>
@@ -113,15 +131,21 @@ export default function CreateUserModal({
               error={errors.phone_number?.message}
               register={{ ...register("phone_number") }}
             />
-            <Input
-              label="Senha"
-              placeholder="Minimo de 8 digitos."
-              error={errors.password?.message}
-              register={{ ...register("password") }}
-            />
+            {!userData && (
+              <Input
+                label="Senha"
+                placeholder="Minimo de 8 digitos."
+                error={errors.password?.message}
+                register={{ ...register("password") }}
+              />
+            )}
             <Select
+              label="Tipo"
               defaultValue={"Collaborator"}
-              onValueChange={(value) => setValue("role", value)}
+              selectStyle="secondary"
+              onValueChange={(value: UserModel["role"]) =>
+                setValue("role", value)
+              }
             >
               <SelectItem value="Administrator">Administrator</SelectItem>
               <SelectItem value="Supervisor">Supervisor</SelectItem>
@@ -130,6 +154,7 @@ export default function CreateUserModal({
           </form>
         </div>
         <div className="button-div">
+          <div />
           <ButtonComponent
             type="submit"
             buttonStyles="confirm"
@@ -138,7 +163,7 @@ export default function CreateUserModal({
             onClick={onSubmit}
             isLoading={isLoadingUpdate}
           >
-            {isLoadingUpdate ? isLoadingUpdate : "Cadastrar"}
+            {userData ? "Confirmar Edição" : "Cadastrar"}
           </ButtonComponent>
         </div>
       </UserComponent>

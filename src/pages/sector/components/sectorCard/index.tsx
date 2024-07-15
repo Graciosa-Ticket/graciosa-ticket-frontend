@@ -1,44 +1,62 @@
 import { SectorComponent } from "./styles";
-import { SectorCardModel } from "../../../../models/sector";
-import Modal from "../../../../components/modal";
+import { SectorModel } from "../../models/sector";
 import { useState } from "react";
-import Avatar from "../../../../components/Avatar";
+import CenterModal from "../centerModal";
+import SectorModal from "./components/SectorModal";
+import Avatar from "../Avatar";
+import { modalActions } from "../../shared/global.interface";
+import StatusComponent from "../../pages/Users/components/Status";
 
-
-interface sectorCardProps {
-  data: SectorCardModel;
-}
-
-export default function SectorCard({ data }: sectorCardProps) {
+export default function SectorCard({
+  data,
+  onUpdate,
+}: modalActions<SectorModel>) {
   const [openModal, setOpenModal] = useState(false);
+
+  const handleUpdate = () => {
+    onUpdate?.();
+    setOpenModal(false);
+  };
 
   return (
     <>
-      <Modal open={openModal} onOpenChange={() => setOpenModal(!openModal)}>
-        Modal Aberto
-      </Modal>
+      <CenterModal
+        open={openModal}
+        onOpenChange={() => setOpenModal(!openModal)}
+      >
+        <SectorModal data={data} onUpdate={() => handleUpdate()} />
+      </CenterModal>
+      <SectorComponent onClick={() => setOpenModal(true)}>
+        <div className="status-container">
+          <StatusComponent status={!data?.deleted_at} />
+        </div>
 
-      <SectorComponent>
-          <div className="all-sector" onClick={() => setOpenModal(true)}>
-            <div className="header-sector">
-              <h3>{data.name}</h3>
-              <Avatar src={""} alt="" className="user-avatar" />
-            </div>
+        <div className="header-sector">
+          <h3>{data?.name}</h3>
+          <div className="user-container">
+            <span>{data?.user?.name}</span>
 
-            <div className="p-sector">
-              <p>aberto</p>
-              <p>35</p>
-              <p>em andamento</p>
-              <p>35</p>
-              <p>reaberto</p>
-              <p>35</p>
-              <p>cancelado</p>
-              <p>35</p>
-            </div>
-
-            <h2>Descrição</h2>
-            <p>{data?.description}</p>
+            <Avatar
+              src={data?.user?.profile_picture}
+              style={{ width: 30, height: 30 }}
+            />
           </div>
+        </div>
+
+        <div className="p-sector">
+          <p>Lorem Ipsum</p>
+          <p>35</p>
+          <p>Lorem Ipsum</p>
+          <p>35</p>
+          <p>Lorem Ipsum</p>
+          <p>35</p>
+          <p>Lorem Ipsum</p>
+          <p>35</p>
+        </div>
+        <div className="description-section">
+          <h6>Descrição</h6>
+          <p>{data?.description}</p>
+        </div>
       </SectorComponent>
     </>
   );

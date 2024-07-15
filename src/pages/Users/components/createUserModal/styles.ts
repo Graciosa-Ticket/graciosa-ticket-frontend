@@ -6,7 +6,7 @@ export const UserComponent = styled.section`
   border-radius: 16px;
   display: flex;
   flex-direction: column;
-  padding: 15px;
+  padding: 0 15px 15px;
   gap: 10px;
   background-color: white;
 
@@ -27,11 +27,11 @@ export const UserComponent = styled.section`
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 18px;
   }
   .user-info-title {
     ${({ theme }) => theme.font.p.small};
     color: ${({ theme }) => theme.colors.brand.dark_blue};
+    margin-bottom: 1em;
   }
 
   .form {

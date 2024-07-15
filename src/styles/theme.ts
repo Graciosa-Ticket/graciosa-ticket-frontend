@@ -22,7 +22,7 @@ export const light = {
       support_01: "#BEDCE4",
       support_02: "#DEF8CB",
       support_03: "#FF8E29",
-      success: "#66D36F",
+      success: "#049725",
       error: "#E14141",
       error_02: "#b81d1d",
       warning: "#F9D934",

@@ -4,12 +4,10 @@ import ButtonComponent from "../../../../components/buttons";
 import Modal, { ModalHeader, ModalTitle } from "../../../../components/modal";
 import SectorIcon from "../sectorIcon";
 import { UserComponent } from "./styles";
-import HenryCalvo from "../../../../assets/henrycalvo.svg";
 import { formatDate } from "date-fns";
 import { useState } from "react";
 import InputPlaceholder from "../../../../components/form/inputPlaceholder";
 import { calculateAge } from "../../../../utils/calculateAge";
-import UpdateUserModal from "../editUserModal";
 import { useMutationQuery } from "../../../../services/hooks/useMutationQuery";
 import phoneMask from "../../../../utils/phoneMask";
 import formatCEP from "../../../../utils/cepMask";
@@ -17,15 +15,16 @@ import ActionsModalComponent from "../../../../components/actionModal";
 import { modalActions } from "../../../../shared/global.interface";
 import { UserModel } from "../../../../models/user";
 import { toast } from "sonner";
-import UserStatus from "../userStatus";
+import CreateUserModal from "../createUserModal";
+import Avatar from "../../../../components/Avatar";
+import EditedFormPopUp from "../../../../components/EditedFormPopUp";
+import StatusComponent from "../Status";
 
 export default function UserModal({
   data,
   onClose,
   onUpdate,
 }: modalActions<UserModel>) {
-  const [openUpdate, setOpenUpdate] = useState(false);
-
   const { mutate: deleteUser, isLoading: isLoadingDelete } = useMutationQuery(
     `/users/${data?.code}`,
     "delete"
@@ -45,14 +44,6 @@ export default function UserModal({
 
   return (
     <>
-      <Modal open={openUpdate} onOpenChange={() => setOpenUpdate(!openUpdate)}>
-        <UpdateUserModal
-          data={data}
-          onClose={() => setOpenUpdate(true)}
-          onUpdate={onUpdate}
-        />
-      </Modal>
-
       <ModalHeader>
         <div className="left-side">
           <ButtonComponent buttonStyles="text" title="Voltar" onClick={onClose}>
@@ -60,11 +51,11 @@ export default function UserModal({
           </ButtonComponent>
           <ModalTitle>{data?.name}</ModalTitle>
         </div>
-        {data && <UserStatus data={data} />}
+        {data && <StatusComponent status={!data?.deleted_at} />}
       </ModalHeader>
       <UserComponent>
         <div className="img-sector">
-          <img src={HenryCalvo} alt="" className="user-avatar" />
+          <Avatar src={data?.profile_picture} alt="" className="user-avatar" />
         </div>
         <h3 className="user-info-title">informações Pessoais</h3>
         <div className="user-info-area">
@@ -124,15 +115,62 @@ export default function UserModal({
             <AiOutlineDelete /> Deletar
           </ActionsModalComponent>
 
-          <ButtonComponent
-            className="btn"
-            buttonStylesType="outline"
-            onClick={() => setOpenUpdate(true)}
-          >
-            <AiOutlineEdit /> Editar
-          </ButtonComponent>
+          <EditUserButton data={data} onUpdate={onUpdate} />
         </div>
       </UserComponent>
     </>
   );
 }
+
+const EditUserButton = ({ onUpdate, data }: modalActions) => {
+  const [openModal, setOpenModal] = useState(false);
+  const [openConfirmCloseModal, setOpenConfirmCloseModal] = useState(false);
+  const [hasEditedData, setHasEditedData] = useState(false);
+
+  const onOpenChange = () => {
+    if (hasEditedData) {
+      setOpenConfirmCloseModal(true);
+      return;
+    }
+
+    setOpenModal(!openModal);
+  };
+
+  const onConfirmCloseModal = () => {
+    setHasEditedData(false);
+    setOpenConfirmCloseModal(false);
+    setOpenModal(false);
+  };
+
+  const handleOpenModal = () => {
+    setOpenModal(true);
+    setHasEditedData(false);
+    setOpenConfirmCloseModal(false);
+  };
+
+  const handleSuccess = () => {
+    onUpdate?.();
+    onConfirmCloseModal();
+  };
+
+  return (
+    <>
+      <EditedFormPopUp
+        open={hasEditedData && openConfirmCloseModal}
+        onOpenChange={() => setOpenConfirmCloseModal(!openConfirmCloseModal)}
+        onConfirmCloseModal={onConfirmCloseModal}
+      />
+      <Modal open={openModal} onOpenChange={onOpenChange}>
+        <CreateUserModal
+          onClose={onOpenChange}
+          onUpdate={handleSuccess}
+          data={data}
+          onSetEditedData={setHasEditedData}
+        />
+      </Modal>
+      <ButtonComponent buttonStylesType="outline" onClick={handleOpenModal}>
+        <AiOutlineEdit /> Editar
+      </ButtonComponent>
+    </>
+  );
+};

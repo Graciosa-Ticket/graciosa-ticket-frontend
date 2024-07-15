@@ -2,6 +2,7 @@ import { DialogProps } from "@radix-ui/react-dialog";
 import ButtonComponent from "../buttons";
 import CenterModal, {
   CenterModalHeader,
+  ModalTitle,
   ModalTriggerClose,
 } from "../centerModal";
 import { EditedFormContainer } from "./styles";
@@ -21,11 +22,14 @@ const EditedFormPopUp = ({
   return (
     <CenterModal {...props}>
       <CenterModalHeader>
-        <h2>teste</h2>
+        <ModalTitle>Descartar informações</ModalTitle>
       </CenterModalHeader>
 
       <EditedFormContainer>
-        <p>As informaçãoes vão ser descartadas</p>
+        <p>
+          Tem certeza que deseja fechar o formulário? <br /> as informações vão
+          ser perdidas.
+        </p>
 
         <div className="buttons-container">
           <ModalTriggerClose>Voltar</ModalTriggerClose>

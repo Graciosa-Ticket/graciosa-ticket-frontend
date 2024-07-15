@@ -32,28 +32,9 @@ export const UserComponent = styled.button`
   }
 
   .status-container {
+    width: 100%;
     display: flex;
     justify-content: flex-end;
-    align-items: center;
-    gap: 8px;
-    margin-left: auto;
-
-    p {
-      ${({ theme }) => theme.font.p.small};
-      color: ${({ theme }) => theme.colors.grayscale.gray_80};
-    }
-
-    .status-ball {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      &.active {
-        background-color: ${({ theme }) => theme.colors.support.success};
-      }
-      &.inactive {
-        background-color: ${({ theme }) => theme.colors.support.error};
-      }
-    }
   }
 
   .header-container {

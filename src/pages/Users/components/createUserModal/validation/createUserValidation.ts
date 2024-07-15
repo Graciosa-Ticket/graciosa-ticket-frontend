@@ -19,5 +19,12 @@ export const createUserValidation = yup.object().shape({
     .max(13, "maximo 13 caracteres")
     .required("DD+telefone é obrigatorio"),
   profile_picture: yup.string().optional(),
-  password: yup.string().min(8,"Senha deve conter minimo de 8 caracteres").required()
+  password: yup
+    .string()
+    .min(8, "Senha deve conter minimo de 8 caracteres")
+    .required("A senha é obrigatória"),
+});
+
+export const updateUserValidation = yup.object().shape({
+  code: yup.string().required("Código é obrigatorio"),
 });

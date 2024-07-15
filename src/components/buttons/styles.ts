@@ -92,15 +92,6 @@ const confirmStyle = css<buttonProps>`
       }
     `;
   }}
-
-  border: 1px solid;
-  color: ${({ theme }) => theme.colors.support.success};
-  ${({ theme }) => theme.font.p.small};
-
-  &:hover {
-    background-color: ${({ theme }) => theme.colors.support.success};
-    color: white;
-  }
 `;
 
 const styles = {

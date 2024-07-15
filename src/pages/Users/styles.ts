@@ -13,10 +13,6 @@ export const UserContainer = styled.section`
     }
   }
 
-  .btn:hover {
-    color: green;
-  }
-
   .select-buttons-area {
     margin-top: 2em;
     display: flex;
