@@ -8,7 +8,7 @@ import {
 import { modalActions } from "../../../../shared/global.interface";
 import { ModalTitle } from "../../../../components/centerModal";
 import { UseFormReturn, useForm } from "react-hook-form";
-import { SectorModel } from "../../../../models/sector";
+
 import Input from "../../../../components/form/input";
 import TextArea from "../../../../components/form/textarea";
 import {
@@ -26,7 +26,10 @@ import SectorCard from "./components/sectorCard";
 import { FaAngleLeft } from "react-icons/fa";
 import { TicketModel } from "../../../../models/ticket";
 import CheckBoxComponent from "../../../../components/form/checkbox";
-import { Select, SelectItem } from "../../../../components/form/select";
+import { SectorCardModel } from "../../../../models/sector";
+import { useMutationQuery } from "../../../../services/hooks/useMutationQuery";
+import { toast } from "sonner";
+
 
 type viewOptions = "sector" | "main";
 
@@ -40,7 +43,7 @@ interface createInputProps {
   sector_code?: string;
 
   //madeUP
-  sector?: SectorModel;
+  sector?: SectorCardModel;
   recurrent: boolean;
   interval: string;
   initial_date: string;
@@ -68,6 +71,8 @@ export default function CreateTicketModal({
       onSetEditedData?.(true);
     }
   }, [formReturn.formState.dirtyFields]);
+
+
 
   const handleGoBack = () => {
     if (view === "main") {
@@ -102,7 +107,7 @@ export default function CreateTicketModal({
           <ModalTitle>
             {formReturn.watch("sector.code")
               ? formReturn.watch("sector.name")
-              : "Novo Setor"}
+              : "Novo Chamado "}
           </ModalTitle>
         </div>
       </ModalHeader>
@@ -117,9 +122,9 @@ interface StepsProps {
 }
 
 const ChooseSectorStep = ({ formProps, onChangeStep }: StepsProps) => {
-  const [dataSource, setDataSource] = useState<SectorModel[]>([]);
+  const [dataSource, setDataSource] = useState<SectorCardModel[]>([]);
 
-  const { isLoading, isFetching } = useFetch<SectorModel[]>(
+  const { isLoading, isFetching } = useFetch<SectorCardModel[]>(
     "/sectors",
     ["sector"],
     {
@@ -132,7 +137,7 @@ const ChooseSectorStep = ({ formProps, onChangeStep }: StepsProps) => {
 
   const isLoadingFecth = isLoading || isFetching;
 
-  const handleSelectSector = (data: SectorModel) => {
+  const handleSelectSector = (data: SectorCardModel) => {
     formProps.setValue("sector_code", data?.code as string, {
       shouldDirty: true,
     });
@@ -178,10 +183,31 @@ const ChooseSectorStep = ({ formProps, onChangeStep }: StepsProps) => {
 const TicketFormStep = ({ formProps }: StepsProps) => {
   const [viewAdvancedOptions, setViewAdvancedOptions] = useState(false);
 
+  
   const { watch, handleSubmit } = formProps;
 
+  const { mutate: createTicket, isLoading: isLoadingUpdate } = useMutationQuery(
+    "/ticket",
+  );
+
+
   const onSubmit = handleSubmit((data) => {
-    console.log(data);
+    
+
+    const ticketData = {
+      ...data,
+      urgency: "Normal",
+      status: "Cancelado",
+      user_code: data.sector?.user.code
+    };
+
+    createTicket(ticketData, {
+      onSuccess: () => {  
+        toast.success("Chamdo Cadastrado!");
+        console.log(ticketData);
+      },
+      onError: () => {},
+    });
   });
 
   return (
@@ -215,16 +241,19 @@ const TicketFormStep = ({ formProps }: StepsProps) => {
         <FormButtonsContainer $columns={3}>
           <ButtonComponent
             buttonStyles="text"
+            title="Avançado"
             onClick={() => setViewAdvancedOptions(!viewAdvancedOptions)}
           >
             {viewAdvancedOptions ? "Voltar" : "Avançado"}
           </ButtonComponent>
 
-          <ButtonComponent buttonStylesType="outline">Cancelar</ButtonComponent>
+          <ButtonComponent buttonStylesType="outline" buttonStyles="text" title="Cancelar criaçao de chamado">Cancelar</ButtonComponent>
           <ButtonComponent
             buttonStyles="confirm"
             type="button"
+            title="Enviar chamado"
             onClick={onSubmit}
+            isLoading={isLoadingUpdate}
           >
             Enviar
           </ButtonComponent>

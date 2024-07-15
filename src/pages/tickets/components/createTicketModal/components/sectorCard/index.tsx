@@ -1,10 +1,10 @@
 import Avatar from "../../../../../../components/Avatar";
-import { SectorModel } from "../../../../../../models/sector";
+import { SectorCardModel } from "../../../../../../models/sector";
 import { SectorComponent } from "./styles";
 
 interface sectorCardProps {
-  data: SectorModel;
-  onClick(data: SectorModel): void;
+  data: SectorCardModel;
+  onClick(data: SectorCardModel): void;
 }
 
 export default function SectorCard({ data, onClick }: sectorCardProps) {

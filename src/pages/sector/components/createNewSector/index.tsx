@@ -4,7 +4,7 @@ import { SectorModalComponent } from "./styles";
 import { modalActions } from "../../../../shared/global.interface";
 import { ModalTitle } from "../../../../components/centerModal";
 import { useForm } from "react-hook-form";
-import { SectorModel } from "../../../../models/sector";
+import { SectorCardModel } from "../../../../models/sector";
 import getDirtyFields from "../../../../utils/getDirtyFields";
 import Input from "../../../../components/form/input";
 import TextArea from "../../../../components/form/textarea";
@@ -31,7 +31,7 @@ export default function CreateSectorModal({
     getValues,
     formState: { errors, dirtyFields },
     setValue,
-  } = useForm<SectorModel>({
+  } = useForm<SectorCardModel>({
     resolver: yupResolver(
       sectorData ? updateSectorValidation : (createSectorValidation as any)
     ),

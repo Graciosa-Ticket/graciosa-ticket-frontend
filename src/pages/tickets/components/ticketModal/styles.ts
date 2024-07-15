@@ -63,6 +63,10 @@ export const ModalContentBody = styled.main`
       }
     }
   }
+
+  .divide2{
+    display: grid;
+  }
 `;
 
 export const ModalHeaderSection = styled.div`

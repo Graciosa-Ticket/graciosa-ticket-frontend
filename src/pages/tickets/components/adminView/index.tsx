@@ -16,8 +16,9 @@ import { FaAngleRight } from "react-icons/fa";
 import Modal from "../../../../components/modal";
 import TicketModal from "../ticketModal";
 
+
 interface adminTicketProps {
-  tickets: TicketModel[];
+  tickets: TicketModel[]; 
 }
 
 const closeSectionStyle: CSSProperties = {
@@ -34,7 +35,7 @@ const AdminTicketsView = ({ tickets }: adminTicketProps) => {
   const ticketList = useMemo(() => {
     return groupTickets(tickets, true);
   }, [tickets, user.id]);
-
+  
   return (
     <AdminTicketViewContainer>
       {(ticketList as AdminGroupTickets[]).map((e, i) => (
@@ -55,7 +56,7 @@ const SectorList = ({ tickets, title }: AdminGroupTickets) => {
     return totalTickets;
   }, [tickets]);
 
-  return (
+  return ( 
     <div>
       <div className="section-group-header">
         <SectionGroupButton
@@ -147,7 +148,7 @@ const GroupedList = ({ tickets, title }: groupTickets) => {
       <Modal open={openModal} onOpenChange={() => setOpenModal(!openModal)}>
         <TicketModal
           data={modalData as TicketModel}
-          onOpenChange={setOpenModal}
+          onClose={() => setOpenModal(!openModal)}
         />
       </Modal>
       <GroupedListContainer>

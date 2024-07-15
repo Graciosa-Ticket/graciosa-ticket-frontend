@@ -12,6 +12,7 @@ import { modalActions } from "../../shared/global.interface";
 import EditedFormPopUp from "../EditedFormPopUp";
 import CreateTicketModal from "../../pages/tickets/components/createTicketModal";
 import { FaPlus } from "react-icons/fa";
+import Avatar from "../Avatar";
 
 export default function MenuHeader() {
   const [openModal, setOpenModal] = useState(false);
@@ -96,7 +97,7 @@ const UserCaller = () => {
         <span>
           {greetingUser},<span className="user-name">{user.name}</span>
         </span>
-        <img src={HenryCalvo} />
+        <Avatar src={user?.profile_picture} alt="" className="user-avatar" />
       </UserCallerContainer>
     </>
   );

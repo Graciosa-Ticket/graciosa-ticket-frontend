@@ -1,5 +1,5 @@
-import SectorCard from "../../components/sectorCard";
-import { SectorModel } from "../../models/sector";
+
+import { SectorCardModel } from "../../models/sector";
 import { SectorContainer } from "./styles";
 import PageHeaderComponent from "../../components/pagesHeader";
 import { useFetch } from "../../services/hooks/getQuery";
@@ -9,16 +9,19 @@ import { modalActions } from "../../shared/global.interface";
 import EditedFormPopUp from "../../components/EditedFormPopUp";
 import CenterModal from "../../components/centerModal";
 import CreateSectorModal from "./components/createNewSector";
+import { useState } from "react";
+import SectorCard from "./components/sectorCard";
 
 export default function Sector() {
-  const [dataSource, setDataSource] = useState<SectorModel[]>([]);
+  const [dataSource, setDataSource] = useState<SectorCardModel[]>([]);
 
-  const { isLoading, isFetching, refetch } = useFetch<SectorModel[]>(
+  const { isLoading, isFetching, refetch } = useFetch<SectorCardModel[]>(
     "/sectors",
     ["sector"],
     {
       onSuccess: (data) => {
         setDataSource(data);
+        console.log(data);
       },
       onError: (error) => {},
     }
@@ -26,9 +29,6 @@ export default function Sector() {
 
   const isLoadingFetch = isLoading || isFetching;
 
-  const onOpenChange = () => {
-    setOpenModal(!openModal);
-  };
 
   return (
     <SectorContainer>
@@ -45,7 +45,7 @@ export default function Sector() {
       <div className="div-sector-all">
         {!dataSource.length && !isLoadingFetch ? (
           <NotFoundComponent />
-        ) : isLoadingFecth ? (
+        ) : isLoadingFetch ? (
           <SectorSkeletonLoading />
         ) : (
           <ul>

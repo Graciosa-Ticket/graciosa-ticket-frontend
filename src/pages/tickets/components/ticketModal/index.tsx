@@ -66,7 +66,7 @@ const TicketModal = ({ onClose, data }: modalActions<TicketModel>) => {
 
             <div className="right-side">
               <span>
-                {format(data?.created_at as Date, "dd/MM/yyyy 'ás' HH'h'mm")}
+                {format(new Date(data?.created_at), "dd/MM/yyyy 'às' HH'h'mm")}
               </span>
             </div>
           </div>

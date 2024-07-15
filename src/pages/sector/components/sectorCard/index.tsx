@@ -1,16 +1,17 @@
-import { SectorComponent } from "./styles";
-import { SectorModel } from "../../models/sector";
 import { useState } from "react";
-import CenterModal from "../centerModal";
-import SectorModal from "./components/SectorModal";
-import Avatar from "../Avatar";
-import { modalActions } from "../../shared/global.interface";
-import StatusComponent from "../../pages/Users/components/Status";
+import Avatar from "../../../../components/Avatar";
+import { modalActions } from "../../../../shared/global.interface";
+import StatusComponent from "../../../Users/components/Status";
+import SectorModal from "../sectorModal";
+import { SectorComponent } from "./styles";
+import { SectorCardModel } from "../../../../models/sector";
+import Modal from "../../../../components/modal";
+
 
 export default function SectorCard({
   data,
   onUpdate,
-}: modalActions<SectorModel>) {
+}: modalActions<SectorCardModel>) {
   const [openModal, setOpenModal] = useState(false);
 
   const handleUpdate = () => {
@@ -20,12 +21,12 @@ export default function SectorCard({
 
   return (
     <>
-      <CenterModal
+      <Modal
         open={openModal}
         onOpenChange={() => setOpenModal(!openModal)}
       >
         <SectorModal data={data} onUpdate={() => handleUpdate()} />
-      </CenterModal>
+      </Modal>
       <SectorComponent onClick={() => setOpenModal(true)}>
         <div className="status-container">
           <StatusComponent status={!data?.deleted_at} />
