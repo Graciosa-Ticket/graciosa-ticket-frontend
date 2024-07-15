@@ -1,81 +1,16 @@
-import SectorCard from "../../components/sectorCard";
+import { useState } from "react";
+import SectorCard from "./components/sectorCard";
 import { SectorCardModel } from "../../models/sector";
 import { SectorContainer } from "./styles";
 import PageHeaderComponent from "../../components/pagesHeader";
-import { useState } from "react";
 import { useFetch } from "../../services/hooks/getQuery";
 import NotFoundComponent from "../../components/notFound";
 
-const fakeSectorCardData: SectorCardModel[] = [
-  {
-    name: "Setor 01",
-    responsible_code: "2",
-    code: "54",
-    description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab consequatur magni deleniti ullam voluptatum atque vel optio ipsa. Obcaecati aperiam libero error ad voluptatem? Eum ab porro cum optio dolorum.",
-  },
-  {
-    name: "Setor 01",
-    responsible_code: "2",
-    code: "54",
-    description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab consequatur magni deleniti ullam voluptatum atque vel optio ipsa. Obcaecati aperiam libero error ad voluptatem? Eum ab porro cum optio dolorum.",
-  },
-  {
-    name: "Setor 01",
-    responsible_code: "2",
-    code: "54",
-    description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab consequatur magni deleniti ullam voluptatum atque vel optio ipsa. Obcaecati aperiam libero error ad voluptatem? Eum ab porro cum optio dolorum.",
-  },
-  {
-    name: "Setor 01",
-    responsible_code: "2",
-    code: "54",
-    description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab consequatur magni deleniti ullam voluptatum atque vel optio ipsa. Obcaecati aperiam libero error ad voluptatem? Eum ab porro cum optio dolorum.",
-  },
-  {
-    name: "Setor 01",
-    responsible_code: "2",
-    code: "54",
-    description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab consequatur magni deleniti ullam voluptatum atque vel optio ipsa. Obcaecati aperiam libero error ad voluptatem? Eum ab porro cum optio dolorum.",
-  },
-  {
-    name: "Setor 01",
-    responsible_code: "2",
-    code: "54",
-    description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab consequatur magni deleniti ullam voluptatum atque vel optio ipsa. Obcaecati aperiam libero error ad voluptatem? Eum ab porro cum optio dolorum.",
-  },
-  {
-    name: "Setor 01",
-    responsible_code: "2",
-    code: "54",
-    description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab consequatur magni deleniti ullam voluptatum atque vel optio ipsa. Obcaecati aperiam libero error ad voluptatem? Eum ab porro cum optio dolorum.",
-  },
-  {
-    name: "Setor 01",
-    responsible_code: "2",
-    code: "54",
-    description:
-      "Lorem ipsum dolor sit amet conseaaaaaaaaaaaactetur adipisicing elit. Ab consequatur magni deleniti ullam voluptatum atque vel optio ipsa. Obcaecati aperiam libero error ad voluptatem? Eum ab porro cum optio dolorum.",
-  },
-  {
-    name: "Setor 01",
-    responsible_code: "2",
-    code: "54",
-    description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab consequatur magni deleniti ullam voluptatum atque vel optio ipsa. Obcaecati aperiam libero error ad voluptatem? Eum ab porro cum optio dolorum.",
-  },
-];
-
 export default function Sector() {
   const [dataSource, setDataSource] = useState<SectorCardModel[]>([]);
+  const [openModal, setOpenModal] = useState(false); // Estado para controlar a abertura do modal
 
-  const { isLoading, isFetching } = useFetch<SectorCardModel[]>(
+  const { isLoading, isFetching, refetch } = useFetch<SectorCardModel[]>(
     "/sectors",
     ["sector"],
     {
@@ -89,18 +24,28 @@ export default function Sector() {
     }
   );
 
-  const isLoadingFecth = isLoading || isFetching;
+  const isLoadingFetch = isLoading || isFetching;
+
+  const onOpenChange = () => {
+    setOpenModal(!openModal);
+  };
 
   return (
     <SectorContainer>
       <PageHeaderComponent.container>
         <PageHeaderComponent.title>Setores</PageHeaderComponent.title>
-        <PageHeaderComponent.button onClick={() => console.log("aaa")} />
+        <PageHeaderComponent.button
+          className="btn"
+          title="Cadastrar Novo Setor"
+          onClick={onOpenChange}
+        />
       </PageHeaderComponent.container>
+
+
       <div className="div-sector-all">
-        {!dataSource.length && !isLoadingFecth ? (
+        {!dataSource.length && !isLoadingFetch ? (
           <NotFoundComponent />
-        ) : isLoadingFecth ? (
+        ) : isLoadingFetch ? (
           <p>Loading...</p>
         ) : (
           <ul>

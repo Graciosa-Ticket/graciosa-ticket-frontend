@@ -1,6 +1,12 @@
 import styled from "styled-components";
 
 export const SectorContainer = styled.section`
+
+
+  .btn:hover {
+    color: green;
+  }
+
   .div-sector-all {
     width: 100%;
   }

@@ -6,4 +6,9 @@ export interface SectorCardModel {
     created_at?: Date;
     updated_at?: Date;
     deleted_at?: Date;
+    user: {
+        code?: string,
+        name?: string,
+        profile_picture?: string
+    }
 }

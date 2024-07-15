@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const SectorComponent = styled.section`
   .all-sector {
     width: 100%;
-    max-width: 240px;
+    max-width: 500px;
     border-radius: 16px;
     display: flex;
     flex-direction: column;
@@ -18,23 +18,29 @@ export const SectorComponent = styled.section`
     }
 
     p {
-      font-size: 10px;
-      color: #858585;
+      ${({ theme }) => theme.font.p.extra_small};
+      color: ${({ theme }) => theme.colors.grayscale.gray_80};
+      text-align: start;
     }
 
     h2 {
-      font-size: 15px;
+      ${({ theme }) => theme.font.p.small};
+    font-weight: 500;
+    color: ${({ theme }) => theme.colors.brand.dark_blue};
     }
 
     h3 {
-      font-size: 16px;
-      font-weight: 500;
+      ${({ theme }) => theme.font.p.normal  };
+    font-weight: 500;
+    color: ${({ theme }) => theme.colors.brand.dark_blue};
     }
   }
 
   .header-sector {
     display: grid;
+    align-items: center;
     grid-template-columns: 1fr 30px;
+    gap: 20px;
   }
 
   .p-sector {
