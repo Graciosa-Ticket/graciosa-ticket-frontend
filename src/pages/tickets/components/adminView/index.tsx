@@ -16,9 +16,9 @@ import { FaAngleRight } from "react-icons/fa";
 import Modal from "../../../../components/modal";
 import TicketModal from "../ticketModal";
 
-
 interface adminTicketProps {
-  tickets: TicketModel[]; 
+  tickets: TicketModel[];
+  onUpdate: () => void;
 }
 
 const closeSectionStyle: CSSProperties = {
@@ -29,23 +29,23 @@ const openSectionStyle: CSSProperties = {
   maxHeight: "unset",
 };
 
-const AdminTicketsView = ({ tickets }: adminTicketProps) => {
+const AdminTicketsView = ({ tickets, onUpdate }: adminTicketProps) => {
   const { user } = useAuth();
 
   const ticketList = useMemo(() => {
     return groupTickets(tickets, true);
   }, [tickets, user.id]);
-  
+
   return (
     <AdminTicketViewContainer>
       {(ticketList as AdminGroupTickets[]).map((e, i) => (
-        <SectorList tickets={e.tickets} key={i} title={e.title} />
+        <SectorList tickets={e.tickets} key={i} title={e.title} onUpdate={onUpdate} />
       ))}
     </AdminTicketViewContainer>
   );
 };
 
-const SectorList = ({ tickets, title }: AdminGroupTickets) => {
+const SectorList = ({ tickets, title, onUpdate }: AdminGroupTickets & { onUpdate: () => void }) => {
   const [openAccordeon, setOpenAccordeon] = useState(false);
 
   const maxHeight = useMemo(() => {
@@ -56,7 +56,7 @@ const SectorList = ({ tickets, title }: AdminGroupTickets) => {
     return totalTickets;
   }, [tickets]);
 
-  return ( 
+  return (
     <div>
       <div className="section-group-header">
         <SectionGroupButton
@@ -68,7 +68,6 @@ const SectorList = ({ tickets, title }: AdminGroupTickets) => {
           ).padStart(2, "0")}
         >
           {title}
-
           <FaAngleRight fontSize="0.8em" />
         </SectionGroupButton>
       </div>
@@ -84,6 +83,7 @@ const SectorList = ({ tickets, title }: AdminGroupTickets) => {
             tickets={ticket.tickets}
             title={ticket.title}
             key={index}
+            onUpdate={onUpdate}
           />
         ))}
       </section>
@@ -125,14 +125,21 @@ const columns: TypeColumn[] = [
   },
 ];
 
-const GroupedList = ({ tickets, title }: groupTickets) => {
+const GroupedList = ({ tickets, title, onUpdate }: groupTickets & { onUpdate: () => void }) => {
   const [openAccordeon, setOpenAccordeon] = useState(true);
   const [openModal, setOpenModal] = useState(false);
   const [modalData, setModalData] = useState<TicketModel>();
 
+  
+
   const handleOpenModal = (data: TicketModel) => {
     setModalData(data);
     setOpenModal(true);
+    
+  };
+
+  const handleModalClose = () => {
+    setOpenModal(false); 
   };
 
   const maxHeight = useMemo(() => {
@@ -145,10 +152,11 @@ const GroupedList = ({ tickets, title }: groupTickets) => {
 
   return (
     <>
-      <Modal open={openModal} onOpenChange={() => setOpenModal(!openModal)}>
+      <Modal open={openModal} onOpenChange={handleModalClose}>
         <TicketModal
           data={modalData as TicketModel}
-          onClose={() => setOpenModal(!openModal)}
+          onClose={handleModalClose}
+          onUpdate={() => onUpdate()}
         />
       </Modal>
       <GroupedListContainer>

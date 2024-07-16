@@ -155,11 +155,13 @@ const EditUserButton = ({ onUpdate, data }: modalActions) => {
 
   return (
     <>
+    
       <EditedFormPopUp
         open={hasEditedData && openConfirmCloseModal}
         onOpenChange={() => setOpenConfirmCloseModal(!openConfirmCloseModal)}
         onConfirmCloseModal={onConfirmCloseModal}
       />
+
       <Modal open={openModal} onOpenChange={onOpenChange}>
         <CreateUserModal
           onClose={onOpenChange}
@@ -168,6 +170,7 @@ const EditUserButton = ({ onUpdate, data }: modalActions) => {
           onSetEditedData={setHasEditedData}
         />
       </Modal>
+
       <ButtonComponent buttonStylesType="outline" onClick={handleOpenModal}>
         <AiOutlineEdit /> Editar
       </ButtonComponent>

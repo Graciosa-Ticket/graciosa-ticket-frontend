@@ -14,7 +14,6 @@ import Modal from "../../components/modal";
 const TicketsPage = () => {
   const [dataSource, setDataSource] = useState<TicketModel[]>([]);
 
-  
   const { isLoading, isFetching, refetch } = useFetch<TicketModel[]>(
     "/ticket",
     ["ticket"],
@@ -26,15 +25,17 @@ const TicketsPage = () => {
     }
   );
 
-
   const isLoadingFecth = isLoading || isFetching;
+
+  const handleUpdate = () => {
+    refetch();
+  };
 
   return (
     <TicketsPageContainer>
-      
       <PageHeaderComponent.container>
         <PageHeaderComponent.title>Chamados</PageHeaderComponent.title>
-        <AddNewButton onUpdate={() => refetch()} />
+        <AddNewButton onUpdate={handleUpdate} />
       </PageHeaderComponent.container>
 
       {!dataSource.length && !isLoadingFecth ? (
@@ -42,10 +43,8 @@ const TicketsPage = () => {
       ) : isLoadingFecth ? (
         <TicketSkeletonLoading />
       ) : (
-        <AdminTicketsView tickets={dataSource}/>
+        <AdminTicketsView tickets={dataSource} onUpdate={handleUpdate} />
       )}
-
-      
     </TicketsPageContainer>
   );
 };

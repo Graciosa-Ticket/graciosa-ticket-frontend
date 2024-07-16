@@ -6,15 +6,63 @@ import { ModalHeader } from "../../../../components/modal";
 import { SectorCardModel } from "../../../../models/sector";
 import { modalActions } from "../../../../shared/global.interface";
 import { SectorModalComponent } from "./styles";
-import Avatar from "../../../../components/Avatar";
-import { AiOutlineDelete, AiOutlineEdit } from "react-icons/ai";
+import { AiOutlineDelete, AiOutlineEdit, AiOutlineSwap } from "react-icons/ai";
+import { useMutationQuery } from "../../../../services/hooks/useMutationQuery";
+import { toast } from "sonner";
+import ActionsModalComponent from "../../../../components/actionModal";
+import SelectUsers from "../../../../components/form/selectUsers";
+import { UserModel } from "../../../../models/user";
+
 
 
 export default function SectorModal({
   data,
   onClose,
-  onUpdate,
+  onUpdate
 }: modalActions<SectorCardModel>) {
+
+  const { mutate: deleteSector, isLoading: isLoadingDelete } = useMutationQuery(
+    `/sectors/${data?.code}`,
+    "delete"
+  );
+
+  const handleDeleteSector = () => {
+    deleteSector(
+      {},
+      {
+        onSuccess: () => {
+          console.log(data?.code)
+          toast.success("Setor deletado com sucesso!");
+          onUpdate?.();
+        },
+      }
+    );
+  };
+
+  const { mutate: updateSectorUser, isLoading: isLoadingDelete1 } = useMutationQuery(
+    `/sectors`,
+    "put"
+  );
+
+
+  const handleChangeUser = (user: UserModel) => {
+    updateSectorUser(
+      {
+      responsible_code: user.code,
+      code: data?.code
+      }
+      ,{
+        onSuccess: () => {
+          console.log(data?.code)
+          toast.success("Responsavel Alterado!");
+          onUpdate?.();
+        },
+      }
+    )
+
+  }
+  
+
 
   return (
     <>
@@ -27,11 +75,16 @@ export default function SectorModal({
         </div>
       </ModalHeader>
       <SectorModalComponent>
-        <p>responsavel</p>  
-        <div className="img-sector">
-          <Avatar src={data?.user.profile_picture} alt="" className="user-avatar" />          
-          <h3>{data?.user.name}</h3>
-        </div>
+
+          <SelectUsers
+              label="Responsavel"
+              title="Adicionar Responsável"
+              showRemoveButton={false}
+              placeholderIcon={<AiOutlineSwap/>}
+              defaultValue={data?.user as UserModel}
+              onChange={handleChangeUser}
+            />
+
         
           <p>chamados do setor</p>
 
@@ -41,8 +94,27 @@ export default function SectorModal({
 
 
 
-        <div className="footer">        
-        <ButtonComponent buttonStylesType="outline" buttonStyles="delete" ><AiOutlineDelete />Deletar</ButtonComponent>
+        <div className="footer">  
+        <ActionsModalComponent
+            message="Confirme para deletar este Setor. Esta ação não pode ser desfeita."
+            actionButton={
+              <ButtonComponent
+                buttonStyles="delete"
+                onClick={handleDeleteSector}
+                isLoading={isLoadingDelete}
+              >
+                Confirmar Deletar Setor
+              </ButtonComponent>
+            }
+            buttonProps={{
+              buttonStyles: "delete",
+              buttonStylesType: "outline",
+            }}
+          >
+            <AiOutlineDelete /> Deletar
+          </ActionsModalComponent>  
+
+
         <ButtonComponent buttonStylesType="outline"><AiOutlineEdit />Editar</ButtonComponent>
 
         </div>

@@ -16,7 +16,6 @@ export default function SectorCard({
 
   const handleUpdate = () => {
     onUpdate?.();
-    setOpenModal(false);
   };
 
   return (
@@ -29,7 +28,7 @@ export default function SectorCard({
       </Modal>
       <SectorComponent onClick={() => setOpenModal(true)}>
         <div className="status-container">
-          <StatusComponent status={!data?.deleted_at} />
+          <StatusComponent status={data?.deleted_at ? false : true} />
         </div>
 
         <div className="header-sector">

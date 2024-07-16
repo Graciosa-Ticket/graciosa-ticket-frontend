@@ -19,6 +19,17 @@ interface selectStyleProps {
   $selectStyle: selectStyles;
 }
 
+
+const loading = keyframes`
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+`;
+
+
 export const SelectContainer = styled.div`
   .select-label {
     ${({ theme }) => theme.font.p.small};
@@ -63,6 +74,24 @@ export const SelectTrigger = styled(SelectPrimitive.Trigger)<selectStyleProps>`
   align-items: center;
   gap: 10px;
   ${({ $selectStyle }) => styles[$selectStyle]};
+
+  .loading-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    border-radius: 0.5em;
+    background-color: rgba(0, 0, 0, 0.5);
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    .load-icon {
+      width: 20px;
+      color: ${({ theme }) => theme.colors.brand.white};
+      animation: 1s ${loading} infinite linear;
+    }
+  }
 `;
 
 export const SelectValue = styled(SelectPrimitive.Value)``;

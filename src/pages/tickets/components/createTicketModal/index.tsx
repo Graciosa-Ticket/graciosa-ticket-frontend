@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+
 import { ModalHeader } from "../../../../components/modal";
 import {
   ChooseSectorStepContainer,
@@ -8,7 +8,6 @@ import {
 import { modalActions } from "../../../../shared/global.interface";
 import { ModalTitle } from "../../../../components/centerModal";
 import { UseFormReturn, useForm } from "react-hook-form";
-
 import Input from "../../../../components/form/input";
 import TextArea from "../../../../components/form/textarea";
 import {
@@ -29,7 +28,8 @@ import CheckBoxComponent from "../../../../components/form/checkbox";
 import { SectorCardModel } from "../../../../models/sector";
 import { useMutationQuery } from "../../../../services/hooks/useMutationQuery";
 import { toast } from "sonner";
-
+import { UserModel } from "../../../../models/user";
+import { useEffect, useState } from "react";
 
 type viewOptions = "sector" | "main";
 
@@ -41,13 +41,12 @@ interface createInputProps {
   urgency: TicketModel["urgency"];
   user_code: string;
   sector_code?: string;
-
-  //madeUP
   sector?: SectorCardModel;
   recurrent: boolean;
   interval: string;
   initial_date: string;
   final_date: string;
+  user: UserModel;
 }
 
 export default function CreateTicketModal({
@@ -72,8 +71,6 @@ export default function CreateTicketModal({
     }
   }, [formReturn.formState.dirtyFields]);
 
-
-
   const handleGoBack = () => {
     if (view === "main") {
       formReturn.setValue("sector_code", undefined, {
@@ -90,7 +87,7 @@ export default function CreateTicketModal({
 
   const viewOptions = {
     sector: <ChooseSectorStep formProps={formReturn} onChangeStep={setView} />,
-    main: <TicketFormStep formProps={formReturn} />,
+    main: <TicketFormStep formProps={formReturn} onClose={onClose} onUpdate={onUpdate} />,
   };
 
   return (
@@ -119,6 +116,8 @@ export default function CreateTicketModal({
 interface StepsProps {
   formProps: UseFormReturn<createInputProps, any, undefined>;
   onChangeStep?: (step: viewOptions) => void;
+  onClose?: () => void;
+  onUpdate?: () => void;
 }
 
 const ChooseSectorStep = ({ formProps, onChangeStep }: StepsProps) => {
@@ -180,31 +179,27 @@ const ChooseSectorStep = ({ formProps, onChangeStep }: StepsProps) => {
   );
 };
 
-const TicketFormStep = ({ formProps }: StepsProps) => {
+const TicketFormStep = ({ formProps, onClose, onUpdate }: StepsProps) => {
   const [viewAdvancedOptions, setViewAdvancedOptions] = useState(false);
 
-  
   const { watch, handleSubmit } = formProps;
 
   const { mutate: createTicket, isLoading: isLoadingUpdate } = useMutationQuery(
     "/ticket",
   );
 
-
   const onSubmit = handleSubmit((data) => {
-    
-
     const ticketData = {
       ...data,
       urgency: "Normal",
-      status: "Cancelado",
-      user_code: data.sector?.user.code
+      status: "Aberto", 
     };
 
     createTicket(ticketData, {
-      onSuccess: () => {  
-        toast.success("Chamdo Cadastrado!");
-        console.log(ticketData);
+      onSuccess: () => {
+        toast.success("Chamado Cadastrado!");
+        onUpdate?.();
+        onClose?.();
       },
       onError: () => {},
     });
@@ -214,7 +209,6 @@ const TicketFormStep = ({ formProps }: StepsProps) => {
     <TicketFormContainer>
       <div className="content">
         <h2>{watch("sector.name")}</h2>
-
         <p>{watch("sector.description")}</p>
       </div>
 
@@ -246,8 +240,14 @@ const TicketFormStep = ({ formProps }: StepsProps) => {
           >
             {viewAdvancedOptions ? "Voltar" : "Avançado"}
           </ButtonComponent>
-
-          <ButtonComponent buttonStylesType="outline" buttonStyles="text" title="Cancelar criaçao de chamado">Cancelar</ButtonComponent>
+          <ButtonComponent
+            buttonStylesType="outline"
+            buttonStyles="text"
+            title="Cancelar criação de chamado"
+            onClick={onClose}
+          >
+            Cancelar
+          </ButtonComponent>
           <ButtonComponent
             buttonStyles="confirm"
             type="button"

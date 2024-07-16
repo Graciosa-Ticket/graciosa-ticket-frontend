@@ -14,6 +14,7 @@ import {
   SelectValue,
   SelectViewport,
 } from "./styles";
+import { AiOutlineLoading } from "react-icons/ai";
 
 export type selectStyles = "primary" | "secondary";
 
@@ -21,6 +22,7 @@ interface SelectComponentProps extends SelectProps {
   triggerStyle?: CSSProperties;
   label?: string;
   selectStyle?: selectStyles;
+  isLoading?: boolean;
 }
 
 export const Select = React.forwardRef(
@@ -30,6 +32,7 @@ export const Select = React.forwardRef(
       triggerStyle,
       selectStyle = "primary",
       label,
+      isLoading,
       ...props
     }: SelectComponentProps,
     forwardedRef: ForwardedRef<HTMLButtonElement>
@@ -43,6 +46,11 @@ export const Select = React.forwardRef(
             style={triggerStyle}
             $selectStyle={selectStyle}
           >
+            {isLoading && (
+              <div className="loading-button">
+                <AiOutlineLoading className="load-icon" />
+              </div>
+            )}
             <SelectValue />
             <SelectPrimitive.Icon>
               <FaAngleDown />

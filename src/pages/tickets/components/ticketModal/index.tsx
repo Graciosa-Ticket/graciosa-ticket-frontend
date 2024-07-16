@@ -3,12 +3,15 @@ import ButtonComponent from "../../../../components/buttons";
 import { ModalHeader, ModalTitle } from "../../../../components/modal";
 import { FaAngleLeft } from "react-icons/fa";
 import { ModalContentBody, ModalHeaderSection } from "./styles";
-import { format } from "date-fns";
+import { formatDate } from "date-fns";
 import { Select, SelectItem } from "../../../../components/form/select";
 import { theme, ticketStatus } from "../../../../styles/theme";
 import { CSSProperties } from "react";
 import ChatComponent from "./chat";
 import { modalActions } from "../../../../shared/global.interface";
+import Avatar from "../../../../components/Avatar";
+import { useMutationQuery } from "../../../../services/hooks/useMutationQuery";
+import { toast } from "sonner";
 
 const selectItemStyle = (status: TicketModel["status"]): CSSProperties => {
   const statusStyle = {
@@ -27,7 +30,33 @@ const selectItemStyle = (status: TicketModel["status"]): CSSProperties => {
   };
 };
 
-const TicketModal = ({ onClose, data }: modalActions<TicketModel>) => {
+const TicketModal = ({
+  onClose,
+  data,
+  onUpdate,
+}: modalActions<TicketModel>) => {
+  const { mutate: updateTicket, isLoading: isLoadingUpdate } = useMutationQuery(
+    "/ticket",
+    "put"
+  );
+
+  const handleStatusChange = (newStatus: TicketModel["status"]) => {
+    if (data) {
+      const updatedTicket = {
+        code: data.code,
+        status: newStatus,
+      };
+
+      updateTicket(updatedTicket, {
+        onSuccess: () => {
+          toast.success("Status Alterado!", { position: "top-left" });
+          onUpdate?.();
+        },
+        onError: () => {},
+      });
+    }
+  };
+
   return (
     <>
       <ModalHeader>
@@ -44,7 +73,8 @@ const TicketModal = ({ onClose, data }: modalActions<TicketModel>) => {
           <Select
             defaultValue={data?.status}
             triggerStyle={selectItemStyle(data?.status || "Em andamento")}
-            onValueChange={(data) => console.log(data)}
+            onValueChange={handleStatusChange}
+            isLoading={isLoadingUpdate}
           >
             <SelectItem value="Aberto">Aberto</SelectItem>
             <SelectItem value="Em andamento">Em andamento</SelectItem>
@@ -66,7 +96,9 @@ const TicketModal = ({ onClose, data }: modalActions<TicketModel>) => {
 
             <div className="right-side">
               <span>
-                data aqui
+                {data?.created_at
+                  ? formatDate(data?.created_at, "dd/MM/yyyy")
+                  : "data invalida"}
               </span>
             </div>
           </div>
@@ -78,7 +110,17 @@ const TicketModal = ({ onClose, data }: modalActions<TicketModel>) => {
               <h6>Detalhes</h6>
             </div>
 
-            <div className="ticket-owner"></div>
+            <div className="ticket-owner">
+              <p>Quem Abriu?</p>
+              <div className="img-sector">
+                <Avatar
+                  src={data?.user.profile_picture}
+                  alt=""
+                  className="user-avatar"
+                />
+              </div>
+              {data?.user.name}
+            </div>
           </section>
         </section>
 

@@ -8,6 +8,15 @@ export const ModalContentBody = styled.main`
   grid-template-rows: 1fr;
   padding: 0 25px 25px;
 
+
+  .user-avatar {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 50%;
+  }
+
+
   .ticket-content-side {
     border-right: 1px solid ${({ theme }) => theme.colors.grayscale.gray_10};
     padding: 20px 10px 0 0;
@@ -39,6 +48,10 @@ export const ModalContentBody = styled.main`
 
     .details-section {
       margin-top: 20px;
+      display: grid;
+      gap: 20px;
+      border-top: ridge;
+
       .details-header {
         h6 {
           ${({ theme }) => theme.font.p.small_bold};

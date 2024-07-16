@@ -3,18 +3,20 @@ import {
   SelectUsersContainer,
   SelectUsersContainerPlaceholder,
 } from "./styles";
-import { useState } from "react";
 import { PopOverRoot } from "../../popOver";
 import SearchUsers from "./searchUsers";
 import { UserModel } from "../../../models/user";
 import Avatar from "../../Avatar";
 import ButtonComponent from "../../buttons";
+import { useState } from "react";
 
 interface selectUserProps {
   label?: string;
   title: string;
   onChange(data: UserModel | undefined): void;
   defaultValue?: UserModel;
+  placeholderIcon?: any;
+  showRemoveButton?: boolean;
 }
 
 const SelectUsers = ({
@@ -22,6 +24,8 @@ const SelectUsers = ({
   title,
   onChange,
   defaultValue,
+  placeholderIcon,
+  showRemoveButton = true,
 }: selectUserProps) => {
   const [open, setOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState<UserModel | undefined>(
@@ -64,17 +68,20 @@ const SelectUsers = ({
                 {selectedUser ? (
                   <SelectedUserContainer data={selectedUser} />
                 ) : (
-                  <PicturePlaceholder title={title} />
+                  <PicturePlaceholder title={title} icon={placeholderIcon}/>
                 )}
               </button>
 
-              {selectedUser ? (
+              {selectedUser && showRemoveButton?(
+
                 <ButtonComponent
                   buttonStyles="text"
                   onClick={handleClearSelect}
                 >
+
                   <FaXmark />
                 </ButtonComponent>
+                
               ) : null}
             </div>
           }
@@ -91,13 +98,13 @@ const SelectUsers = ({
 
 interface picturePlaceholderProps {
   title: string;
+  icon: any;
 }
 
-const PicturePlaceholder = ({ title }: picturePlaceholderProps) => {
+const PicturePlaceholder = ({ title, icon = <FaRegFaceSmile fontSize="2em"/>}: picturePlaceholderProps) => {
   return (
-    <SelectUsersContainerPlaceholder>
-      <FaRegFaceSmile fontSize="2em" />
-
+    <SelectUsersContainerPlaceholder>      
+      {icon}  
       <span>{title}</span>
     </SelectUsersContainerPlaceholder>
   );
