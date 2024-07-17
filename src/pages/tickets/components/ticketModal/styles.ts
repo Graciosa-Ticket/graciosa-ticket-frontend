@@ -3,6 +3,7 @@ import { Message } from "./chat";
 
 export const ModalContentBody = styled.main`
   height: 100%;
+  width: 100%;
   display: grid;
   grid-template-columns: 500px 400px;
   grid-template-rows: 1fr;
@@ -18,8 +19,11 @@ export const ModalContentBody = styled.main`
 
 
   .ticket-content-side {
+    display: flex;
+    flex-direction: column;
     border-right: 1px solid ${({ theme }) => theme.colors.grayscale.gray_10};
     padding: 20px 10px 0 0;
+
 
     .ticket-content-header {
       display: flex;
@@ -77,9 +81,19 @@ export const ModalContentBody = styled.main`
     }
   }
 
-  .divide2{
-    display: grid;
-  }
+
+  .buttons-content {
+  display: flex;
+  gap: 20px;
+  padding: 1em;
+  margin-top: auto;
+  justify-content: flex-end;
+  box-shadow: 0 -25px 30px -30px rgba(0,0,0,0.2);
+
+}
+
+
+  
 `;
 
 export const ModalHeaderSection = styled.div`

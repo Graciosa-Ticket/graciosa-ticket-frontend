@@ -17,8 +17,6 @@ export default function User() {
   const [selectedBtn, setSelectedBtn] =
     useState<UserModel["role"]>("Administrator");
 
-  const [showDeleted, setShowDeleted] = useState(false);
-
   const { isLoading, isFetching, refetch } = useFetch<UserModel[]>(
     "/users",
     ["users"],
@@ -26,9 +24,6 @@ export default function User() {
       onSuccess: (data) => {
         setDataSource(data);
       },
-      // onError: (error) => {
-      //   console.log(error);
-      // },
     }
   );
 
@@ -38,23 +33,23 @@ export default function User() {
     setSelectedBtn(role);
   };
 
-
-
   const userlist = useMemo(() => {
     if (dataSource.length) {
-      return dataSource.filter((user) => user.role === selectedBtn && !user.deleted_at);
+      return dataSource.filter(
+        (user) => user.role === selectedBtn && !user.deleted_at
+      );
     }
     return [];
   }, [dataSource, selectedBtn]);
 
   const deletedUserlist = useMemo(() => {
     if (dataSource.length) {
-      return dataSource.filter((user) => user.role === selectedBtn && user.deleted_at);
+      return dataSource.filter(
+        (user) => user.role === selectedBtn && user.deleted_at
+      );
     }
     return [];
   }, [dataSource, selectedBtn]);
-
-  
 
   return (
     <>
@@ -114,7 +109,6 @@ export default function User() {
 }
 
 const AddNewButton = ({ onUpdate }: modalActions) => {
-  
   const [openModal, setOpenModal] = useState(false);
   const [openConfirmCloseModal, setOpenConfirmCloseModal] = useState(false);
   const [hasEditedData, setHasEditedData] = useState(false);

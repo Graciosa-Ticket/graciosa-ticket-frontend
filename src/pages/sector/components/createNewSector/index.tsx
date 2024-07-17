@@ -19,6 +19,7 @@ import { useMutationQuery } from "../../../../services/hooks/useMutationQuery";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { createSectorValidation, updateSectorValidation } from "./validation";
 import { toast } from "sonner";
+import { AiOutlineClose } from "react-icons/ai";
 
 export default function CreateSectorModal({
   data: sectorData,
@@ -70,6 +71,9 @@ export default function CreateSectorModal({
       <ModalHeader>
         <div className="left-side">
           <ModalTitle>Novo Setor</ModalTitle>
+        </div>
+        <div className="right-side">
+        <AiOutlineClose/>
         </div>
       </ModalHeader>
       <SectorModalComponent>

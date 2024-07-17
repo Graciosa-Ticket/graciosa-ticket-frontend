@@ -14,4 +14,5 @@ export interface UserModel {
   updated_at?: Date;
   deleted_at?: Date;
   status?: boolean;
+  file?: File;
 }

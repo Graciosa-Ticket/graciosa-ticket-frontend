@@ -46,7 +46,7 @@ const SelectUsers = ({
 
   return (
     <>
-      <SelectUsersContainer>
+      <SelectUsersContainer title={title}>
         {label && <label>{label}</label>}
 
         <PopOverRoot
@@ -101,9 +101,9 @@ interface picturePlaceholderProps {
   icon: any;
 }
 
-const PicturePlaceholder = ({ title, icon = <FaRegFaceSmile fontSize="2em"/>}: picturePlaceholderProps) => {
-  return (
-    <SelectUsersContainerPlaceholder>      
+const PicturePlaceholder = ({ title, icon = <FaRegFaceSmile fontSize="1.5em"/>}: picturePlaceholderProps) => {
+  return ( 
+    <SelectUsersContainerPlaceholder>          
       {icon}  
       <span>{title}</span>
     </SelectUsersContainerPlaceholder>
@@ -117,7 +117,7 @@ interface selectedUserProps {
 const SelectedUserContainer = ({ data }: selectedUserProps) => {
   return (
     <SelectUsersContainerPlaceholder>
-      <Avatar src={data.profile_picture} />
+      <Avatar src={data.profile_picture} className="avatar-img"/>
 
       <span className="selected-user-span">{data.name}</span>
     </SelectUsersContainerPlaceholder>

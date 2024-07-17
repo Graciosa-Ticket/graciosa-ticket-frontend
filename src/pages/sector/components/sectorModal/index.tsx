@@ -89,7 +89,7 @@ export default function SectorModal({
           <p>chamados do setor</p>
 
         <div className="">
-
+      
         </div>
 
 
@@ -111,7 +111,7 @@ export default function SectorModal({
               buttonStylesType: "outline",
             }}
           >
-            <AiOutlineDelete /> Deletar
+            <AiOutlineDelete/> Deletar
           </ActionsModalComponent>  
 
 

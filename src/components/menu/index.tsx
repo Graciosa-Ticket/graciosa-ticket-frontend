@@ -1,12 +1,10 @@
 import { MenuHeaderHome, UserCallerContainer } from "./styles";
 import Logo from "../../assets/graciosa-logo 2.svg";
-import HenryCalvo from "../../assets/henrycalvo.svg";
 import Modal from "../modal";
 import { useMemo, useState } from "react";
 import ButtonComponent from "../buttons";
 import { NavLink } from "react-router-dom";
 import { useAuth } from "../../hooks/auth";
-import { AiOutlinePlus } from "react-icons/ai";
 import UserViewModal from "../userModal";
 import { modalActions } from "../../shared/global.interface";
 import EditedFormPopUp from "../EditedFormPopUp";
@@ -16,6 +14,10 @@ import Avatar from "../Avatar";
 
 export default function MenuHeader() {
   const [openModal, setOpenModal] = useState(false);
+
+  const { user } = useAuth();
+
+
 
   return (
     <>
@@ -29,31 +31,46 @@ export default function MenuHeader() {
 
         <nav className="menu">
           <div className="navigation-menu">
+
+
             <NavLink
               to={"/home"}
               className={({ isActive }) => (isActive ? "active-button" : "")}
             >
               Inicio
             </NavLink>
-            <NavLink
-              to={"/setor"}
-              className={({ isActive }) => (isActive ? "active-button" : "")}
-            >
-              Setores
-            </NavLink>
+
+            {user.role !== "Collaborator" && (
+          <>              
             <NavLink
               to={"/chamados"}
               className={({ isActive }) => (isActive ? "active-button" : "")}
             >
               Chamados
             </NavLink>
-            <NavLink
-              to={"/users"}
-              className={({ isActive }) => (isActive ? "active-button" : "")}
-            >
-              Usuarios
-            </NavLink>
+
+            {user.role !== "Supervisor" && (
+              <> 
+                <NavLink
+                  to={"/setor"}
+                  className={({ isActive }) => (isActive ? "active-button" : "")}
+                >
+                  Setores
+                </NavLink>
+
+                <NavLink
+                  to={"/users"}
+                  className={({ isActive }) => (isActive ? "active-button" : "")}
+                >
+                  Usuarios
+                </NavLink>
+                  </>
+                )}
+              </>
+            )}
+
             <a href="">Configurações</a>
+
           </div>
 
           <AddNewTicketButton />

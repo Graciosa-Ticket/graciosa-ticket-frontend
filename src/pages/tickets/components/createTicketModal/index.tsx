@@ -30,6 +30,7 @@ import { useMutationQuery } from "../../../../services/hooks/useMutationQuery";
 import { toast } from "sonner";
 import { UserModel } from "../../../../models/user";
 import { useEffect, useState } from "react";
+import { useAuth } from "../../../../hooks/auth";
 
 type viewOptions = "sector" | "main";
 
@@ -188,12 +189,18 @@ const TicketFormStep = ({ formProps, onClose, onUpdate }: StepsProps) => {
     "/ticket",
   );
 
+
+  const {user} = useAuth()
+
+
   const onSubmit = handleSubmit((data) => {
     const ticketData = {
       ...data,
+      user_code: user.code,
       urgency: "Normal",
       status: "Aberto", 
     };
+    console.log(ticketData)
 
     createTicket(ticketData, {
       onSuccess: () => {

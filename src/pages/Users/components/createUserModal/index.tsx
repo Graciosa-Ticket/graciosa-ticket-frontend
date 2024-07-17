@@ -15,7 +15,6 @@ import { modalActions } from "../../../../shared/global.interface";
 import { useEffect } from "react";
 import { UserModel } from "../../../../models/user";
 import getDirtyFields from "../../../../utils/getDirtyFields";
-import Avatar from "../../../../components/Avatar";
 import { FaAngleLeft } from "react-icons/fa";
 import PictureInput from "../../../../components/form/picture";
 
@@ -29,7 +28,7 @@ export default function CreateUserModal({
     handleSubmit,
     register,
     getValues,
-    formState: { errors, isDirty, dirtyFields },
+    formState: { errors, dirtyFields },
     setValue,
   } = useForm<UserModel>({
     resolver: yupResolver(
@@ -37,6 +36,11 @@ export default function CreateUserModal({
     ),
     defaultValues: userData,
   });
+
+  const handleImageChange = (value: string, file: File) => {
+    console.log(value);
+    setValue("file", file, { shouldDirty: true });
+  };
 
   useEffect(() => {
     const hasDirty = Object.keys(dirtyFields).length;
@@ -53,13 +57,29 @@ export default function CreateUserModal({
   const onSubmit = handleSubmit(() => {
     const { ...rest } = getDirtyFields(dirtyFields, getValues);
 
-    const userData = {
+    // Log the values before creating the data object
+    console.log("Values before creating data object:", { ...rest });
+
+    const data = {
       ...rest,
       status: true,
-      role: rest?.role || "Collaborator",
+      role: rest?.role,
+      code: userData?.code,
     };
 
-    createUser(userData, {
+    // Log the data object to verify its values
+    console.log("Data object:", data);
+
+    const formData = new FormData();
+
+    for (let key in data) {
+      console.log(`Appending key: ${key}, value: ${data[key]}`);
+      formData.append(key, data[key]);
+    }
+
+    console.log({ rest, dirtyFields, formData, data });
+
+    createUser(formData, {
       onSuccess: () => {
         if (userData) {
           toast.success("Cadastro Atualizado!");
@@ -73,6 +93,11 @@ export default function CreateUserModal({
     });
   });
 
+  const handleRoleChange = (value: UserModel["role"]) => {
+    console.log("Selected role:", value);
+    setValue("role", value);
+  };
+
   return (
     <>
       <ModalHeader>
@@ -85,14 +110,9 @@ export default function CreateUserModal({
       </ModalHeader>
       <UserComponent>
         <div className="img-sector">
-          {/* <Avatar
-            src={userData?.profile_picture}
-            alt=""
-            className="user-avatar"
-          /> */}
           <PictureInput
             defaultUrl={userData?.profile_picture}
-            onChangeImage={(value) => console.log(value)}
+            onChangeImage={handleImageChange}
           />
         </div>
         <h1 className="user-info-title">Informe Dados Pessoais</h1>
@@ -146,11 +166,9 @@ export default function CreateUserModal({
             )}
             <Select
               label="Tipo"
-              defaultValue={"Collaborator"}
+              defaultValue={userData?.role || "Collaborator"}
               selectStyle="secondary"
-              onValueChange={(value: UserModel["role"]) =>
-                setValue("role", value)
-              }
+              onValueChange={handleRoleChange}
             >
               <SelectItem value="Administrator">Administrator</SelectItem>
               <SelectItem value="Supervisor">Supervisor</SelectItem>
