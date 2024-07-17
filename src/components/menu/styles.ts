@@ -81,7 +81,4 @@ export const UserCallerContainer = styled(ButtonComponent)`
       text-overflow: ellipsis;
     }
   }
-  img {
-    width: 2em;
-  }
 `;

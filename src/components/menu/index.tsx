@@ -97,7 +97,7 @@ const UserCaller = () => {
         <span>
           {greetingUser},<span className="user-name">{user.name}</span>
         </span>
-        <Avatar src={user?.profile_picture} alt="" className="user-avatar" />
+        <Avatar src={user?.profile_picture} alt="" />
       </UserCallerContainer>
     </>
   );

@@ -17,6 +17,7 @@ import { UserModel } from "../../../../models/user";
 import getDirtyFields from "../../../../utils/getDirtyFields";
 import Avatar from "../../../../components/Avatar";
 import { FaAngleLeft } from "react-icons/fa";
+import PictureInput from "../../../../components/form/picture";
 
 export default function CreateUserModal({
   onClose,
@@ -84,10 +85,14 @@ export default function CreateUserModal({
       </ModalHeader>
       <UserComponent>
         <div className="img-sector">
-          <Avatar
+          {/* <Avatar
             src={userData?.profile_picture}
             alt=""
             className="user-avatar"
+          /> */}
+          <PictureInput
+            defaultUrl={userData?.profile_picture}
+            onChangeImage={(value) => console.log(value)}
           />
         </div>
         <h1 className="user-info-title">Informe Dados Pessoais</h1>
