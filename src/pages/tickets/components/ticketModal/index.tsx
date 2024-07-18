@@ -123,7 +123,7 @@ const TicketModal = ({
             <div className="right-side">
               <span>
                 {data?.created_at
-                  ? formatDate(data?.created_at, "dd/MM/yyyy")
+                  ? `${formatDate(data?.created_at, "dd/MM/yyyy")} as ${formatDate(data?.created_at, "HH:mm")}`
                   : "data invalida"}
               </span>
             </div>
@@ -131,23 +131,37 @@ const TicketModal = ({
 
           <p className="description">{data?.description}</p>
 
-          <section className="details-section">
-            <div className="details-header">
-              <h6>Detalhes</h6>
-            </div>
+          <div className="details-header">
+          <h6>Detalhes</h6>
+          </div>
 
-            <div className="ticket-owner">
-              <p>Quem Abriu?</p>
-              <div className="img-sector">
-                <Avatar
-                  src={data?.user.profile_picture}
-                  alt=""
-                  className="user-avatar"
-                />
+
+          <section className="layout">
+            
+            <section className="details-section"> 
+
+
+              <div className="ticket-owner">
+                <p>Quem Abriu?</p>
+                <div className="img-sector">
+                  <Avatar
+                    src={data?.user.profile_picture}
+                    alt=""
+                    className="user-avatar"
+                  />
+                </div>
+                <h3>{data?.user?.name?.slice(0, 10) + "."}</h3>
               </div>
-              {data?.user.name}
-            </div>
-          </section>
+            </section>
+
+
+            <section>
+              <p>Anexos</p>
+              
+            </section>
+
+
+          </section>           
           <section className="buttons-content">
             {
               (data?.user.code === user.code || user.role === "Administrator") &&          

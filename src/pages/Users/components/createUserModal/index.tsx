@@ -158,7 +158,7 @@ export default function CreateUserModal({
             )}
             <Select
               label="Tipo"
-              defaultValue={"Collaborator"}
+              defaultValue={userData?.role || "Collaborator"}
               selectStyle="secondary"
               onValueChange={(value: UserModel["role"]) =>
                 setValue("role", value,{

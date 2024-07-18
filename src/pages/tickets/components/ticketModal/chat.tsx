@@ -4,25 +4,39 @@ import { useAuth } from "../../../../hooks/auth";
 import { UserModel } from "../../../../models/user";
 import ButtonComponent from "../../../../components/buttons";
 import { formatDate } from "date-fns";
+import Avatar from "../../../../components/Avatar";
 
 export interface Message {
   user: UserModel;
   message: string;
   createdAt: Date;
-  type: "Text" | "Notification" | "Image" | "Video";
-  module?: "budget" | "attendance";
-  moduleID?: string;
 }
+
+const fakeUser = {
+  name: "airto sena",
+  profile_picture:
+    "https://gcc-tickets-bucket.s3.amazonaws.com/profile-picture/2/1721327967538_1374800653-profile_picture.jpg",
+  id: 5,
+};
 
 const ChatComponent = () => {
   const [chatConversation, setChatConversation] = useState<Message[]>([]);
   const [textAreaValue, setTextAreaValue] = useState<string>();
   const commentRef = useRef<HTMLDivElement>(null);
   const spanRef = useRef<HTMLDivElement>(null);
+  const { user } = useAuth();
 
   const handleChatSubmit = () => {
     const message = spanRef.current?.innerText;
-
+    if (!message) return;
+    setChatConversation((prevConversations) => [
+      ...prevConversations,
+      {
+        createdAt: new Date(),
+        message: message as string,
+        user,
+      },
+    ]);
     (spanRef.current as HTMLDivElement).innerText = "";
   };
 
@@ -71,7 +85,14 @@ const ChatComponent = () => {
           onKeyDown={onKeyDown}
         />
         <div className="input-button-container">
-          <ButtonComponent onClick={handleChatSubmit}>Enviar</ButtonComponent>
+          <ButtonComponent
+            onClick={handleChatSubmit}
+            buttonStyles="primary"
+            buttonStylesType="fill"
+            title="Enviar"
+          >
+            Enviar
+          </ButtonComponent>
         </div>
       </div>
     </ChatContainer>
@@ -88,10 +109,22 @@ const ConnectionsMessageCard = ({ data }: chatCardProps) => {
   const isCurrentUser = user.id === data?.user?.id;
 
   return (
-    <ChatCardContainer $self={isCurrentUser} $message_type={data.type}>
-      {data.message}
-
-      <span className="date-span">{formatDate(data.createdAt, "HH:mm")}</span>
+    <ChatCardContainer $self={isCurrentUser}>
+      <section className="header">
+        <div className="data-side">
+          <span className="date-span">
+            {formatDate(data.createdAt, "HH:mm")}
+          </span>
+        </div>
+        <div className="user-side">
+          <Avatar
+            src={user.profile_picture}
+            style={{ width: 20, height: 20 }}
+          />
+          <p>{user.name}</p>
+        </div>
+      </section>
+      <p>{data.message}</p>
     </ChatCardContainer>
   );
 };

@@ -1,5 +1,5 @@
 import styled, { css, keyframes } from "styled-components";
-import { Message } from "./chat";
+
 
 export const ModalContentBody = styled.main`
   height: 100%;
@@ -9,21 +9,22 @@ export const ModalContentBody = styled.main`
   grid-template-rows: 1fr;
   padding: 0 25px 25px;
 
+  .img-sector{
+    margin-top: 20px;
+  }
 
   .user-avatar {
     width: 60px;
     height: 60px;
     object-fit: cover;
-    border-radius: 50%;
+    border-radius: 50%;    
   }
-
 
   .ticket-content-side {
     display: flex;
     flex-direction: column;
     border-right: 1px solid ${({ theme }) => theme.colors.grayscale.gray_10};
     padding: 20px 10px 0 0;
-
 
     .ticket-content-header {
       display: flex;
@@ -32,8 +33,9 @@ export const ModalContentBody = styled.main`
       gap: 1em;
 
       h2 {
-        ${({ theme }) => theme.font.p.large_bold};
+        ${({ theme }) => theme.font.h3};
         color: ${({ theme }) => theme.colors.brand.dark_blue};
+        font-weight: 600;
       }
 
       .right-side {
@@ -46,25 +48,40 @@ export const ModalContentBody = styled.main`
 
     .description {
       margin-top: 1em;
-      ${({ theme }) => theme.font.p.small};
+      ${({ theme }) => theme.font.p.medium};
       color: ${({ theme }) => theme.colors.grayscale.gray_70};
     }
 
-    .details-section {
-      margin-top: 20px;
-      display: grid;
-      gap: 20px;
-      border-top: ridge;
 
       .details-header {
-        h6 {
-          ${({ theme }) => theme.font.p.small_bold};
-          color: ${({ theme }) => theme.colors.brand.dark_blue};
-        }
+        margin-top: 20px;
+        ${({ theme }) => theme.font.p.large};
+        color: ${({ theme }) => theme.colors.brand.dark_blue};
+        font-weight: 600;
+        border-top: ridge;
+        border-top-color: ${({ theme }) => theme.colors.grayscale.gray_05};
       }
     }
-  }
 
+    p {
+      ${({ theme }) => theme.font.p.extra_small};
+      color: ${({ theme }) => theme.colors.grayscale.gray_50};
+      font-weight: 500;
+    }
+
+    h3 {
+      margin-top: 20px;
+      ${({ theme }) => theme.font.p.medium};
+      color: ${({ theme }) => theme.colors.grayscale.gray_90};
+      font-weight: 600;
+    }
+
+    .layout{
+      display: grid;
+      grid-template-columns: 200px 1fr 1fr;
+      margin-top: 20px;
+    }
+ 
   .comment-section {
     margin-left: 10px;
     background-color: ${({ theme }) => theme.colors.grayscale.gray_10};
@@ -81,19 +98,14 @@ export const ModalContentBody = styled.main`
     }
   }
 
-
   .buttons-content {
-  display: flex;
-  gap: 20px;
-  padding: 1em;
-  margin-top: auto;
-  justify-content: flex-end;
-  box-shadow: 0 -25px 30px -30px rgba(0,0,0,0.2);
-
-}
-
-
-  
+    display: flex;
+    gap: 20px;
+    padding: 1em;
+    margin-top: auto;
+    justify-content: flex-end;
+    box-shadow: 0 -25px 30px -30px rgba(0, 0, 0, 0.2);
+  }
 `;
 
 export const ModalHeaderSection = styled.div`
@@ -113,6 +125,7 @@ export const ChatContainer = styled.section`
   display: flex;
   flex-direction: column;
 
+
   .chat-container {
     display: flex;
     margin-top: auto;
@@ -121,6 +134,8 @@ export const ChatContainer = styled.section`
     width: 100%;
     padding: 0 2em;
     margin-top: auto;
+    overflow-y: auto;
+    max-height: 80vh;
 
     li {
       padding: 3px 0;
@@ -181,7 +196,6 @@ to{
 
 interface chatCardProps {
   $self: boolean;
-  $message_type?: Message["type"];
 }
 
 export const ChatCardContainer = styled.div<chatCardProps>`
@@ -248,16 +262,6 @@ export const ChatCardContainer = styled.div<chatCardProps>`
     `;
   }}
 
-  ${({ $message_type }) => {
-    if ($message_type === "Notification") {
-      return css`
-        background-color: transparent !important;
-        .date-span.date-span {
-          color: ${({ theme }) => theme.colors.grayscale.gray_70} !important;
-        }
-      `;
-    }
-  }}
 
   .message-container {
     flex: 1;

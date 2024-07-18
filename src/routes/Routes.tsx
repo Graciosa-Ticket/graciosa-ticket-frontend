@@ -8,13 +8,20 @@ import MenuHeader from "../components/menu";
 import Users from "../pages/Users";
 import TicketsPage from "../pages/tickets";
 import LoginPage from "../pages/login";
+import Config from "../pages/config";
 
 const AppRoutes = () => {
-  const { signed } = useAuth();
+  const { signed, user } = useAuth();
 
-  if (signed) {
-    return <UserRoute />;
-  }
+    if (signed)  {
+      if(user.role === "Collaborator"){
+        return <CollaboratorRoute/>;
+      }
+      if(user.role === "Supervisor"){
+        return <SupervisorRoute/>;
+      }
+      return <AdminRoute />;
+    }
   return <AuthRoute />;
 };
 
@@ -22,35 +29,46 @@ const AuthRoute = () => {
   return (
     <Routes>
       <Route path="*" element={<Navigate replace to="/" />} />
-      <Route path="/" element={<Login />} />
+      <Route path="/" element={<LoginPage />} />
     </Routes>
   );
 };
 
-const UserRoute = () => {
-  const { user } = useAuth();
-
+const CollaboratorRoute = () => {
   return (
     <Routes>
       <Route element={<DefaultLayout />}>
-        <Route path="*" element={<Navigate replace to="/chamados" />} />
+        <Route path="*" element={<Navigate replace to="/chamados" />} />        
         <Route path="/chamados" element={<TicketsPage />} />
-        
-        {user.role !== "Collaborator" && (
-          <>
-            <Route path="/chamados" element={<TicketsPage />} />
-            <Route path="/home" element={<Home />} />
+        <Route path="/config" element={<Config />} />
+      </Route>
+    </Routes>
+  );
+};
 
-            {user.role !== "Supervisor" && (
-              <>
-                <Route path="/setor" element={<Sector />} />
-                <Route path="/users" element={<Users />} />
-              </>
-            )}
-          </>
-        )}
+const SupervisorRoute = () => {
+  return (
+    <Routes>
+      <Route element={<DefaultLayout />}>
+        <Route path="*" element={<Navigate replace to="/home" />} />
+        <Route path="/chamados" element={<TicketsPage />} />
+        <Route path="/config" element={<Config />} />          
+        <Route path="/home" element={<Home />} />        
+      </Route>
+    </Routes>
+  );
+};
 
-        <Route path="/login" element={<LoginPage />} />
+const AdminRoute = () => {
+  return (
+    <Routes>
+      <Route element={<DefaultLayout />}>
+        <Route path="*" element={<Navigate replace to="/home" />} />      
+        <Route path="/config" element={<Config />} />     
+        <Route path="/chamados" element={<TicketsPage />} />
+        <Route path="/home" element={<Home />} />
+        <Route path="/setor" element={<Sector />} />
+        <Route path="/users" element={<Users />} />
       </Route>
     </Routes>
   );
