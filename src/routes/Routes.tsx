@@ -26,16 +26,31 @@ const AuthRoute = () => {
     </Routes>
   );
 };
+
 const UserRoute = () => {
+  const { user } = useAuth();
+
   return (
     <Routes>
       <Route element={<DefaultLayout />}>
-        <Route path="*" element={<Navigate replace to="/home" />} />
-        <Route path="/home" element={<Home />} />
-        <Route path="/setor" element={<Sector />} />
-        <Route path="/users" element={<Users />} />
+        <Route path="*" element={<Navigate replace to="/chamados" />} />
         <Route path="/chamados" element={<TicketsPage />} />
-        <Route path="/login" element={<LoginPage/>} />
+        
+        {user.role !== "Collaborator" && (
+          <>
+            <Route path="/chamados" element={<TicketsPage />} />
+            <Route path="/home" element={<Home />} />
+
+            {user.role !== "Supervisor" && (
+              <>
+                <Route path="/setor" element={<Sector />} />
+                <Route path="/users" element={<Users />} />
+              </>
+            )}
+          </>
+        )}
+
+        <Route path="/login" element={<LoginPage />} />
       </Route>
     </Routes>
   );

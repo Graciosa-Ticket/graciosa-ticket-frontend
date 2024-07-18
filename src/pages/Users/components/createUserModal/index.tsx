@@ -28,7 +28,7 @@ export default function CreateUserModal({
     handleSubmit,
     register,
     getValues,
-    formState: { errors, dirtyFields },
+    formState: { errors,dirtyFields },
     setValue,
   } = useForm<UserModel>({
     resolver: yupResolver(
@@ -37,11 +37,11 @@ export default function CreateUserModal({
     defaultValues: userData,
   });
 
-  const handleImageChange = (value: string, file: File) => {
+  const handleImageChange = (value: string , file: File) => {
     console.log(value);
-    setValue("file", file, { shouldDirty: true });
+    setValue("file", file, {shouldDirty: true});
   };
-
+ 
   useEffect(() => {
     const hasDirty = Object.keys(dirtyFields).length;
     if (hasDirty) {
@@ -57,27 +57,21 @@ export default function CreateUserModal({
   const onSubmit = handleSubmit(() => {
     const { ...rest } = getDirtyFields(dirtyFields, getValues);
 
-    // Log the values before creating the data object
-    console.log("Values before creating data object:", { ...rest });
+    const formData = new FormData();
 
     const data = {
       ...rest,
       status: true,
-      role: rest?.role,
-      code: userData?.code,
+      role: rest?.role || "Collaborator",
+      code: userData?.code    
     };
 
-    // Log the data object to verify its values
-    console.log("Data object:", data);
-
-    const formData = new FormData();
-
-    for (let key in data) {
-      console.log(`Appending key: ${key}, value: ${data[key]}`);
-      formData.append(key, data[key]);
+    for(let key in data){
+      console.log(key)
+      formData.append(key, data[key])
     }
 
-    console.log({ rest, dirtyFields, formData, data });
+    console.log({rest,dirtyFields,formData,data})
 
     createUser(formData, {
       onSuccess: () => {
@@ -93,10 +87,8 @@ export default function CreateUserModal({
     });
   });
 
-  const handleRoleChange = (value: UserModel["role"]) => {
-    console.log("Selected role:", value);
-    setValue("role", value);
-  };
+
+
 
   return (
     <>
@@ -166,9 +158,13 @@ export default function CreateUserModal({
             )}
             <Select
               label="Tipo"
-              defaultValue={userData?.role || "Collaborator"}
+              defaultValue={"Collaborator"}
               selectStyle="secondary"
-              onValueChange={handleRoleChange}
+              onValueChange={(value: UserModel["role"]) =>
+                setValue("role", value,{
+                  shouldDirty:true
+                })
+              }
             >
               <SelectItem value="Administrator">Administrator</SelectItem>
               <SelectItem value="Supervisor">Supervisor</SelectItem>
@@ -181,7 +177,7 @@ export default function CreateUserModal({
           <ButtonComponent
             type="submit"
             buttonStyles="confirm"
-            title="Cadastrar Novo Usuario"
+            title="Confirmar"
             className="confirm-btn"
             onClick={onSubmit}
             isLoading={isLoadingUpdate}

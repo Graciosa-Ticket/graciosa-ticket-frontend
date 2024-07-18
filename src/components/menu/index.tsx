@@ -17,8 +17,6 @@ export default function MenuHeader() {
 
   const { user } = useAuth();
 
-
-
   return (
     <>
       <Modal open={openModal} onOpenChange={() => setOpenModal(!openModal)}>
@@ -31,46 +29,50 @@ export default function MenuHeader() {
 
         <nav className="menu">
           <div className="navigation-menu">
-
-
             <NavLink
               to={"/home"}
               className={({ isActive }) => (isActive ? "active-button" : "")}
             >
-              Inicio
+              {" "}
+              {user.role !== "Collaborator" ? "Inicio" : "Chamados"}
             </NavLink>
 
             {user.role !== "Collaborator" && (
-          <>              
-            <NavLink
-              to={"/chamados"}
-              className={({ isActive }) => (isActive ? "active-button" : "")}
-            >
-              Chamados
-            </NavLink>
-
-            {user.role !== "Supervisor" && (
-              <> 
+              <>
                 <NavLink
-                  to={"/setor"}
-                  className={({ isActive }) => (isActive ? "active-button" : "")}
+                  to={"/chamados"}
+                  className={({ isActive }) =>
+                    isActive ? "active-button" : ""
+                  }
                 >
-                  Setores
+                  Chamados
                 </NavLink>
 
-                <NavLink
-                  to={"/users"}
-                  className={({ isActive }) => (isActive ? "active-button" : "")}
-                >
-                  Usuarios
-                </NavLink>
+                {user.role !== "Supervisor" && (
+                  <>
+                    <NavLink
+                      to={"/setor"}
+                      className={({ isActive }) =>
+                        isActive ? "active-button" : ""
+                      }
+                    >
+                      Setores
+                    </NavLink>
+
+                    <NavLink
+                      to={"/users"}
+                      className={({ isActive }) =>
+                        isActive ? "active-button" : ""
+                      }
+                    >
+                      Usuarios
+                    </NavLink>
                   </>
                 )}
               </>
             )}
 
             <a href="">Configurações</a>
-
           </div>
 
           <AddNewTicketButton />
