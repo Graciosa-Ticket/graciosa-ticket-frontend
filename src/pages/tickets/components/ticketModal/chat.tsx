@@ -3,8 +3,8 @@ import { ChatCardContainer, ChatContainer } from "./styles";
 import { useAuth } from "../../../../hooks/auth";
 import { UserModel } from "../../../../models/user";
 import ButtonComponent from "../../../../components/buttons";
-import { formatDate } from "date-fns";
 import Avatar from "../../../../components/Avatar";
+import timeConverter from "../../../../utils/timeConverter";
 
 export interface Message {
   user: UserModel;
@@ -13,7 +13,7 @@ export interface Message {
 }
 
 const fakeUser = {
-  name: "airto sena",
+  name: "airto sena super",
   profile_picture:
     "https://gcc-tickets-bucket.s3.amazonaws.com/profile-picture/2/1721327967538_1374800653-profile_picture.jpg",
   id: 5,
@@ -34,7 +34,7 @@ const ChatComponent = () => {
       {
         createdAt: new Date(),
         message: message as string,
-        user,
+        user
       },
     ]);
     (spanRef.current as HTMLDivElement).innerText = "";
@@ -71,7 +71,7 @@ const ChatComponent = () => {
                 <ConnectionsMessageCard data={e} />
               </li>
             ))}
-          </ul>
+          </ul> 
         )}
       </div>
 
@@ -109,22 +109,24 @@ const ConnectionsMessageCard = ({ data }: chatCardProps) => {
   const isCurrentUser = user.id === data?.user?.id;
 
   return (
-    <ChatCardContainer $self={isCurrentUser}>
+    <ChatCardContainer $self={isCurrentUser}>    
+
       <section className="header">
-        <div className="data-side">
-          <span className="date-span">
-            {formatDate(data.createdAt, "HH:mm")}
-          </span>
-        </div>
-        <div className="user-side">
-          <Avatar
-            src={user.profile_picture}
-            style={{ width: 20, height: 20 }}
-          />
-          <p>{user.name}</p>
-        </div>
+        <h1>á  {timeConverter(data.createdAt)} </h1>
+          <span>{user.name.slice(0,10)}.</span>        
+            <div className="user-side">
+              <Avatar
+                src={user.profile_picture}
+                style={{ width: 32, height: 32 }}
+              />
+            </div>
       </section>
-      <p>{data.message}</p>
+
+      <section className="message-container">
+        <p>{data.message}</p>
+      </section>
+
+      
     </ChatCardContainer>
   );
 };

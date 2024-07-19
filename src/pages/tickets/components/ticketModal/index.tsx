@@ -58,7 +58,7 @@ const TicketModal = ({
     }
   };
 
-  const {user} = useAuth()
+  const {user} = useAuth();
 
 
   const { mutate: deleteTicket, isLoading: isLoadingDelete } = useMutationQuery(

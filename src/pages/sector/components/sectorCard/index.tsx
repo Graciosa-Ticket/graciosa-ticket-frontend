@@ -7,12 +7,11 @@ import { SectorComponent } from "./styles";
 import { SectorCardModel } from "../../../../models/sector";
 import Modal from "../../../../components/modal";
 
-
 export default function SectorCard({
   data,
   onUpdate,
 }: modalActions<SectorCardModel>) {
-  const [openModal, setOpenModal] = useState(false);
+  const [openModal, setOpenModal] = useState(false); 
 
   const handleUpdate = () => {
     onUpdate?.();
@@ -20,11 +19,8 @@ export default function SectorCard({
 
   return (
     <>
-      <Modal
-        open={openModal}
-        onOpenChange={() => setOpenModal(!openModal)}
-      >
-        <SectorModal data={data} onUpdate={() => handleUpdate()} />
+      <Modal open={openModal} onOpenChange={() => setOpenModal(!openModal)}>
+        <SectorModal data={data} onUpdate={() => handleUpdate()} onClose={() => setOpenModal(false)} />
       </Modal>
       <SectorComponent onClick={() => setOpenModal(true)}>
         <div className="status-container">

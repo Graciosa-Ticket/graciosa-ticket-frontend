@@ -38,7 +38,6 @@ export default function CreateUserModal({
   });
 
   const handleImageChange = (value: string , file: File) => {
-    console.log(value);
     setValue("file", file, {shouldDirty: true});
   };
  
@@ -70,8 +69,6 @@ export default function CreateUserModal({
       console.log(key)
       formData.append(key, data[key])
     }
-
-    console.log({rest,dirtyFields,formData,data})
 
     createUser(formData, {
       onSuccess: () => {
@@ -166,9 +163,9 @@ export default function CreateUserModal({
                 })
               }
             >
-              <SelectItem value="Administrator">Administrator</SelectItem>
-              <SelectItem value="Supervisor">Supervisor</SelectItem>
               <SelectItem value="Collaborator">Collaborator</SelectItem>
+              <SelectItem value="Supervisor">Supervisor</SelectItem>
+              <SelectItem value="Administrator">Administrator</SelectItem>        
             </Select>
           </form>
         </div>

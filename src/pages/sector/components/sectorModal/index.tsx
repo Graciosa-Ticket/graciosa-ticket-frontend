@@ -39,6 +39,7 @@ export default function SectorModal({
     );
   };
 
+  
   const { mutate: updateSectorUser, isLoading: isLoadingDelete1 } = useMutationQuery(
     `/sectors`,
     "put"
@@ -53,7 +54,6 @@ export default function SectorModal({
       }
       ,{
         onSuccess: () => {
-          console.log(data?.code)
           toast.success("Responsavel Alterado!");
           onUpdate?.();
         },

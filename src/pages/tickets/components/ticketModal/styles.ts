@@ -1,6 +1,5 @@
 import styled, { css, keyframes } from "styled-components";
 
-
 export const ModalContentBody = styled.main`
   height: 100%;
   width: 100%;
@@ -9,7 +8,7 @@ export const ModalContentBody = styled.main`
   grid-template-rows: 1fr;
   padding: 0 25px 25px;
 
-  .img-sector{
+  .img-sector {
     margin-top: 20px;
   }
 
@@ -17,7 +16,7 @@ export const ModalContentBody = styled.main`
     width: 60px;
     height: 60px;
     object-fit: cover;
-    border-radius: 50%;    
+    border-radius: 50%;
   }
 
   .ticket-content-side {
@@ -52,36 +51,35 @@ export const ModalContentBody = styled.main`
       color: ${({ theme }) => theme.colors.grayscale.gray_70};
     }
 
-
-      .details-header {
-        margin-top: 20px;
-        ${({ theme }) => theme.font.p.large};
-        color: ${({ theme }) => theme.colors.brand.dark_blue};
-        font-weight: 600;
-        border-top: ridge;
-        border-top-color: ${({ theme }) => theme.colors.grayscale.gray_05};
-      }
-    }
-
-    p {
-      ${({ theme }) => theme.font.p.extra_small};
-      color: ${({ theme }) => theme.colors.grayscale.gray_50};
-      font-weight: 500;
-    }
-
-    h3 {
+    .details-header {
       margin-top: 20px;
-      ${({ theme }) => theme.font.p.medium};
-      color: ${({ theme }) => theme.colors.grayscale.gray_90};
+      ${({ theme }) => theme.font.p.large};
+      color: ${({ theme }) => theme.colors.brand.dark_blue};
       font-weight: 600;
+      border-top: ridge;
+      border-top-color: ${({ theme }) => theme.colors.grayscale.gray_05};
     }
+  }
 
-    .layout{
-      display: grid;
-      grid-template-columns: 200px 1fr 1fr;
-      margin-top: 20px;
-    }
- 
+  p {
+    ${({ theme }) => theme.font.p.extra_small};
+    color: ${({ theme }) => theme.colors.grayscale.gray_50};
+    font-weight: 500;
+  }
+
+  h3 {
+    margin-top: 20px;
+    ${({ theme }) => theme.font.p.medium};
+    color: ${({ theme }) => theme.colors.grayscale.gray_90};
+    font-weight: 600;
+  }
+
+  .layout {
+    display: grid;
+    grid-template-columns: 200px 1fr 1fr;
+    margin-top: 20px;
+  }
+
   .comment-section {
     margin-left: 10px;
     background-color: ${({ theme }) => theme.colors.grayscale.gray_10};
@@ -124,7 +122,6 @@ export const ChatContainer = styled.section`
   flex: 1;
   display: flex;
   flex-direction: column;
-
 
   .chat-container {
     display: flex;
@@ -197,11 +194,11 @@ to{
 interface chatCardProps {
   $self: boolean;
 }
-
 export const ChatCardContainer = styled.div<chatCardProps>`
   max-width: 90%;
   width: fit-content;
   display: flex;
+  flex-direction: column;
   align-items: flex-start;
   gap: 0.7em;
   position: relative;
@@ -216,30 +213,62 @@ export const ChatCardContainer = styled.div<chatCardProps>`
     transform: rotate(45deg);
   }
 
+  .data-side {
+    display: flex;
+    align-items: center;
+  }
+
+  .user-side {
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+  }
+
+  .message-container {
+    width: 100%;
+    word-wrap: break-word;
+  }
+
   ${({ $self }) => {
     if ($self) {
       return css`
         transform-origin: right;
         justify-self: flex-end;
-        flex-direction: row-reverse;
-        background-color: ${({ theme }) => theme.colors.brand.dark_blue};
+        flex-direction: column;
+        background-color: ${({ theme }) => theme.colors.brand.blue};
         border-radius: 6px 2px 6px 6px;
 
+        .header {
+          display: flex;
+          justify-content: flex-end;
+          align-items: center;
+          width: 100%;
+          color: ${({ theme }) => theme.colors.brand.white};
+          gap: 20px;
+
+         h1{
+          color: ${({ theme }) => theme.colors.grayscale.gray_10};
+          ${({ theme }) => theme.font.p.extra_small};
+         }
+
+         
+         span{
+          color: ${({ theme }) => theme.colors.brand.white};
+          ${({ theme }) => theme.font.p.small};  
+          font-weight: 600;        
+         }
+        } 
+       
         .message-container {
-          text-align: right;
-          color: white !important;
+          flex: 1;
+          ${({ theme }) => theme.font.p.normal};
+          color: ${({ theme }) => theme.colors.grayscale.gray_80};
+          max-width: 250px;
         }
 
-        .date-span {
-          color: white !important;
-          font-size: 11px !important;
-        }
-
-        &::after {
-          right: 20px;
-          bottom: -0.5em;
-          background-color: ${({ theme }) => theme.colors.support.support_01};
-          border-width: 0 1px 1px 0;
+        p {
+          color: ${({ theme }) => theme.colors.brand.white};
+          ${({ theme }) => theme.font.p.small};
         }
       `;
     }
@@ -247,38 +276,40 @@ export const ChatCardContainer = styled.div<chatCardProps>`
     return css`
       transform-origin: left;
       border-radius: 2px 6px 6px 6px;
-      background-color: ${({ theme }) => theme.colors.grayscale.gray_10};
-      .date-span {
-        font-size: 11px !important;
+      background-color: ${({ theme }) => theme.colors.brand.white};
+
+      .header {
+        display: flex;
+        justify-content:left;
+        flex-direction: row-reverse;
+        align-items: center;
+        width: 100%;
+        color: white !important;
+        gap: 20px;
+
+        h1{
+          color: ${({ theme }) => theme.colors.grayscale.gray_50};
+          ${({ theme }) => theme.font.p.extra_small};
+         }
+
+         span{
+          color: ${({ theme }) => theme.colors.grayscale.gray_90};
+          ${({ theme }) => theme.font.p.small};   
+          font-weight: 600;
+         }
       }
 
-      &::after {
-        left: 20px;
-        background-color: ${({ theme }) =>
-          theme.colors.support.support_01_light};
-        border: solid ${({ theme }) => theme.colors.grayscale.gray_10};
-        border-width: 0 1px 1px 0;
+      .message-container {
+        flex: 1;
+        ${({ theme }) => theme.font.p.normal};
+        color: ${({ theme }) => theme.colors.grayscale.gray_80};
+        max-width: 250px;
+      }
+
+      p {
+        color: ${({ theme }) => theme.colors.grayscale.gray_80};
+        ${({ theme }) => theme.font.p.small};
       }
     `;
   }}
-
-
-  .message-container {
-    flex: 1;
-    ${({ theme }) => theme.font.p.normal};
-    color: ${({ theme }) => theme.colors.grayscale.gray_80};
-
-    &.info-message {
-      font-style: italic;
-      font-size: 12px !important;
-      margin-bottom: 10px;
-      color: ${({ theme }) => theme.colors.grayscale.gray_80} !important;
-    }
-  }
-
-  .date-span {
-    align-self: flex-end;
-    ${({ theme }) => theme.font.p.small};
-    color: ${({ theme }) => theme.colors.grayscale.gray_70};
-  }
 `;

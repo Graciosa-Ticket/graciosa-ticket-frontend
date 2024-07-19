@@ -19,6 +19,7 @@ import CreateUserModal from "../createUserModal";
 import Avatar from "../../../../components/Avatar";
 import EditedFormPopUp from "../../../../components/EditedFormPopUp";
 import StatusComponent from "../Status";
+import { useAuth } from "../../../../hooks/auth";
 
 export default function UserModal({
   data,
@@ -41,6 +42,9 @@ export default function UserModal({
       }
     );
   };
+
+  const {user} = useAuth();
+
 
   return (
     <>
@@ -65,7 +69,7 @@ export default function UserModal({
           <InputPlaceholder
             label="Nascimento"
             value={
-              data?.birth_date ? formatDate(data?.birth_date, "dd/MM/yyyy") : ""
+              data?.birth_date ? formatDate(data?.birth_date, "dd/MM/yyyy") : ""  
             }
             affix={{
               suffix: data?.birth_date
@@ -113,9 +117,8 @@ export default function UserModal({
             }}
           >
             <AiOutlineDelete /> Deletar
-          </ActionsModalComponent>
-
-          <EditUserButton data={data} onUpdate={onUpdate} />
+          </ActionsModalComponent>           
+          <EditUserButton data={data} onUpdate={onUpdate} />      s
         </div>
       </UserComponent>
     </>

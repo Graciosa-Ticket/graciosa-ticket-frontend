@@ -30,13 +30,11 @@ export default function MenuHeader() {
         <nav className="menu">
           <div className="navigation-menu">
             <NavLink
-              to={"/home"}
+              to={user.role !== "Collaborator" ? "/home" : "/chamados"}
               className={({ isActive }) => (isActive ? "active-button" : "")}
             >
-              {" "}
               {user.role !== "Collaborator" ? "Inicio" : "Chamados"}
             </NavLink>
-
             {user.role !== "Collaborator" && (
               <>
                 <NavLink
@@ -71,21 +69,15 @@ export default function MenuHeader() {
                 )}
               </>
             )}
-
             <NavLink
               to={"/config"}
-              className={({ isActive }) =>
-              isActive ? "active-button" : ""
-              }
-              >
+              className={({ isActive }) => (isActive ? "active-button" : "")}
+            >
               Configuraçõess
             </NavLink>
-         
           </div>
-
           <AddNewTicketButton />
         </nav>
-
         <div className="menu-right-img">
           <UserCaller />
         </div>
