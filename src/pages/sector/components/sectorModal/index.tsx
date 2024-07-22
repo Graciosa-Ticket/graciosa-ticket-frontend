@@ -12,6 +12,7 @@ import { toast } from "sonner";
 import ActionsModalComponent from "../../../../components/actionModal";
 import SelectUsers from "../../../../components/form/selectUsers";
 import { UserModel } from "../../../../models/user";
+import SectorTicketsDisplay from "../sectorTicketsDisplay";
 
 
 
@@ -89,7 +90,7 @@ export default function SectorModal({
           <p>chamados do setor</p>
 
         <div className="">
-      
+          <SectorTicketsDisplay/>
         </div>
 
 

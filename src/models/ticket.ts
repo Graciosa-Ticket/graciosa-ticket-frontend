@@ -44,16 +44,25 @@ export interface TicketModel {
     >
   >;
   sector: Partial<
-  Omit<
-    SectorCardModel,
-    |"code"
-    |"responsible_code"
-    |"description"
-    |"created_at"
-    |"updated_at"
-    |"deleted_at"
-    |"user"  
+    Omit<
+      SectorCardModel,
+      | "code"
+      | "responsible_code"
+      | "description"
+      | "created_at"
+      | "updated_at"
+      | "deleted_at"
+      | "user"
     >
   >;
   sector_code: string;
+
+  comments?: chatComment[];
+}
+
+export interface chatComment{
+  code: string;
+  comment: string;
+  attachmentUrl: string[];
+  user: UserModel;
 }

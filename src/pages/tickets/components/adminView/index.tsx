@@ -134,8 +134,7 @@ const GroupedList = ({ tickets, title, onUpdate }: groupTickets & { onUpdate: ()
 
   const handleOpenModal = (data: TicketModel) => {
     setModalData(data);
-    setOpenModal(true);
-    
+    setOpenModal(true);    
   };
 
   const handleModalClose = () => {
@@ -159,6 +158,7 @@ const GroupedList = ({ tickets, title, onUpdate }: groupTickets & { onUpdate: ()
           onUpdate={() => onUpdate()}
         />
       </Modal>
+
       <GroupedListContainer>
         <div className="header">
           <StatusGroupButton

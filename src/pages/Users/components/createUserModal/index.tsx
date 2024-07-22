@@ -24,6 +24,7 @@ export default function CreateUserModal({
   onSetEditedData,
   data: userData,
 }: modalActions<UserModel>) {
+  
   const {
     handleSubmit,
     register,
@@ -66,7 +67,6 @@ export default function CreateUserModal({
     };
 
     for(let key in data){
-      console.log(key)
       formData.append(key, data[key])
     }
 

@@ -2,7 +2,7 @@ import styled, { css } from "styled-components";
 import { UserModel } from "../../models/user";
 
 interface homeSectionProps {
-  $view: UserModel["type"];
+  $view: UserModel["role"];
 }
 
 export const HomeSection = styled.section<homeSectionProps>`
@@ -11,7 +11,7 @@ export const HomeSection = styled.section<homeSectionProps>`
   row-gap: 3em;
 
   ${({ $view }) => {
-    if ($view === "admin") {
+    if ($view === "Administrator") {
       return css`
         grid-template-columns: 1fr 2fr;
       `;

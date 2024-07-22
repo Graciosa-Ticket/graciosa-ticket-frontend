@@ -7,7 +7,7 @@ import { HomeSection } from "./styles";
 export default function Home() {
   const { user } = useAuth();
   return (
-    <HomeSection $view={user.type}>
+    <HomeSection $view={user.role}>
       <HomeGraph />
       <HomeTicketComponent />
       <HomeSector />

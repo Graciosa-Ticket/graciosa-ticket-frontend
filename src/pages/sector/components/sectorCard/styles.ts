@@ -1,4 +1,5 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
+import { TicketModel } from "../../../../models/ticket";
 
 export const SectorComponent = styled.button`
   width: 100%;
@@ -75,4 +76,57 @@ export const SectorComponent = styled.button`
       color: ${({ theme }) => theme.colors.grayscale.gray_80};
     }
   }
+`;
+
+interface StatusPProps {
+  status: TicketModel["status"];
+}
+
+const openStyle = css`
+  background-color: ${({ theme }) => theme.colors.ticket_status.open};
+  color: ${({ theme }) => theme.colors.brand.white};
+`;
+
+const onGoingStyle = css`
+  background-color: ${({ theme }) => theme.colors.ticket_status.on_going};
+  color: ${({ theme }) => theme.colors.brand.white};
+`;
+
+const reOpenStyle = css`
+  background-color: ${({ theme }) => theme.colors.ticket_status.re_open};
+  color: ${({ theme }) => theme.colors.brand.white};
+`;
+
+const canceledStyle = css`
+  background-color: ${({ theme }) => theme.colors.ticket_status.canceled};
+  color: ${({ theme }) => theme.colors.brand.white};
+`;
+
+const waitingApprovalStyle = css`
+  background-color: ${({ theme }) => theme.colors.ticket_status.waiting_approval};
+  color: ${({ theme }) => theme.colors.brand.white};
+`;
+
+const impedimentStyle = css`
+  background-color: ${({ theme }) => theme.colors.ticket_status.impediment};
+  color: ${({ theme }) => theme.colors.brand.white};
+`;
+
+const doneStyle = css`
+  background-color: ${({ theme }) => theme.colors.ticket_status.done};
+  color: ${({ theme }) => theme.colors.brand.white};
+`;
+
+const statusStyle = {
+  ["Aberto"]: openStyle,
+  ["Em andamento"]: onGoingStyle,
+  ["Aguardando aprovação"]: waitingApprovalStyle,
+  ["Cancelado"]: canceledStyle,
+  ["Reaberto"]: reOpenStyle,
+  ["Impeditivo"]: impedimentStyle,
+  ["Concluído"]: doneStyle,
+};
+
+export const StatusP = styled.p<StatusPProps>`
+  ${({ status }) => statusStyle[status]}
 `;

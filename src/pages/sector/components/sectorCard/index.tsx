@@ -3,9 +3,11 @@ import Avatar from "../../../../components/Avatar";
 import { modalActions } from "../../../../shared/global.interface";
 import StatusComponent from "../../../Users/components/Status";
 import SectorModal from "../sectorModal";
-import { SectorComponent } from "./styles";
+import { SectorComponent, StatusP } from "./styles";
 import { SectorCardModel } from "../../../../models/sector";
 import Modal from "../../../../components/modal";
+import ticketData from "./fakedata";
+
 
 export default function SectorCard({
   data,
@@ -40,14 +42,20 @@ export default function SectorCard({
         </div>
 
         <div className="p-sector">
-          <p>Lorem Ipsum</p>
-          <p>35</p>
-          <p>Lorem Ipsum</p>
-          <p>35</p>
-          <p>Lorem Ipsum</p>
-          <p>35</p>
-          <p>Lorem Ipsum</p>
-          <p>35</p>
+          <StatusP status="Aberto">Aberto</StatusP>
+          <p>{ticketData.aberto}</p>
+          <StatusP status="Em andamento">Em andamento</StatusP>
+          <p>{ticketData.em_andamento}</p>
+          <StatusP status="Aguardando aprovação">Aguardando aprovação</StatusP>
+          <p>{ticketData.aguardando_aprovacao}</p>
+          <StatusP status="Cancelado">Cancelado</StatusP>
+          <p>{ticketData.cancelado}</p>
+          <StatusP status="Reaberto">Reaberto</StatusP>
+          <p>{ticketData.reaberto}</p>
+          <StatusP status="Impeditivo">Impeditivo</StatusP>
+          <p>{ticketData.impeditivo}</p>
+          <StatusP status="Concluído">Concluído</StatusP>
+          <p>{ticketData.concluido}</p>
         </div>
         <div className="description-section">
           <h6>Descrição</h6>

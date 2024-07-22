@@ -203,7 +203,7 @@ const TicketModal = ({
             <h6>Chat</h6>
           </div>
 
-          <ChatComponent />
+          <ChatComponent ticket_data={data as TicketModel} />
         </section>
       </ModalContentBody>
     </>

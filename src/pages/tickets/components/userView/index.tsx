@@ -28,12 +28,12 @@ const openSectionStyle: CSSProperties = {
   maxHeight: "unset",
 };
 
-const userTicketsView = ({ tickets, onUpdate }: AdminTicketProps) => {
+const UserTicketsView = ({ tickets, onUpdate }: AdminTicketProps) => {
     
   const { user } = useAuth();
 
   const ticketList = useMemo(() => {
-    return groupTickets(tickets, true) as groupTickets[];
+    return groupTickets(tickets) as groupTickets[];
   }, [tickets, user.id]);
 
   return (
@@ -143,4 +143,4 @@ const GroupedList = ({ tickets, title, onUpdate }: groupTickets & { onUpdate: ()
   );
 };
 
-export default userTicketsView;
+export default UserTicketsView;

@@ -4,13 +4,13 @@ interface sectorTicketsDisplayProps {
   status: boolean;
 }
 
-const sectorTicketsDisplay = ({ status }: sectorTicketsDisplayProps) => {
+const SectorTicketsDisplay = () => {
   return (
     <Layout>
       <p>formulario: ""  </p>
-      <div className={`status-ball ${status ? "active" : "inactive"}`} />
+  
     </Layout>
   );
 };
 
-export default sectorTicketsDisplay;
+export default SectorTicketsDisplay;

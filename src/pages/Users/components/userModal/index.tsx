@@ -118,7 +118,7 @@ export default function UserModal({
           >
             <AiOutlineDelete /> Deletar
           </ActionsModalComponent>           
-          <EditUserButton data={data} onUpdate={onUpdate} />      s
+          <EditUserButton data={data} onUpdate={onUpdate} />
         </div>
       </UserComponent>
     </>
