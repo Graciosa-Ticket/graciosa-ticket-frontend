@@ -38,8 +38,11 @@ export const TicketsHomeContainer = styled.section`
   }
 
   .ticket-list {
+    max-height: 300px;
     margin-top: 1em;
     display: grid;
+    padding: 10px;
     gap: 10px;
+    overflow-y: auto;
   }
 `;

@@ -73,7 +73,7 @@ export default function MenuHeader() {
               to={"/config"}
               className={({ isActive }) => (isActive ? "active-button" : "")}
             >
-              Configuraçõess
+              Configurações
             </NavLink>
           </div>
           <AddNewTicketButton />

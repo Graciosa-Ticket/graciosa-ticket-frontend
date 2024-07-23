@@ -246,19 +246,18 @@ export const ChatCardContainer = styled.div<chatCardProps>`
           color: ${({ theme }) => theme.colors.brand.white};
           gap: 20px;
 
-         h1{
-          color: ${({ theme }) => theme.colors.grayscale.gray_10};
-          ${({ theme }) => theme.font.p.extra_small};
-         }
+          h1 {
+            color: ${({ theme }) => theme.colors.grayscale.gray_10};
+            ${({ theme }) => theme.font.p.extra_small};
+          }
 
-         
-         span{
-          color: ${({ theme }) => theme.colors.brand.white};
-          ${({ theme }) => theme.font.p.small};  
-          font-weight: 600;        
-         }
-        } 
-       
+          span {
+            color: ${({ theme }) => theme.colors.brand.white};
+            ${({ theme }) => theme.font.p.small};
+            font-weight: 600;
+          }
+        }
+
         .message-container {
           flex: 1;
           ${({ theme }) => theme.font.p.normal};
@@ -280,23 +279,23 @@ export const ChatCardContainer = styled.div<chatCardProps>`
 
       .header {
         display: flex;
-        justify-content:left;
+        justify-content: left;
         flex-direction: row-reverse;
         align-items: center;
         width: 100%;
         color: white !important;
         gap: 20px;
 
-        h1{
+        h1 {
           color: ${({ theme }) => theme.colors.grayscale.gray_50};
           ${({ theme }) => theme.font.p.extra_small};
-         }
+        }
 
-         span{
+        span {
           color: ${({ theme }) => theme.colors.grayscale.gray_90};
-          ${({ theme }) => theme.font.p.small};   
+          ${({ theme }) => theme.font.p.small};
           font-weight: 600;
-         }
+        }
       }
 
       .message-container {

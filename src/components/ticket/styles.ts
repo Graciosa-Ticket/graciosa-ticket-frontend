@@ -150,7 +150,8 @@ export const TicketContainer = styled.button<ticketContainerProps>`
   }
 
   .description {
-    margin-top: 1em;
+    margin-top: 8px;
+    text-align: left;
     ${({ theme }) => theme.font.p.small};
     color: ${({ theme }) => theme.colors.grayscale.gray_60};
   }

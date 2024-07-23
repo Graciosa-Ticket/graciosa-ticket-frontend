@@ -47,6 +47,8 @@ export const SectorComponent = styled.button`
       ${({ theme }) => theme.font.p.medium_bold};
       color: ${({ theme }) => theme.colors.grayscale.gray_80};
       max-width: 150px;
+      white-space: nowrap;
+      text-align: left;
       overflow: hidden;
       text-overflow: ellipsis;
     }
@@ -73,12 +75,13 @@ export const SectorComponent = styled.button`
       ${({ theme }) => theme.font.p.extra_small_bold};
       color: ${({ theme }) => theme.colors.grayscale.gray_80};
     }
-    h2 {
+    p {
+      max-width: 95%;
       text-align: left;
       ${({ theme }) => theme.font.p.extra_small};
       color: ${({ theme }) => theme.colors.grayscale.gray_80};
-      max-width: 150px;
       white-space: nowrap;
+      overflow: hidden;
       text-overflow: ellipsis;
     }
   }

@@ -1,4 +1,4 @@
-import { CSSProperties, useMemo, useState } from "react";
+import { CSSProperties, useEffect, useMemo, useState } from "react";
 import { TicketModel } from "../../../../models/ticket";
 import { useAuth } from "../../../../hooks/auth";
 import { AdminGroupTickets, groupTickets } from "../groupTicket";
@@ -13,12 +13,10 @@ import TableComponent from "../table";
 import { TypeColumn } from "@inovua/reactdatagrid-community/types";
 import { format } from "date-fns";
 import { FaAngleRight } from "react-icons/fa";
-import Modal from "../../../../components/modal";
-import TicketModal from "../ticketModal";
 
 interface adminTicketProps {
   tickets: TicketModel[];
-  onUpdate: () => void;
+  onOpenModal: (data: any) => void;
 }
 
 const closeSectionStyle: CSSProperties = {
@@ -29,7 +27,7 @@ const openSectionStyle: CSSProperties = {
   maxHeight: "unset",
 };
 
-const AdminTicketsView = ({ tickets, onUpdate }: adminTicketProps) => {
+const AdminTicketsView = ({ tickets, onOpenModal }: adminTicketProps) => {
   const { user } = useAuth();
 
   const ticketList = useMemo(() => {
@@ -37,15 +35,26 @@ const AdminTicketsView = ({ tickets, onUpdate }: adminTicketProps) => {
   }, [tickets, user.id]);
 
   return (
-    <AdminTicketViewContainer>
-      {(ticketList as AdminGroupTickets[]).map((e, i) => (
-        <SectorList tickets={e.tickets} key={i} title={e.title} onUpdate={onUpdate} />
-      ))}
-    </AdminTicketViewContainer>
+    <>
+      <AdminTicketViewContainer>
+        {(ticketList as AdminGroupTickets[]).map((e, i) => (
+          <SectorList
+            tickets={e.tickets}
+            key={i}
+            title={e.title}
+            handleOpenModal={onOpenModal}
+          />
+        ))}
+      </AdminTicketViewContainer>
+    </>
   );
 };
 
-const SectorList = ({ tickets, title, onUpdate }: AdminGroupTickets & { onUpdate: () => void }) => {
+const SectorList = ({
+  tickets,
+  title,
+  handleOpenModal,
+}: AdminGroupTickets & { handleOpenModal: (data: any) => void }) => {
   const [openAccordeon, setOpenAccordeon] = useState(false);
 
   const maxHeight = useMemo(() => {
@@ -67,7 +76,7 @@ const SectorList = ({ tickets, title, onUpdate }: AdminGroupTickets & { onUpdate
             tickets.reduce((a, b) => a + b.tickets.length, 0) + ""
           ).padStart(2, "0")}
         >
-          {title}
+          <span>{title}</span>
           <FaAngleRight fontSize="0.8em" />
         </SectionGroupButton>
       </div>
@@ -83,7 +92,7 @@ const SectorList = ({ tickets, title, onUpdate }: AdminGroupTickets & { onUpdate
             tickets={ticket.tickets}
             title={ticket.title}
             key={index}
-            onUpdate={onUpdate}
+            onOpenModal={handleOpenModal}
           />
         ))}
       </section>
@@ -125,21 +134,8 @@ const columns: TypeColumn[] = [
   },
 ];
 
-const GroupedList = ({ tickets, title, onUpdate }: groupTickets & { onUpdate: () => void }) => {
+const GroupedList = ({ tickets, title, onOpenModal }: groupTickets) => {
   const [openAccordeon, setOpenAccordeon] = useState(true);
-  const [openModal, setOpenModal] = useState(false);
-  const [modalData, setModalData] = useState<TicketModel>();
-
-  
-
-  const handleOpenModal = (data: TicketModel) => {
-    setModalData(data);
-    setOpenModal(true);    
-  };
-
-  const handleModalClose = () => {
-    setOpenModal(false); 
-  };
 
   const maxHeight = useMemo(() => {
     const totalTickets = tickets.reduce((a, b) => {
@@ -151,14 +147,6 @@ const GroupedList = ({ tickets, title, onUpdate }: groupTickets & { onUpdate: ()
 
   return (
     <>
-      <Modal open={openModal} onOpenChange={handleModalClose}>
-        <TicketModal
-          data={modalData as TicketModel}
-          onClose={handleModalClose}
-          onUpdate={() => onUpdate()}
-        />
-      </Modal>
-
       <GroupedListContainer>
         <div className="header">
           <StatusGroupButton
@@ -184,7 +172,7 @@ const GroupedList = ({ tickets, title, onUpdate }: groupTickets & { onUpdate: ()
           <TableComponent
             columns={columns}
             dataSource={tickets}
-            onRowDoubleClick={(_, { data }) => handleOpenModal(data)}
+            onRowDoubleClick={(_, { data }) => onOpenModal?.(data)}
           />
         </section>
       </GroupedListContainer>

@@ -22,10 +22,19 @@ interface groupButtonProps {
 }
 
 export const SectionGroupButton = styled(ButtonComponent)<groupButtonProps>`
-  ${({ theme }) => theme.font.h4};
   padding: 0.4em !important;
-  font-weight: 700;
-  color: ${({ theme }) => theme.colors.brand.black};
+  justify-content: flex-start;
+
+  span {
+    max-width: 80%;
+    ${({ theme }) => theme.font.h4};
+    font-weight: 700;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    text-align: left;
+    color: ${({ theme }) => theme.colors.brand.black};
+  }
 
   &::after {
     content: attr(data-total);

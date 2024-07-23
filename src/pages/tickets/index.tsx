@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PageHeaderComponent from "../../components/pagesHeader";
 import AdminTicketsView from "./components/adminView";
 import { TicketsPageContainer } from "./styles";
@@ -12,11 +12,23 @@ import { modalActions } from "../../shared/global.interface";
 import Modal from "../../components/modal";
 import UserTicketsView from "./components/userView";
 import { useAuth } from "../../hooks/auth";
+import TicketModal from "./components/ticketModal";
 
 const TicketsPage = () => {
+  const { user } = useAuth();
   const [dataSource, setDataSource] = useState<TicketModel[]>([]);
 
-  const { user } = useAuth();
+  const [openModal, setOpenModal] = useState(false);
+  const [modalData, setModalData] = useState<TicketModel>();
+
+  const handleOpenModal = (data: TicketModel) => {
+    setModalData(data);
+    setOpenModal(true);
+  };
+
+  const handleModalClose = () => {
+    setOpenModal(false);
+  };
 
   const { isLoading, isFetching, refetch } = useFetch<TicketModel[]>(
     "/ticket",
@@ -36,22 +48,34 @@ const TicketsPage = () => {
   };
 
   return (
-    <TicketsPageContainer>
-      <PageHeaderComponent.container>
-        <PageHeaderComponent.title>Chamados</PageHeaderComponent.title>
-        <AddNewButton onUpdate={handleUpdate} />
-      </PageHeaderComponent.container>
+    <>
+      <Modal open={openModal} onOpenChange={handleModalClose}>
+        <TicketModal
+          data={modalData as TicketModel}
+          onClose={handleModalClose}
+          onUpdate={() => refetch()}
+        />
+      </Modal>
+      <TicketsPageContainer>
+        <PageHeaderComponent.container>
+          <PageHeaderComponent.title>Chamados</PageHeaderComponent.title>
+          <AddNewButton onUpdate={handleUpdate} />
+        </PageHeaderComponent.container>
 
-      {!dataSource.length && !isLoadingFecth ? (
-        <NotFoundComponent />
-      ) : isLoadingFecth ? (
-        <TicketSkeletonLoading />
-      ) : user?.role === "Administrator" ? (
-        <AdminTicketsView tickets={dataSource} onUpdate={handleUpdate} />
-      ) : (
-        <UserTicketsView tickets={dataSource} onUpdate={handleUpdate} />
-      )}
-    </TicketsPageContainer>
+        {!dataSource.length && !isLoadingFecth ? (
+          <NotFoundComponent />
+        ) : isLoadingFecth ? (
+          <TicketSkeletonLoading />
+        ) : user?.role === "Administrator" ? (
+          <AdminTicketsView
+            tickets={dataSource}
+            onOpenModal={handleOpenModal}
+          />
+        ) : (
+          <UserTicketsView tickets={dataSource} onUpdate={handleUpdate} />
+        )}
+      </TicketsPageContainer>
+    </>
   );
 };
 

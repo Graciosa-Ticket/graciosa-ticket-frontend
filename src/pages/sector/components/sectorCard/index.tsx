@@ -28,9 +28,9 @@ export default function SectorCard({
         />
       </Modal>
       <SectorComponent onClick={() => setOpenModal(true)}>
-        <div className="status-container">
+        {/* <div className="status-container">
           <StatusComponent status={data?.deleted_at ? false : true} />
-        </div>
+        </div> */}
 
         <div className="header-sector">
           <h3>{data?.name}</h3>
@@ -57,7 +57,7 @@ export default function SectorCard({
 
         <div className="description-section">
           <h6>Descrição</h6>
-          <h2>{data?.description}</h2>
+          <p>{data?.description}</p>
         </div>
       </SectorComponent>
     </>

@@ -2,7 +2,7 @@ import { CSSProperties, useMemo, useState } from "react";
 import { TicketModel } from "../../../../models/ticket";
 import { useAuth } from "../../../../hooks/auth";
 import { groupTickets } from "../groupTicket";
-import {  
+import {
   GroupedListContainer,
   StatusGroupButton,
   StatusSpanTable,
@@ -29,7 +29,6 @@ const openSectionStyle: CSSProperties = {
 };
 
 const UserTicketsView = ({ tickets, onUpdate }: AdminTicketProps) => {
-    
   const { user } = useAuth();
 
   const ticketList = useMemo(() => {
@@ -37,11 +36,18 @@ const UserTicketsView = ({ tickets, onUpdate }: AdminTicketProps) => {
   }, [tickets, user.id]);
 
   return (
-    <UserTicketsViewContainer>
-      {ticketList.map((e, i) => (
-        <GroupedList tickets={e.tickets} title={e.title} key={i} onUpdate={onUpdate} />
-      ))}
-    </UserTicketsViewContainer>
+    <>
+      <UserTicketsViewContainer>
+        {ticketList.map((e, i) => (
+          <GroupedList
+            tickets={e.tickets}
+            title={e.title}
+            key={i}
+            onUpdate={onUpdate}
+          />
+        ))}
+      </UserTicketsViewContainer>
+    </>
   );
 };
 
@@ -79,7 +85,11 @@ const columns: TypeColumn[] = [
   },
 ];
 
-const GroupedList = ({ tickets, title, onUpdate }: groupTickets & { onUpdate: () => void }) => {
+const GroupedList = ({
+  tickets,
+  title,
+  onUpdate,
+}: groupTickets & { onUpdate: () => void }) => {
   const [openAccordeon, setOpenAccordeon] = useState(true);
   const [openModal, setOpenModal] = useState(false);
   const [modalData, setModalData] = useState<TicketModel>();

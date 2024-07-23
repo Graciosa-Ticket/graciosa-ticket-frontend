@@ -10,7 +10,6 @@ interface ticketCardProps {
 }
 
 export default function TicketCard({ data }: ticketCardProps) {
-
   const [openModal, setOpenModal] = useState(false);
 
   return (
@@ -24,20 +23,24 @@ export default function TicketCard({ data }: ticketCardProps) {
           }}
         />
       </Modal>
-    
 
-    <TicketContainer $status={data.status} type="button" onClick={() => setOpenModal(true)}>
-      <div className="top-ticketCard">  
-        <div className="left-side">
-          <h4>{data?.title}</h4>
-          <p>
-            {data?.created_at ? format(data.created_at, "dd 'de' LLL") : ""}
-          </p>
+      <TicketContainer
+        $status={data.status}
+        type="button"
+        onClick={() => setOpenModal(true)}
+      >
+        <div className="top-ticketCard">
+          <div className="left-side">
+            <h4>{data?.title}</h4>
+            <p>
+              {data?.created_at ? format(data.created_at, "dd 'de' LLL") : ""}
+            </p>
+          </div>
+          <div className="mockup">{data?.status}</div>
         </div>
-        <div className="mockup">{data?.status}</div>
-      </div>
-      <p className="description">{data?.description}</p>
-    </TicketContainer>
+
+        <p className="description">{data?.description}</p>
+      </TicketContainer>
     </>
   );
 }

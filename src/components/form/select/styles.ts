@@ -19,7 +19,6 @@ interface selectStyleProps {
   $selectStyle: selectStyles;
 }
 
-
 const loading = keyframes`
   from {
     transform: rotate(0deg);
@@ -28,7 +27,6 @@ const loading = keyframes`
     transform: rotate(360deg);
   }
 `;
-
 
 export const SelectContainer = styled.div`
   .select-label {
@@ -71,6 +69,7 @@ export const SelectTrigger = styled(SelectPrimitive.Trigger)<selectStyleProps>`
   border-radius: 8px;
   display: flex;
   justify-content: space-between;
+  position: relative;
   align-items: center;
   gap: 10px;
   ${({ $selectStyle }) => styles[$selectStyle]};

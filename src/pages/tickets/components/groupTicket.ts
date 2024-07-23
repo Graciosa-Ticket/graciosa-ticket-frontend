@@ -4,8 +4,8 @@ import { TicketModel } from "../../../models/ticket";
 export type groupTickets = {
   title: string;
   tickets: TicketModel[];
+  onOpenModal?: (data: any) => void;
 };
-
 
 export type AdminGroupTickets = {
   title: string;
@@ -15,11 +15,8 @@ export type AdminGroupTickets = {
 export const groupTickets = (
   tickets: TicketModel[],
   isAdmin = false
-
 ): AdminGroupTickets[] | groupTickets[] => {
-
   if (isAdmin) {
-
     return chain(tickets)
       .groupBy((item) => item.sector.name)
       .map((tickets, sector_name) => ({
@@ -43,5 +40,3 @@ export const groupTickets = (
     }))
     .value();
 };
-
-

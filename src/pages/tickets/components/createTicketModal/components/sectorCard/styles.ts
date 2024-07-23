@@ -1,4 +1,18 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
+
+const grow = keyframes`
+
+from{
+  opacity: 0;
+  transform: scale(0.6);
+}
+
+to{
+  opacity: 1;
+  transform: scale(1);
+}
+
+`;
 
 export const SectorComponent = styled.button`
   width: 100%;
@@ -10,6 +24,7 @@ export const SectorComponent = styled.button`
   box-shadow: 0 2px 10px -2px rgba(0, 0, 0, 0.3);
   cursor: pointer;
   transition: 0.3s;
+  animation: 0.2s ${grow} ease;
 
   &:hover {
     transform: translateY(-5px);
@@ -45,6 +60,11 @@ export const SectorComponent = styled.button`
     }
 
     h3 {
+      text-align: left;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 150px;
       ${({ theme }) => theme.font.p.normal_bold};
       color: ${({ theme }) => theme.colors.grayscale.gray_80};
     }
