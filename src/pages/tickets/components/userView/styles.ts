@@ -2,7 +2,7 @@ import styled, { css } from "styled-components";
 import ButtonComponent from "../../../../components/buttons";
 import { TicketModel } from "../../../../models/ticket";
 
-export const AdminTicketViewContainer = styled.section`
+export const UserTicketsViewContainer = styled.section`
   margin-top: 0.8em;
 
   .section-group-header {

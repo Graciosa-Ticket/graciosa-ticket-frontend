@@ -13,7 +13,6 @@ to{
 }
 `;
 
-
 export const TicketsHomeContainer = styled.section`
   border-right: 1px solid ${({ theme }) => theme.colors.grayscale.gray_10};
   padding-right: 2em;
@@ -22,7 +21,6 @@ export const TicketsHomeContainer = styled.section`
     display: flex;
     align-items: center;
     justify-content: space-between;
-    
 
     h3 {
       ${({ theme }) => theme.font.p.large_bold};

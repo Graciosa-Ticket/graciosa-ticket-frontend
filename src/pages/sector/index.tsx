@@ -21,7 +21,6 @@ export default function Sector() {
     {
       onSuccess: (data) => {
         setDataSource(data);
-        console.log(data);
       },
       onError: (error) => {},
     }

@@ -12,7 +12,7 @@ export const SectorModalComponent = styled.section`
   transition: transform 0.2s ease-in-out;
   position: relative;
 
-  p{
+  h1{
     ${({ theme }) => theme.font.p.medium};
     color: ${({ theme }) => theme.colors.brand.dark_blue};
   }
@@ -23,8 +23,6 @@ export const SectorModalComponent = styled.section`
     font-weight: 600;
     max-width: 80px;
   }
-
-
 
   .footer {
     display: grid;

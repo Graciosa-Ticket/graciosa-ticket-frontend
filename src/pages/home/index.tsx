@@ -6,11 +6,19 @@ import { HomeSection } from "./styles";
 
 export default function Home() {
   const { user } = useAuth();
+
   return (
-    <HomeSection $view={user.role}>
-      <HomeGraph />
+
+    
+    <HomeSection>   
+
+
+      <HomeGraph/>
       <HomeTicketComponent />
-      <HomeSector />
+      <HomeSector/>
+
+
+      
     </HomeSection>
   );
 }

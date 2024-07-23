@@ -1,5 +1,4 @@
-import styled, { css } from "styled-components";
-import { TicketModel } from "../../../../models/ticket";
+import styled from "styled-components";
 
 export const SectorComponent = styled.button`
   width: 100%;
@@ -10,6 +9,7 @@ export const SectorComponent = styled.button`
   background-color: ${({ theme }) => theme.colors.brand.white};
   cursor: pointer;
   transition: 0.3s;
+  box-shadow: 0 4px 20px -3px rgba(0, 0, 0, 0.1);
 
   &:hover {
     transform: translateY(-5px);
@@ -46,6 +46,9 @@ export const SectorComponent = styled.button`
     h3 {
       ${({ theme }) => theme.font.p.medium_bold};
       color: ${({ theme }) => theme.colors.grayscale.gray_80};
+      max-width: 150px;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
   }
 
@@ -53,12 +56,12 @@ export const SectorComponent = styled.button`
     width: 100%;
     display: grid;
     grid-template-columns: 1fr 25px;
-    margin-top: 10px;
+    gap: 4px;
+    text-align: left;
+    margin-top: 4px;
 
     p {
-      text-align: left;
       ${({ theme }) => theme.font.p.extra_small};
-      color: ${({ theme }) => theme.colors.grayscale.gray_80};
     }
   }
 
@@ -70,63 +73,13 @@ export const SectorComponent = styled.button`
       ${({ theme }) => theme.font.p.extra_small_bold};
       color: ${({ theme }) => theme.colors.grayscale.gray_80};
     }
-    p {
+    h2 {
       text-align: left;
       ${({ theme }) => theme.font.p.extra_small};
       color: ${({ theme }) => theme.colors.grayscale.gray_80};
+      max-width: 150px;
+      white-space: nowrap;
+      text-overflow: ellipsis;
     }
   }
-`;
-
-interface StatusPProps {
-  status: TicketModel["status"];
-}
-
-const openStyle = css`
-  background-color: ${({ theme }) => theme.colors.ticket_status.open};
-  color: ${({ theme }) => theme.colors.brand.white};
-`;
-
-const onGoingStyle = css`
-  background-color: ${({ theme }) => theme.colors.ticket_status.on_going};
-  color: ${({ theme }) => theme.colors.brand.white};
-`;
-
-const reOpenStyle = css`
-  background-color: ${({ theme }) => theme.colors.ticket_status.re_open};
-  color: ${({ theme }) => theme.colors.brand.white};
-`;
-
-const canceledStyle = css`
-  background-color: ${({ theme }) => theme.colors.ticket_status.canceled};
-  color: ${({ theme }) => theme.colors.brand.white};
-`;
-
-const waitingApprovalStyle = css`
-  background-color: ${({ theme }) => theme.colors.ticket_status.waiting_approval};
-  color: ${({ theme }) => theme.colors.brand.white};
-`;
-
-const impedimentStyle = css`
-  background-color: ${({ theme }) => theme.colors.ticket_status.impediment};
-  color: ${({ theme }) => theme.colors.brand.white};
-`;
-
-const doneStyle = css`
-  background-color: ${({ theme }) => theme.colors.ticket_status.done};
-  color: ${({ theme }) => theme.colors.brand.white};
-`;
-
-const statusStyle = {
-  ["Aberto"]: openStyle,
-  ["Em andamento"]: onGoingStyle,
-  ["Aguardando aprovação"]: waitingApprovalStyle,
-  ["Cancelado"]: canceledStyle,
-  ["Reaberto"]: reOpenStyle,
-  ["Impeditivo"]: impedimentStyle,
-  ["Concluído"]: doneStyle,
-};
-
-export const StatusP = styled.p<StatusPProps>`
-  ${({ status }) => statusStyle[status]}
 `;

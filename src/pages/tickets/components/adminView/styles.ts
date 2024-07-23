@@ -154,6 +154,7 @@ export const GroupedListContainer = styled.section`
     margin-top: 0.8em;
     transition: 0.3s;
     overflow: hidden;
+    cursor: pointer;
   }
 `;
 

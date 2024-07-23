@@ -24,12 +24,11 @@ export default function CreateUserModal({
   onSetEditedData,
   data: userData,
 }: modalActions<UserModel>) {
-  
   const {
     handleSubmit,
     register,
     getValues,
-    formState: { errors,dirtyFields },
+    formState: { errors, dirtyFields },
     setValue,
   } = useForm<UserModel>({
     resolver: yupResolver(
@@ -38,10 +37,10 @@ export default function CreateUserModal({
     defaultValues: userData,
   });
 
-  const handleImageChange = (value: string , file: File) => {
-    setValue("file", file, {shouldDirty: true});
+  const handleImageChange = (value: string, file: File) => {
+    setValue("file", file, { shouldDirty: true });
   };
- 
+
   useEffect(() => {
     const hasDirty = Object.keys(dirtyFields).length;
     if (hasDirty) {
@@ -63,11 +62,11 @@ export default function CreateUserModal({
       ...rest,
       status: true,
       role: rest?.role || "Collaborator",
-      code: userData?.code    
+      code: userData?.code,
     };
 
-    for(let key in data){
-      formData.append(key, data[key])
+    for (let key in data) {
+      formData.append(key, data[key]);
     }
 
     createUser(formData, {
@@ -83,9 +82,6 @@ export default function CreateUserModal({
       onError: () => {},
     });
   });
-
-
-
 
   return (
     <>
@@ -148,7 +144,7 @@ export default function CreateUserModal({
             {!userData && (
               <Input
                 label="Senha"
-                placeholder="Minimo de 8 digitos."
+                placeholder="Minimo de 8 caracteres."
                 error={errors.password?.message}
                 register={{ ...register("password") }}
               />
@@ -158,14 +154,14 @@ export default function CreateUserModal({
               defaultValue={userData?.role || "Collaborator"}
               selectStyle="secondary"
               onValueChange={(value: UserModel["role"]) =>
-                setValue("role", value,{
-                  shouldDirty:true
+                setValue("role", value, {
+                  shouldDirty: true,
                 })
               }
             >
               <SelectItem value="Collaborator">Collaborator</SelectItem>
               <SelectItem value="Supervisor">Supervisor</SelectItem>
-              <SelectItem value="Administrator">Administrator</SelectItem>        
+              <SelectItem value="Administrator">Administrator</SelectItem>
             </Select>
           </form>
         </div>

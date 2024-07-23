@@ -21,7 +21,8 @@ const openStyle = css`
   color: ${({ theme }) => theme.colors.brand.white};
 
   &:hover {
-    background-color: ${({ theme }) => theme.colors.ticket_status.open} !important;
+    background-color: ${({ theme }) =>
+      theme.colors.ticket_status.open} !important;
   }
 `;
 const onGoingStyle = css`
@@ -29,7 +30,8 @@ const onGoingStyle = css`
   color: ${({ theme }) => theme.colors.brand.white};
 
   &:hover {
-    background-color: ${({ theme }) => theme.colors.ticket_status.on_going} !important;
+    background-color: ${({ theme }) =>
+      theme.colors.ticket_status.on_going} !important;
   }
 `;
 const reOpenStyle = css`
@@ -37,7 +39,8 @@ const reOpenStyle = css`
   color: ${({ theme }) => theme.colors.brand.white};
 
   &:hover {
-    background-color: ${({ theme }) => theme.colors.ticket_status.re_open} !important;
+    background-color: ${({ theme }) =>
+      theme.colors.ticket_status.re_open} !important;
   }
 `;
 const canceledStyle = css`
@@ -45,15 +48,18 @@ const canceledStyle = css`
   color: ${({ theme }) => theme.colors.brand.white};
 
   &:hover {
-    background-color: ${({ theme }) => theme.colors.ticket_status.canceled} !important;
+    background-color: ${({ theme }) =>
+      theme.colors.ticket_status.canceled} !important;
   }
 `;
 const waitingApprovalStyle = css`
-  background-color: ${({ theme }) => theme.colors.ticket_status.waiting_approval};
+  background-color: ${({ theme }) =>
+    theme.colors.ticket_status.waiting_approval};
   color: ${({ theme }) => theme.colors.brand.white};
 
   &:hover {
-    background-color: ${({ theme }) => theme.colors.ticket_status.waiting_approval};
+    background-color: ${({ theme }) =>
+      theme.colors.ticket_status.waiting_approval};
   }
 `;
 const impedimentStyle = css`
@@ -61,7 +67,8 @@ const impedimentStyle = css`
   color: ${({ theme }) => theme.colors.brand.white};
 
   &:hover {
-    background-color: ${({ theme }) => theme.colors.ticket_status.impediment} !important;
+    background-color: ${({ theme }) =>
+      theme.colors.ticket_status.impediment} !important;
   }
 `;
 const doneStyle = css`
@@ -69,7 +76,8 @@ const doneStyle = css`
   color: ${({ theme }) => theme.colors.brand.white};
 
   &:hover {
-    background-color: ${({ theme }) => theme.colors.ticket_status.done} !important;
+    background-color: ${({ theme }) =>
+      theme.colors.ticket_status.done} !important;
   }
 `;
 
@@ -102,6 +110,10 @@ export const TicketContainer = styled.button<ticketContainerProps>`
   h4 {
     ${({ theme }) => theme.font.p.normal_bold};
     color: ${({ theme }) => theme.colors.grayscale.gray_90};
+    max-width: 150px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
 
   p {
@@ -115,7 +127,7 @@ export const TicketContainer = styled.button<ticketContainerProps>`
   }
 
   .top-ticketCard {
-    display: flex;  
+    display: flex;
     justify-content: space-between;
     align-items: center;
     gap: 5px;
@@ -139,5 +151,7 @@ export const TicketContainer = styled.button<ticketContainerProps>`
 
   .description {
     margin-top: 1em;
+    ${({ theme }) => theme.font.p.small};
+    color: ${({ theme }) => theme.colors.grayscale.gray_60};
   }
 `;

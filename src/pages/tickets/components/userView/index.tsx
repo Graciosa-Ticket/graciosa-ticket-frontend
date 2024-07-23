@@ -2,11 +2,11 @@ import { CSSProperties, useMemo, useState } from "react";
 import { TicketModel } from "../../../../models/ticket";
 import { useAuth } from "../../../../hooks/auth";
 import { groupTickets } from "../groupTicket";
-import {
-  AdminTicketViewContainer,
+import {  
   GroupedListContainer,
   StatusGroupButton,
   StatusSpanTable,
+  UserTicketsViewContainer,
 } from "./styles";
 import TableComponent from "../table";
 import { TypeColumn } from "@inovua/reactdatagrid-community/types";
@@ -37,11 +37,11 @@ const UserTicketsView = ({ tickets, onUpdate }: AdminTicketProps) => {
   }, [tickets, user.id]);
 
   return (
-    <AdminTicketViewContainer>
+    <UserTicketsViewContainer>
       {ticketList.map((e, i) => (
         <GroupedList tickets={e.tickets} title={e.title} key={i} onUpdate={onUpdate} />
       ))}
-    </AdminTicketViewContainer>
+    </UserTicketsViewContainer>
   );
 };
 
