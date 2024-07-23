@@ -15,6 +15,7 @@ interface UserCardProps {
 }
 
 const UserCard = ({ data, refetch }: UserCardProps) => {
+  
   const [open, setOpen] = useState(false);
   const { user } = useAuth();
 

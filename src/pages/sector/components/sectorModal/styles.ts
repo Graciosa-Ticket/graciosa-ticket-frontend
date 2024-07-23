@@ -12,8 +12,8 @@ export const SectorModalComponent = styled.section`
   transition: transform 0.2s ease-in-out;
   position: relative;
 
-  p{
-    ${({ theme }) => theme.font.p.small};
+  h1{
+    ${({ theme }) => theme.font.p.medium};
     color: ${({ theme }) => theme.colors.brand.dark_blue};
   }
 
@@ -24,25 +24,16 @@ export const SectorModalComponent = styled.section`
     max-width: 80px;
   }
 
-  .img-sector {
-    display: flex;
-    padding: 20px;
-    align-items: center;
-    gap: 20px;
-  }
-
-  .user-avatar {
-    width: 60px;
-    height: 60px;
-    object-fit: cover;
-    border-radius: 50%;
-  }
-
   .footer {
     display: grid;
     grid-template-columns: 100px 1fr 1fr;
     justify-content: flex-end;
     margin-top: auto;
     gap: 20px;
+  }
+
+  .avatar-img{
+    width: 60px;
+    height: 60px;
   }
 `;

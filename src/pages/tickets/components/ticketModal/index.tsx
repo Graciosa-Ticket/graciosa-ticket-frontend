@@ -12,6 +12,8 @@ import { modalActions } from "../../../../shared/global.interface";
 import Avatar from "../../../../components/Avatar";
 import { useMutationQuery } from "../../../../services/hooks/useMutationQuery";
 import { toast } from "sonner";
+import ActionsModalComponent from "../../../../components/actionModal";
+import { useAuth } from "../../../../hooks/auth";
 
 const selectItemStyle = (status: TicketModel["status"]): CSSProperties => {
   const statusStyle = {
@@ -49,19 +51,43 @@ const TicketModal = ({
 
       updateTicket(updatedTicket, {
         onSuccess: () => {
-          toast.success("Status Alterado!", { position: "top-left" });
-          onUpdate?.();
+          toast.success("Status Alterado!", { position: "bottom-left" });
         },
         onError: () => {},
       });
     }
   };
 
+  const {user} = useAuth();
+
+
+  const { mutate: deleteTicket, isLoading: isLoadingDelete } = useMutationQuery(
+    `/ticket/${data?.code}`,
+    "delete"
+  );
+
+  const handleDeleteTicket = () => {
+    deleteTicket(
+      {},
+      {
+        onSuccess: () => {
+          toast.success("Ticket Excluido com sucesso!");
+          onUpdate?.();
+        },
+      }
+    );
+  };
+
+  const handleClose = () => {
+    onClose?.(); 
+    onUpdate?.();
+  };
+
   return (
     <>
       <ModalHeader>
         <div className="left-side">
-          <ButtonComponent buttonStyles="text" onClick={onClose}>
+          <ButtonComponent buttonStyles="text" onClick={handleClose}>
             <FaAngleLeft fontSize="1.9em" />
           </ButtonComponent>
           <ModalTitle>{`#${data?.code} - ${data?.title}`}</ModalTitle>
@@ -97,7 +123,7 @@ const TicketModal = ({
             <div className="right-side">
               <span>
                 {data?.created_at
-                  ? formatDate(data?.created_at, "dd/MM/yyyy")
+                  ? `${formatDate(data?.created_at, "dd/MM/yyyy")} as ${formatDate(data?.created_at, "HH:mm")}`
                   : "data invalida"}
               </span>
             </div>
@@ -105,22 +131,70 @@ const TicketModal = ({
 
           <p className="description">{data?.description}</p>
 
-          <section className="details-section">
-            <div className="details-header">
-              <h6>Detalhes</h6>
-            </div>
+          <div className="details-header">
+          <h6>Detalhes</h6>
+          </div>
 
-            <div className="ticket-owner">
-              <p>Quem Abriu?</p>
-              <div className="img-sector">
-                <Avatar
-                  src={data?.user.profile_picture}
-                  alt=""
-                  className="user-avatar"
-                />
+
+          <section className="layout">
+            
+            <section className="details-section"> 
+
+
+              <div className="ticket-owner">
+                <p>Quem Abriu?</p>
+                <div className="img-sector">
+                  <Avatar
+                    src={data?.user.profile_picture}
+                    alt=""
+                    className="user-avatar"
+                  />
+                </div>
+                <h3>{data?.user?.name?.slice(0, 10) + "."}</h3>
               </div>
-              {data?.user.name}
-            </div>
+            </section>
+
+
+            <section>
+              <p>Anexos</p>
+              
+            </section>
+
+
+          </section>           
+          <section className="buttons-content">
+            {
+              (data?.user.code === user.code || user.role === "Administrator") &&          
+              <ActionsModalComponent
+              message="Confirme para excluir este Ticket. Esta ação não pode ser desfeita."
+              actionButton={
+                <ButtonComponent
+                  buttonStyles="delete"
+                  onClick={handleDeleteTicket}
+                  isLoading={isLoadingDelete}
+                >
+                  Confirmar Exclusão de Ticket
+                </ButtonComponent>
+              }
+              buttonProps={{
+                buttonStyles: "delete",
+                buttonStylesType: "outline",
+              }}
+            >
+              Excluir
+            </ActionsModalComponent>}
+
+
+            {data?.status !== "Concluído" && (
+              <ButtonComponent
+                buttonStyles="confirm"
+                buttonStylesType="fill"
+                title="Concluir ticket"
+                onClick={() => handleStatusChange("Concluído")}
+              >
+                Concluir
+              </ButtonComponent>
+            )}
           </section>
         </section>
 
@@ -129,7 +203,7 @@ const TicketModal = ({
             <h6>Chat</h6>
           </div>
 
-          <ChatComponent />
+          <ChatComponent ticket_data={data as TicketModel} />
         </section>
       </ModalContentBody>
     </>

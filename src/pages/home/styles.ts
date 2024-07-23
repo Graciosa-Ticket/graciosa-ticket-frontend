@@ -1,20 +1,11 @@
-import styled, { css } from "styled-components";
-import { UserModel } from "../../models/user";
+import styled, {  } from "styled-components";
 
-interface homeSectionProps {
-  $view: UserModel["type"];
-}
 
-export const HomeSection = styled.section<homeSectionProps>`
+export const HomeSection = styled.section`
   display: grid;
   column-gap: 1em;
   row-gap: 3em;
+  grid-template-columns: 1fr 2fr;
 
-  ${({ $view }) => {
-    if ($view === "admin") {
-      return css`
-        grid-template-columns: 1fr 2fr;
-      `;
-    }
-  }}
+
 `;

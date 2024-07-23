@@ -23,6 +23,10 @@ const primaryStyle = css<buttonProps>`
         background-color: ${({ theme }) => theme.colors.brand.blue};
         color: ${({ theme }) => theme.colors.brand.white};
         box-shadow: 0px 4px 6.1px -5px #0000009e;
+
+        &:hover {
+          background-color: ${({ theme }) => theme.colors.brand.dark_blue};
+        }
       `;
     }
 
@@ -78,6 +82,12 @@ const confirmStyle = css<buttonProps>`
         background-color: ${({ theme }) => theme.colors.support.success};
         color: ${({ theme }) => theme.colors.brand.white};
         box-shadow: 0px 4px 6.1px -5px #0000009e;
+
+        &:hover {
+        background-color: white;
+        border: 1px solid;
+        color: ${({ theme }) => theme.colors.support.success}
+      }
       `;
     }
 

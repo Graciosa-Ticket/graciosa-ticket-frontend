@@ -1,6 +1,11 @@
 import * as yup from "yup";
+import calculateMinimunAge from "../../../../../utils/calculateAge";
 
-export const createUserValidation = yup.object().shape({
+interface FormValues {
+  birth_date: Date | null;
+}
+
+export const createUserValidation = yup.object<FormValues>().shape({
   role: yup.string(),
   name: yup
     .string()
@@ -9,19 +14,23 @@ export const createUserValidation = yup.object().shape({
   email: yup.string().email("email Invalido").required("Email é obrigatorio"),
   birth_date: yup
     .date()
-    .typeError("data incorreta")
-    .max(new Date(), `data invalida`)
-    .required(),
+    .typeError("Data incorreta")
+    .max(new Date(), "Data inválida")
+    .required("Campo obrigatório")
+    .test("min-age", "Você deve ter pelo menos 16 anos", (value) => {
+      if (!value) return false;
+      return calculateMinimunAge(new Date(value)) >= 16;
+    }),
   address: yup.string().required("Endereço é obrigatorio"),
   cep: yup.string().max(9, "CEP invalido").required("CEP é obrigatorio"),
   phone_number: yup
     .string()
-    .max(13, "maximo 13 caracteres")
+    .max(11, "maximo 11 caracteres")
     .required("DD+telefone é obrigatorio"),
   profile_picture: yup.string().optional(),
   password: yup
     .string()
-    .min(8, "Senha deve conter minimo de 8 caracteres")
+    .min(8, "Senha minima 8 caracteres")
     .required("A senha é obrigatória"),
 });
 

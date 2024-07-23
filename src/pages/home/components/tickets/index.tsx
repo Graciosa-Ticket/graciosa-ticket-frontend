@@ -3,45 +3,37 @@ import TicketCard from "../../../../components/ticket";
 import { TicketModel } from "../../../../models/ticket";
 import { TicketsHomeContainer } from "./styles";
 import { AiOutlineEye } from "react-icons/ai";
+import { useState } from "react";
+import { useFetch } from "../../../../services/hooks/getQuery";
 
-const fakeTicketData: Partial<TicketModel>[] = [
-  {
-    created_at: new Date(),
-    description:
-      " Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vel impedit est ipsa facere iusto quod tenetur consequuntur temporibus, id esse beatae dolor voluptate tempore iste mollitia error tempora cumque optio.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vel impedit est ipsa facere iusto quod tenetur consequuntur temporibus, id esse beatae dolor voluptate tempore iste mollitia error tempora cumque optio.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vel impedit est ipsa facere iusto quod tenetur consequuntur temporibus, id esse beatae dolor voluptate tempore iste mollitia error tempora cumque optio.",
-    status: "Em andamento",
-    title: "Teste",
-  },
-  {
-    created_at: new Date(),
-    description:
-      " Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vel impedit est ipsa facere iusto quod tenetur consequuntur temporibus, id esse beatae dolor voluptate tempore iste mollitia error tempora cumque optio.",
-    status: "Concluído",
-    title: "AAAAA",
-  },
-  {
-    created_at: new Date(),
-    description:
-      " Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vel impedit est ipsa facere iusto quod tenetur consequuntur temporibus, id esse beatae dolor voluptate tempore iste mollitia error tempora cumque optio.",
-    status: "Concluído",
-    title: "CCCCCC",
-  },
-];
 
 const HomeTicketComponent = () => {
+  const [dataSource, setDataSource] = useState<TicketModel[]>([]);
+
+  const {} = useFetch<TicketModel[]>(
+    "/ticket",
+    ["ticket"],
+    {
+      onSuccess: (data) => {
+        setDataSource(data);
+      },
+      onError: (error) => {},
+    }
+  );
+
   return (
     <TicketsHomeContainer>
       <div className="section-title">
         <h3>Últimos tickets</h3>
 
-        <NavLink to="/chamados">
+        <NavLink to="/chamados" title="Ver todos os chamados" >
           <AiOutlineEye />
           Ver todos
         </NavLink>
       </div>
 
       <ul className="ticket-list">
-        {fakeTicketData.map((e, i) => (
+        {dataSource.map((e, i)=> (
           <li key={i}>
             <TicketCard data={e} />
           </li>

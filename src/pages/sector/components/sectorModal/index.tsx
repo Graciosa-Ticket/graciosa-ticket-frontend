@@ -12,6 +12,7 @@ import { toast } from "sonner";
 import ActionsModalComponent from "../../../../components/actionModal";
 import SelectUsers from "../../../../components/form/selectUsers";
 import { UserModel } from "../../../../models/user";
+import SectorTicketsDisplay from "../sectorTicketsDisplay";
 
 
 
@@ -39,7 +40,8 @@ export default function SectorModal({
     );
   };
 
-  const { mutate: updateSectorUser, isLoading: isLoadingDelete1 } = useMutationQuery(
+  
+  const { mutate: updateSectorUser, isLoading: isLoadingupdate } = useMutationQuery(
     `/sectors`,
     "put"
   );
@@ -53,7 +55,6 @@ export default function SectorModal({
       }
       ,{
         onSuccess: () => {
-          console.log(data?.code)
           toast.success("Responsavel Alterado!");
           onUpdate?.();
         },
@@ -83,17 +84,9 @@ export default function SectorModal({
               placeholderIcon={<AiOutlineSwap/>}
               defaultValue={data?.user as UserModel}
               onChange={handleChangeUser}
-            />
-
-        
-          <p>chamados do setor</p>
-
-        <div className="">
-
-        </div>
-
-
-
+            />        
+          <h1>chamados do setor</h1>  
+          <SectorTicketsDisplay/>
         <div className="footer">  
         <ActionsModalComponent
             message="Confirme para deletar este Setor. Esta ação não pode ser desfeita."
@@ -111,7 +104,7 @@ export default function SectorModal({
               buttonStylesType: "outline",
             }}
           >
-            <AiOutlineDelete /> Deletar
+            <AiOutlineDelete  /> Deletar
           </ActionsModalComponent>  
 
 

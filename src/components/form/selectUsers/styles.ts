@@ -4,9 +4,10 @@ import ButtonComponent from "../../buttons";
 export const SelectUsersContainer = styled.div`
   label {
     ${({ theme }) => theme.font.p.small};
-    color: ${({ theme }) => theme.colors.grayscale.gray_70};
+    color: ${({ theme }) => theme.colors.brand.dark_blue};
     margin-bottom: 0.2em;
     display: block;
+    font-weight: 500;
   }
 
   .add-user-button-container {
@@ -23,17 +24,21 @@ export const SelectUsersContainerPlaceholder = styled.div`
   gap: 1em;
   transition: 0.3s;
   border-radius: 10px;
+  
+
   &:hover {
     background-color: ${({ theme }) => theme.colors.grayscale.gray_05};
   }
 
   svg {
     color: ${({ theme }) => theme.colors.grayscale.gray_70};
+    font-size: 3em;
   }
 
   span {
-    ${({ theme }) => theme.font.p.small};
+    ${({ theme }) => theme.font.p.medium};
     color: ${({ theme }) => theme.colors.grayscale.gray_70};
+    font-weight: 600;
 
     &.selected-user-span {
       color: ${({ theme }) => theme.colors.grayscale.gray_90};
@@ -50,7 +55,7 @@ export const SearchUsersContainer = styled.section`
     ul {
       max-height: 300px;
       overflow-y: auto;
-    }
+    } 
   }
 `;
 

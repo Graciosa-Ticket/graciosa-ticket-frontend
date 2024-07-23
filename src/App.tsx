@@ -18,7 +18,7 @@ function App() {
           <Toaster
             richColors
             closeButton
-            position="top-right"
+            position="bottom-left"
             duration={8000}
           />
           <BrowserRouter>

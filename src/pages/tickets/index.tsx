@@ -10,9 +10,13 @@ import EditedFormPopUp from "../../components/EditedFormPopUp";
 import CreateTicketModal from "./components/createTicketModal";
 import { modalActions } from "../../shared/global.interface";
 import Modal from "../../components/modal";
+import UserTicketsView from "./components/userView";
+import { useAuth } from "../../hooks/auth";
 
 const TicketsPage = () => {
   const [dataSource, setDataSource] = useState<TicketModel[]>([]);
+
+  const { user } = useAuth();
 
   const { isLoading, isFetching, refetch } = useFetch<TicketModel[]>(
     "/ticket",
@@ -42,8 +46,10 @@ const TicketsPage = () => {
         <NotFoundComponent />
       ) : isLoadingFecth ? (
         <TicketSkeletonLoading />
-      ) : (
+      ) : user?.role === "Administrator" ? (
         <AdminTicketsView tickets={dataSource} onUpdate={handleUpdate} />
+      ) : (
+        <UserTicketsView tickets={dataSource} onUpdate={handleUpdate} />
       )}
     </TicketsPageContainer>
   );

@@ -1,13 +1,12 @@
 import { CSSProperties, useMemo, useState } from "react";
 import { TicketModel } from "../../../../models/ticket";
 import { useAuth } from "../../../../hooks/auth";
-import { AdminGroupTickets, groupTickets } from "../groupTicket";
-import {
-  AdminTicketViewContainer,
+import { groupTickets } from "../groupTicket";
+import {  
   GroupedListContainer,
-  SectionGroupButton,
   StatusGroupButton,
   StatusSpanTable,
+  UserTicketsViewContainer,
 } from "./styles";
 import TableComponent from "../table";
 import { TypeColumn } from "@inovua/reactdatagrid-community/types";
@@ -16,7 +15,7 @@ import { FaAngleRight } from "react-icons/fa";
 import Modal from "../../../../components/modal";
 import TicketModal from "../ticketModal";
 
-interface adminTicketProps {
+interface AdminTicketProps {
   tickets: TicketModel[];
   onUpdate: () => void;
 }
@@ -29,65 +28,20 @@ const openSectionStyle: CSSProperties = {
   maxHeight: "unset",
 };
 
-const AdminTicketsView = ({ tickets, onUpdate }: adminTicketProps) => {
+const UserTicketsView = ({ tickets, onUpdate }: AdminTicketProps) => {
+    
   const { user } = useAuth();
 
   const ticketList = useMemo(() => {
-    return groupTickets(tickets, true);
+    return groupTickets(tickets) as groupTickets[];
   }, [tickets, user.id]);
 
   return (
-    <AdminTicketViewContainer>
-      {(ticketList as AdminGroupTickets[]).map((e, i) => (
-        <SectorList tickets={e.tickets} key={i} title={e.title} onUpdate={onUpdate} />
+    <UserTicketsViewContainer>
+      {ticketList.map((e, i) => (
+        <GroupedList tickets={e.tickets} title={e.title} key={i} onUpdate={onUpdate} />
       ))}
-    </AdminTicketViewContainer>
-  );
-};
-
-const SectorList = ({ tickets, title, onUpdate }: AdminGroupTickets & { onUpdate: () => void }) => {
-  const [openAccordeon, setOpenAccordeon] = useState(false);
-
-  const maxHeight = useMemo(() => {
-    const totalTickets = tickets.reduce((a, b) => {
-      return a + b.tickets.length * 40 + 100;
-    }, 0);
-
-    return totalTickets;
-  }, [tickets]);
-
-  return (
-    <div>
-      <div className="section-group-header">
-        <SectionGroupButton
-          $open={openAccordeon}
-          buttonStyles="text"
-          onClick={() => setOpenAccordeon(!openAccordeon)}
-          data-total={(
-            tickets.reduce((a, b) => a + b.tickets.length, 0) + ""
-          ).padStart(2, "0")}
-        >
-          {title}
-          <FaAngleRight fontSize="0.8em" />
-        </SectionGroupButton>
-      </div>
-
-      <section
-        className="tickets-list"
-        style={
-          openAccordeon ? { ...openSectionStyle, maxHeight } : closeSectionStyle
-        }
-      >
-        {tickets.map((ticket, index) => (
-          <GroupedList
-            tickets={ticket.tickets}
-            title={ticket.title}
-            key={index}
-            onUpdate={onUpdate}
-          />
-        ))}
-      </section>
-    </div>
+    </UserTicketsViewContainer>
   );
 };
 
@@ -98,7 +52,7 @@ const columns: TypeColumn[] = [
   },
   {
     name: "title",
-    header: "Tìtulo",
+    header: "Título",
     render: ({ value }) => <b>{value}</b>,
   },
   {
@@ -110,7 +64,7 @@ const columns: TypeColumn[] = [
     name: "created_at",
     header: "Dt. abertura",
     render: ({ value }) =>
-      value ? format(value as Date, "dd/MM/yyyy 'ás' HH'h'mm") : "",
+      value ? format(value as Date, "dd/MM/yyyy 'às' HH'h'mm") : "",
   },
   {
     name: "user_code",
@@ -130,15 +84,13 @@ const GroupedList = ({ tickets, title, onUpdate }: groupTickets & { onUpdate: ()
   const [openModal, setOpenModal] = useState(false);
   const [modalData, setModalData] = useState<TicketModel>();
 
-  
-
   const handleOpenModal = (data: TicketModel) => {
     setModalData(data);
-    setOpenModal(true);    
+    setOpenModal(true);
   };
 
   const handleModalClose = () => {
-    setOpenModal(false); 
+    setOpenModal(false);
   };
 
   const maxHeight = useMemo(() => {
@@ -158,7 +110,6 @@ const GroupedList = ({ tickets, title, onUpdate }: groupTickets & { onUpdate: ()
           onUpdate={() => onUpdate()}
         />
       </Modal>
-
       <GroupedListContainer>
         <div className="header">
           <StatusGroupButton
@@ -192,4 +143,4 @@ const GroupedList = ({ tickets, title, onUpdate }: groupTickets & { onUpdate: ()
   );
 };
 
-export default AdminTicketsView;
+export default UserTicketsView;

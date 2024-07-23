@@ -6,7 +6,7 @@ import SectorModal from "../sectorModal";
 import { SectorComponent } from "./styles";
 import { SectorCardModel } from "../../../../models/sector";
 import Modal from "../../../../components/modal";
-
+import ticketData from "./fakedata";
 
 export default function SectorCard({
   data,
@@ -20,11 +20,12 @@ export default function SectorCard({
 
   return (
     <>
-      <Modal
-        open={openModal}
-        onOpenChange={() => setOpenModal(!openModal)}
-      >
-        <SectorModal data={data} onUpdate={() => handleUpdate()} />
+      <Modal open={openModal} onOpenChange={() => setOpenModal(!openModal)}>
+        <SectorModal
+          data={data}
+          onUpdate={() => handleUpdate()}
+          onClose={() => setOpenModal(false)}
+        />
       </Modal>
       <SectorComponent onClick={() => setOpenModal(true)}>
         <div className="status-container">
@@ -44,18 +45,19 @@ export default function SectorCard({
         </div>
 
         <div className="p-sector">
-          <p>Lorem Ipsum</p>
-          <p>35</p>
-          <p>Lorem Ipsum</p>
-          <p>35</p>
-          <p>Lorem Ipsum</p>
-          <p>35</p>
-          <p>Lorem Ipsum</p>
-          <p>35</p>
+          <p>Aberto</p>
+          <p>{ticketData.aberto}</p>
+          <p>Em andamento</p>
+          <p>{ticketData.em_andamento}</p>
+          <p>Aguardando aprovação</p>
+          <p>{ticketData.aguardando_aprovacao}</p>
+          <p>Concluído</p>
+          <p>{ticketData.concluido}</p>
         </div>
+
         <div className="description-section">
           <h6>Descrição</h6>
-          <p>{data?.description}</p>
+          <h2>{data?.description}</h2>
         </div>
       </SectorComponent>
     </>

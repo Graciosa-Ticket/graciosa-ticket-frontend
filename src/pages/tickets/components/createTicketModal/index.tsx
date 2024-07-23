@@ -1,4 +1,3 @@
-
 import { ModalHeader } from "../../../../components/modal";
 import {
   ChooseSectorStepContainer,
@@ -30,6 +29,7 @@ import { useMutationQuery } from "../../../../services/hooks/useMutationQuery";
 import { toast } from "sonner";
 import { UserModel } from "../../../../models/user";
 import { useEffect, useState } from "react";
+import { useAuth } from "../../../../hooks/auth";
 
 type viewOptions = "sector" | "main";
 
@@ -182,17 +182,20 @@ const ChooseSectorStep = ({ formProps, onChangeStep }: StepsProps) => {
 const TicketFormStep = ({ formProps, onClose, onUpdate }: StepsProps) => {
   const [viewAdvancedOptions, setViewAdvancedOptions] = useState(false);
 
-  const { watch, handleSubmit } = formProps;
+  const { watch, handleSubmit, formState: { errors } } = formProps;
 
   const { mutate: createTicket, isLoading: isLoadingUpdate } = useMutationQuery(
     "/ticket",
   );
 
+  const { user } = useAuth();
+
   const onSubmit = handleSubmit((data) => {
     const ticketData = {
       ...data,
+      user_code: user.code,
       urgency: "Normal",
-      status: "Aberto", 
+      status: "Aberto",
     };
 
     createTicket(ticketData, {
@@ -229,7 +232,7 @@ const TicketFormStep = ({ formProps, onClose, onUpdate }: StepsProps) => {
         {viewAdvancedOptions ? (
           <TicketAdvancedOptionsForm formProps={formProps} />
         ) : (
-          <TicketMainForm formProps={formProps} />
+          <TicketMainForm formProps={formProps} errors={errors} />
         )}
 
         <FormButtonsContainer $columns={3}>
@@ -263,7 +266,7 @@ const TicketFormStep = ({ formProps, onClose, onUpdate }: StepsProps) => {
   );
 };
 
-const TicketMainForm = ({ formProps }: StepsProps) => {
+const TicketMainForm = ({ formProps, errors }: StepsProps & { errors: any }) => {
   const { register } = formProps;
 
   return (
@@ -271,11 +274,13 @@ const TicketMainForm = ({ formProps }: StepsProps) => {
       <Input
         label="Título"
         placeholder="Título do chamado"
+        error={errors.title?.message}
         register={{ ...register("title") }}
       />
       <TextArea
         label="Descrição"
         placeholder="Descrição"
+        error={errors.description?.message}
         register={{ ...register("description") }}
       />
     </FormContentContainer>

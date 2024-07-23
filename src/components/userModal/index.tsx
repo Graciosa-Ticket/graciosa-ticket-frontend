@@ -75,7 +75,9 @@ export default function UserViewModal({ onClose }: modalActions<UserModel>) {
         <div className="footer">
           <div />
           <div />
-          <EditUserButton data={user} />
+          {user?.role !== "Collaborator" && (        
+            <EditUserButton data={user} />            
+          )}
         </div>
       </UserComponent>
     </>
