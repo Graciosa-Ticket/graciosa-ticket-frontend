@@ -12,8 +12,6 @@ import TableComponent from "../table";
 import { TypeColumn } from "@inovua/reactdatagrid-community/types";
 import { format } from "date-fns";
 import { FaAngleRight } from "react-icons/fa";
-import Modal from "../../../../components/modal";
-import TicketModal from "../ticketModal";
 
 interface userTicketProps {
   tickets: TicketModel[];
@@ -31,9 +29,19 @@ const openSectionStyle: CSSProperties = {
 const UserTicketsView = ({ tickets, onOpenModal }: userTicketProps) => {
   const { user } = useAuth();
 
+  const filteredTickets = useMemo(() => {
+    if (user.role === "Collaborator") {
+      return tickets.filter((ticket) => ticket.user.code === user.code);
+    }
+    // if (user.role === "Supervisor") {
+    //   return tickets.filter((ticket) => ticket.responsable_code === user.code);
+    // }
+    return tickets;
+  }, [tickets, user.code, user.role]);
+
   const ticketList = useMemo(() => {
-    return groupTickets(tickets) as groupTickets[];
-  }, [tickets, user.id]);
+    return groupTickets(filteredTickets) as groupTickets[];
+  }, [filteredTickets]);
 
   return (
     <>

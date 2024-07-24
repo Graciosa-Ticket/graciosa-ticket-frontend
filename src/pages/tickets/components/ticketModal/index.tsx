@@ -9,7 +9,6 @@ import { theme, ticketStatus } from "../../../../styles/theme";
 import { CSSProperties } from "react";
 import ChatComponent from "./chat";
 import { modalActions } from "../../../../shared/global.interface";
-import Avatar from "../../../../components/Avatar";
 import { useMutationQuery } from "../../../../services/hooks/useMutationQuery";
 import { toast } from "sonner";
 import ActionsModalComponent from "../../../../components/actionModal";

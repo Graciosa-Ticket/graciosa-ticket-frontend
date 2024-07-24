@@ -1,5 +1,5 @@
 import styled from "styled-components";
 
-export const Layout = styled.section`
+export const TicketConclusionModalComponent = styled.section`
   padding: 1em;
 `;
