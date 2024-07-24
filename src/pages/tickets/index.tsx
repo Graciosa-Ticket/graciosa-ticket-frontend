@@ -72,7 +72,7 @@ const TicketsPage = () => {
             onOpenModal={handleOpenModal}
           />
         ) : (
-          <UserTicketsView tickets={dataSource} onUpdate={handleUpdate} />
+          <UserTicketsView tickets={dataSource} onOpenModal={handleOpenModal} />
         )}
       </TicketsPageContainer>
     </>

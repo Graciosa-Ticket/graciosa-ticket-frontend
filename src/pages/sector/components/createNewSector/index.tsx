@@ -52,7 +52,13 @@ export default function CreateSectorModal({
   );
 
   const onSubmit = handleSubmit(() => {
-    const data = getDirtyFields(dirtyFields, getValues);
+    const { ...rest } = getDirtyFields(dirtyFields, getValues);
+
+    const data = {
+      ...rest,
+      status: true,
+      code: sectorData?.code,
+    };
 
     createSector(data, {
       onSuccess: () => {
@@ -63,6 +69,7 @@ export default function CreateSectorModal({
         }
         onUpdate?.();
       },
+      onError: () => {},
     });
   });
 
@@ -70,10 +77,16 @@ export default function CreateSectorModal({
     <>
       <ModalHeader>
         <div className="left-side">
-          <ModalTitle>Novo Setor</ModalTitle>
+          <ModalTitle>{sectorData ? "Editar Setor" : "Novo Setor"}</ModalTitle>
         </div>
         <div className="right-side">
-        <AiOutlineClose/>
+          <ButtonComponent
+            buttonStyles="text"
+            title="Fechar"
+            onClick={onUpdate}
+          >
+            <AiOutlineClose fontSize="1.9em" />
+          </ButtonComponent>
         </div>
       </ModalHeader>
       <SectorModalComponent>
@@ -95,7 +108,6 @@ export default function CreateSectorModal({
               error={errors.name?.message}
               register={{ ...register("name") }}
             />
-
             <TextArea
               label="Descrição"
               error={errors.description?.message}
@@ -106,11 +118,10 @@ export default function CreateSectorModal({
           </FormContentContainer>
           <FormButtonsContainer $columns={2}>
             <div />
-
             <ButtonComponent
               type="submit"
               buttonStyles="confirm"
-              title="Cadastrar Novo Setor"
+              title={sectorData ? "Confirmar Edição" : "Cadastrar Novo Setor"}
               className="confirm-btn"
               onClick={onSubmit}
               isLoading={isLoadingUpdate}

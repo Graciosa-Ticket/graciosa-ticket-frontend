@@ -35,7 +35,7 @@ export default function SectorCard({
         <div className="header-sector">
           <h3>{data?.name}</h3>
           <div className="user-container">
-            <span>{data?.user?.name}</span>
+            {/* <span>{data?.user?.name}</span> */}
 
             <Avatar
               src={data?.user?.profile_picture}
@@ -46,13 +46,13 @@ export default function SectorCard({
 
         <div className="p-sector">
           <p>Aberto</p>
-          <p>{ticketData.aberto}</p>
+          <span>{ticketData.aberto}</span>
           <p>Em andamento</p>
-          <p>{ticketData.em_andamento}</p>
+          <span>{ticketData.em_andamento}</span>
           <p>Aguardando aprovação</p>
-          <p>{ticketData.aguardando_aprovacao}</p>
+          <span>{ticketData.aguardando_aprovacao}</span>
           <p>Concluído</p>
-          <p>{ticketData.concluido}</p>
+          <span>{ticketData.concluido}</span>
         </div>
 
         <div className="description-section">

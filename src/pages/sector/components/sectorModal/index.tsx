@@ -1,17 +1,20 @@
+import { useState } from "react";
 import { FaAngleLeft } from "react-icons/fa";
-import ButtonComponent from "../../../../components/buttons";
-import { ModalTitle } from "../../../../components/centerModal";
-import { ModalHeader } from "../../../../components/modal";
-import { SectorCardModel } from "../../../../models/sector";
-import { modalActions } from "../../../../shared/global.interface";
-import { SectorModalComponent } from "./styles";
 import { AiOutlineDelete, AiOutlineEdit, AiOutlineSwap } from "react-icons/ai";
-import { useMutationQuery } from "../../../../services/hooks/useMutationQuery";
 import { toast } from "sonner";
+import ButtonComponent from "../../../../components/buttons";
+import { ModalHeader, ModalTitle } from "../../../../components/modal";
 import ActionsModalComponent from "../../../../components/actionModal";
 import SelectUsers from "../../../../components/form/selectUsers";
+import { SectorCardModel } from "../../../../models/sector";
 import { UserModel } from "../../../../models/user";
+import { modalActions } from "../../../../shared/global.interface";
+import { SectorModalComponent } from "./styles";
 import SectorTicketsDisplay from "../sectorTicketsDisplay";
+import { useMutationQuery } from "../../../../services/hooks/useMutationQuery";
+import EditedFormPopUp from "../../../../components/EditedFormPopUp";
+import CenterModal from "../../../../components/centerModal";
+import CreateSectorModal from "../createNewSector";
 
 export default function SectorModal({
   data,
@@ -36,7 +39,7 @@ export default function SectorModal({
     );
   };
 
-  const { mutate: updateSectorUser, isLoading: isLoadingupdate } =
+  const { mutate: updateSectorUser, isLoading: isLoadingUpdate } =
     useMutationQuery(`/sectors`, "put");
 
   const handleChangeUser = (user: UserModel) => {
@@ -47,7 +50,7 @@ export default function SectorModal({
       },
       {
         onSuccess: () => {
-          toast.success("Responsavel Alterado!");
+          toast.success("Responsável Alterado!");
           onUpdate?.();
         },
       }
@@ -64,19 +67,21 @@ export default function SectorModal({
           <ModalTitle>{data?.name}</ModalTitle>
         </div>
       </ModalHeader>
+
       <SectorModalComponent>
         <SelectUsers
-          label="Responsavel"
+          label="Responsável"
           title="Adicionar Responsável"
           showRemoveButton={false}
           placeholderIcon={<AiOutlineSwap />}
           defaultValue={data?.user as UserModel}
           onChange={handleChangeUser}
         />
-        <h1>chamados do setor</h1>
+        <h1>Chamados do Setor</h1>
         <SectorTicketsDisplay />
         <div className="footer">
           <div />
+
           <ActionsModalComponent
             message="Confirme para deletar este Setor. Esta ação não pode ser desfeita."
             actionButton={
@@ -96,12 +101,64 @@ export default function SectorModal({
             <AiOutlineDelete /> Deletar
           </ActionsModalComponent>
 
-          <ButtonComponent buttonStylesType="outline">
-            <AiOutlineEdit />
-            Editar
-          </ButtonComponent>
+          <EditSectorButton data={data} onUpdate={onUpdate} />
         </div>
       </SectorModalComponent>
     </>
   );
 }
+
+const EditSectorButton = ({ onUpdate, data }: modalActions) => {
+  const [openModal, setOpenModal] = useState(false);
+  const [openConfirmCloseModal, setOpenConfirmCloseModal] = useState(false);
+  const [hasEditedData, setHasEditedData] = useState(false);
+
+  const onOpenChange = () => {
+    if (hasEditedData) {
+      setOpenConfirmCloseModal(true);
+      return;
+    }
+
+    setOpenModal(!openModal);
+  };
+
+  const onConfirmCloseModal = () => {
+    setHasEditedData(false);
+    setOpenConfirmCloseModal(false);
+    setOpenModal(false);
+  };
+
+  const handleOpenModal = () => {
+    setOpenModal(true);
+    setHasEditedData(false);
+    setOpenConfirmCloseModal(false);
+  };
+
+  const handleSuccess = () => {
+    onUpdate?.();
+    onConfirmCloseModal();
+  };
+
+  return (
+    <>
+      <EditedFormPopUp
+        open={hasEditedData && openConfirmCloseModal}
+        onOpenChange={() => setOpenConfirmCloseModal(!openConfirmCloseModal)}
+        onConfirmCloseModal={onConfirmCloseModal}
+      />
+
+      <CenterModal open={openModal} onOpenChange={onOpenChange}>
+        <CreateSectorModal
+          onClose={onOpenChange}
+          onUpdate={handleSuccess}
+          data={data}
+          onSetEditedData={setHasEditedData}
+        />
+      </CenterModal>
+
+      <ButtonComponent buttonStylesType="outline" onClick={handleOpenModal}>
+        <AiOutlineEdit /> Editar
+      </ButtonComponent>
+    </>
+  );
+};

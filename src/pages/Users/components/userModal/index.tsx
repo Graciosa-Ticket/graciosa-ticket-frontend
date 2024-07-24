@@ -19,7 +19,6 @@ import CreateUserModal from "../createUserModal";
 import Avatar from "../../../../components/Avatar";
 import EditedFormPopUp from "../../../../components/EditedFormPopUp";
 import StatusComponent from "../Status";
-import { useAuth } from "../../../../hooks/auth";
 
 export default function UserModal({
   data,
@@ -43,9 +42,6 @@ export default function UserModal({
     );
   };
 
-  const {user} = useAuth();
-
-
   return (
     <>
       <ModalHeader>
@@ -57,6 +53,7 @@ export default function UserModal({
         </div>
         {data && <StatusComponent status={!data?.deleted_at} />}
       </ModalHeader>
+
       <UserComponent>
         <div className="img-sector">
           <Avatar src={data?.profile_picture} alt="" className="user-avatar" />
@@ -69,7 +66,7 @@ export default function UserModal({
           <InputPlaceholder
             label="Nascimento"
             value={
-              data?.birth_date ? formatDate(data?.birth_date, "dd/MM/yyyy") : ""  
+              data?.birth_date ? formatDate(data?.birth_date, "dd/MM/yyyy") : ""
             }
             affix={{
               suffix: data?.birth_date
@@ -117,7 +114,7 @@ export default function UserModal({
             }}
           >
             <AiOutlineDelete /> Deletar
-          </ActionsModalComponent>           
+          </ActionsModalComponent>
           <EditUserButton data={data} onUpdate={onUpdate} />
         </div>
       </UserComponent>
@@ -158,7 +155,6 @@ const EditUserButton = ({ onUpdate, data }: modalActions) => {
 
   return (
     <>
-    
       <EditedFormPopUp
         open={hasEditedData && openConfirmCloseModal}
         onOpenChange={() => setOpenConfirmCloseModal(!openConfirmCloseModal)}

@@ -15,9 +15,9 @@ import { FaAngleRight } from "react-icons/fa";
 import Modal from "../../../../components/modal";
 import TicketModal from "../ticketModal";
 
-interface AdminTicketProps {
+interface userTicketProps {
   tickets: TicketModel[];
-  onUpdate: () => void;
+  onOpenModal: (data: any) => void;
 }
 
 const closeSectionStyle: CSSProperties = {
@@ -28,7 +28,7 @@ const openSectionStyle: CSSProperties = {
   maxHeight: "unset",
 };
 
-const UserTicketsView = ({ tickets, onUpdate }: AdminTicketProps) => {
+const UserTicketsView = ({ tickets, onOpenModal }: userTicketProps) => {
   const { user } = useAuth();
 
   const ticketList = useMemo(() => {
@@ -43,7 +43,7 @@ const UserTicketsView = ({ tickets, onUpdate }: AdminTicketProps) => {
             tickets={e.tickets}
             title={e.title}
             key={i}
-            onUpdate={onUpdate}
+            onOpenModal={onOpenModal}
           />
         ))}
       </UserTicketsViewContainer>
@@ -85,23 +85,8 @@ const columns: TypeColumn[] = [
   },
 ];
 
-const GroupedList = ({
-  tickets,
-  title,
-  onUpdate,
-}: groupTickets & { onUpdate: () => void }) => {
+const GroupedList = ({ tickets, title, onOpenModal }: groupTickets) => {
   const [openAccordeon, setOpenAccordeon] = useState(true);
-  const [openModal, setOpenModal] = useState(false);
-  const [modalData, setModalData] = useState<TicketModel>();
-
-  const handleOpenModal = (data: TicketModel) => {
-    setModalData(data);
-    setOpenModal(true);
-  };
-
-  const handleModalClose = () => {
-    setOpenModal(false);
-  };
 
   const maxHeight = useMemo(() => {
     const totalTickets = tickets.reduce((a, b) => {
@@ -113,13 +98,6 @@ const GroupedList = ({
 
   return (
     <>
-      <Modal open={openModal} onOpenChange={handleModalClose}>
-        <TicketModal
-          data={modalData as TicketModel}
-          onClose={handleModalClose}
-          onUpdate={() => onUpdate()}
-        />
-      </Modal>
       <GroupedListContainer>
         <div className="header">
           <StatusGroupButton
@@ -145,7 +123,7 @@ const GroupedList = ({
           <TableComponent
             columns={columns}
             dataSource={tickets}
-            onRowDoubleClick={(_, { data }) => handleOpenModal(data)}
+            onRowDoubleClick={(_, { data }) => onOpenModal?.(data)}
           />
         </section>
       </GroupedListContainer>

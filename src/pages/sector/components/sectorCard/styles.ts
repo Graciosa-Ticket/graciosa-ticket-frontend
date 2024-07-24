@@ -14,6 +14,7 @@ export const SectorComponent = styled.button`
   &:hover {
     transform: translateY(-5px);
   }
+
   .status-container {
     width: 100%;
     display: flex;
@@ -60,10 +61,14 @@ export const SectorComponent = styled.button`
     grid-template-columns: 1fr 25px;
     gap: 4px;
     text-align: left;
-    margin-top: 4px;
+    margin-top: 14px;
 
     p {
       ${({ theme }) => theme.font.p.extra_small};
+    }
+    span {
+      ${({ theme }) => theme.font.p.extra_small};
+      text-align: center;
     }
   }
 

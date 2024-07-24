@@ -6,7 +6,7 @@ const HomeGraph = () => {
     <HomeGraphContainer>
       <section className="big-numbers">
         <div className="section-header">
-          <h1>Lorem ipsum dolor asimet</h1>
+          <h1>chamados graciosa country club</h1>
         </div>
         <ul className="big-numbers-list">
           <li>

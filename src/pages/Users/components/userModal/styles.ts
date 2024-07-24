@@ -1,4 +1,15 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
+
+const fadeInLeft = keyframes`
+  from {
+    opacity: 0;
+    transform: translateX(500px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0px);
+  }
+`;
 
 export const UserComponent = styled.section`
   width: 100%;
@@ -11,6 +22,7 @@ export const UserComponent = styled.section`
   background-color: white;
   transition: transform 0.2s ease-in-out;
   position: relative;
+  animation: 0.3s ${fadeInLeft} linear;
 
   .img-sector {
     display: flex;
@@ -23,6 +35,7 @@ export const UserComponent = styled.section`
     ${({ theme }) => theme.font.p.small};
     color: ${({ theme }) => theme.colors.brand.dark_blue};
   }
+
   .user-info-area {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
