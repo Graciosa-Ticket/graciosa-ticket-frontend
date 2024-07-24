@@ -22,7 +22,7 @@ const TicketUserCard = ({ data }: ticketUserCardProps) => {
     setLoading(true);
     try {
       const { data: res } = await api.get(`users/${data.code}`);
-      setModalData(res);
+      setModalData({ ...res, ...data });
       setOpen(true);
       setLoading(false);
     } catch (error) {

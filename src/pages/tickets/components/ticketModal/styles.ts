@@ -130,7 +130,6 @@ export const ChatContainer = styled.section`
   }
   .chat-list {
     width: 100%;
-    padding: 0 2em;
     margin-top: auto;
     overflow-y: auto;
     max-height: 80vh;

@@ -17,12 +17,16 @@ import { toast } from "sonner";
 import { AiOutlineClose } from "react-icons/ai";
 import { TicketConclusionModalComponent } from "./style";
 import { TicketModel } from "../../../../models/ticket";
+import { useAuth } from "../../../../hooks/auth";
 
-export default function ticketConclusionModal({
+export default function TicketConclusionModal({
   data: ticketData,
   onSetEditedData,
   onUpdate,
-}: modalActions) {
+  onClose,
+}: modalActions<TicketModel>) {
+  const { user } = useAuth();
+
   const {
     handleSubmit,
     register,
@@ -42,19 +46,46 @@ export default function ticketConclusionModal({
     "put"
   );
 
+  const { mutate: createComment, isLoading: isLoadingComment } =
+    useMutationQuery("/comment");
+
   const onSubmit = handleSubmit(() => {
-    const { ...rest } = getDirtyFields(dirtyFields, getValues);
+    const { description } = getDirtyFields(
+      dirtyFields,
+      getValues
+    ) as TicketModel;
 
     const data = {
-      ...rest,
+      code: ticketData?.code,
+      status: "Concluído",
     };
 
     updateTicket(data, {
-      onSuccess: () => {
+      onSuccess: async () => {
         toast.success("Chamado Concluido");
-        onUpdate?.();
+
+        if (description) {
+          await createComment(
+            {
+              comment: description,
+              userCode: user.code,
+              ticketCode: ticketData?.code,
+            },
+            {
+              onSuccess: () => {
+                onUpdate?.();
+                onClose?.();
+              },
+            }
+          );
+        } else {
+          onUpdate?.();
+          onClose?.();
+        }
       },
-      onError: () => {},
+      onError: (err) => {
+        console.log(err);
+      },
     });
   });
 
@@ -65,12 +96,8 @@ export default function ticketConclusionModal({
           <ModalTitle>Conclusão do chamado</ModalTitle>
         </div>
         <div className="right-side">
-          <ButtonComponent
-            buttonStyles="text"
-            title="Fechar"
-            onClick={onUpdate}
-          >
-            <AiOutlineClose fontSize="1.9em" />
+          <ButtonComponent buttonStyles="text" title="Fechar" onClick={onClose}>
+            <AiOutlineClose fontSize="1em" />
           </ButtonComponent>
         </div>
       </ModalHeader>
@@ -94,7 +121,7 @@ export default function ticketConclusionModal({
               title={"confirmar"}
               className="confirm-btn"
               onClick={onSubmit}
-              isLoading={isLoadingUpdate}
+              isLoading={isLoadingComment || isLoadingUpdate}
             >
               confirmar
             </ButtonComponent>

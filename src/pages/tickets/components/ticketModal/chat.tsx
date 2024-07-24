@@ -1,10 +1,8 @@
 import { KeyboardEvent, useEffect, useRef, useState } from "react";
 import { ChatCardContainer, ChatContainer } from "./styles";
 import { useAuth } from "../../../../hooks/auth";
-import { UserModel } from "../../../../models/user";
 import ButtonComponent from "../../../../components/buttons";
 import Avatar from "../../../../components/Avatar";
-import timeConverter from "../../../../utils/timeConverter";
 import { useFetch } from "../../../../services/hooks/getQuery";
 import { chatComment, TicketModel } from "../../../../models/ticket";
 import { useMutationQuery } from "../../../../services/hooks/useMutationQuery";
@@ -22,9 +20,10 @@ const ChatComponent = ({ ticket_data }: ChatComponentProps) => {
 
   const { refetch } = useFetch<TicketModel>(
     `/ticket/${ticket_data?.code}`,
-    [ticket_data?.code, "chat"],
+    [ticket_data?.status, ticket_data?.code, "chat"],
     {
       onSuccess: (data) => {
+        console.log("search");
         if (data.comments?.length) {
           setChatConversation(data.comments);
         }

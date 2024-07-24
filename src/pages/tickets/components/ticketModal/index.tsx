@@ -3,10 +3,10 @@ import ButtonComponent from "../../../../components/buttons";
 import { ModalHeader, ModalTitle } from "../../../../components/modal";
 import { FaAngleLeft } from "react-icons/fa";
 import { ModalContentBody, ModalHeaderSection } from "./styles";
-import { formatDate } from "date-fns";
+import { formatDate, setISODay } from "date-fns";
 import { Select, SelectItem } from "../../../../components/form/select";
 import { theme, ticketStatus } from "../../../../styles/theme";
-import { CSSProperties } from "react";
+import { CSSProperties, useState } from "react";
 import ChatComponent from "./chat";
 import { modalActions } from "../../../../shared/global.interface";
 import { useMutationQuery } from "../../../../services/hooks/useMutationQuery";
@@ -16,6 +16,8 @@ import { useAuth } from "../../../../hooks/auth";
 import { useForm } from "react-hook-form";
 import TicketUserCard from "./components/userCard";
 import { UserModel } from "../../../../models/user";
+import CenterModal from "../../../../components/centerModal";
+import TicketConclusionModal from "../ticketConclusionModal";
 
 const selectItemStyle = (status: TicketModel["status"]): CSSProperties => {
   const statusStyle = {
@@ -84,6 +86,11 @@ const TicketModal = ({
         },
       }
     );
+  };
+
+  const handleCloseTicket = () => {
+    setValue("status", "Concluído");
+    onUpdate?.();
   };
 
   const handleClose = () => {
@@ -180,15 +187,11 @@ const TicketModal = ({
               </ActionsModalComponent>
             )}
 
-            {data?.status !== "Concluído" && (
-              <ButtonComponent
-                buttonStyles="confirm"
-                buttonStylesType="fill"
-                title="Concluir ticket"
-                onClick={() => handleStatusChange("Concluído")}
-              >
-                Concluir
-              </ButtonComponent>
+            {watch("status") !== "Concluído" && (
+              <CloseTicketButton
+                data={data as TicketModel}
+                onCloseTicket={handleCloseTicket}
+              />
             )}
           </section>
         </section>
@@ -198,9 +201,39 @@ const TicketModal = ({
             <h6>Chat</h6>
           </div>
 
-          <ChatComponent ticket_data={data as TicketModel} />
+          <ChatComponent ticket_data={watch() as TicketModel} />
         </section>
       </ModalContentBody>
+    </>
+  );
+};
+
+interface closeTicketButton {
+  data: TicketModel;
+  onCloseTicket(): void;
+}
+
+const CloseTicketButton = ({ onCloseTicket, data }: closeTicketButton) => {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <>
+      <CenterModal open={open} onOpenChange={() => setOpen(!open)}>
+        <TicketConclusionModal
+          onClose={() => setOpen(false)}
+          onUpdate={onCloseTicket}
+          data={data}
+        />
+      </CenterModal>
+
+      <ButtonComponent
+        buttonStyles="confirm"
+        buttonStylesType="fill"
+        title="Concluir ticket"
+        onClick={() => setOpen(true)}
+      >
+        Concluir
+      </ButtonComponent>
     </>
   );
 };

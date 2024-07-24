@@ -50,66 +50,72 @@ export const BarGraph = () => {
   if (!dataSource) return <div> Carregando...</div>;
 
   return (
-    <div>
-      <Bar
-        data={{
-          labels: Object.keys(dataSource),
-          datasets: [
-            {
-              label: "Chamados",
-              data: Object.values(dataSource),
-              backgroundColor: [
-                theme.colors.ticket_status.open,
-                theme.colors.ticket_status.waiting_approval,
-                theme.colors.ticket_status.canceled,
-                theme.colors.ticket_status.done,
-                theme.colors.ticket_status.on_going,
-                theme.colors.ticket_status.impediment,
-                theme.colors.ticket_status.re_open,
-              ],
-              borderColor: [
-                theme.colors.ticket_status.open,
-                theme.colors.ticket_status.waiting_approval,
-                theme.colors.ticket_status.canceled,
-                theme.colors.ticket_status.done,
-                theme.colors.ticket_status.on_going,
-                theme.colors.ticket_status.impediment,
-                theme.colors.ticket_status.re_open,
-              ],
-              borderWidth: 1,
-            },
-          ],
-        }}
-        options={{
-          responsive: true,
-          plugins: {
-            legend: {
-              display: true,
-              position: "top",
+    <Bar
+      width={700}
+      data={{
+        labels: Object.keys(dataSource),
+        datasets: [
+          {
+            label: "Chamados",
+            data: Object.values(dataSource),
+            backgroundColor: [
+              theme.colors.ticket_status.open,
+              theme.colors.ticket_status.waiting_approval,
+              theme.colors.ticket_status.canceled,
+              theme.colors.ticket_status.done,
+              theme.colors.ticket_status.on_going,
+              theme.colors.ticket_status.impediment,
+              theme.colors.ticket_status.re_open,
+            ],
+            borderColor: [
+              theme.colors.ticket_status.open,
+              theme.colors.ticket_status.waiting_approval,
+              theme.colors.ticket_status.canceled,
+              theme.colors.ticket_status.done,
+              theme.colors.ticket_status.on_going,
+              theme.colors.ticket_status.impediment,
+              theme.colors.ticket_status.re_open,
+            ],
+            borderWidth: 1,
+          },
+        ],
+      }}
+      options={{
+        responsive: true,
+
+        plugins: {
+          legend: {
+            display: false,
+            position: "top",
+          },
+          title: {
+            display: false,
+            text: "Gráfico de Chamados por Status",
+          },
+        },
+        scales: {
+          x: {
+            grid: {
+              lineWidth: 0,
             },
             title: {
-              display: true,
-              text: "Gráfico de Chamados por Status",
+              display: false,
+              text: "Status",
             },
           },
-          scales: {
-            x: {
-              title: {
-                display: true,
-                text: "Status",
-              },
+          y: {
+            grid: {
+              lineWidth: 0,
             },
-            y: {
-              title: {
-                display: true,
-                text: "Quantidade",
-              },
-              beginAtZero: true,
+            title: {
+              display: false,
+              text: "Quantidade",
             },
+            beginAtZero: true,
           },
-        }}
-      />
-    </div>
+        },
+      }}
+    />
   );
 };
 
