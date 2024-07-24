@@ -15,6 +15,8 @@ import { toast } from "sonner";
 import ActionsModalComponent from "../../../../components/actionModal";
 import { useAuth } from "../../../../hooks/auth";
 import { useForm } from "react-hook-form";
+import TicketUserCard from "./components/userCard";
+import { UserModel } from "../../../../models/user";
 
 const selectItemStyle = (status: TicketModel["status"]): CSSProperties => {
   const statusStyle = {
@@ -148,14 +150,7 @@ const TicketModal = ({
             <section className="details-section">
               <div className="ticket-owner">
                 <p>Quem Abriu?</p>
-                <div className="img-sector">
-                  <Avatar
-                    src={data?.user.profile_picture}
-                    alt=""
-                    className="user-avatar"
-                  />
-                </div>
-                <h3>{data?.user?.name?.slice(0, 10) + "."}</h3>
+                <TicketUserCard data={data?.user as UserModel} />
               </div>
             </section>
 

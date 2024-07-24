@@ -26,13 +26,14 @@ export const ModalContentBody = styled.main`
     padding: 20px 10px 0 0;
 
     .ticket-content-header {
-      display: flex;
-      align-items: center;
+      display: grid;
+      grid-template-columns: 1fr 140px;
+      align-items: flex-start;
       justify-content: space-between;
       gap: 1em;
 
       h2 {
-        ${({ theme }) => theme.font.h3};
+        ${({ theme }) => theme.font.p.large_bold};
         color: ${({ theme }) => theme.colors.brand.dark_blue};
         font-weight: 600;
       }
@@ -47,7 +48,7 @@ export const ModalContentBody = styled.main`
 
     .description {
       margin-top: 1em;
-      ${({ theme }) => theme.font.p.medium};
+      ${({ theme }) => theme.font.p.small};
       color: ${({ theme }) => theme.colors.grayscale.gray_70};
     }
 
