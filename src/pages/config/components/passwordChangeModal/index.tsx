@@ -21,7 +21,6 @@ import { ChangePasswordValidation } from "./validation";
 
 export default function PasswordChangeModal({
   data: Userdata,
-  onUpdate,
   onClose,
 }: modalActions<UserModel>) {
   const {
@@ -29,14 +28,15 @@ export default function PasswordChangeModal({
     register,
     getValues,
     formState: { errors },
-  } = useForm<UserModel>({
-    resolver: yupResolver(ChangePasswordValidation),
+  } = useForm<UserModel & { confirmPassword: string }>({
+    resolver: yupResolver(ChangePasswordValidation) as any,
     defaultValues: Userdata,
   });
   const { user } = useAuth();
+
   const onSubmit = handleSubmit(() => {
     const data = {
-      code: user.code,
+      ...user,
       password: getValues("password"),
     };
     console.log(data);

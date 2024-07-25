@@ -1,3 +1,5 @@
+import { CounterToChartModel } from "./counterToChart";
+
 export interface SectorCardModel {
   code?: string;
   name: string;
@@ -11,13 +13,5 @@ export interface SectorCardModel {
     name?: string;
     profile_picture?: string;
   };
-  counters?: {
-    aberto: 6;
-    aguardando_aprovacao: 1;
-    cancelado: 0;
-    concluido: 0;
-    em_andamento: 0;
-    impeditivo: 0;
-    reaberto: 2;
-  };
+  counters?: CounterToChartModel;
 }

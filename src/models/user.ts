@@ -15,5 +15,4 @@ export interface UserModel {
   deleted_at?: Date;
   status?: boolean;
   file?: File;
-  confirmPassword?: string;
 }

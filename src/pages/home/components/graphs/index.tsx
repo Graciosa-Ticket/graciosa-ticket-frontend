@@ -1,4 +1,5 @@
 import BarGraph from "./bar/barGraph";
+import LineGraph from "./line/lineGraph";
 import { HomeGraphContainer } from "./styles";
 
 const HomeGraph = () => {
@@ -25,7 +26,9 @@ const HomeGraph = () => {
         <BarGraph />
       </section>
 
-      <section className="line-chart"></section>
+      <section className="line-chart">
+        <LineGraph />
+      </section>
     </HomeGraphContainer>
   );
 };
