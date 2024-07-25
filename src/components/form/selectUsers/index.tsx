@@ -17,6 +17,8 @@ interface selectUserProps {
   defaultValue?: UserModel;
   placeholderIcon?: any;
   showRemoveButton?: boolean;
+  filterCollaborators?: boolean;
+  showPicturePlaceholder?: boolean;
 }
 
 const SelectUsers = ({
@@ -26,6 +28,8 @@ const SelectUsers = ({
   defaultValue,
   placeholderIcon,
   showRemoveButton = true,
+  filterCollaborators = true,
+  showPicturePlaceholder = true,
 }: selectUserProps) => {
   const [open, setOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState<UserModel | undefined>(
@@ -66,22 +70,26 @@ const SelectUsers = ({
                 onClick={() => setOpen(!open)}
               >
                 {selectedUser ? (
-                  <SelectedUserContainer data={selectedUser} />
+                  <SelectedUserContainer
+                    data={selectedUser}
+                    showPicturePlaceholder={showPicturePlaceholder}
+                  />
                 ) : (
-                  <PicturePlaceholder title={title} icon={placeholderIcon}/>
+                  <PicturePlaceholder
+                    title={title}
+                    icon={placeholderIcon}
+                    showPicturePlaceholder={showPicturePlaceholder}
+                  />
                 )}
               </button>
 
-              {selectedUser && showRemoveButton?(
-
+              {selectedUser && showRemoveButton ? (
                 <ButtonComponent
                   buttonStyles="text"
                   onClick={handleClearSelect}
                 >
-
                   <FaXmark />
                 </ButtonComponent>
-                
               ) : null}
             </div>
           }
@@ -89,6 +97,7 @@ const SelectUsers = ({
           <SearchUsers
             onChange={handleSelectUser}
             selectedUser={selectedUser}
+            filterCollaborators={filterCollaborators}
           />
         </PopOverRoot>
       </SelectUsersContainer>
@@ -99,12 +108,17 @@ const SelectUsers = ({
 interface picturePlaceholderProps {
   title: string;
   icon: any;
+  showPicturePlaceholder: boolean;
 }
 
-const PicturePlaceholder = ({ title, icon = <FaRegFaceSmile fontSize="1.5em"/>}: picturePlaceholderProps) => {
-  return ( 
-    <SelectUsersContainerPlaceholder>          
-      {icon}  
+const PicturePlaceholder = ({
+  title,
+  icon = <FaRegFaceSmile fontSize={"1.5em"} />,
+  showPicturePlaceholder,
+}: picturePlaceholderProps) => {
+  return (
+    <SelectUsersContainerPlaceholder>
+      {showPicturePlaceholder && icon}
       <span>{title}</span>
     </SelectUsersContainerPlaceholder>
   );
@@ -112,13 +126,18 @@ const PicturePlaceholder = ({ title, icon = <FaRegFaceSmile fontSize="1.5em"/>}:
 
 interface selectedUserProps {
   data: UserModel;
+  showPicturePlaceholder: boolean;
 }
 
-const SelectedUserContainer = ({ data }: selectedUserProps) => {
+const SelectedUserContainer = ({
+  data,
+  showPicturePlaceholder,
+}: selectedUserProps) => {
   return (
     <SelectUsersContainerPlaceholder>
-      <Avatar src={data.profile_picture} className="avatar-img"/>
-
+      {showPicturePlaceholder && (
+        <Avatar src={data.profile_picture} className="avatar-img" />
+      )}
       <span className="selected-user-span">{data.name}</span>
     </SelectUsersContainerPlaceholder>
   );

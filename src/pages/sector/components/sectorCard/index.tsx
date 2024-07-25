@@ -1,7 +1,6 @@
 import { useState } from "react";
 import Avatar from "../../../../components/Avatar";
 import { modalActions } from "../../../../shared/global.interface";
-import StatusComponent from "../../../Users/components/Status";
 import SectorModal from "../sectorModal";
 import { SectorComponent } from "./styles";
 import { SectorCardModel } from "../../../../models/sector";

@@ -87,7 +87,13 @@ export default function CreateTicketModal({
 
   const viewOptions = {
     sector: <ChooseSectorStep formProps={formReturn} onChangeStep={setView} />,
-    main: <TicketFormStep formProps={formReturn} onClose={onClose} onUpdate={onUpdate} />,
+    main: (
+      <TicketFormStep
+        formProps={formReturn}
+        onClose={onClose}
+        onUpdate={onUpdate}
+      />
+    ),
   };
 
   return (
@@ -182,11 +188,14 @@ const ChooseSectorStep = ({ formProps, onChangeStep }: StepsProps) => {
 const TicketFormStep = ({ formProps, onClose, onUpdate }: StepsProps) => {
   const [viewAdvancedOptions, setViewAdvancedOptions] = useState(false);
 
-  const { watch, handleSubmit, formState: { errors } } = formProps;
+  const {
+    watch,
+    handleSubmit,
+    formState: { errors },
+  } = formProps;
 
-  const { mutate: createTicket, isLoading: isLoadingUpdate } = useMutationQuery(
-    "/ticket",
-  );
+  const { mutate: createTicket, isLoading: isLoadingUpdate } =
+    useMutationQuery("/ticket");
 
   const { user } = useAuth();
 
@@ -266,7 +275,10 @@ const TicketFormStep = ({ formProps, onClose, onUpdate }: StepsProps) => {
   );
 };
 
-const TicketMainForm = ({ formProps, errors }: StepsProps & { errors: any }) => {
+const TicketMainForm = ({
+  formProps,
+  errors,
+}: StepsProps & { errors: any }) => {
   const { register } = formProps;
 
   return (

@@ -35,9 +35,7 @@ export const BarGraph = () => {
       onSuccess: (data) => {
         setDataSource(data);
       },
-      onError: (error) => {
-        console.error("Failed to fetch data", error);
-      },
+      onError: (error) => {},
     }
   );
 

@@ -3,7 +3,7 @@ import ButtonComponent from "../../../../components/buttons";
 import { ModalHeader, ModalTitle } from "../../../../components/modal";
 import { FaAngleLeft } from "react-icons/fa";
 import { ModalContentBody, ModalHeaderSection } from "./styles";
-import { formatDate, setISODay } from "date-fns";
+import { formatDate } from "date-fns";
 import { Select, SelectItem } from "../../../../components/form/select";
 import { theme, ticketStatus } from "../../../../styles/theme";
 import { CSSProperties, useState } from "react";
@@ -18,6 +18,7 @@ import TicketUserCard from "./components/userCard";
 import { UserModel } from "../../../../models/user";
 import CenterModal from "../../../../components/centerModal";
 import TicketConclusionModal from "../ticketConclusionModal";
+import AccountConfigModal from "../../../config/components/accountConfigModal";
 
 const selectItemStyle = (status: TicketModel["status"]): CSSProperties => {
   const statusStyle = {
@@ -124,7 +125,7 @@ const TicketModal = ({
             <SelectItem value="Cancelado">Cancelado</SelectItem>
             <SelectItem value="Reaberto">Reaberto</SelectItem>
             <SelectItem value="Impeditivo">Impeditivo</SelectItem>
-            <SelectItem value="Concluído">Concluído</SelectItem>
+            {/* <SelectItem value="Concluído">Concluído</SelectItem> */}
           </Select>
         </ModalHeaderSection>
       </ModalHeader>

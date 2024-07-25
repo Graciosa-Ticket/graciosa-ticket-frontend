@@ -33,10 +33,9 @@ const UserTicketsView = ({ tickets, onOpenModal }: userTicketProps) => {
     if (user.role === "Collaborator") {
       return tickets.filter((ticket) => ticket.user.code === user.code);
     }
-    // if (user.role === "Supervisor") {
-    //   return tickets.filter((ticket) => ticket.responsable_code === user.code);
-    // }
-    return tickets;
+    return tickets.filter(
+      (ticket) => ticket.sector.responsible_code === user.code
+    );
   }, [tickets, user.code, user.role]);
 
   const ticketList = useMemo(() => {

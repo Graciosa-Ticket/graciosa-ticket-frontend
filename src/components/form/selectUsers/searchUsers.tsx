@@ -11,9 +11,14 @@ import Avatar from "../../Avatar";
 interface searchUserProps {
   onChange(data: UserModel): void;
   selectedUser: UserModel | undefined;
+  filterCollaborators: boolean;
 }
 
-const SearchUsers = ({ onChange, selectedUser }: searchUserProps) => {
+const SearchUsers = ({
+  onChange,
+  selectedUser,
+  filterCollaborators,
+}: searchUserProps) => {
   const [dataSource, setDataSource] = useState<UserModel[]>([]);
 
   const { register, watch } = useForm<{ search: string }>();
@@ -46,10 +51,11 @@ const SearchUsers = ({ onChange, selectedUser }: searchUserProps) => {
             return user.code !== selectedUser.code;
           }
           return true;
-        });
+        })
+        .filter((user) => !filterCollaborators || user.role !== "Collaborator");
     }
     return [];
-  }, [dataSource, watch("search"), selectedUser]);
+  }, [dataSource, watch("search"), selectedUser, filterCollaborators]);
 
   return (
     <SearchUsersContainer>

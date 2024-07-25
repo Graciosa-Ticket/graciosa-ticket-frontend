@@ -1,4 +1,3 @@
-
 import { SectorCardModel } from "../../models/sector";
 import { SectorContainer } from "./styles";
 import PageHeaderComponent from "../../components/pagesHeader";
@@ -11,6 +10,7 @@ import CenterModal from "../../components/centerModal";
 import CreateSectorModal from "./components/createNewSector";
 import { useState } from "react";
 import SectorCard from "./components/sectorCard";
+import { CounterToChartModel } from "../../models/counterToChart";
 
 export default function Sector() {
   const [dataSource, setDataSource] = useState<SectorCardModel[]>([]);
@@ -28,6 +28,18 @@ export default function Sector() {
 
   const isLoadingFetch = isLoading || isFetching;
 
+  const [counterData, setcounterData] = useState<CounterToChartModel[]>([]);
+
+  const {} = useFetch<CounterToChartModel[]>(
+    "/counters/CounterToChart/AllSectors",
+    ["Counter"],
+    {
+      onSuccess: (data) => {
+        setcounterData(data);
+      },
+      onError: (error) => {},
+    }
+  );
 
   return (
     <SectorContainer>
@@ -39,7 +51,6 @@ export default function Sector() {
           }}
         />
       </PageHeaderComponent.container>
-
 
       <div className="div-sector-all">
         {!dataSource.length && !isLoadingFetch ? (

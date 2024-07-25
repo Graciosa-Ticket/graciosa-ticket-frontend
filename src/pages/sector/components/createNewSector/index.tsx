@@ -102,6 +102,7 @@ export default function CreateSectorModal({
                 });
               }}
             />
+
             <Input
               label="Nome do Setor"
               placeholder="Digite o Nome do Setor"

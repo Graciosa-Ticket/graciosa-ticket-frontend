@@ -47,7 +47,6 @@ export interface TicketModel {
     Omit<
       SectorCardModel,
       | "code"
-      | "responsible_code"
       | "description"
       | "created_at"
       | "updated_at"
@@ -60,7 +59,7 @@ export interface TicketModel {
   comments?: chatComment[];
 }
 
-export interface chatComment{
+export interface chatComment {
   code: string;
   comment: string;
   attachmentUrl: string[];

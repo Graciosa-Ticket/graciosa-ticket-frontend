@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import ButtonComponent from "../../components/buttons";
 import { UserModel } from "../../models/user";
 import { UserContainer } from "./styles";
@@ -11,16 +11,27 @@ import NotFoundComponent from "../../components/notFound";
 import UserSkeletonLoading from "./skeleton";
 import { modalActions } from "../../shared/global.interface";
 import EditedFormPopUp from "../../components/EditedFormPopUp";
+import { AiOutlineSearch } from "react-icons/ai";
+import SelectUsers from "../../components/form/selectUsers";
 
 export default function User() {
   const [dataSource, setDataSource] = useState<UserModel[]>([]);
+  const [foundUser, setfoundUser] = useState<UserModel>();
 
   const [selectedBtn, setSelectedBtn] =
     useState<UserModel["role"]>("Administrator");
 
+  const handleBtnClick = (role: UserModel["role"]) => {
+    setSelectedBtn(role);
+  };
+
+  useEffect(() => {
+    refetch();
+  }, [selectedBtn]);
+
   const { isLoading, isFetching, refetch } = useFetch<UserModel[]>(
-    "/users",
-    ["users"],
+    `/users/getUsersByRole/${selectedBtn}`,
+    ["users", selectedBtn],
     {
       onSuccess: (data) => {
         setDataSource(data);
@@ -30,27 +41,23 @@ export default function User() {
 
   const isLoadingFecth = isLoading || isFetching;
 
-  const handleBtnClick = (role: UserModel["role"]) => {
-    setSelectedBtn(role);
-  };
-
   const userlist = useMemo(() => {
     if (dataSource.length) {
-      return dataSource.filter(
-        (user) => user.role === selectedBtn && !user.deleted_at
-      );
+      return dataSource.filter((user) => !user.deleted_at);
     }
     return [];
   }, [dataSource, selectedBtn]);
 
   const deletedUserlist = useMemo(() => {
     if (dataSource.length) {
-      return dataSource.filter(
-        (user) => user.role === selectedBtn && user.deleted_at
-      );
+      return dataSource.filter((user) => user.deleted_at);
     }
     return [];
   }, [dataSource, selectedBtn]);
+
+  const handleUserSelect = (data: UserModel) => {
+    setfoundUser(data);
+  };
 
   return (
     <>
@@ -82,26 +89,37 @@ export default function User() {
           >
             Colaboradores
           </ButtonComponent>
+
+          <div className="search-user">
+            <SelectUsers
+              title="Buscar Usuario"
+              onChange={handleUserSelect}
+              filterCollaborators={false}
+              showPicturePlaceholder={false}
+            />
+          </div>
         </div>
 
         <div className="user-cards">
-          {!dataSource.length && !isLoadingFecth ? (
-            <NotFoundComponent />
-          ) : isLoadingFecth ? (
-            <UserSkeletonLoading />
+          {!foundUser ? (
+            isLoadingFecth ? (
+              <UserSkeletonLoading />
+            ) : !dataSource.length ? (
+              <NotFoundComponent />
+            ) : (
+              <>
+                {userlist.map((user) => (
+                  <UserCard data={user} key={user.id} refetch={refetch} />
+                ))}
+                {deletedUserlist.map((user) => (
+                  <UserCard data={user} key={user.id} refetch={refetch} />
+                ))}
+              </>
+            )
           ) : (
-            userlist.map((user, index) => (
-              <UserCard data={user} key={index} refetch={refetch} />
-            ))
-          )}
-          {!dataSource.length && !isLoadingFecth ? (
-            <NotFoundComponent />
-          ) : isLoadingFecth ? (
-            <UserSkeletonLoading />
-          ) : (
-            deletedUserlist.map((user, index) => (
-              <UserCard data={user} key={index} refetch={refetch} />
-            ))
+            <div>
+              <UserCard data={foundUser} key={foundUser.id} refetch={refetch} />
+            </div>
           )}
         </div>
       </UserContainer>

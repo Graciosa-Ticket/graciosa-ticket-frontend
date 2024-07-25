@@ -13,8 +13,7 @@ to{
 }
 `;
 
-export const Configontainer = styled.section`
-
+export const ConfigContainer = styled.section`
   .cards-sector {
     margin-top: 2em;
     display: grid;
@@ -35,7 +34,7 @@ export const Configontainer = styled.section`
     align-items: center;
     animation: 0.5s ${entranceAnimation} ease;
     transform-origin: left;
-    ${({ theme }) => theme.font.p.large };
+    ${({ theme }) => theme.font.p.large};
     font-weight: 700;
     color: ${({ theme }) => theme.colors.brand.dark_blue};
     &:hover {
