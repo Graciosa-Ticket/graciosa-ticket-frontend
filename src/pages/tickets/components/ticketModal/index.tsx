@@ -18,7 +18,6 @@ import TicketUserCard from "./components/userCard";
 import { UserModel } from "../../../../models/user";
 import CenterModal from "../../../../components/centerModal";
 import TicketConclusionModal from "../ticketConclusionModal";
-import AccountConfigModal from "../../../config/components/accountConfigModal";
 
 const selectItemStyle = (status: TicketModel["status"]): CSSProperties => {
   const statusStyle = {

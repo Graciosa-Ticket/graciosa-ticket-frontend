@@ -6,12 +6,15 @@ import GlobalStyle from "./styles/global";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { AuthProvider } from "./hooks/auth";
 import { themesOptions } from "./styles/theme";
+import { useDarkMode } from "./hooks/theme";
 
 const queryClient = new QueryClient();
 
 function App() {
+  const { theme } = useDarkMode();
+
   return (
-    <ThemeProvider theme={themesOptions["light"]}>
+    <ThemeProvider theme={themesOptions[theme]}>
       <QueryClientProvider client={queryClient}>
         <AuthProvider>
           <GlobalStyle />

@@ -49,7 +49,6 @@ export const LineGraph = () => {
 
   return (
     <Line
-      width={700}
       data={{
         labels: Object.keys(dataSource),
         datasets: [

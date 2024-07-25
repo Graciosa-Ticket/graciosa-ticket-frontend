@@ -8,17 +8,10 @@ export default function Home() {
   const { user } = useAuth();
 
   return (
-
-    
-    <HomeSection>   
-
-
-      <HomeGraph/>
+    <HomeSection>
+      <HomeGraph />
       <HomeTicketComponent />
-      <HomeSector/>
-
-
-      
+      <HomeSector />
     </HomeSection>
   );
 }

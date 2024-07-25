@@ -2,15 +2,15 @@ import styled from "styled-components";
 
 export const LoginContainer = styled.section`
   width: 100%;
-  padding: 50px;
+  padding: 20px;
   align-items: center;
   justify-content: center;
-  display: flex;
-  gap: 200px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 60px;
 
   .left-container {
     width: 100%;
-    max-width: 612px;
     height: 100%;
     background-image: linear-gradient(#0054a4, #280741);
     border-radius: 20px;
@@ -32,6 +32,13 @@ export const LoginContainer = styled.section`
   }
 
   .right-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .content {
+    }
+
     .logo-container {
       display: grid;
       justify-items: center;

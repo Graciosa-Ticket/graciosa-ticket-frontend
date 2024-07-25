@@ -49,7 +49,6 @@ export const BarGraph = () => {
 
   return (
     <Bar
-      width={700}
       data={{
         labels: Object.keys(dataSource),
         datasets: [

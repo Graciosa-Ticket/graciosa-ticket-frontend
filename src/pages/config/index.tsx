@@ -17,12 +17,15 @@ import PasswordChangeModal from "./components/passwordChangeModal";
 import { useAuth } from "../../hooks/auth";
 import SuggestionsModal from "./components/suggestionsModal";
 import SupportModal from "./components/supportModal";
+import { useDarkMode } from "../../hooks/theme";
 
 export default function Config({}: modalActions<UserModel>) {
   const [openPasswordChangeModal, setopenPasswordChangeModal] = useState(false);
   const [openSuggestionsModa, setopenSuggestionsModal] = useState(false);
   const [openSupportModa, setopenSupportModal] = useState(false);
   const { user } = useAuth();
+  const { onChangeTheme } = useDarkMode();
+
   return (
     <>
       <CenterModal
@@ -95,7 +98,11 @@ export default function Config({}: modalActions<UserModel>) {
             sugestões
           </ButtonComponent>
 
-          <ButtonComponent className="card" title="Temas">
+          <ButtonComponent
+            className="card"
+            title="Temas"
+            onClick={onChangeTheme}
+          >
             <AiOutlineSun style={{ fontSize: "2em" }} />
             Temas
           </ButtonComponent>

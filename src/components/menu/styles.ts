@@ -49,7 +49,7 @@ export const MenuHeaderHome = styled.header`
 
       &.active-button {
         background-color: ${({ theme }) => theme.colors.brand.blue};
-        color: ${({ theme }) => theme.colors.brand.white};
+        color: white;
       }
     }
   }

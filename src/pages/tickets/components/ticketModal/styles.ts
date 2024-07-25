@@ -27,7 +27,7 @@ export const ModalContentBody = styled.main`
 
     .ticket-content-header {
       display: grid;
-      grid-template-columns: 1fr 140px;
+      grid-template-columns: 1fr 150px;
       align-items: flex-start;
       justify-content: space-between;
       gap: 1em;
@@ -40,6 +40,7 @@ export const ModalContentBody = styled.main`
 
       .right-side {
         span {
+          text-align: right;
           ${({ theme }) => theme.font.p.small};
           color: ${({ theme }) => theme.colors.grayscale.gray_80};
         }

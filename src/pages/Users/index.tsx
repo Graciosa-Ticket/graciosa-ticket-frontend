@@ -11,7 +11,6 @@ import NotFoundComponent from "../../components/notFound";
 import UserSkeletonLoading from "./skeleton";
 import { modalActions } from "../../shared/global.interface";
 import EditedFormPopUp from "../../components/EditedFormPopUp";
-import { AiOutlineSearch } from "react-icons/ai";
 import SelectUsers from "../../components/form/selectUsers";
 
 export default function User() {
@@ -108,8 +107,12 @@ export default function User() {
               <NotFoundComponent />
             ) : (
               <>
-                {userlist.map((user) => (
-                  <UserCard data={user} key={user.id} refetch={refetch} />
+                {userlist.map((user, key) => (
+                  <UserCard
+                    data={user}
+                    key={user.id + "" + key}
+                    refetch={refetch}
+                  />
                 ))}
                 {deletedUserlist.map((user) => (
                   <UserCard data={user} key={user.id} refetch={refetch} />

@@ -52,21 +52,23 @@ export const AuthProvider = ({ children }: authProp) => {
     setData({} as AuthState);
   };
 
-  const updateProfile = (data: UserModel) => {
-    localStorage.setItem("gcc_ticket/user", JSON.stringify(data));
-    setData((old) => ({ token: old.token, user: data }));
+  const updateProfile = (updateData: UserModel) => {
+    const updatedUser = { ...data?.user, ...updateData };
+
+    localStorage.setItem("gcc_ticket/user", JSON.stringify(updatedUser));
+    setData((old) => ({ token: old.token, user: updatedUser }));
   };
 
   const signIn = async (code: string, password: string) => {
     setLoading(true);
     try {
-     const { data } : any = await api.post("/auth/login", {
-      code,
-     password,
-     });
+      const { data }: any = await api.post("/auth/login", {
+        code,
+        password,
+      });
 
-     const{token, user}=data
-     api.defaults.headers.Authorization = `Bearer ${token}`;
+      const { token, user } = data;
+      api.defaults.headers.Authorization = `Bearer ${token}`;
       setData(() => ({
         user,
         token,

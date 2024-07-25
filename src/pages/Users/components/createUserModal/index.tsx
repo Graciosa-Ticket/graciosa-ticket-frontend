@@ -17,6 +17,7 @@ import { UserModel } from "../../../../models/user";
 import getDirtyFields from "../../../../utils/getDirtyFields";
 import { FaAngleLeft } from "react-icons/fa";
 import PictureInput from "../../../../components/form/picture";
+import { useAuth } from "../../../../hooks/auth";
 
 export default function CreateUserModal({
   onClose,
@@ -24,6 +25,8 @@ export default function CreateUserModal({
   onSetEditedData,
   data: userData,
 }: modalActions<UserModel>) {
+  const { user, updateProfile } = useAuth();
+
   const {
     handleSubmit,
     register,
@@ -60,18 +63,24 @@ export default function CreateUserModal({
 
     const data = {
       ...rest,
-      status: true,
-      role: rest?.role || "Collaborator",
+      status: userData?.status || true,
+      role: rest?.role || userData?.role || "Collaborator",
       code: userData?.code,
     };
 
     for (let key in data) {
-      formData.append(key, data[key]);
+      if (data[key]) {
+        formData.append(key, data[key]);
+      }
     }
 
     createUser(formData, {
       onSuccess: () => {
         if (userData) {
+          if (userData.code === user.code) {
+            updateProfile(data);
+          }
+
           toast.success("Cadastro Atualizado!");
         } else {
           toast.success("Cadastro concluído!");

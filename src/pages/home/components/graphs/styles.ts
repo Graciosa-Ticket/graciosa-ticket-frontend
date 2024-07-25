@@ -2,8 +2,9 @@ import styled from "styled-components";
 
 export const HomeGraphContainer = styled.section`
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   grid-column: span 2;
+  gap: 20px;
   border-bottom: 1px solid ${({ theme }) => theme.colors.grayscale.gray_10};
   padding-bottom: 2em;
   align-items: center;

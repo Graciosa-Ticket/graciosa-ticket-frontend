@@ -40,38 +40,40 @@ export default function LoginPage() {
           </p>
         </div>
 
-        <div className="right-container">
-          <div className="logo-container">
-            <img src={Logo} />
-            <h1>Bem vindo</h1>
-            <p>ao sistema de chamados graciosa country club</p>
-          </div>
-
-          <form onSubmit={onSubmit}>
-            <Input
-              placeholder="login"
-              label="Login"
-              register={{ ...register("code") }}
-            />
-            <Input
-              placeholder="Senha"
-              label="Senha"
-              type={showPassword ? "text" : "password"}
-              affix={{
-                suffix: (
-                  <ButtonComponent onClick={handleShow} buttonStyles="text">
-                    {showPassword ? <FaRegEyeSlash /> : <FaRegEye />}
-                  </ButtonComponent>
-                ),
-              }}
-              register={{ ...register("password") }}
-            />
-
-            <div className="buttons-container">
-              <ButtonComponent type="submit"> Entrar</ButtonComponent>
+        <section className="right-container">
+          <div className="content">
+            <div className="logo-container">
+              <img src={Logo} />
+              <h1>Bem vindo</h1>
+              <p>ao sistema de chamados graciosa country club</p>
             </div>
-          </form>
-        </div>
+
+            <form onSubmit={onSubmit}>
+              <Input
+                placeholder="login"
+                label="Login"
+                register={{ ...register("code") }}
+              />
+              <Input
+                placeholder="Senha"
+                label="Senha"
+                type={showPassword ? "text" : "password"}
+                affix={{
+                  suffix: (
+                    <ButtonComponent onClick={handleShow} buttonStyles="text">
+                      {showPassword ? <FaRegEyeSlash /> : <FaRegEye />}
+                    </ButtonComponent>
+                  ),
+                }}
+                register={{ ...register("password") }}
+              />
+
+              <div className="buttons-container">
+                <ButtonComponent type="submit"> Entrar</ButtonComponent>
+              </div>
+            </form>
+          </div>
+        </section>
       </LoginContainer>
     </>
   );
