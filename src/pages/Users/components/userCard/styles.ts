@@ -59,4 +59,8 @@ export const UserComponent = styled.button`
       color: ${({ theme }) => theme.colors.grayscale.gray_70};
     }
   }
+
+  span {
+    color: ${({ theme }) => theme.colors.grayscale.gray_60};
+  }
 `;

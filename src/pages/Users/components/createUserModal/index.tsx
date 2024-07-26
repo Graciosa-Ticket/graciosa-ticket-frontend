@@ -1,5 +1,7 @@
 import { useForm } from "react-hook-form";
-import { UserComponent } from "./styles";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { CreateUserComponent } from "./styles";
 import { ModalHeader, ModalTitle } from "../../../../components/modal";
 import ButtonComponent from "../../../../components/buttons";
 import Input from "../../../../components/form/input";
@@ -12,12 +14,21 @@ import { Select, SelectItem } from "../../../../components/form/select";
 import { useMutationQuery } from "../../../../services/hooks/useMutationQuery";
 import { toast } from "sonner";
 import { modalActions } from "../../../../shared/global.interface";
-import { useEffect } from "react";
 import { UserModel } from "../../../../models/user";
 import getDirtyFields from "../../../../utils/getDirtyFields";
 import { FaAngleLeft } from "react-icons/fa";
 import PictureInput from "../../../../components/form/picture";
 import { useAuth } from "../../../../hooks/auth";
+
+const fetchAddressByCep = async (cep: string) => {
+  try {
+    const response = await axios.get(`https://viacep.com.br/ws/${cep}/json/`);
+    const { logradouro, bairro } = response.data;
+    return { logradouro, bairro };
+  } catch (error) {
+    throw new Error(`Erro ao buscar o endereço`);
+  }
+};
 
 export default function CreateUserModal({
   onClose,
@@ -26,6 +37,10 @@ export default function CreateUserModal({
   data: userData,
 }: modalActions<UserModel>) {
   const { user, updateProfile } = useAuth();
+  const [address, setAddress] = useState<{
+    logradouro: string;
+    bairro: string;
+  } | null>(null);
 
   const {
     handleSubmit,
@@ -50,6 +65,23 @@ export default function CreateUserModal({
       onSetEditedData?.(true);
     }
   }, [dirtyFields]);
+
+  useEffect(() => {
+    if (getValues("cep")) {
+      fetchAddressByCep(getValues("cep"))
+        .then(({ logradouro, bairro }) => {
+          setAddress({ logradouro, bairro });
+          setValue("address", `${logradouro}, ${bairro}`, {
+            shouldDirty: true,
+          });
+        })
+        .catch((error) => {
+          console.error(error.message);
+          setAddress(null);
+          setValue("address", "", { shouldDirty: true });
+        });
+    }
+  }, [getValues("cep")]);
 
   const { mutate: createUser, isLoading: isLoadingUpdate } = useMutationQuery(
     "/users",
@@ -102,7 +134,7 @@ export default function CreateUserModal({
           <ModalTitle>{userData ? userData.name : "Cadastro"}</ModalTitle>
         </div>
       </ModalHeader>
-      <UserComponent>
+      <CreateUserComponent>
         <div className="img-sector">
           <PictureInput
             defaultUrl={userData?.profile_picture}
@@ -137,6 +169,11 @@ export default function CreateUserModal({
               placeholder="Digite o Endereço"
               error={errors.address?.message}
               register={{ ...register("address") }}
+              value={
+                address
+                  ? `${address.logradouro}, ${address.bairro}`
+                  : getValues("address")
+              }
             />
             <Input
               label="Cep"
@@ -187,7 +224,7 @@ export default function CreateUserModal({
             {userData ? "Confirmar Edição" : "Cadastrar"}
           </ButtonComponent>
         </div>
-      </UserComponent>
+      </CreateUserComponent>
     </>
   );
 }

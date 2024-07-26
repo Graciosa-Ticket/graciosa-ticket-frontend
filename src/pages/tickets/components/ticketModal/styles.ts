@@ -253,7 +253,7 @@ export const ChatCardContainer = styled.div<chatCardProps>`
           }
 
           span {
-            color: ${({ theme }) => theme.colors.brand.white};
+            color: white;
             ${({ theme }) => theme.font.p.small};
             font-weight: 600;
           }
@@ -267,7 +267,7 @@ export const ChatCardContainer = styled.div<chatCardProps>`
         }
 
         p {
-          color: ${({ theme }) => theme.colors.brand.white};
+          color: white;
           ${({ theme }) => theme.font.p.small};
         }
       `;

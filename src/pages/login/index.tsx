@@ -69,7 +69,13 @@ export default function LoginPage() {
               />
 
               <div className="buttons-container">
-                <ButtonComponent type="submit"> Entrar</ButtonComponent>
+                <ButtonComponent
+                  type="submit"
+                  buttonStyles="primary"
+                  title="Entrar"
+                >
+                  Entrar
+                </ButtonComponent>
               </div>
             </form>
           </div>

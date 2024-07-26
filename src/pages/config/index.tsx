@@ -2,6 +2,7 @@ import {
   AiOutlineComment,
   AiOutlineKey,
   AiOutlineLike,
+  AiOutlineMoon,
   AiOutlinePhone,
   AiOutlineSun,
 } from "react-icons/ai";
@@ -25,6 +26,13 @@ export default function Config({}: modalActions<UserModel>) {
   const [openSupportModa, setopenSupportModal] = useState(false);
   const { user } = useAuth();
   const { onChangeTheme } = useDarkMode();
+
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
+  const handleThemeChange = () => {
+    onChangeTheme();
+    setIsDarkMode(!isDarkMode);
+  };
 
   return (
     <>
@@ -82,15 +90,6 @@ export default function Config({}: modalActions<UserModel>) {
 
           <ButtonComponent
             className="card"
-            title="Alterar senha"
-            onClick={() => setopenPasswordChangeModal(true)}
-          >
-            <AiOutlineKey style={{ fontSize: "2em" }} />
-            Alterar senha
-          </ButtonComponent>
-
-          <ButtonComponent
-            className="card"
             title="sugestões"
             onClick={() => setopenSuggestionsModal(true)}
           >
@@ -101,11 +100,26 @@ export default function Config({}: modalActions<UserModel>) {
           <ButtonComponent
             className="card"
             title="Temas"
-            onClick={onChangeTheme}
+            onClick={handleThemeChange}
           >
-            <AiOutlineSun style={{ fontSize: "2em" }} />
+            {isDarkMode ? (
+              <AiOutlineMoon style={{ fontSize: "2em" }} />
+            ) : (
+              <AiOutlineSun style={{ fontSize: "2em" }} />
+            )}
             Temas
           </ButtonComponent>
+
+          {user.role === "Administrator" && (
+            <ButtonComponent
+              className="card"
+              title="Alterar senha"
+              onClick={() => setopenPasswordChangeModal(true)}
+            >
+              <AiOutlineKey style={{ fontSize: "2em" }} />
+              Alterar senha
+            </ButtonComponent>
+          )}
         </section>
       </ConfigContainer>
     </>

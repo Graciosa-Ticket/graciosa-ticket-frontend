@@ -65,10 +65,12 @@ export const SectorComponent = styled.button`
 
     p {
       ${({ theme }) => theme.font.p.extra_small};
+      color: ${({ theme }) => theme.colors.brand.black};
     }
     span {
       ${({ theme }) => theme.font.p.extra_small};
       text-align: center;
+      color: ${({ theme }) => theme.colors.brand.black};
     }
   }
 

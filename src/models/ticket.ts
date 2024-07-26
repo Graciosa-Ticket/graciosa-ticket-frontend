@@ -55,8 +55,8 @@ export interface TicketModel {
     >
   >;
   sector_code: string;
-
   comments?: chatComment[];
+  files?: string[];
 }
 
 export interface chatComment {
@@ -64,4 +64,5 @@ export interface chatComment {
   comment: string;
   attachmentUrl: string[];
   user: UserModel;
+  created_at?: Date | string;
 }

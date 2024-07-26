@@ -74,19 +74,19 @@ export const LineGraph = () => {
         scales: {
           x: {
             grid: {
-              lineWidth: 0,
+              lineWidth: 1,
             },
             title: {
-              display: false,
+              display: true,
               text: "Setor",
             },
           },
           y: {
             grid: {
-              lineWidth: 0,
+              lineWidth: 1,
             },
             title: {
-              display: false,
+              display: true,
               text: "Quantidade",
             },
             beginAtZero: true,

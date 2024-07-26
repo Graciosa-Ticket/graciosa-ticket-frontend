@@ -42,6 +42,7 @@ export const SectorComponent = styled.button`
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 4px;
 
     .user-container {
       display: flex;

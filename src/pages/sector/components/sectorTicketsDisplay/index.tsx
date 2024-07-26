@@ -1,23 +1,27 @@
-import ticketData from "../sectorCard/fakedata";
+import { SectorCardModel } from "../../../../models/sector";
 import { Layout, StatusP } from "./styles";
 
-const SectorTicketsDisplay = () => {
+interface SectorTicketsDisplayProps {
+  data?: SectorCardModel;
+}
+
+const SectorTicketsDisplay = ({ data }: SectorTicketsDisplayProps) => {
   return (
     <Layout>
       <StatusP status="Aberto">Aberto</StatusP>
-      <span>{ticketData.aberto}</span>
+      <span>{data?.counters?.aberto}</span>
       <StatusP status="Em andamento">Em andamento</StatusP>
-      <span>{ticketData.em_andamento}</span>
+      <span>{data?.counters?.em_andamento}</span>
       <StatusP status="Aguardando aprovação">Aguardando aprovação</StatusP>
-      <span>{ticketData.aguardando_aprovacao}</span>
+      <span>{data?.counters?.aguardando_aprovacao}</span>
       <StatusP status="Cancelado">Cancelado</StatusP>
-      <span>{ticketData.cancelado}</span>
+      <span>{data?.counters?.cancelado}</span>
       <StatusP status="Reaberto">Reaberto</StatusP>
-      <span>{ticketData.reaberto}</span>
+      <span>{data?.counters?.reaberto}</span>
       <StatusP status="Impeditivo">Impeditivo</StatusP>
-      <span>{ticketData.impeditivo}</span>
+      <span>{data?.counters?.impeditivo}</span>
       <StatusP status="Concluído">Concluído</StatusP>
-      <span>{ticketData.concluido}</span>
+      <span>{data?.counters?.concluido}</span>
     </Layout>
   );
 };

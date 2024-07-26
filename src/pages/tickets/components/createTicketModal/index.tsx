@@ -47,6 +47,7 @@ interface createInputProps {
   initial_date: string;
   final_date: string;
   user: UserModel;
+  files?: string[];
 }
 
 export default function CreateTicketModal({
@@ -54,7 +55,7 @@ export default function CreateTicketModal({
   onSetEditedData,
   onClose,
   onUpdate,
-}: modalActions) {
+}: modalActions<TicketModel>) {
   const [view, setView] = useState<viewOptions>("sector");
 
   const formReturn = useForm<createInputProps>({
@@ -124,6 +125,7 @@ interface StepsProps {
   onChangeStep?: (step: viewOptions) => void;
   onClose?: () => void;
   onUpdate?: () => void;
+  setValue?: () => void;
 }
 
 const ChooseSectorStep = ({ formProps, onChangeStep }: StepsProps) => {
@@ -278,8 +280,16 @@ const TicketFormStep = ({ formProps, onClose, onUpdate }: StepsProps) => {
 const TicketMainForm = ({
   formProps,
   errors,
+  setValue,
 }: StepsProps & { errors: any }) => {
   const { register } = formProps;
+
+  const handleChangeInputValue = (current) => {
+    const files = current.target.files;
+    setValue("files", files, {
+      shouldDirty: true,
+    });
+  };
 
   return (
     <FormContentContainer>
@@ -295,6 +305,7 @@ const TicketMainForm = ({
         error={errors.description?.message}
         register={{ ...register("description") }}
       />
+      <Input type="file" multiple onChange={handleChangeInputValue} />
     </FormContentContainer>
   );
 };

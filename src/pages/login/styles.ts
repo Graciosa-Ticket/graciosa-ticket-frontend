@@ -21,12 +21,12 @@ export const LoginContainer = styled.section`
 
     h1 {
       ${({ theme }) => theme.font.h1};
-      color: ${({ theme }) => theme.colors.brand.white};
+      color: white;
       font-weight: 900;
     }
 
     p {
-      color: ${({ theme }) => theme.colors.brand.white};
+      color: white;
       ${({ theme }) => theme.font.p.small};
     }
   }

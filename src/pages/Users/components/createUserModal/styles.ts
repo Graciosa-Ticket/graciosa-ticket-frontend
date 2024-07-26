@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const UserComponent = styled.section`
+export const CreateUserComponent = styled.section`
   width: 100%;
   height: 100%;
   border-radius: 16px;
@@ -8,7 +8,7 @@ export const UserComponent = styled.section`
   flex-direction: column;
   padding: 0 15px 15px;
   gap: 10px;
-  background-color: white;
+  background-color: ${({ theme }) => theme.colors.brand.white};
 
   h1 {
     ${({ theme }) => theme.font.h3};

@@ -8,16 +8,16 @@ export const SectorModalComponent = styled.section`
   flex-direction: column;
   padding: 0 15px 15px;
   gap: 10px;
-  background-color: white;
+  background-color: ${({ theme }) => theme.colors.brand.white};
   transition: transform 0.2s ease-in-out;
   position: relative;
 
-  h1{
+  h1 {
     ${({ theme }) => theme.font.p.medium};
     color: ${({ theme }) => theme.colors.brand.dark_blue};
   }
 
-  h3{
+  h3 {
     ${({ theme }) => theme.font.p.normal};
     color: ${({ theme }) => theme.colors.grayscale.gray_80};
     font-weight: 600;
@@ -32,7 +32,7 @@ export const SectorModalComponent = styled.section`
     gap: 20px;
   }
 
-  .avatar-img{
+  .avatar-img {
     width: 60px;
     height: 60px;
   }

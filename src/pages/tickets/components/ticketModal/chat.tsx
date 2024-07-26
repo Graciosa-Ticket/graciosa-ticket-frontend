@@ -6,6 +6,7 @@ import Avatar from "../../../../components/Avatar";
 import { useFetch } from "../../../../services/hooks/getQuery";
 import { chatComment, TicketModel } from "../../../../models/ticket";
 import { useMutationQuery } from "../../../../services/hooks/useMutationQuery";
+import timeConverter from "../../../../utils/timeConverter";
 
 interface ChatComponentProps {
   ticket_data: TicketModel;
@@ -23,7 +24,6 @@ const ChatComponent = ({ ticket_data }: ChatComponentProps) => {
     [ticket_data?.status, ticket_data?.code, "chat"],
     {
       onSuccess: (data) => {
-        console.log("search");
         if (data.comments?.length) {
           setChatConversation(data.comments);
         }
@@ -124,7 +124,12 @@ const ConnectionsMessageCard = ({ data }: chatCardProps) => {
   return (
     <ChatCardContainer $self={isCurrentUser}>
       <section className="header">
-        {/* <h1>á {timeConverter(data.createdAt)} </h1> */}
+        <h1>
+          á{" "}
+          {data?.created_at
+            ? timeConverter(new Date(data.created_at))
+            : "Data inválida"}{" "}
+        </h1>
         <span>{data.user.name.slice(0, 10)}.</span>
         <div className="user-side">
           <Avatar

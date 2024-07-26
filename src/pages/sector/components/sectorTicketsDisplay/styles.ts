@@ -7,10 +7,6 @@ export const Layout = styled.section`
   margin-top: 10px;
   gap: 4px;
 
-  p {
-    color: ${({ theme }) => theme.colors.brand.white};
-  }
-
   span {
     color: ${({ theme }) => theme.colors.brand.dark_blue};
     ${({ theme }) => theme.font.p.large};
@@ -67,4 +63,5 @@ export const StatusP = styled.p<StatusPProps>`
   padding: 0.4em 0.9em;
   border-radius: 8px;
   position: relative;
+  color: white;
 `;

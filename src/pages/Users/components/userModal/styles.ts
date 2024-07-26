@@ -19,7 +19,7 @@ export const UserComponent = styled.section`
   flex-direction: column;
   padding: 0 15px 15px;
   gap: 10px;
-  background-color: white;
+  background-color: ${({ theme }) => theme.colors.brand.white};
   transition: transform 0.2s ease-in-out;
   position: relative;
   animation: 0.3s ${fadeInLeft} linear;

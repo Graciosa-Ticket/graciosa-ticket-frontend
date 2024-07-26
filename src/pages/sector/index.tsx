@@ -10,8 +10,6 @@ import CenterModal from "../../components/centerModal";
 import CreateSectorModal from "./components/createNewSector";
 import { useEffect, useState } from "react";
 import SectorCard from "./components/sectorCard";
-import { CounterToChartModel } from "../../models/counterToChart";
-import { find } from "lodash";
 
 export default function Sector() {
   const [dataSource, setDataSource] = useState<SectorCardModel[]>([]);
@@ -28,7 +26,7 @@ export default function Sector() {
     isFetching: fetchingCounter,
     data: counterData,
     refetch: refetchCounter,
-  } = useFetch<SectorCardModel[]>("/counters/CounterToChart/AllSectors", [
+  } = useFetch<SectorCardModel[]>("/counters/counterToChart/allsectors", [
     "sectorCounter",
   ]);
 
@@ -39,25 +37,15 @@ export default function Sector() {
 
   useEffect(() => {
     if (sectorData?.length && counterData?.length) {
-      const formatcoutner = counterData.map((e) => {
-        const code = Object.keys(e)[0];
-
-        const rest = e[code];
-
-        return {
-          code,
-          ...rest,
-        };
-      });
+      const counters = counterData[0];
 
       const data = sectorData.map((item) => {
-        const findCounter = formatcoutner.filter((f) => f.code === item.code);
-        if (findCounter.length) {
-          return { ...item, counters: findCounter[0] };
+        const counter = counters[item.code];
+        if (counter) {
+          return { ...item, counters: counter };
         }
-        return item;
+        return { ...item, counters: {} };
       });
-      console.log(data);
       setDataSource(data);
     }
   }, [sectorData, counterData]);
@@ -77,7 +65,7 @@ export default function Sector() {
       </PageHeaderComponent.container>
 
       <div className="div-sector-all">
-        {!dataSource.length && !isLoadingFetch ? (
+        {!dataSource.length && !loadingCounter && !fetchingCounter ? (
           <NotFoundComponent />
         ) : isLoadingFetch ? (
           <SectorSkeletonLoading />

@@ -18,6 +18,8 @@ import { toast } from "sonner";
 import { useState } from "react";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import { ChangePasswordValidation } from "./validation";
+import SelectUsers from "../../../../components/form/selectUsers";
+import { useMutationQuery } from "../../../../services/hooks/useMutationQuery";
 
 export default function PasswordChangeModal({
   data: Userdata,
@@ -27,20 +29,30 @@ export default function PasswordChangeModal({
     handleSubmit,
     register,
     getValues,
+    setValue,
     formState: { errors },
   } = useForm<UserModel & { confirmPassword: string }>({
     resolver: yupResolver(ChangePasswordValidation) as any,
     defaultValues: Userdata,
   });
-  const { user } = useAuth();
+
+  const { mutate: passwordChange, isLoading: isLoadingUpdate } =
+    useMutationQuery("/users/resetPassword", "put");
 
   const onSubmit = handleSubmit(() => {
+    const { code, password } = getValues();
+
     const data = {
-      ...user,
-      password: getValues("password"),
+      code,
+      password,
     };
-    console.log(data);
-    toast.success("Senha Alterada com sucesso");
+
+    passwordChange(data, {
+      onSuccess: () => {
+        toast.success("Senha Alterada com sucesso");
+      },
+      onError: () => {},
+    });
   });
 
   const [showPassword, setShowPassword] = useState(false);
@@ -65,6 +77,16 @@ export default function PasswordChangeModal({
       <PasswordChangeModalComponent>
         <FormContainer onSubmit={onSubmit}>
           <FormContentContainer>
+            <SelectUsers
+              label="Usuario"
+              title="Alterar Senha"
+              onChange={(data) => {
+                setValue("code", data?.code as string, {
+                  shouldDirty: true,
+                });
+              }}
+            />
+
             <Input
               label="Nova Senha"
               placeholder="Nova Senha"
@@ -93,6 +115,7 @@ export default function PasswordChangeModal({
               type="submit"
               buttonStyles="confirm"
               title={"Salvar Nova Senha"}
+              isLoading={isLoadingUpdate}
             >
               Salvar
             </ButtonComponent>

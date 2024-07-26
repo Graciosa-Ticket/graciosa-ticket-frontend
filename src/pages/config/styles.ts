@@ -37,6 +37,7 @@ export const ConfigContainer = styled.section`
     ${({ theme }) => theme.font.p.large};
     font-weight: 700;
     color: ${({ theme }) => theme.colors.brand.dark_blue};
+
     &:hover {
       transform: translateY(-3px);
     }

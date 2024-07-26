@@ -123,7 +123,7 @@ export const dark = {
     brand: {
       blue: "#0054a4",
       light_blue: "#0040E6",
-      dark_blue: "#012648",
+      dark_blue: "#ffffff",
       black: "#fff",
       white: "#212E2F",
     },

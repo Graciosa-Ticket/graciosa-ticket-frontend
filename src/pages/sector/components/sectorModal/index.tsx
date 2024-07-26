@@ -78,7 +78,7 @@ export default function SectorModal({
           onChange={handleChangeUser}
         />
         <h1>Chamados do Setor</h1>
-        <SectorTicketsDisplay />
+        <SectorTicketsDisplay data={data} />
         <div className="footer">
           <div />
 

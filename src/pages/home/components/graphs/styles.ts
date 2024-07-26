@@ -11,9 +11,7 @@ export const HomeGraphContainer = styled.section`
   justify-content: center;
 
   .bar-chart {
-    background-color: #efefef;
     border-radius: 0.5em;
-    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
     padding: 1em;
   }
 

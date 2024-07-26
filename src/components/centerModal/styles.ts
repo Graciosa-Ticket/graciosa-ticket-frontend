@@ -109,6 +109,7 @@ export const ModalOverlay = styled(Dialog.Overlay)<modalProps>`
     if ($closeAnimation) {
       return css`
         animation: 0.4s ${closeOverlayAnimation} ease forwards;
+        pointer-events: none;
       `;
     }
   }}

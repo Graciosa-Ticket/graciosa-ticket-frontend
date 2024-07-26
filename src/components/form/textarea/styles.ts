@@ -67,6 +67,7 @@ export const InputContainer = styled.div<inputStyleProps>`
     ${({ theme }) => theme.font.p.normal};
     border-radius: 0.5em;
     border: 0;
+    background-color: ${({ theme }) => theme.colors.brand.white};
   }
 
   .input-label {

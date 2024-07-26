@@ -21,11 +21,12 @@ const primaryStyle = css<buttonProps>`
     if ($buttonStylesType === "fill") {
       return css`
         background-color: ${({ theme }) => theme.colors.brand.blue};
-        color: ${({ theme }) => theme.colors.brand.white};
+        color: white;
         box-shadow: 0px 4px 6.1px -5px #0000009e;
 
         &:hover {
           background-color: ${({ theme }) => theme.colors.brand.dark_blue};
+          color: ${({ theme }) => theme.colors.brand.white};
         }
       `;
     }
@@ -37,7 +38,7 @@ const primaryStyle = css<buttonProps>`
 
       &:hover {
         background-color: ${({ theme }) => theme.colors.brand.blue};
-        color: ${({ theme }) => theme.colors.brand.white};
+        color: white;
       }
     `;
   }}
@@ -46,7 +47,6 @@ const primaryStyle = css<buttonProps>`
 const textStyle = css<buttonProps>`
   background-color: transparent;
   color: ${({ theme }) => theme.colors.brand.black};
-
   &:hover {
     background-color: ${({ theme }) => theme.colors.grayscale.gray_10};
   }
@@ -59,6 +59,11 @@ const deleteStyle = css<buttonProps>`
         background-color: ${({ theme }) => theme.colors.support.error};
         color: ${({ theme }) => theme.colors.brand.white};
         box-shadow: 0px 4px 6.1px -5px #0000009e;
+
+        &:hover {
+          background-color: white;
+          color: red;
+        }
       `;
     }
 
@@ -84,10 +89,10 @@ const confirmStyle = css<buttonProps>`
         box-shadow: 0px 4px 6.1px -5px #0000009e;
 
         &:hover {
-        background-color: white;
-        border: 1px solid;
-        color: ${({ theme }) => theme.colors.support.success}
-      }
+          background-color: white;
+          border: 1px solid;
+          color: ${({ theme }) => theme.colors.support.success};
+        }
       `;
     }
 
