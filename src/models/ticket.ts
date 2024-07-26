@@ -56,7 +56,7 @@ export interface TicketModel {
   >;
   sector_code: string;
   comments?: chatComment[];
-  files?: string[];
+  files?: FileList;
 }
 
 export interface chatComment {

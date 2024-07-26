@@ -28,8 +28,9 @@ import { SectorCardModel } from "../../../../models/sector";
 import { useMutationQuery } from "../../../../services/hooks/useMutationQuery";
 import { toast } from "sonner";
 import { UserModel } from "../../../../models/user";
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { useAuth } from "../../../../hooks/auth";
+import getDirtyFields from "../../../../utils/getDirtyFields";
 
 type viewOptions = "sector" | "main";
 
@@ -47,7 +48,7 @@ interface createInputProps {
   initial_date: string;
   final_date: string;
   user: UserModel;
-  files?: string[];
+  files?: FileList;
 }
 
 export default function CreateTicketModal({
@@ -125,7 +126,6 @@ interface StepsProps {
   onChangeStep?: (step: viewOptions) => void;
   onClose?: () => void;
   onUpdate?: () => void;
-  setValue?: () => void;
 }
 
 const ChooseSectorStep = ({ formProps, onChangeStep }: StepsProps) => {
@@ -193,7 +193,8 @@ const TicketFormStep = ({ formProps, onClose, onUpdate }: StepsProps) => {
   const {
     watch,
     handleSubmit,
-    formState: { errors },
+    getValues,
+    formState: { errors, dirtyFields },
   } = formProps;
 
   const { mutate: createTicket, isLoading: isLoadingUpdate } =
@@ -201,15 +202,25 @@ const TicketFormStep = ({ formProps, onClose, onUpdate }: StepsProps) => {
 
   const { user } = useAuth();
 
-  const onSubmit = handleSubmit((data) => {
+  const onSubmit = handleSubmit(() => {
+    const { ...rest } = getDirtyFields(dirtyFields, getValues);
+
+    const formData = new FormData();
+
     const ticketData = {
-      ...data,
+      ...rest,
       user_code: user.code,
       urgency: "Normal",
       status: "Aberto",
     };
 
-    createTicket(ticketData, {
+    for (const key in ticketData) {
+      if (ticketData[key]) {
+        formData.append(key, ticketData[key]);
+      }
+    }
+
+    createTicket(formData, {
       onSuccess: () => {
         toast.success("Chamado Cadastrado!");
         onUpdate?.();
@@ -280,15 +291,19 @@ const TicketFormStep = ({ formProps, onClose, onUpdate }: StepsProps) => {
 const TicketMainForm = ({
   formProps,
   errors,
-  setValue,
 }: StepsProps & { errors: any }) => {
-  const { register } = formProps;
+  const { register, setValue } = formProps;
 
-  const handleChangeInputValue = (current) => {
+  const handleChangeInputValue = (current: ChangeEvent<HTMLInputElement>) => {
     const files = current.target.files;
-    setValue("files", files, {
-      shouldDirty: true,
-    });
+
+    console.log(files);
+
+    if (files?.length) {
+      setValue("files", files as FileList, {
+        shouldDirty: true,
+      });
+    }
   };
 
   return (
