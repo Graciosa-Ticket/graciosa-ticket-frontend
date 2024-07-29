@@ -1,5 +1,4 @@
 import { AiOutlineDelete, AiOutlineEdit } from "react-icons/ai";
-import { SectorModel } from "../../../../models/sector";
 import ButtonComponent from "../../../buttons";
 import CenterModal, { ModalTitle } from "../../../centerModal";
 import {
@@ -19,8 +18,9 @@ import { UserModel } from "../../../../models/user";
 import ActionsModalComponent from "../../../actionModal";
 import { useMutationQuery } from "../../../../services/hooks/useMutationQuery";
 import { toast } from "sonner";
+import { SectorCardModel } from "../../../../models/sector";
 
-const SectorModal = ({ data, onUpdate }: modalActions<SectorModel>) => {
+const SectorModal = ({ data, onUpdate }: modalActions<SectorCardModel>) => {
   const { mutate: deleteSector, isLoading: isLoadingDelete } = useMutationQuery(
     `/sectors/${data?.code}`,
     "delete"

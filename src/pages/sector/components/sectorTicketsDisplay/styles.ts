@@ -48,7 +48,7 @@ const doneStyle = css`
 
 const statusStyle = {
   ["Aberto"]: openStyle,
-  ["Em andamento"]: onGoingStyle,
+  ["Em_andamento"]: onGoingStyle,
   ["Aguardando aprovação"]: waitingApprovalStyle,
   ["Cancelado"]: canceledStyle,
   ["Reaberto"]: reOpenStyle,

@@ -42,7 +42,7 @@ export const LineGraph = () => {
   );
   const theme = useTheme();
 
-  const { data, error } = useFetch<CounterToChartModel[]>(
+  const { data } = useFetch<CounterToChartModel[]>(
     "/counters/CounterToChart/AllSectors",
     ["AllCounters"],
     {

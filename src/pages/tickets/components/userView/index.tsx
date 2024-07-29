@@ -98,7 +98,7 @@ const GroupedList = ({ tickets, title, onOpenModal }: groupTickets) => {
   const [openAccordeon, setOpenAccordeon] = useState(true);
 
   const maxHeight = useMemo(() => {
-    const totalTickets = tickets.reduce((a, b) => {
+    const totalTickets = tickets.reduce((a) => {
       return a + tickets.length * 40 + 100;
     }, 0);
 

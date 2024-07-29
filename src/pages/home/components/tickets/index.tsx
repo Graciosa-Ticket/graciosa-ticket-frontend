@@ -13,7 +13,6 @@ const HomeTicketComponent = () => {
     onSuccess: (data) => {
       setDataSource(data);
     },
-    onError: (error) => {},
   });
 
   return (

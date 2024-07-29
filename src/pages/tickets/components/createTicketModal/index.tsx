@@ -139,7 +139,6 @@ const ChooseSectorStep = ({ formProps, onChangeStep }: StepsProps) => {
       onSuccess: (data) => {
         setDataSource(data);
       },
-      onError: (error) => {},
     }
   );
 

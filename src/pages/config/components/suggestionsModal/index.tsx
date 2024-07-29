@@ -15,11 +15,7 @@ import { useForm } from "react-hook-form";
 import TextArea from "../../../../components/form/textarea";
 
 export default function SuggestionsModal({ onClose }: modalActions) {
-  const {
-    handleSubmit,
-    register,
-    formState: { errors },
-  } = useForm({});
+  const { handleSubmit, register } = useForm({});
 
   const onSubmit = handleSubmit(() => {
     toast.success("Obrigado pela sugestão");

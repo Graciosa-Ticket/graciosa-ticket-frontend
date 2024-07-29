@@ -101,14 +101,22 @@ export default function SectorModal({
             <AiOutlineDelete /> Deletar
           </ActionsModalComponent>
 
-          <EditSectorButton data={data} onUpdate={onUpdate} />
+          <EditSectorButton
+            isLoading={isLoadingUpdate}
+            data={data}
+            onUpdate={onUpdate}
+          />
         </div>
       </SectorModalComponent>
     </>
   );
 }
 
-const EditSectorButton = ({ onUpdate, data }: modalActions) => {
+interface editSector extends modalActions {
+  isLoading: boolean;
+}
+
+const EditSectorButton = ({ onUpdate, data, isLoading }: editSector) => {
   const [openModal, setOpenModal] = useState(false);
   const [openConfirmCloseModal, setOpenConfirmCloseModal] = useState(false);
   const [hasEditedData, setHasEditedData] = useState(false);
@@ -156,7 +164,11 @@ const EditSectorButton = ({ onUpdate, data }: modalActions) => {
         />
       </CenterModal>
 
-      <ButtonComponent buttonStylesType="outline" onClick={handleOpenModal}>
+      <ButtonComponent
+        buttonStylesType="outline"
+        isLoading={isLoading}
+        onClick={handleOpenModal}
+      >
         <AiOutlineEdit /> Editar
       </ButtonComponent>
     </>

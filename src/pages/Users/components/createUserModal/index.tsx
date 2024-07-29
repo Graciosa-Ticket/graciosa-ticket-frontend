@@ -45,7 +45,7 @@ export default function CreateUserModal({
     defaultValues: userData,
   });
 
-  const handleImageChange = (value: string, file: File) => {
+  const handleImageChange = (_: string, file: File) => {
     setValue("file", file, { shouldDirty: true });
   };
 

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import PageHeaderComponent from "../../components/pagesHeader";
 import AdminTicketsView from "./components/adminView";
 import { TicketsPageContainer } from "./styles";
@@ -37,7 +37,6 @@ const TicketsPage = () => {
       onSuccess: (data) => {
         setDataSource(data);
       },
-      onError: (error) => {},
     }
   );
 
