@@ -16,10 +16,25 @@ interface themProp {
 }
 
 export const DarkModeProvider = ({ children }: themProp) => {
-  const [theme, setTheme] = useState<ThemeContextData["theme"]>("light");
+  const [theme, setTheme] = useState<ThemeContextData["theme"]>(() => {
+    const savedTheme = localStorage.getItem("gcc_ticket/theme") as
+      | ThemeContextData["theme"]
+      | null;
+
+    return savedTheme || "light";
+  });
 
   const onChangeTheme = () => {
-    setTheme((old) => (old === "dark" ? "light" : "dark"));
+    setTheme((old) => {
+      if (old === "dark") {
+        localStorage.setItem("gcc_ticket/theme", "light");
+
+        return "light";
+      }
+      localStorage.setItem("gcc_ticket/theme", "dark");
+
+      return "dark";
+    });
   };
 
   return (

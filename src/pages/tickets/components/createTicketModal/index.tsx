@@ -2,6 +2,7 @@ import { ModalHeader } from "../../../../components/modal";
 import {
   ChooseSectorStepContainer,
   TicketFormContainer,
+  TicketMainFormContainer,
   TicketModalComponent,
 } from "./styles";
 import { modalActions } from "../../../../shared/global.interface";
@@ -28,7 +29,7 @@ import { SectorCardModel } from "../../../../models/sector";
 import { useMutationQuery } from "../../../../services/hooks/useMutationQuery";
 import { toast } from "sonner";
 import { UserModel } from "../../../../models/user";
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { useAuth } from "../../../../hooks/auth";
 import getDirtyFields from "../../../../utils/getDirtyFields";
 import { AiOutlineCloseCircle } from "react-icons/ai";
@@ -318,7 +319,7 @@ const TicketMainForm = ({
   };
 
   return (
-    <FormContentContainer>
+    <TicketMainFormContainer>
       <Input
         label="Título"
         placeholder="Título do chamado"
@@ -332,7 +333,17 @@ const TicketMainForm = ({
         register={{ ...register("description") }}
       />
       <section className="file-input-container">
-        <Input type="file" multiple onChange={handleChangeInputValue} />
+        <label className="label-container" htmlFor="fileInput">
+          Teste
+        </label>
+
+        <input
+          id="fileInput"
+          type="file"
+          multiple
+          onChange={handleChangeInputValue}
+        />
+
         {files.length > 0 && (
           <div className="file-list">
             {files.map((file, index) => (
@@ -353,7 +364,7 @@ const TicketMainForm = ({
           </div>
         )}
       </section>
-    </FormContentContainer>
+    </TicketMainFormContainer>
   );
 };
 

@@ -12,10 +12,6 @@ interface ticketCardProps {
 export default function TicketCard({ data }: ticketCardProps) {
   const [openModal, setOpenModal] = useState(false);
 
-  //   useEffect(() => {
-  //     console.log(data);
-  //   }, [data]);
-
   return (
     <>
       <Modal open={openModal} onOpenChange={() => setOpenModal(!open)}>

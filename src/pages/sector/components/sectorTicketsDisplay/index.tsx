@@ -10,7 +10,7 @@ const SectorTicketsDisplay = ({ data }: SectorTicketsDisplayProps) => {
     <Layout>
       <StatusP status="Aberto">Aberto</StatusP>
       <span>{data?.counters?.aberto}</span>
-      <StatusP status="Em_andamento">Em andamento</StatusP>
+      <StatusP status="Em andamento">Em andamento</StatusP>
       <span>{data?.counters?.em_andamento}</span>
       <StatusP status="Aguardando aprovação">Aguardando aprovação</StatusP>
       <span>{data?.counters?.aguardando_aprovacao}</span>

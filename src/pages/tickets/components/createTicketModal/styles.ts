@@ -1,4 +1,5 @@
 import styled, { keyframes } from "styled-components";
+import { FormContentContainer } from "../../../../components/form/form";
 
 export const TicketModalComponent = styled.div`
   max-width: 50vw;
@@ -85,5 +86,41 @@ export const TicketFormContainer = styled.div`
   }
   .main-form {
     flex: 1;
+  }
+`;
+
+export const TicketMainFormContainer = styled(FormContentContainer)`
+  .file-input-container {
+    min-height: 300px;
+
+    #fileInput {
+      display: none;
+    }
+
+    .label-container {
+      border: solid red 1px;
+      border-radius: 12px;
+      padding: 20px;
+      cursor: pointer;
+    }
+
+    .file-list {
+      width: 100%;
+      padding: 0.8em 0.8em;
+      color: ${({ theme }) => theme.colors.grayscale.gray_30};
+      ${({ theme }) => theme.font.p.normal};
+      border-radius: 0.5em;
+      border: 1px solid;
+    }
+
+    .file-item {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+
+      p {
+        justify-content: center;
+      }
+    }
   }
 `;

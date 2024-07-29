@@ -22,7 +22,7 @@ import TicketConclusionModal from "../ticketConclusionModal";
 const selectItemStyle = (status: TicketModel["status"]): CSSProperties => {
   const statusStyle = {
     ["Aberto"]: "open",
-    ["Em_andamento"]: "on_going",
+    ["Em andamento"]: "on_going",
     ["Aguardando aprovação"]: "re_open",
     ["Cancelado"]: "canceled",
     ["Reaberto"]: "waiting_approval",

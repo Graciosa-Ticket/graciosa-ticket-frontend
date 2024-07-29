@@ -84,11 +84,13 @@ export const BarGraph = () => {
             display: false,
             position: "top",
           },
+
           title: {
             display: false,
             text: "Gráfico de Chamados por Status",
           },
         },
+
         scales: {
           x: {
             grid: {
@@ -98,13 +100,16 @@ export const BarGraph = () => {
               display: false,
               text: "Status",
             },
+            ticks: {
+              display: false,
+            },
           },
           y: {
             grid: {
               lineWidth: 0,
             },
             title: {
-              display: false,
+              display: true,
               text: "Quantidade",
             },
             beginAtZero: true,

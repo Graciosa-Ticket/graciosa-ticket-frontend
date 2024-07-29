@@ -38,6 +38,7 @@ export default function CreateUserModal({
     getValues,
     formState: { errors, dirtyFields },
     setValue,
+    watch,
   } = useForm<UserModel>({
     resolver: yupResolver(
       userData ? updateUserValidation : (createUserValidation as any)
@@ -56,28 +57,29 @@ export default function CreateUserModal({
     }
   }, [dirtyFields]);
 
-  useEffect(() => {
-    if (userData?.address) {
-      setAddress({
-        logradouro: userData.address.split(",")[0],
-        bairro: userData.address.split(",")[1]?.trim(),
-      });
-    } else if (getValues("cep")) {
-      AddressByCep(getValues("cep"))
-        .then(({ logradouro, bairro }) => {
-          setAddress({ logradouro, bairro });
-          const fullAddress = bairro ? `${logradouro}, ${bairro}` : logradouro;
-          setValue("address", fullAddress, {
-            shouldDirty: true,
-          });
-        })
-        .catch((error) => {
-          console.error(error.message);
-          setAddress(null);
-          setValue("address", "", { shouldDirty: true });
-        });
+  const onSearchByCEP = async () => {
+    const cep = watch("cep");
+
+    if (cep.length < 8) {
+      toast.error("CEP inválido");
     }
-  }, [userData?.address, getValues("cep")]);
+
+    try {
+      const data = await AddressByCep(cep);
+
+      setValue(
+        "address",
+        `${data?.logradouro ? `${data.logradouro}, ` : ""}${
+          data?.bairro || ""
+        }`,
+        {
+          shouldDirty: true,
+        }
+      );
+    } catch (error) {
+      toast.error("CEP inválido");
+    }
+  };
 
   const { mutate: createUser, isLoading: isLoadingUpdate } = useMutationQuery(
     "/users",
@@ -165,19 +167,15 @@ export default function CreateUserModal({
               placeholder="Digite o Endereço"
               error={errors.address?.message}
               register={{ ...register("address") }}
-              value={
-                address
-                  ? address.bairro
-                    ? `${address.logradouro}, ${address.bairro}`
-                    : address.logradouro
-                  : getValues("address")
-              }
             />
             <Input
               label="Cep"
               placeholder="Digite o Cep"
               error={errors.cep?.message}
-              register={{ ...register("cep") }}
+              onBlur={onSearchByCEP}
+              register={{
+                ...register("cep"),
+              }}
             />
             <Input
               label="Telefone"

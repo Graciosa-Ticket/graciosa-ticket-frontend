@@ -1,5 +1,6 @@
 import { SectorCardModel } from "../../models/sector";
 import { SectorContainer } from "./styles";
+import { map } from "lodash";
 import PageHeaderComponent from "../../components/pagesHeader";
 import { useFetch } from "../../services/hooks/getQuery";
 import NotFoundComponent from "../../components/notFound";
@@ -37,13 +38,21 @@ export default function Sector() {
 
   useEffect(() => {
     if (sectorData?.length && counterData?.length) {
+      const counters = map(counterData[0], (a, b) => ({
+        sector_code: b,
+        counters: a,
+      }));
+
       const data = sectorData.map((item) => {
-        const counter = counterData.filter(
-          (filter) => filter.code === item.code
+        const counter = counters.filter(
+          (filter) => filter.sector_code === item.code
         );
 
         if (counter?.length) {
-          return { ...item, counters: counter } as unknown as SectorCardModel;
+          return {
+            ...item,
+            counters: counter[0].counters,
+          } as unknown as SectorCardModel;
         }
         return item;
       });

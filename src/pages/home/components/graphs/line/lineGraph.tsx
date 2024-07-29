@@ -29,7 +29,7 @@ interface CounterData {
   aguardando_aprovacao: number;
   cancelado: number;
   concluido: number;
-  em_andamento: number;
+  ["Em andamento"]: number;
   impeditivo: number;
   reaberto: number;
 }
@@ -42,7 +42,7 @@ export const LineGraph = () => {
   );
   const theme = useTheme();
 
-  const { data } = useFetch<CounterToChartModel[]>(
+  useFetch<CounterToChartModel[]>(
     "/counters/CounterToChart/AllSectors",
     ["AllCounters"],
     {
@@ -55,12 +55,6 @@ export const LineGraph = () => {
     }
   );
 
-  useEffect(() => {
-    if (data) {
-      setDataSource(data[0]);
-    }
-  }, [data]);
-
   if (!dataSource) return <div> Carregando...</div>;
 
   const labels = Object.keys(dataSource);
@@ -69,7 +63,7 @@ export const LineGraph = () => {
     "aguardando_aprovacao",
     "cancelado",
     "concluido",
-    "em_andamento",
+    "Em andamento",
     "impeditivo",
     "reaberto",
   ];
@@ -85,9 +79,13 @@ export const LineGraph = () => {
   ];
 
   const datasets = datasetNames.map((name, index) => {
+    const data = labels.map(
+      (label) => dataSource[label as keyof CounterData][name]
+    );
+
     return {
       label: name,
-      data: labels.map((label) => dataSource[label as keyof CounterData][name]),
+      data,
       fill: false,
       borderColor: colors[index % colors.length],
       tension: 0.1,
@@ -95,7 +93,7 @@ export const LineGraph = () => {
   });
 
   const chartData = {
-    labels: labels,
+    labels: labels.map((e) => "Setor " + e),
     datasets: datasets,
   };
 
@@ -120,7 +118,7 @@ export const LineGraph = () => {
         },
         title: {
           display: true,
-          text: "Quantidade",
+          text: "Setor",
         },
       },
       y: {
@@ -129,7 +127,7 @@ export const LineGraph = () => {
         },
         title: {
           display: true,
-          text: "Setor",
+          text: "Quantidade",
         },
       },
     },

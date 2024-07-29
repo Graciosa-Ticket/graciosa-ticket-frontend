@@ -5,6 +5,7 @@ import { useFetch } from "../../../../services/hooks/getQuery";
 import SectorCard from "../../../sector/components/sectorCard";
 import SectorSkeletonLoading from "../../../sector/skeleton";
 import { SectorsHomeContainer } from "./styles";
+import { map } from "lodash";
 
 const HomeSector = () => {
   const [dataSource, setDataSource] = useState<SectorCardModel[]>([]);
@@ -32,18 +33,25 @@ const HomeSector = () => {
 
   useEffect(() => {
     if (sectorData?.length && counterData?.length) {
+      const counters = map(counterData[0], (a, b) => ({
+        sector_code: b,
+        counters: a,
+      }));
+
       const data = sectorData.map((item) => {
-        const counter = counterData.filter(
-          (filter) => filter.code === item.code
+        const counter = counters.filter(
+          (filter) => filter.sector_code === item.code
         );
 
         if (counter?.length) {
-          return { ...item, counters: counter } as unknown as SectorCardModel;
+          return {
+            ...item,
+            counters: counter[0].counters,
+          } as unknown as SectorCardModel;
         }
         return item;
       });
 
-      // console.log(data);
       setDataSource(data);
     }
   }, [sectorData, counterData]);
