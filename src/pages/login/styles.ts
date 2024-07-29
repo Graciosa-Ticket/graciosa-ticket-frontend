@@ -2,15 +2,15 @@ import styled from "styled-components";
 
 export const LoginContainer = styled.section`
   width: 100%;
-  padding: 50px;
+  padding: 20px;
   align-items: center;
   justify-content: center;
-  display: flex;
-  gap: 200px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 60px;
 
-  .login-left {
+  .left-container {
     width: 100%;
-    max-width: 612px;
     height: 100%;
     background-image: linear-gradient(#0054a4, #280741);
     border-radius: 20px;
@@ -21,56 +21,63 @@ export const LoginContainer = styled.section`
 
     h1 {
       ${({ theme }) => theme.font.h1};
-      color: ${({ theme }) => theme.colors.brand.white};
+      color: white;
       font-weight: 900;
     }
 
     p {
-      color: ${({ theme }) => theme.colors.brand.white};
+      color: white;
       ${({ theme }) => theme.font.p.small};
     }
   }
 
-  .login-right {
+  .right-container {
     display: flex;
-    flex-direction: column;
-    justify-content: center;
     align-items: center;
-    gap: 50px;
+    justify-content: center;
 
-    img {
-      width: 74px;
+    .content {
     }
 
-    h1 {
-      ${({ theme }) => theme.font.h2};
-      color: ${({ theme }) => theme.colors.brand.black};
-      font-weight: 900;
-    }
+    .logo-container {
+      display: grid;
+      justify-items: center;
 
-    p {
-      color: ${({ theme }) => theme.colors.brand.black};
-      ${({ theme }) => theme.font.p.small};
+      img {
+        width: 80px;
+        text-align: center;
+        mix-blend-mode: multiply;
+      }
+
+      h1 {
+        ${({ theme }) => theme.font.h2};
+        color: ${({ theme }) => theme.colors.brand.black};
+        font-weight: 900;
+      }
+
+      p {
+        color: ${({ theme }) => theme.colors.grayscale.gray_50};
+        ${({ theme }) => theme.font.p.small};
+        margin-top: 0.5em;
+      }
     }
   }
 
-  .top-right {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
+  form {
+    display: grid;
+    gap: 10px;
+    margin-top: 2em;
 
-  .div-login-ib {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    .buttons-container {
+      display: grid;
 
-    a {
-      color: ${({ theme }) => theme.colors.brand.black};
-      ${({ theme }) => theme.font.p.small};
-      margin-top: 1em;
+      button {
+        padding: 0.6em 2em;
+        ${({ theme }) => theme.font.p.normal};
+        &:hover {
+          scale: 1.01;
+        }
+      }
     }
   }
 `;

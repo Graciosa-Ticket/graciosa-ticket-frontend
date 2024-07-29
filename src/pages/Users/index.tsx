@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import ButtonComponent from "../../components/buttons";
 import { UserModel } from "../../models/user";
 import { UserContainer } from "./styles";
@@ -6,10 +6,17 @@ import Modal from "../../components/modal";
 import PageHeaderComponent from "../../components/pagesHeader";
 import CreateUserModal from "./components/createUserModal";
 import UserCard from "./components/userCard";
-import { fakeUserData } from "./fakeData";
-
+import { useFetch } from "../../services/hooks/getQuery";
+import NotFoundComponent from "../../components/notFound";
+import UserSkeletonLoading from "./skeleton";
+import { modalActions } from "../../shared/global.interface";
+import EditedFormPopUp from "../../components/EditedFormPopUp";
+import SelectUsers from "../../components/form/selectUsers";
 
 export default function User() {
+  const [dataSource, setDataSource] = useState<UserModel[]>([]);
+  const [foundUser, setfoundUser] = useState<UserModel>();
+
   const [selectedBtn, setSelectedBtn] =
     useState<UserModel["role"]>("Administrator");
 
@@ -17,22 +24,46 @@ export default function User() {
     setSelectedBtn(role);
   };
 
-  const userList = useMemo(() => {
-    return fakeUserData.filter((user) => user.role === selectedBtn);
+  useEffect(() => {
+    refetch();
   }, [selectedBtn]);
 
-  const [open, setOpen] = useState(false);
+  const { isLoading, isFetching, refetch } = useFetch<UserModel[]>(
+    `/users/getUsersByRole/${selectedBtn}`,
+    ["users", selectedBtn],
+    {
+      onSuccess: (data) => {
+        setDataSource(data);
+      },
+    }
+  );
+
+  const isLoadingFecth = isLoading || isFetching;
+
+  const userlist = useMemo(() => {
+    if (dataSource.length) {
+      return dataSource.filter((user) => !user.deleted_at);
+    }
+    return [];
+  }, [dataSource, selectedBtn]);
+
+  const deletedUserlist = useMemo(() => {
+    if (dataSource.length) {
+      return dataSource.filter((user) => user.deleted_at);
+    }
+    return [];
+  }, [dataSource, selectedBtn]);
+
+  const handleUserSelect = (data: UserModel) => {
+    setfoundUser(data);
+  };
 
   return (
     <>
-      <Modal open={open} onOpenChange={() => setOpen(!open)}>
-        <CreateUserModal onClose={() => setOpen(false)} />
-      </Modal>
-
       <UserContainer>
         <PageHeaderComponent.container>
           <PageHeaderComponent.title>Usuários</PageHeaderComponent.title>
-          <PageHeaderComponent.button className="btn" title="Cadastrar Novo Usuario" onClick={()=> setOpen(true)} />
+          <AddNewButton onUpdate={refetch} />
         </PageHeaderComponent.container>
 
         <div className="select-buttons-area">
@@ -57,14 +88,97 @@ export default function User() {
           >
             Colaboradores
           </ButtonComponent>
+
+          <div className="search-user">
+            <SelectUsers
+              title="Buscar Usuario"
+              onChange={handleUserSelect}
+              filterCollaborators={false}
+              showPicturePlaceholder={false}
+            />
+          </div>
         </div>
 
         <div className="user-cards">
-          {userList.map((e, i) => (
-            <UserCard data={e} key={i} />
-          ))}
+          {!foundUser ? (
+            isLoadingFecth ? (
+              <UserSkeletonLoading />
+            ) : !dataSource.length ? (
+              <NotFoundComponent />
+            ) : (
+              <>
+                {userlist.map((user, key) => (
+                  <UserCard
+                    data={user}
+                    key={user.id + "" + key}
+                    refetch={refetch}
+                  />
+                ))}
+                {deletedUserlist.map((user) => (
+                  <UserCard data={user} key={user.id} refetch={refetch} />
+                ))}
+              </>
+            )
+          ) : (
+            <div>
+              <UserCard data={foundUser} key={foundUser.id} refetch={refetch} />
+            </div>
+          )}
         </div>
       </UserContainer>
     </>
   );
 }
+
+const AddNewButton = ({ onUpdate }: modalActions) => {
+  const [openModal, setOpenModal] = useState(false);
+  const [openConfirmCloseModal, setOpenConfirmCloseModal] = useState(false);
+  const [hasEditedData, setHasEditedData] = useState(false);
+
+  const onOpenChange = () => {
+    if (hasEditedData) {
+      setOpenConfirmCloseModal(true);
+      return;
+    }
+
+    setOpenModal(!openModal);
+  };
+
+  const onConfirmCloseModal = () => {
+    setHasEditedData(false);
+    setOpenConfirmCloseModal(false);
+    setOpenModal(false);
+  };
+
+  const handleOpenModal = () => {
+    setOpenModal(true);
+    setHasEditedData(false);
+    setOpenConfirmCloseModal(false);
+  };
+
+  const handleSuccess = () => {
+    onUpdate?.();
+    onConfirmCloseModal();
+  };
+
+  return (
+    <>
+      <EditedFormPopUp
+        open={hasEditedData && openConfirmCloseModal}
+        onOpenChange={() => setOpenConfirmCloseModal(!openConfirmCloseModal)}
+        onConfirmCloseModal={onConfirmCloseModal}
+      />
+      <Modal open={openModal} onOpenChange={onOpenChange}>
+        <CreateUserModal
+          onClose={onOpenChange}
+          onUpdate={handleSuccess}
+          onSetEditedData={setHasEditedData}
+        />
+      </Modal>
+      <PageHeaderComponent.button
+        title="Cadastrar Novo Usuario"
+        onClick={handleOpenModal}
+      />
+    </>
+  );
+};

@@ -4,8 +4,8 @@ import { inputStyle } from ".";
 const primary = css`
   ${({ theme }) => {
     return css`
-      background-color: ${theme.colors.support.support_01_light};
-      border: 1px solid ${theme.colors.grayscale.gray_80};
+      background-color: ${theme.colors.brand.white};
+      border: 1px solid ${theme.colors.grayscale.gray_30};
       ${theme.font.p.normal};
       color: ${theme.colors.grayscale.gray_80};
     `;
@@ -46,19 +46,34 @@ const styles = {
 interface inputStyleProps {
   $inputStyle: inputStyle;
   $required?: boolean;
+  $disabled?: boolean;
   $error?: string;
 }
 
 export const InputContainer = styled.div<inputStyleProps>`
+  transition: 0.3s;
+  ${({ $disabled }) => {
+    if ($disabled) {
+      return css`
+        opacity: 0.5;
+
+        input {
+          background-color: ${({ theme }) => theme.colors.grayscale.gray_10};
+        }
+      `;
+    }
+  }}
+
   input {
     width: 100%;
     box-sizing: border-box;
-    padding: 17px 1.3em;
+    padding: 0.8em 0.8em;
     text-align: left;
     cursor: pointer;
     justify-content: flex-start;
     color: ${({ theme }) => theme.colors.grayscale.gray_90};
     ${({ theme }) => theme.font.p.normal};
+    border-radius: 0.5em;
   }
 
   .input-label {
@@ -70,7 +85,7 @@ export const InputContainer = styled.div<inputStyleProps>`
   .error-container {
     ${({ theme }) => theme.font.p.small};
     color: ${({ theme }) => theme.colors.support.error};
-    margin-top: .5em;
+    margin-top: 0.5em;
   }
 
   .affix-container {

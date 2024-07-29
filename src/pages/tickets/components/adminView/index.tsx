@@ -1,4 +1,4 @@
-import { CSSProperties, useMemo, useState } from "react";
+import { CSSProperties, useEffect, useMemo, useState } from "react";
 import { TicketModel } from "../../../../models/ticket";
 import { useAuth } from "../../../../hooks/auth";
 import { AdminGroupTickets, groupTickets } from "../groupTicket";
@@ -13,11 +13,10 @@ import TableComponent from "../table";
 import { TypeColumn } from "@inovua/reactdatagrid-community/types";
 import { format } from "date-fns";
 import { FaAngleRight } from "react-icons/fa";
-import Modal from "../../../../components/modal";
-import TicketModal from "../ticketModal";
 
 interface adminTicketProps {
   tickets: TicketModel[];
+  onOpenModal: (data: any) => void;
 }
 
 const closeSectionStyle: CSSProperties = {
@@ -28,7 +27,7 @@ const openSectionStyle: CSSProperties = {
   maxHeight: "unset",
 };
 
-const AdminTicketsView = ({ tickets }: adminTicketProps) => {
+const AdminTicketsView = ({ tickets, onOpenModal }: adminTicketProps) => {
   const { user } = useAuth();
 
   const ticketList = useMemo(() => {
@@ -36,15 +35,26 @@ const AdminTicketsView = ({ tickets }: adminTicketProps) => {
   }, [tickets, user.id]);
 
   return (
-    <AdminTicketViewContainer>
-      {(ticketList as AdminGroupTickets[]).map((e, i) => (
-        <SectorList tickets={e.tickets} key={i} title={e.title} />
-      ))}
-    </AdminTicketViewContainer>
+    <>
+      <AdminTicketViewContainer>
+        {(ticketList as AdminGroupTickets[]).map((e, i) => (
+          <SectorList
+            tickets={e.tickets}
+            key={i}
+            title={e.title}
+            handleOpenModal={onOpenModal}
+          />
+        ))}
+      </AdminTicketViewContainer>
+    </>
   );
 };
 
-const SectorList = ({ tickets, title }: AdminGroupTickets) => {
+const SectorList = ({
+  tickets,
+  title,
+  handleOpenModal,
+}: AdminGroupTickets & { handleOpenModal: (data: any) => void }) => {
   const [openAccordeon, setOpenAccordeon] = useState(false);
 
   const maxHeight = useMemo(() => {
@@ -66,8 +76,7 @@ const SectorList = ({ tickets, title }: AdminGroupTickets) => {
             tickets.reduce((a, b) => a + b.tickets.length, 0) + ""
           ).padStart(2, "0")}
         >
-          {title}
-
+          <span>{title}</span>
           <FaAngleRight fontSize="0.8em" />
         </SectionGroupButton>
       </div>
@@ -83,6 +92,7 @@ const SectorList = ({ tickets, title }: AdminGroupTickets) => {
             tickets={ticket.tickets}
             title={ticket.title}
             key={index}
+            onOpenModal={handleOpenModal}
           />
         ))}
       </section>
@@ -124,15 +134,8 @@ const columns: TypeColumn[] = [
   },
 ];
 
-const GroupedList = ({ tickets, title }: groupTickets) => {
+const GroupedList = ({ tickets, title, onOpenModal }: groupTickets) => {
   const [openAccordeon, setOpenAccordeon] = useState(true);
-  const [openModal, setOpenModal] = useState(false);
-  const [modalData, setModalData] = useState<TicketModel>();
-
-  const handleOpenModal = (data: TicketModel) => {
-    setModalData(data);
-    setOpenModal(true);
-  };
 
   const maxHeight = useMemo(() => {
     const totalTickets = tickets.reduce((a, b) => {
@@ -144,12 +147,6 @@ const GroupedList = ({ tickets, title }: groupTickets) => {
 
   return (
     <>
-      <Modal open={openModal} onOpenChange={() => setOpenModal(!openModal)}>
-        <TicketModal
-          data={modalData as TicketModel}
-          onOpenChange={setOpenModal}
-        />
-      </Modal>
       <GroupedListContainer>
         <div className="header">
           <StatusGroupButton
@@ -175,7 +172,7 @@ const GroupedList = ({ tickets, title }: groupTickets) => {
           <TableComponent
             columns={columns}
             dataSource={tickets}
-            onRowDoubleClick={(_, { data }) => handleOpenModal(data)}
+            onRowDoubleClick={(_, { data }) => onOpenModal?.(data)}
           />
         </section>
       </GroupedListContainer>

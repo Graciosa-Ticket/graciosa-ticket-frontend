@@ -1,4 +1,17 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
+
+const entranceAnimation = keyframes`
+
+from{
+  transform: rotateX(180);
+  opacity: 0;
+}
+
+to{
+  transform: rotateX(0);
+  opacity: 1;
+}
+`;
 
 export const UserComponent = styled.button`
   width: 100%;
@@ -11,34 +24,18 @@ export const UserComponent = styled.button`
   background-color: ${({ theme }) => theme.colors.brand.white};
   transition: 0.2s ease-in-out;
   align-items: center;
+  animation: 0.5s ${entranceAnimation} ease;
+  transform-origin: left;
+  box-shadow: 0 4px 20px -3px rgba(0, 0, 0, 0.1);
 
   &:hover {
     transform: translateY(-3px);
   }
 
   .status-container {
+    width: 100%;
     display: flex;
     justify-content: flex-end;
-    align-items: center;
-    gap: 8px;
-    margin-left: auto;
-
-    p {
-      ${({ theme }) => theme.font.p.small};
-      color: ${({ theme }) => theme.colors.grayscale.gray_80};
-    }
-
-    .status-ball {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      &.active {
-        background-color: ${({ theme }) => theme.colors.support.success};
-      }
-      &.inactive {
-        background-color: ${({ theme }) => theme.colors.support.error};
-      }
-    }
   }
 
   .header-container {
@@ -61,5 +58,9 @@ export const UserComponent = styled.button`
       ${({ theme }) => theme.font.p.extra_small};
       color: ${({ theme }) => theme.colors.grayscale.gray_70};
     }
+  }
+
+  span {
+    color: ${({ theme }) => theme.colors.grayscale.gray_60};
   }
 `;

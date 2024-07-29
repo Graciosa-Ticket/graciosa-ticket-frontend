@@ -1,3 +1,6 @@
+import { SectorCardModel } from "./sector";
+import { UserModel } from "./user";
+
 export type TicketStatusEnum =
   | "Aberto"
   | "Em andamento"
@@ -23,6 +26,43 @@ export interface TicketModel {
   created_at?: Date | string;
   updated_at?: Date;
   deleted_at?: Date;
-  user_code: string;
+  user: Partial<
+    Omit<
+      UserModel,
+      | "id"
+      | "role"
+      | "email"
+      | "password"
+      | "birth_date"
+      | "address"
+      | "cep"
+      | "phone_number"
+      | "created_at"
+      | "updated_at"
+      | "deleted_at"
+      | "status"
+    >
+  >;
+  sector: Partial<
+    Omit<
+      SectorCardModel,
+      | "code"
+      | "description"
+      | "created_at"
+      | "updated_at"
+      | "deleted_at"
+      | "user"
+    >
+  >;
   sector_code: string;
+  comments?: chatComment[];
+  files?: string[];
+}
+
+export interface chatComment {
+  code: string;
+  comment: string;
+  attachmentUrl: string[];
+  user: UserModel;
+  created_at?: Date | string;
 }

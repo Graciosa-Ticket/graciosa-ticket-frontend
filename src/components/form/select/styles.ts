@@ -1,5 +1,6 @@
 import * as SelectPrimitive from "@radix-ui/react-select";
 import styled, { css, keyframes } from "styled-components";
+import { selectStyles } from ".";
 
 const openSelectAnimation = keyframes`
 
@@ -14,16 +15,82 @@ to{
 
 `;
 
+interface selectStyleProps {
+  $selectStyle: selectStyles;
+}
+
+const loading = keyframes`
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+`;
+
+export const SelectContainer = styled.div`
+  .select-label {
+    ${({ theme }) => theme.font.p.small};
+    color: ${({ theme }) => theme.colors.grayscale.gray_70};
+    margin-bottom: 0.2em;
+    display: block;
+  }
+`;
+
 export const SelectRoot = styled(SelectPrimitive.Root)``;
 
-export const SelectTrigger = styled(SelectPrimitive.Trigger)`
-  padding: 0.4em 0.8em;
-  background-color: ${({ theme }) => theme.colors.grayscale.gray_10};
+const primary = css`
+  ${({ theme }) => {
+    return css`
+      background-color: ${theme.colors.grayscale.gray_10};
+      color: ${theme.colors.grayscale.gray_90};
+    `;
+  }}
+`;
+const secondary = css`
+  ${({ theme }) => {
+    return css`
+      background-color: ${theme.colors.brand.white};
+      border: 1px solid ${theme.colors.grayscale.gray_30};
+      color: ${theme.colors.grayscale.gray_90};
+    `;
+  }}
+`;
+
+const styles = {
+  primary,
+  secondary,
+};
+
+export const SelectTrigger = styled(SelectPrimitive.Trigger)<selectStyleProps>`
+  width: 100%;
+  padding: 0.8em;
+  ${({ theme }) => theme.font.p.normal};
   border-radius: 8px;
   display: flex;
-  ${({ theme }) => theme.font.p.small};
+  justify-content: space-between;
+  position: relative;
   align-items: center;
   gap: 10px;
+  ${({ $selectStyle }) => styles[$selectStyle]};
+
+  .loading-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    border-radius: 0.5em;
+    background-color: rgba(0, 0, 0, 0.5);
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    .load-icon {
+      width: 20px;
+      color: ${({ theme }) => theme.colors.brand.white};
+      animation: 1s ${loading} infinite linear;
+    }
+  }
 `;
 
 export const SelectValue = styled(SelectPrimitive.Value)``;
@@ -41,9 +108,8 @@ export const SelectContent = styled(SelectPrimitive.Content)`
 export const SelectViewport = styled(SelectPrimitive.Viewport)``;
 
 export const SelectItemContainer = styled(SelectPrimitive.Item)`
-  padding: 0.4em 0.8em;
-  ${({ theme }) => theme.font.p.small};
-
+  padding: 0.8em;
+  ${({ theme }) => theme.font.p.normal};
   color: ${({ theme }) => theme.colors.grayscale.gray_70};
   cursor: pointer;
   transition: 0.3s;
@@ -55,7 +121,6 @@ export const SelectItemContainer = styled(SelectPrimitive.Item)`
 
 export const SelectItemText = styled(SelectPrimitive.ItemText)`
   ${({ theme }) => theme.font.p.small};
-
   color: ${({ theme }) => theme.colors.grayscale.gray_70};
 `;
 

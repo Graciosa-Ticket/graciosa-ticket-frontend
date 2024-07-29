@@ -1,29 +1,55 @@
 import { KeyboardEvent, useEffect, useRef, useState } from "react";
 import { ChatCardContainer, ChatContainer } from "./styles";
 import { useAuth } from "../../../../hooks/auth";
-import { UserModel } from "../../../../models/user";
 import ButtonComponent from "../../../../components/buttons";
-import { formatDate } from "date-fns";
+import Avatar from "../../../../components/Avatar";
+import { useFetch } from "../../../../services/hooks/getQuery";
+import { chatComment, TicketModel } from "../../../../models/ticket";
+import { useMutationQuery } from "../../../../services/hooks/useMutationQuery";
+import timeConverter from "../../../../utils/timeConverter";
 
-export interface Message {
-  user: UserModel;
-  message: string;
-  createdAt: Date;
-  type: "Text" | "Notification" | "Image" | "Video";
-  module?: "budget" | "attendance";
-  moduleID?: string;
+interface ChatComponentProps {
+  ticket_data: TicketModel;
 }
 
-const ChatComponent = () => {
-  const [chatConversation, setChatConversation] = useState<Message[]>([]);
+const ChatComponent = ({ ticket_data }: ChatComponentProps) => {
+  const [chatConversation, setChatConversation] = useState<chatComment[]>([]);
   const [textAreaValue, setTextAreaValue] = useState<string>();
   const commentRef = useRef<HTMLDivElement>(null);
   const spanRef = useRef<HTMLDivElement>(null);
+  const { user } = useAuth();
+
+  const { refetch } = useFetch<TicketModel>(
+    `/ticket/${ticket_data?.code}`,
+    [ticket_data?.status, ticket_data?.code, "chat"],
+    {
+      onSuccess: (data) => {
+        if (data.comments?.length) {
+          setChatConversation(data.comments);
+        }
+      },
+    }
+  );
+
+  const { mutate: createComment, isLoading: isLoadingUpdate } =
+    useMutationQuery("/comment");
 
   const handleChatSubmit = () => {
     const message = spanRef.current?.innerText;
-
-    (spanRef.current as HTMLDivElement).innerText = "";
+    if (!message) return;
+    createComment(
+      {
+        comment: message,
+        userCode: user.code,
+        ticketCode: ticket_data.code,
+      },
+      {
+        onSuccess: () => {
+          (spanRef.current as HTMLDivElement).innerText = "";
+          refetch();
+        },
+      }
+    );
   };
 
   const onKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
@@ -71,7 +97,15 @@ const ChatComponent = () => {
           onKeyDown={onKeyDown}
         />
         <div className="input-button-container">
-          <ButtonComponent onClick={handleChatSubmit}>Enviar</ButtonComponent>
+          <ButtonComponent
+            onClick={handleChatSubmit}
+            buttonStyles="primary"
+            buttonStylesType="fill"
+            title="Enviar"
+            isLoading={isLoadingUpdate}
+          >
+            Enviar
+          </ButtonComponent>
         </div>
       </div>
     </ChatContainer>
@@ -79,19 +113,35 @@ const ChatComponent = () => {
 };
 
 interface chatCardProps {
-  data: Message;
+  data: chatComment;
 }
 
 const ConnectionsMessageCard = ({ data }: chatCardProps) => {
   const { user } = useAuth();
 
-  const isCurrentUser = user.id === data?.user?.id;
+  const isCurrentUser = user.code === data?.user?.code;
 
   return (
-    <ChatCardContainer $self={isCurrentUser} $message_type={data.type}>
-      {data.message}
+    <ChatCardContainer $self={isCurrentUser}>
+      <section className="header">
+        <h1>
+          á{" "}
+          {data?.created_at
+            ? timeConverter(new Date(data.created_at))
+            : "Data inválida"}{" "}
+        </h1>
+        <span>{data.user.name.slice(0, 10)}.</span>
+        <div className="user-side">
+          <Avatar
+            src={data.user.profile_picture}
+            style={{ width: 32, height: 32 }}
+          />
+        </div>
+      </section>
 
-      <span className="date-span">{formatDate(data.createdAt, "HH:mm")}</span>
+      <section className="message-container">
+        <p>{data.comment}</p>
+      </section>
     </ChatCardContainer>
   );
 };

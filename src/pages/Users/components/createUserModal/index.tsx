@@ -1,73 +1,147 @@
 import { useForm } from "react-hook-form";
-import { UserComponent } from "./styles";
-import HenryCalvo from "../../../../assets/henrycalvo.svg";
-import { AiOutlineLeft } from "react-icons/ai";
-import { ModalHeader } from "../../../../components/modal";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { CreateUserComponent } from "./styles";
+import { ModalHeader, ModalTitle } from "../../../../components/modal";
 import ButtonComponent from "../../../../components/buttons";
 import Input from "../../../../components/form/input";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { createUserValidation } from "./validation/createUserValidation";
+import {
+  createUserValidation,
+  updateUserValidation,
+} from "./validation/createUserValidation";
 import { Select, SelectItem } from "../../../../components/form/select";
+import { useMutationQuery } from "../../../../services/hooks/useMutationQuery";
+import { toast } from "sonner";
+import { modalActions } from "../../../../shared/global.interface";
+import { UserModel } from "../../../../models/user";
+import getDirtyFields from "../../../../utils/getDirtyFields";
+import { FaAngleLeft } from "react-icons/fa";
+import PictureInput from "../../../../components/form/picture";
+import { useAuth } from "../../../../hooks/auth";
 
-interface userModalProps {
-  onClose: () => void;
-}
+const fetchAddressByCep = async (cep: string) => {
+  try {
+    const response = await axios.get(`https://viacep.com.br/ws/${cep}/json/`);
+    const { logradouro, bairro } = response.data;
+    return { logradouro, bairro };
+  } catch (error) {
+    throw new Error(`Erro ao buscar o endereço`);
+  }
+};
 
-export default function CreateUserModal({ onClose }: userModalProps) {
+export default function CreateUserModal({
+  onClose,
+  onUpdate,
+  onSetEditedData,
+  data: userData,
+}: modalActions<UserModel>) {
+  const { user, updateProfile } = useAuth();
+  const [address, setAddress] = useState<{
+    logradouro: string;
+    bairro: string;
+  } | null>(null);
+
   const {
     handleSubmit,
     register,
-    formState: { errors },
+    getValues,
+    formState: { errors, dirtyFields },
     setValue,
-  } = useForm({
-    resolver: yupResolver(createUserValidation),
+  } = useForm<UserModel>({
+    resolver: yupResolver(
+      userData ? updateUserValidation : (createUserValidation as any)
+    ),
+    defaultValues: userData,
   });
 
-  const onSubmit = handleSubmit((data) => {
-    const userData = {
-      name: data.name,
-      email: data.email,
-      birth_date: data.birth_date,
-      address: data.address,
-      cep: data.cep,
-      phone_number: phoneMask(data.phone_number),
-      role: data.role,
-      status: true,
-    };
-    console.log(userData);
-  });
+  const handleImageChange = (value: string, file: File) => {
+    setValue("file", file, { shouldDirty: true });
+  };
 
-  function phoneMask(phone_number: string) {
-    let r = phone_number.replace(/\D/g, "");
-    r = r.replace(/^0/, "");
-
-    if (r.length > 11) {
-      r = r.replace(/^(\d\d)(\d{5})(\d{4}).*/, "($1) $2-$3");
-    } else if (r.length > 7) {
-      r = r.replace(/^(\d\d)(\d{5})(\d{0,4}).*/, "($1) $2-$3");
-    } else if (r.length > 2) {
-      r = r.replace(/^(\d\d)(\d{0,5})/, "($1) $2");
-    } else if (phone_number.trim() !== "") {
-      r = r.replace(/^(\d*)/, "($1");
+  useEffect(() => {
+    const hasDirty = Object.keys(dirtyFields).length;
+    if (hasDirty) {
+      onSetEditedData?.(true);
     }
-    return r;
-  }
+  }, [dirtyFields]);
+
+  useEffect(() => {
+    if (getValues("cep")) {
+      fetchAddressByCep(getValues("cep"))
+        .then(({ logradouro, bairro }) => {
+          setAddress({ logradouro, bairro });
+          setValue("address", `${logradouro}, ${bairro}`, {
+            shouldDirty: true,
+          });
+        })
+        .catch((error) => {
+          console.error(error.message);
+          setAddress(null);
+          setValue("address", "", { shouldDirty: true });
+        });
+    }
+  }, [getValues("cep")]);
+
+  const { mutate: createUser, isLoading: isLoadingUpdate } = useMutationQuery(
+    "/users",
+    userData ? "put" : "post"
+  );
+
+  const onSubmit = handleSubmit(() => {
+    const { ...rest } = getDirtyFields(dirtyFields, getValues);
+
+    const formData = new FormData();
+
+    const data = {
+      ...rest,
+      status: userData?.status || true,
+      role: rest?.role || userData?.role || "Collaborator",
+      code: userData?.code,
+    };
+
+    for (let key in data) {
+      if (data[key]) {
+        formData.append(key, data[key]);
+      }
+    }
+
+    createUser(formData, {
+      onSuccess: () => {
+        if (userData) {
+          if (userData.code === user.code) {
+            updateProfile(data);
+          }
+
+          toast.success("Cadastro Atualizado!");
+        } else {
+          toast.success("Cadastro concluído!");
+        }
+        onUpdate?.();
+        onClose?.();
+      },
+      onError: () => {},
+    });
+  });
 
   return (
     <>
       <ModalHeader>
         <div className="left-side">
           <ButtonComponent buttonStyles="text" title="Voltar" onClick={onClose}>
-            <AiOutlineLeft fontSize={"20px"} />
+            <FaAngleLeft fontSize="1.9em" />
           </ButtonComponent>
-          <h3>Cadastro</h3>
+          <ModalTitle>{userData ? userData.name : "Cadastro"}</ModalTitle>
         </div>
       </ModalHeader>
-      <UserComponent>
+      <CreateUserComponent>
         <div className="img-sector">
-          <img src={HenryCalvo} alt="" className="user-avatar" />
+          <PictureInput
+            defaultUrl={userData?.profile_picture}
+            onChangeImage={handleImageChange}
+          />
         </div>
-        <h1 className="user-info-title ">Informe Dados Pessoais</h1>
+        <h1 className="user-info-title">Informe Dados Pessoais</h1>
         <div>
           <form className="form" onSubmit={onSubmit}>
             <Input
@@ -95,6 +169,11 @@ export default function CreateUserModal({ onClose }: userModalProps) {
               placeholder="Digite o Endereço"
               error={errors.address?.message}
               register={{ ...register("address") }}
+              value={
+                address
+                  ? `${address.logradouro}, ${address.bairro}`
+                  : getValues("address")
+              }
             />
             <Input
               label="Cep"
@@ -108,28 +187,44 @@ export default function CreateUserModal({ onClose }: userModalProps) {
               error={errors.phone_number?.message}
               register={{ ...register("phone_number") }}
             />
+            {!userData && (
+              <Input
+                label="Senha"
+                placeholder="Minimo de 8 caracteres."
+                error={errors.password?.message}
+                register={{ ...register("password") }}
+              />
+            )}
             <Select
-              defaultValue={"Collaborator"}
-              triggerStyle={{}}
-              onValueChange={(value) => setValue("role", value)}
+              label="Tipo"
+              defaultValue={userData?.role || "Collaborator"}
+              selectStyle="secondary"
+              onValueChange={(value: UserModel["role"]) =>
+                setValue("role", value, {
+                  shouldDirty: true,
+                })
+              }
             >
-              <SelectItem value="Administrator">Administrator</SelectItem>
-              <SelectItem value="Supervisor">Supervisor</SelectItem>
               <SelectItem value="Collaborator">Collaborator</SelectItem>
+              <SelectItem value="Supervisor">Supervisor</SelectItem>
+              <SelectItem value="Administrator">Administrator</SelectItem>
             </Select>
           </form>
         </div>
         <div className="button-div">
+          <div />
           <ButtonComponent
             type="submit"
             buttonStyles="confirm"
-            title="Cadastrar Novo Usuario"
+            title="Confirmar"
+            className="confirm-btn"
             onClick={onSubmit}
+            isLoading={isLoadingUpdate}
           >
-            Cadastrar
+            {userData ? "Confirmar Edição" : "Cadastrar"}
           </ButtonComponent>
         </div>
-      </UserComponent>
+      </CreateUserComponent>
     </>
   );
 }

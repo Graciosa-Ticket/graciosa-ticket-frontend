@@ -1,112 +1,84 @@
-import SectorCard from "../../components/sectorCard";
 import { SectorCardModel } from "../../models/sector";
 import { SectorContainer } from "./styles";
 import PageHeaderComponent from "../../components/pagesHeader";
-import { useState } from "react";
 import { useFetch } from "../../services/hooks/getQuery";
 import NotFoundComponent from "../../components/notFound";
-
-const fakeSectorCardData: SectorCardModel[] = [
-  {
-    name: "Setor 01",
-    responsible_code: "2",
-    code: "54",
-    description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab consequatur magni deleniti ullam voluptatum atque vel optio ipsa. Obcaecati aperiam libero error ad voluptatem? Eum ab porro cum optio dolorum.",
-  },
-  {
-    name: "Setor 01",
-    responsible_code: "2",
-    code: "54",
-    description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab consequatur magni deleniti ullam voluptatum atque vel optio ipsa. Obcaecati aperiam libero error ad voluptatem? Eum ab porro cum optio dolorum.",
-  },
-  {
-    name: "Setor 01",
-    responsible_code: "2",
-    code: "54",
-    description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab consequatur magni deleniti ullam voluptatum atque vel optio ipsa. Obcaecati aperiam libero error ad voluptatem? Eum ab porro cum optio dolorum.",
-  },
-  {
-    name: "Setor 01",
-    responsible_code: "2",
-    code: "54",
-    description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab consequatur magni deleniti ullam voluptatum atque vel optio ipsa. Obcaecati aperiam libero error ad voluptatem? Eum ab porro cum optio dolorum.",
-  },
-  {
-    name: "Setor 01",
-    responsible_code: "2",
-    code: "54",
-    description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab consequatur magni deleniti ullam voluptatum atque vel optio ipsa. Obcaecati aperiam libero error ad voluptatem? Eum ab porro cum optio dolorum.",
-  },
-  {
-    name: "Setor 01",
-    responsible_code: "2",
-    code: "54",
-    description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab consequatur magni deleniti ullam voluptatum atque vel optio ipsa. Obcaecati aperiam libero error ad voluptatem? Eum ab porro cum optio dolorum.",
-  },
-  {
-    name: "Setor 01",
-    responsible_code: "2",
-    code: "54",
-    description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab consequatur magni deleniti ullam voluptatum atque vel optio ipsa. Obcaecati aperiam libero error ad voluptatem? Eum ab porro cum optio dolorum.",
-  },
-  {
-    name: "Setor 01",
-    responsible_code: "2",
-    code: "54",
-    description:
-      "Lorem ipsum dolor sit amet conseaaaaaaaaaaaactetur adipisicing elit. Ab consequatur magni deleniti ullam voluptatum atque vel optio ipsa. Obcaecati aperiam libero error ad voluptatem? Eum ab porro cum optio dolorum.",
-  },
-  {
-    name: "Setor 01",
-    responsible_code: "2",
-    code: "54",
-    description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab consequatur magni deleniti ullam voluptatum atque vel optio ipsa. Obcaecati aperiam libero error ad voluptatem? Eum ab porro cum optio dolorum.",
-  },
-];
+import SectorSkeletonLoading from "./skeleton";
+import { modalActions } from "../../shared/global.interface";
+import EditedFormPopUp from "../../components/EditedFormPopUp";
+import CenterModal from "../../components/centerModal";
+import CreateSectorModal from "./components/createNewSector";
+import { useEffect, useState } from "react";
+import SectorCard from "./components/sectorCard";
 
 export default function Sector() {
   const [dataSource, setDataSource] = useState<SectorCardModel[]>([]);
 
-  const { isLoading, isFetching } = useFetch<SectorCardModel[]>(
-    "/sectors",
-    ["sector"],
-    {
-      onSuccess: (data) => {
-        console.log(data);
-        setDataSource(data);
-      },
-      onError: (error) => {
-        console.log(error);
-      },
-    }
-  );
+  const {
+    isLoading,
+    isFetching,
+    data: sectorData,
+    refetch,
+  } = useFetch<SectorCardModel[]>("/sectors", ["sector"]);
 
-  const isLoadingFecth = isLoading || isFetching;
+  const {
+    isLoading: loadingCounter,
+    isFetching: fetchingCounter,
+    data: counterData,
+    refetch: refetchCounter,
+  } = useFetch<SectorCardModel[]>("/counters/counterToChart/allsectors", [
+    "sectorCounter",
+  ]);
+
+  const onRefetchData = () => {
+    refetch();
+    refetchCounter();
+  };
+
+  useEffect(() => {
+    if (sectorData?.length && counterData?.length) {
+      const counters = counterData[0];
+
+      const data = sectorData.map((item) => {
+        const counter = counters[item.code];
+        if (counter) {
+          return { ...item, counters: counter };
+        }
+        return { ...item, counters: {} };
+      });
+      setDataSource(data);
+    }
+  }, [sectorData, counterData]);
+
+  const isLoadingFetch =
+    isLoading || isFetching || loadingCounter || fetchingCounter;
 
   return (
     <SectorContainer>
       <PageHeaderComponent.container>
         <PageHeaderComponent.title>Setores</PageHeaderComponent.title>
-        <PageHeaderComponent.button onClick={() => console.log("aaa")} />
+        <AddNewButton
+          onUpdate={() => {
+            onRefetchData();
+          }}
+        />
       </PageHeaderComponent.container>
+
       <div className="div-sector-all">
-        {!dataSource.length && !isLoadingFecth ? (
+        {!dataSource.length && !loadingCounter && !fetchingCounter ? (
           <NotFoundComponent />
-        ) : isLoadingFecth ? (
-          <p>Loading...</p>
+        ) : isLoadingFetch ? (
+          <SectorSkeletonLoading />
         ) : (
           <ul>
             {dataSource.map((e, i) => (
               <li key={i}>
-                <SectorCard data={e} />
+                <SectorCard
+                  data={e}
+                  onUpdate={() => {
+                    onRefetchData();
+                  }}
+                />
               </li>
             ))}
           </ul>
@@ -115,3 +87,56 @@ export default function Sector() {
     </SectorContainer>
   );
 }
+
+const AddNewButton = ({ onUpdate }: modalActions) => {
+  const [openModal, setOpenModal] = useState(false);
+  const [openConfirmCloseModal, setOpenConfirmCloseModal] = useState(false);
+  const [hasEditedData, setHasEditedData] = useState(false);
+
+  const onOpenChange = () => {
+    if (hasEditedData) {
+      setOpenConfirmCloseModal(true);
+      return;
+    }
+
+    setOpenModal(!openModal);
+  };
+
+  const onConfirmCloseModal = () => {
+    setHasEditedData(false);
+    setOpenConfirmCloseModal(false);
+    setOpenModal(false);
+  };
+
+  const handleOpenModal = () => {
+    setOpenModal(true);
+    setHasEditedData(false);
+    setOpenConfirmCloseModal(false);
+  };
+
+  const handleSuccess = () => {
+    onUpdate?.();
+    onConfirmCloseModal();
+  };
+
+  return (
+    <>
+      <EditedFormPopUp
+        open={hasEditedData && openConfirmCloseModal}
+        onOpenChange={() => setOpenConfirmCloseModal(!openConfirmCloseModal)}
+        onConfirmCloseModal={onConfirmCloseModal}
+      />
+      <CenterModal open={openModal} onOpenChange={onOpenChange}>
+        <CreateSectorModal
+          onClose={onOpenChange}
+          onUpdate={handleSuccess}
+          onSetEditedData={setHasEditedData}
+        />
+      </CenterModal>
+      <PageHeaderComponent.button
+        title="Cadastrar Novo Setor"
+        onClick={handleOpenModal}
+      />
+    </>
+  );
+};

@@ -1,4 +1,15 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
+
+const fadeInLeft = keyframes`
+  from {
+    opacity: 0;
+    transform: translateX(500px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0px);
+  }
+`;
 
 export const UserComponent = styled.section`
   width: 100%;
@@ -8,9 +19,10 @@ export const UserComponent = styled.section`
   flex-direction: column;
   padding: 0 15px 15px;
   gap: 10px;
-  background-color: white;
+  background-color: ${({ theme }) => theme.colors.brand.white};
   transition: transform 0.2s ease-in-out;
   position: relative;
+  animation: 0.3s ${fadeInLeft} linear;
 
   .img-sector {
     display: flex;
@@ -23,6 +35,7 @@ export const UserComponent = styled.section`
     ${({ theme }) => theme.font.p.small};
     color: ${({ theme }) => theme.colors.brand.dark_blue};
   }
+
   .user-info-area {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -70,29 +83,5 @@ export const UserComponent = styled.section`
     justify-content: flex-end;
     margin-top: auto;
     gap: 20px;
-  }
-`;
-
-export const Userheader = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 8px;
-
-  p {
-    ${({ theme }) => theme.font.p.small};
-    color: ${({ theme }) => theme.colors.grayscale.gray_90};
-  }
-
-  .status-ball {
-    width: 1em;
-    height: 1em;
-    border-radius: 50%;
-
-    &.active {
-      background-color: ${({ theme }) => theme.colors.support.success};
-    }
-    &.inactive {
-      background-color: ${({ theme }) => theme.colors.support.error};
-    }
   }
 `;

@@ -1,75 +1,135 @@
-import styled, { css } from "styled-components";
-import { buttonStyles } from ".";
+import styled, { css, keyframes } from "styled-components";
+import { buttonSize, buttonStyles, buttonStylesType } from ".";
 
 interface buttonProps {
+  $buttonSize: buttonSize;
   $buttonStyles: buttonStyles;
+  $buttonStylesType: buttonStylesType;
 }
 
-const primaryStyle = css`
-  background-color: ${({ theme }) => theme.colors.brand.blue};
-  color: ${({ theme }) => theme.colors.brand.white};
-  box-shadow: 0px 4px 6.1px -5px #0000009e;
+const loading = keyframes`
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 `;
 
-const textStyle = css`
+const primaryStyle = css<buttonProps>`
+  ${({ $buttonStylesType }) => {
+    if ($buttonStylesType === "fill") {
+      return css`
+        background-color: ${({ theme }) => theme.colors.brand.blue};
+        color: white;
+        box-shadow: 0px 4px 6.1px -5px #0000009e;
+
+        &:hover {
+          background-color: ${({ theme }) => theme.colors.brand.dark_blue};
+          color: ${({ theme }) => theme.colors.brand.white};
+        }
+      `;
+    }
+
+    return css`
+      color: ${({ theme }) => theme.colors.brand.blue};
+      border: 1px solid;
+      background-color: transparent;
+
+      &:hover {
+        background-color: ${({ theme }) => theme.colors.brand.blue};
+        color: white;
+      }
+    `;
+  }}
+`;
+
+const textStyle = css<buttonProps>`
   background-color: transparent;
   color: ${({ theme }) => theme.colors.brand.black};
-
   &:hover {
     background-color: ${({ theme }) => theme.colors.grayscale.gray_10};
   }
 `;
-const addStyle = css`
-  background-color: transparent;
-  color: ${({ theme }) => theme.colors.brand.black};
+
+const deleteStyle = css<buttonProps>`
+  ${({ $buttonStylesType }) => {
+    if ($buttonStylesType === "fill") {
+      return css`
+        background-color: ${({ theme }) => theme.colors.support.error};
+        color: ${({ theme }) => theme.colors.brand.white};
+        box-shadow: 0px 4px 6.1px -5px #0000009e;
+
+        &:hover {
+          background-color: white;
+          color: red;
+        }
+      `;
+    }
+
+    return css`
+      border: 1px solid;
+      color: ${({ theme }) => theme.colors.support.error};
+      ${({ theme }) => theme.font.p.small};
+
+      &:hover {
+        background-color: ${({ theme }) => theme.colors.support.error};
+        color: white;
+      }
+    `;
+  }}
 `;
 
-const errorStyle = css`
-  background-color: ${({ theme }) => theme.colors.support.error};
-  color: ${({ theme }) => theme.colors.brand.white};
-`;
+const confirmStyle = css<buttonProps>`
+  ${({ $buttonStylesType }) => {
+    if ($buttonStylesType === "fill") {
+      return css`
+        background-color: ${({ theme }) => theme.colors.support.success};
+        color: ${({ theme }) => theme.colors.brand.white};
+        box-shadow: 0px 4px 6.1px -5px #0000009e;
 
-const deleteStyle = css`
-  border: 1px solid red;
-  color: ${({ theme }) => theme.colors.support.error};
-  ${({ theme }) => theme.font.p.small};
+        &:hover {
+          background-color: white;
+          border: 1px solid;
+          color: ${({ theme }) => theme.colors.support.success};
+        }
+      `;
+    }
 
-  &:hover {
-    background-color: ${({ theme }) => theme.colors.support.error};
-    color: white;
-  }
-`;
+    return css`
+      border: 1px solid;
+      color: ${({ theme }) => theme.colors.support.success};
+      ${({ theme }) => theme.font.p.small};
 
-const editStyle = css`
-  color: ${({ theme }) => theme.colors.brand.light_blue};
-  border: 1px solid;
-  ${({ theme }) => theme.font.p.small};
-
-  &:hover {
-    background-color: ${({ theme }) => theme.colors.brand.light_blue};
-    color: white;
-  }
-`;
-
-const confirmStyle = css`
-  border: 1px solid;
-  color: ${({ theme }) => theme.colors.support.success};
-  ${({ theme }) => theme.font.p.small};
-
-  &:hover {
-    background-color: ${({ theme }) => theme.colors.support.success};
-    color: white;
-  }
+      &:hover {
+        background-color: ${({ theme }) => theme.colors.support.success};
+        color: white;
+      }
+    `;
+  }}
 `;
 
 const styles = {
   primary: primaryStyle,
-  error: errorStyle,
   text: textStyle,
-  add: addStyle,
   delete: deleteStyle,
-  edit: editStyle,
   confirm: confirmStyle,
+};
+
+const smallSize = css`
+  ${({ theme }) => theme.font.p.small};
+`;
+const normalSize = css`
+  ${({ theme }) => theme.font.p.normal};
+`;
+const largeSize = css`
+  ${({ theme }) => theme.font.p.large};
+`;
+
+const sizes = {
+  small: smallSize,
+  normal: normalSize,
+  large: largeSize,
 };
 
 export const ButtonsLoginContainer = styled.button<buttonProps>`
@@ -80,8 +140,28 @@ export const ButtonsLoginContainer = styled.button<buttonProps>`
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
   gap: 10px;
   transition: 0.4s;
 
-  ${({ $buttonStyles }) => styles[$buttonStyles]}
+  ${({ $buttonStyles }) => styles[$buttonStyles]};
+  ${({ $buttonSize }) => sizes[$buttonSize]};
+
+  .loading-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    border-radius: 0.5em;
+    background-color: rgba(0, 0, 0, 0.5);
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    .load-icon {
+      width: 20px;
+      color: ${({ theme }) => theme.colors.brand.white};
+      animation: 1s ${loading} infinite linear;
+    }
+  }
 `;

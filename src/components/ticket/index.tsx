@@ -1,24 +1,46 @@
 import { format } from "date-fns";
 import { TicketModel } from "../../models/ticket";
 import { TicketContainer } from "./styles";
+import TicketModal from "../../pages/tickets/components/ticketModal";
+import Modal from "../modal";
+import { useState } from "react";
 
 interface ticketCardProps {
-  data: Partial<TicketModel>;
+  data: TicketModel;
 }
 
 export default function TicketCard({ data }: ticketCardProps) {
+  const [openModal, setOpenModal] = useState(false);
+
   return (
-    <TicketContainer $status={data.status || "Andamento"}>
-      <div className="top-ticketCard">
-        <div className="left-side">
-          <h4>{data?.title}</h4>
-          <p>
-            {data?.created_at ? format(data.created_at, "dd 'de' LLL") : ""}
-          </p>
+    <>
+      <Modal open={openModal} onOpenChange={() => setOpenModal(!open)}>
+        <TicketModal
+          data={data as TicketModel}
+          onClose={() => setOpenModal(false)}
+          onUpdate={() => {
+            setOpenModal(false);
+          }}
+        />
+      </Modal>
+
+      <TicketContainer
+        $status={data.status}
+        type="button"
+        onClick={() => setOpenModal(true)}
+      >
+        <div className="top-ticketCard">
+          <div className="left-side">
+            <h4>{data?.title}</h4>
+            <p>
+              {data?.created_at ? format(data.created_at, "dd 'de' LLL") : ""}
+            </p>
+          </div>
+          <div className="mockup">{data?.status}</div>
         </div>
-        <div className="mockup-teste">{data?.status}</div>
-      </div>
-      <p className="description">{data?.description}</p>
-    </TicketContainer>
+
+        <p className="description">{data?.description}</p>
+      </TicketContainer>
+    </>
   );
 }

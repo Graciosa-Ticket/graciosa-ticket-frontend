@@ -1,14 +1,20 @@
 import { MenuHeaderHome, UserCallerContainer } from "./styles";
 import Logo from "../../assets/graciosa-logo 2.svg";
-import HenryCalvo from "../../assets/henrycalvo.svg";
 import Modal from "../modal";
 import { useMemo, useState } from "react";
 import ButtonComponent from "../buttons";
 import { NavLink } from "react-router-dom";
 import { useAuth } from "../../hooks/auth";
+import UserViewModal from "../userModal";
+import { modalActions } from "../../shared/global.interface";
+import EditedFormPopUp from "../EditedFormPopUp";
+import CreateTicketModal from "../../pages/tickets/components/createTicketModal";
+import { FaPlus } from "react-icons/fa";
+import Avatar from "../Avatar";
 
 export default function MenuHeader() {
   const [openModal, setOpenModal] = useState(false);
+
   const { user } = useAuth();
 
   return (
@@ -24,37 +30,54 @@ export default function MenuHeader() {
         <nav className="menu">
           <div className="navigation-menu">
             <NavLink
-              to={"/home"}
+              to={user.role !== "Collaborator" ? "/home" : "/chamados"}
               className={({ isActive }) => (isActive ? "active-button" : "")}
             >
-              Inicio
+              {user.role !== "Collaborator" ? "Inicio" : "Chamados"}
             </NavLink>
+            {user.role !== "Collaborator" && (
+              <>
+                <NavLink
+                  to={"/chamados"}
+                  className={({ isActive }) =>
+                    isActive ? "active-button" : ""
+                  }
+                >
+                  Chamados
+                </NavLink>
+
+                {user.role !== "Supervisor" && (
+                  <>
+                    <NavLink
+                      to={"/setor"}
+                      className={({ isActive }) =>
+                        isActive ? "active-button" : ""
+                      }
+                    >
+                      Setores
+                    </NavLink>
+
+                    <NavLink
+                      to={"/users"}
+                      className={({ isActive }) =>
+                        isActive ? "active-button" : ""
+                      }
+                    >
+                      Usuarios
+                    </NavLink>
+                  </>
+                )}
+              </>
+            )}
             <NavLink
-              to={"/setor"}
+              to={"/config"}
               className={({ isActive }) => (isActive ? "active-button" : "")}
             >
-              Setores
+              Configurações
             </NavLink>
-            <NavLink
-              to={"/chamados"}
-              className={({ isActive }) => (isActive ? "active-button" : "")}
-            >
-              Chamados
-            </NavLink>
-            <NavLink
-              to={"/users"}
-              className={({ isActive }) => (isActive ? "active-button" : "")}
-            >
-              Usuarios
-            </NavLink>
-            <a href="">Configurações</a>
           </div>
-
-          <ButtonComponent onClick={() => setOpenModal(true)}>
-            + Novo Ticket
-          </ButtonComponent>
+          <AddNewTicketButton />
         </nav>
-
         <div className="menu-right-img">
           <UserCaller />
         </div>
@@ -65,6 +88,7 @@ export default function MenuHeader() {
 
 const UserCaller = () => {
   const { user } = useAuth();
+  const [openModal, setOpenModal] = useState(false);
 
   const greetingUser = useMemo(() => {
     const currentTime = new Date().getHours();
@@ -79,11 +103,73 @@ const UserCaller = () => {
   }, []);
 
   return (
-    <UserCallerContainer buttonStyles="text">
-      <span>
-        {greetingUser}, {user.name}
-      </span>
-      <img src={HenryCalvo} />
-    </UserCallerContainer>
+    <>
+      <Modal open={openModal} onOpenChange={() => setOpenModal(!openModal)}>
+        <>
+          <UserViewModal data={user} onClose={() => setOpenModal(false)} />
+        </>
+      </Modal>
+      <UserCallerContainer
+        buttonStyles="text"
+        onClick={() => setOpenModal(true)}
+      >
+        <span>
+          {greetingUser},<span className="user-name">{user.name}</span>
+        </span>
+        <Avatar src={user?.profile_picture} alt="" />
+      </UserCallerContainer>
+    </>
+  );
+};
+
+const AddNewTicketButton = ({ onUpdate }: modalActions) => {
+  const [openModal, setOpenModal] = useState(false);
+  const [openConfirmCloseModal, setOpenConfirmCloseModal] = useState(false);
+  const [hasEditedData, setHasEditedData] = useState(false);
+
+  const onOpenChange = () => {
+    if (hasEditedData) {
+      setOpenConfirmCloseModal(true);
+      return;
+    }
+
+    setOpenModal(!openModal);
+  };
+
+  const onConfirmCloseModal = () => {
+    setHasEditedData(false);
+    setOpenConfirmCloseModal(false);
+    setOpenModal(false);
+  };
+
+  const handleOpenModal = () => {
+    setOpenModal(true);
+    setHasEditedData(false);
+    setOpenConfirmCloseModal(false);
+  };
+
+  const handleSuccess = () => {
+    onUpdate?.();
+    onConfirmCloseModal();
+  };
+
+  return (
+    <>
+      <EditedFormPopUp
+        open={hasEditedData && openConfirmCloseModal}
+        onOpenChange={() => setOpenConfirmCloseModal(!openConfirmCloseModal)}
+        onConfirmCloseModal={onConfirmCloseModal}
+      />
+      <Modal open={openModal} onOpenChange={onOpenChange}>
+        <CreateTicketModal
+          onClose={onOpenChange}
+          onUpdate={handleSuccess}
+          onSetEditedData={setHasEditedData}
+        />
+      </Modal>
+      <ButtonComponent title="Cadastrar Novo Ticket" onClick={handleOpenModal}>
+        <FaPlus />
+      </ButtonComponent>
+    </>
   );
 };

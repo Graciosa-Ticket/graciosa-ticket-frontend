@@ -4,9 +4,9 @@ import ButtonComponent from "../buttons";
 export const MenuHeaderHome = styled.header`
   max-width: 1200px;
   margin: 20px auto 0;
-  display: grid;
-  grid-template-columns: 200px 1fr 200px;
+  display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 1em;
 
   .left-side {
@@ -49,7 +49,7 @@ export const MenuHeaderHome = styled.header`
 
       &.active-button {
         background-color: ${({ theme }) => theme.colors.brand.blue};
-        color: ${({ theme }) => theme.colors.brand.white};
+        color: white;
       }
     }
   }
@@ -68,10 +68,17 @@ export const UserCallerContainer = styled(ButtonComponent)`
   gap: 1em;
 
   span {
-    ${({ theme }) => theme.font.p.small};
-  }
+    display: flex;
+    gap: 2px;
+    align-items: center;
+    ${({ theme }) => theme.font.p.extra_small};
 
-  img {
-    width: 2em;
+    &.user-name {
+      ${({ theme }) => theme.font.p.small};
+      max-width: 80px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
   }
 `;

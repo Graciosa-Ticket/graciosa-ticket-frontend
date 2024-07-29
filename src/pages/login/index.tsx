@@ -1,29 +1,86 @@
-import Input from "../../components/inputs";
 import { LoginContainer } from "./styles";
 import Logo from "../../assets/graciosa-logo 2.svg";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { useAuth } from "../../hooks/auth";
+import Input from "../../components/form/input";
+import ButtonComponent from "../../components/buttons";
+import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
+import LoadingScreen from "../../components/loading/loadingScreen";
 
-export default function Login() {
+interface login {
+  code: string;
+  password: string;
+}
+
+export default function LoginPage() {
+  const { signIn, loading } = useAuth();
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handleShow = () => {
+    setShowPassword(!showPassword);
+  };
+  const { handleSubmit, register } = useForm<login>();
+
+  const onSubmit = handleSubmit(({ code, password }) => {
+    signIn(code, password);
+  });
+
   return (
-    <LoginContainer>
-      <div className="login-left">
-        <h1>Gestão de chamados graciosa country club</h1>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-          minim.
-        </p>
-      </div>
-      <div className="login-right">
-        <div className="top-right">
-          <img src={Logo} />
-          <h1>Bem vindo</h1>
-          <p>Lorem Ipsum dolor asimet</p>
+    <>
+      {loading && <LoadingScreen />}
+
+      <LoginContainer>
+        <div className="left-container">
+          <h1>Gestão de chamados graciosa country club</h1>
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
+            ad minim.
+          </p>
         </div>
-        <div className="div-login-ib">
-          <Input />
-          <a href="/setor">Esqueci minha senha</a>
-        </div>
-      </div>
-    </LoginContainer>
+
+        <section className="right-container">
+          <div className="content">
+            <div className="logo-container">
+              <img src={Logo} />
+              <h1>Bem vindo</h1>
+              <p>ao sistema de chamados graciosa country club</p>
+            </div>
+
+            <form onSubmit={onSubmit}>
+              <Input
+                placeholder="login"
+                label="Login"
+                register={{ ...register("code") }}
+              />
+              <Input
+                placeholder="Senha"
+                label="Senha"
+                type={showPassword ? "text" : "password"}
+                affix={{
+                  suffix: (
+                    <ButtonComponent onClick={handleShow} buttonStyles="text">
+                      {showPassword ? <FaRegEyeSlash /> : <FaRegEye />}
+                    </ButtonComponent>
+                  ),
+                }}
+                register={{ ...register("password") }}
+              />
+
+              <div className="buttons-container">
+                <ButtonComponent
+                  type="submit"
+                  buttonStyles="primary"
+                  title="Entrar"
+                >
+                  Entrar
+                </ButtonComponent>
+              </div>
+            </form>
+          </div>
+        </section>
+      </LoginContainer>
+    </>
   );
 }

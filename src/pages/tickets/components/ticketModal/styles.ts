@@ -1,30 +1,46 @@
 import styled, { css, keyframes } from "styled-components";
-import { Message } from "./chat";
 
 export const ModalContentBody = styled.main`
   height: 100%;
+  width: 100%;
   display: grid;
   grid-template-columns: 500px 400px;
   grid-template-rows: 1fr;
   padding: 0 25px 25px;
 
+  .img-sector {
+    margin-top: 20px;
+  }
+
+  .user-avatar {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 50%;
+  }
+
   .ticket-content-side {
+    display: flex;
+    flex-direction: column;
     border-right: 1px solid ${({ theme }) => theme.colors.grayscale.gray_10};
     padding: 20px 10px 0 0;
 
     .ticket-content-header {
-      display: flex;
-      align-items: center;
+      display: grid;
+      grid-template-columns: 1fr 150px;
+      align-items: flex-start;
       justify-content: space-between;
       gap: 1em;
 
       h2 {
         ${({ theme }) => theme.font.p.large_bold};
         color: ${({ theme }) => theme.colors.brand.dark_blue};
+        font-weight: 600;
       }
 
       .right-side {
         span {
+          text-align: right;
           ${({ theme }) => theme.font.p.small};
           color: ${({ theme }) => theme.colors.grayscale.gray_80};
         }
@@ -37,15 +53,33 @@ export const ModalContentBody = styled.main`
       color: ${({ theme }) => theme.colors.grayscale.gray_70};
     }
 
-    .details-section {
+    .details-header {
       margin-top: 20px;
-      .details-header {
-        h6 {
-          ${({ theme }) => theme.font.p.small_bold};
-          color: ${({ theme }) => theme.colors.brand.dark_blue};
-        }
-      }
+      ${({ theme }) => theme.font.p.large};
+      color: ${({ theme }) => theme.colors.brand.dark_blue};
+      font-weight: 600;
+      border-top: ridge;
+      border-top-color: ${({ theme }) => theme.colors.grayscale.gray_05};
     }
+  }
+
+  p {
+    ${({ theme }) => theme.font.p.extra_small};
+    color: ${({ theme }) => theme.colors.grayscale.gray_50};
+    font-weight: 500;
+  }
+
+  h3 {
+    margin-top: 20px;
+    ${({ theme }) => theme.font.p.medium};
+    color: ${({ theme }) => theme.colors.grayscale.gray_90};
+    font-weight: 600;
+  }
+
+  .layout {
+    display: grid;
+    grid-template-columns: 200px 1fr 1fr;
+    margin-top: 20px;
   }
 
   .comment-section {
@@ -62,6 +96,15 @@ export const ModalContentBody = styled.main`
         color: ${({ theme }) => theme.colors.grayscale.gray_80};
       }
     }
+  }
+
+  .buttons-content {
+    display: flex;
+    gap: 20px;
+    padding: 1em;
+    margin-top: auto;
+    justify-content: flex-end;
+    box-shadow: 0 -25px 30px -30px rgba(0, 0, 0, 0.2);
   }
 `;
 
@@ -88,8 +131,9 @@ export const ChatContainer = styled.section`
   }
   .chat-list {
     width: 100%;
-    padding: 0 2em;
     margin-top: auto;
+    overflow-y: auto;
+    max-height: 80vh;
 
     li {
       padding: 3px 0;
@@ -150,13 +194,12 @@ to{
 
 interface chatCardProps {
   $self: boolean;
-  $message_type?: Message["type"];
 }
-
 export const ChatCardContainer = styled.div<chatCardProps>`
   max-width: 90%;
   width: fit-content;
   display: flex;
+  flex-direction: column;
   align-items: flex-start;
   gap: 0.7em;
   position: relative;
@@ -171,30 +214,61 @@ export const ChatCardContainer = styled.div<chatCardProps>`
     transform: rotate(45deg);
   }
 
+  .data-side {
+    display: flex;
+    align-items: center;
+  }
+
+  .user-side {
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+  }
+
+  .message-container {
+    width: 100%;
+    word-wrap: break-word;
+  }
+
   ${({ $self }) => {
     if ($self) {
       return css`
         transform-origin: right;
         justify-self: flex-end;
-        flex-direction: row-reverse;
-        background-color: ${({ theme }) => theme.colors.brand.dark_blue};
+        flex-direction: column;
+        background-color: ${({ theme }) => theme.colors.brand.blue};
         border-radius: 6px 2px 6px 6px;
 
+        .header {
+          display: flex;
+          justify-content: flex-end;
+          align-items: center;
+          width: 100%;
+          color: ${({ theme }) => theme.colors.brand.white};
+          gap: 20px;
+
+          h1 {
+            color: ${({ theme }) => theme.colors.grayscale.gray_10};
+            ${({ theme }) => theme.font.p.extra_small};
+          }
+
+          span {
+            color: white;
+            ${({ theme }) => theme.font.p.small};
+            font-weight: 600;
+          }
+        }
+
         .message-container {
-          text-align: right;
-          color: white !important;
+          flex: 1;
+          ${({ theme }) => theme.font.p.normal};
+          color: ${({ theme }) => theme.colors.grayscale.gray_80};
+          max-width: 250px;
         }
 
-        .date-span {
-          color: white !important;
-          font-size: 11px !important;
-        }
-
-        &::after {
-          right: 20px;
-          bottom: -0.5em;
-          background-color: ${({ theme }) => theme.colors.support.support_01};
-          border-width: 0 1px 1px 0;
+        p {
+          color: white;
+          ${({ theme }) => theme.font.p.small};
         }
       `;
     }
@@ -202,48 +276,40 @@ export const ChatCardContainer = styled.div<chatCardProps>`
     return css`
       transform-origin: left;
       border-radius: 2px 6px 6px 6px;
-      background-color: ${({ theme }) => theme.colors.grayscale.gray_10};
-      .date-span {
-        font-size: 11px !important;
+      background-color: ${({ theme }) => theme.colors.brand.white};
+
+      .header {
+        display: flex;
+        justify-content: left;
+        flex-direction: row-reverse;
+        align-items: center;
+        width: 100%;
+        color: white !important;
+        gap: 20px;
+
+        h1 {
+          color: ${({ theme }) => theme.colors.grayscale.gray_50};
+          ${({ theme }) => theme.font.p.extra_small};
+        }
+
+        span {
+          color: ${({ theme }) => theme.colors.grayscale.gray_90};
+          ${({ theme }) => theme.font.p.small};
+          font-weight: 600;
+        }
       }
 
-      &::after {
-        left: 20px;
-        background-color: ${({ theme }) =>
-          theme.colors.support.support_01_light};
-        border: solid ${({ theme }) => theme.colors.grayscale.gray_10};
-        border-width: 0 1px 1px 0;
+      .message-container {
+        flex: 1;
+        ${({ theme }) => theme.font.p.normal};
+        color: ${({ theme }) => theme.colors.grayscale.gray_80};
+        max-width: 250px;
+      }
+
+      p {
+        color: ${({ theme }) => theme.colors.grayscale.gray_80};
+        ${({ theme }) => theme.font.p.small};
       }
     `;
   }}
-
-  ${({ $message_type }) => {
-    if ($message_type === "Notification") {
-      return css`
-        background-color: transparent !important;
-        .date-span.date-span {
-          color: ${({ theme }) => theme.colors.grayscale.gray_70} !important;
-        }
-      `;
-    }
-  }}
-
-  .message-container {
-    flex: 1;
-    ${({ theme }) => theme.font.p.normal};
-    color: ${({ theme }) => theme.colors.grayscale.gray_80};
-
-    &.info-message {
-      font-style: italic;
-      font-size: 12px !important;
-      margin-bottom: 10px;
-      color: ${({ theme }) => theme.colors.grayscale.gray_80} !important;
-    }
-  }
-
-  .date-span {
-    align-self: flex-end;
-    ${({ theme }) => theme.font.p.small};
-    color: ${({ theme }) => theme.colors.grayscale.gray_70};
-  }
 `;
