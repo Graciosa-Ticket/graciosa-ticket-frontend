@@ -50,6 +50,7 @@ export default function PasswordChangeModal({
     passwordChange(data, {
       onSuccess: () => {
         toast.success("Senha Alterada com sucesso");
+        onClose?.();
       },
       onError: () => {},
     });

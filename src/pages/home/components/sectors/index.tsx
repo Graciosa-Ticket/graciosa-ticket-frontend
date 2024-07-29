@@ -42,7 +42,7 @@ const HomeSector = () => {
         return { ...item, counters: {} };
       });
 
-      console.log(data);
+      // console.log(data);
       setDataSource(data);
     }
   }, [sectorData, counterData]);

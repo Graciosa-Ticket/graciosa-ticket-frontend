@@ -308,6 +308,16 @@ const TicketMainForm = ({
     }
   };
 
+  const handleRemoveFile = (fileToRemove: File) => {
+    setFiles((prevFiles) => {
+      const updatedFiles = prevFiles.filter((file) => file !== fileToRemove);
+      setValue("files", updatedFiles as unknown as FileList, {
+        shouldDirty: true,
+      });
+      return updatedFiles;
+    });
+  };
+
   return (
     <FormContentContainer>
       <Input
@@ -322,20 +332,22 @@ const TicketMainForm = ({
         error={errors.description?.message}
         register={{ ...register("description") }}
       />
-      <Input type="file" multiple onChange={handleChangeInputValue} />
       <section className="file-input-container">
+        <Input type="file" multiple onChange={handleChangeInputValue} />
         {files.length > 0 && (
           <div className="file-list">
             {files.map((file, index) => (
               <div key={index} className="file-item">
                 <p>
                   {file.name.length > 25
-                    ? `${file.name.slice(0, 21)}${file.name.slice(-4)}`
+                    ? `${file.name.slice(0, 20)}${file.name.slice(-4)}`
                     : file.name}
                 </p>
 
                 <ButtonComponent buttonStyles="text" title="Remover arquivo">
-                  <AiOutlineCloseCircle />
+                  <AiOutlineCloseCircle
+                    onClick={() => handleRemoveFile(file)}
+                  />
                 </ButtonComponent>
               </div>
             ))}
