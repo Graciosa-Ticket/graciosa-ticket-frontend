@@ -1,6 +1,5 @@
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { CreateUserComponent } from "./styles";
 import { ModalHeader, ModalTitle } from "../../../../components/modal";
 import ButtonComponent from "../../../../components/buttons";
@@ -19,16 +18,7 @@ import getDirtyFields from "../../../../utils/getDirtyFields";
 import { FaAngleLeft } from "react-icons/fa";
 import PictureInput from "../../../../components/form/picture";
 import { useAuth } from "../../../../hooks/auth";
-
-const fetchAddressByCep = async (cep: string) => {
-  try {
-    const response = await axios.get(`https://viacep.com.br/ws/${cep}/json/`);
-    const { logradouro, bairro } = response.data;
-    return { logradouro, bairro };
-  } catch (error) {
-    throw new Error(`Erro ao buscar o endereço`);
-  }
-};
+import { AddressByCep } from "../../../../utils/addressByCep";
 
 export default function CreateUserModal({
   onClose,
@@ -67,11 +57,17 @@ export default function CreateUserModal({
   }, [dirtyFields]);
 
   useEffect(() => {
-    if (getValues("cep")) {
-      fetchAddressByCep(getValues("cep"))
+    if (userData?.address) {
+      setAddress({
+        logradouro: userData.address.split(",")[0],
+        bairro: userData.address.split(",")[1]?.trim(),
+      });
+    } else if (getValues("cep")) {
+      AddressByCep(getValues("cep"))
         .then(({ logradouro, bairro }) => {
           setAddress({ logradouro, bairro });
-          setValue("address", `${logradouro}, ${bairro}`, {
+          const fullAddress = bairro ? `${logradouro}, ${bairro}` : logradouro;
+          setValue("address", fullAddress, {
             shouldDirty: true,
           });
         })
@@ -81,7 +77,7 @@ export default function CreateUserModal({
           setValue("address", "", { shouldDirty: true });
         });
     }
-  }, [getValues("cep")]);
+  }, [userData?.address, getValues("cep")]);
 
   const { mutate: createUser, isLoading: isLoadingUpdate } = useMutationQuery(
     "/users",
@@ -171,7 +167,9 @@ export default function CreateUserModal({
               register={{ ...register("address") }}
               value={
                 address
-                  ? `${address.logradouro}, ${address.bairro}`
+                  ? address.bairro
+                    ? `${address.logradouro}, ${address.bairro}`
+                    : address.logradouro
                   : getValues("address")
               }
             />

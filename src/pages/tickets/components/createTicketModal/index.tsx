@@ -31,6 +31,7 @@ import { UserModel } from "../../../../models/user";
 import { ChangeEvent, useEffect, useState } from "react";
 import { useAuth } from "../../../../hooks/auth";
 import getDirtyFields from "../../../../utils/getDirtyFields";
+import { AiOutlineCloseCircle } from "react-icons/ai";
 
 type viewOptions = "sector" | "main";
 
@@ -293,14 +294,15 @@ const TicketMainForm = ({
   errors,
 }: StepsProps & { errors: any }) => {
   const { register, setValue } = formProps;
+  const [files, setFiles] = useState<File[]>([]);
 
   const handleChangeInputValue = (current: ChangeEvent<HTMLInputElement>) => {
-    const files = current.target.files;
+    const fileList = current.target.files;
 
-    console.log(files);
-
-    if (files?.length) {
-      setValue("files", files as FileList, {
+    if (fileList?.length) {
+      const newFiles = Array.from(fileList);
+      setFiles((prevFiles) => [...prevFiles, ...newFiles]);
+      setValue("files", fileList as FileList, {
         shouldDirty: true,
       });
     }
@@ -321,6 +323,25 @@ const TicketMainForm = ({
         register={{ ...register("description") }}
       />
       <Input type="file" multiple onChange={handleChangeInputValue} />
+      <section className="file-input-container">
+        {files.length > 0 && (
+          <div className="file-list">
+            {files.map((file, index) => (
+              <div key={index} className="file-item">
+                <p>
+                  {file.name.length > 25
+                    ? `${file.name.slice(0, 21)}${file.name.slice(-4)}`
+                    : file.name}
+                </p>
+
+                <ButtonComponent buttonStyles="text" title="Remover arquivo">
+                  <AiOutlineCloseCircle />
+                </ButtonComponent>
+              </div>
+            ))}
+          </div>
+        )}
+      </section>
     </FormContentContainer>
   );
 };

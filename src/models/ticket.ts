@@ -3,7 +3,7 @@ import { UserModel } from "./user";
 
 export type TicketStatusEnum =
   | "Aberto"
-  | "Em andamento"
+  | "Em_andamento"
   | "Aguardando aprovação"
   | "Cancelado"
   | "Reaberto"

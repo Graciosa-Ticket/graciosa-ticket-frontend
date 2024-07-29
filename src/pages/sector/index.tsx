@@ -46,6 +46,7 @@ export default function Sector() {
         }
         return { ...item, counters: {} };
       });
+
       setDataSource(data);
     }
   }, [sectorData, counterData]);

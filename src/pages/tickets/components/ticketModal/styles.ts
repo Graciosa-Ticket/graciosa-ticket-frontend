@@ -248,7 +248,7 @@ export const ChatCardContainer = styled.div<chatCardProps>`
           gap: 20px;
 
           h1 {
-            color: ${({ theme }) => theme.colors.grayscale.gray_10};
+            color: white;
             ${({ theme }) => theme.font.p.extra_small};
           }
 
