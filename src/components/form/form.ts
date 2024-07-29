@@ -17,6 +17,25 @@ export const FormContentContainer = styled.div<formContentProps>`
   overflow-y: auto;
   align-content: baseline;
   padding: 0 4px 0 0;
+
+  .file-list {
+    width: 100%;
+    padding: 0.8em 0.8em;
+    color: ${({ theme }) => theme.colors.grayscale.gray_30};
+    ${({ theme }) => theme.font.p.normal};
+    border-radius: 0.5em;
+    border: 1px solid;
+  }
+
+  .file-item {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+
+    p {
+      justify-content: center;
+    }
+  }
 `;
 
 export const FormButtonsContainer = styled.div<formContentProps>`

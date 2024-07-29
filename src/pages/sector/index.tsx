@@ -37,15 +37,17 @@ export default function Sector() {
 
   useEffect(() => {
     if (sectorData?.length && counterData?.length) {
-      const counters = counterData[0];
-
       const data = sectorData.map((item) => {
-        const counter = counters[item.code];
-        if (counter) {
-          return { ...item, counters: counter };
+        const counter = counterData.filter(
+          (filter) => filter.code === item.code
+        );
+
+        if (counter?.length) {
+          return { ...item, counters: counter } as unknown as SectorCardModel;
         }
-        return { ...item, counters: {} };
+        return item;
       });
+
       setDataSource(data);
     }
   }, [sectorData, counterData]);

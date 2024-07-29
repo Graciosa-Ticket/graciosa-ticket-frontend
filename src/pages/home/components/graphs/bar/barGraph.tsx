@@ -28,14 +28,13 @@ export const BarGraph = () => {
     null
   );
 
-  const { data, error } = useFetch<CounterToChartModel>(
+  const { data } = useFetch<CounterToChartModel>(
     "/counters/CounterToChart",
     ["counter"],
     {
       onSuccess: (data) => {
         setDataSource(data);
       },
-      onError: (error) => {},
     }
   );
 

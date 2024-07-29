@@ -1,17 +1,4 @@
-import styled, { keyframes } from "styled-components";
-
-const entranceAnimation = keyframes`
-
-from{
-  transform: rotateX(180);
-  opacity: 0;
-}
-
-to{
-  transform: rotateX(0);
-  opacity: 1;
-}
-`;
+import styled from "styled-components";
 
 export const TicketsHomeContainer = styled.section`
   border-right: 1px solid ${({ theme }) => theme.colors.grayscale.gray_10};

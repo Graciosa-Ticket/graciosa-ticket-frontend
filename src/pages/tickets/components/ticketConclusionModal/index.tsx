@@ -65,7 +65,7 @@ export default function TicketConclusionModal({
         toast.success("Chamado Concluido");
 
         if (description) {
-          await createComment(
+          createComment(
             {
               comment: description,
               userCode: user.code,

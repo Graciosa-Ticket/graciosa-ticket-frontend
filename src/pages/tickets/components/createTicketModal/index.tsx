@@ -28,8 +28,10 @@ import { SectorCardModel } from "../../../../models/sector";
 import { useMutationQuery } from "../../../../services/hooks/useMutationQuery";
 import { toast } from "sonner";
 import { UserModel } from "../../../../models/user";
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { useAuth } from "../../../../hooks/auth";
+import getDirtyFields from "../../../../utils/getDirtyFields";
+import { AiOutlineCloseCircle } from "react-icons/ai";
 
 type viewOptions = "sector" | "main";
 
@@ -47,7 +49,7 @@ interface createInputProps {
   initial_date: string;
   final_date: string;
   user: UserModel;
-  files?: string[];
+  files?: FileList;
 }
 
 export default function CreateTicketModal({
@@ -125,7 +127,6 @@ interface StepsProps {
   onChangeStep?: (step: viewOptions) => void;
   onClose?: () => void;
   onUpdate?: () => void;
-  setValue?: () => void;
 }
 
 const ChooseSectorStep = ({ formProps, onChangeStep }: StepsProps) => {
@@ -138,7 +139,6 @@ const ChooseSectorStep = ({ formProps, onChangeStep }: StepsProps) => {
       onSuccess: (data) => {
         setDataSource(data);
       },
-      onError: (error) => {},
     }
   );
 
@@ -193,7 +193,8 @@ const TicketFormStep = ({ formProps, onClose, onUpdate }: StepsProps) => {
   const {
     watch,
     handleSubmit,
-    formState: { errors },
+    getValues,
+    formState: { errors, dirtyFields },
   } = formProps;
 
   const { mutate: createTicket, isLoading: isLoadingUpdate } =
@@ -201,15 +202,25 @@ const TicketFormStep = ({ formProps, onClose, onUpdate }: StepsProps) => {
 
   const { user } = useAuth();
 
-  const onSubmit = handleSubmit((data) => {
+  const onSubmit = handleSubmit(() => {
+    const { ...rest } = getDirtyFields(dirtyFields, getValues);
+
+    const formData = new FormData();
+
     const ticketData = {
-      ...data,
+      ...rest,
       user_code: user.code,
       urgency: "Normal",
       status: "Aberto",
     };
 
-    createTicket(ticketData, {
+    for (const key in ticketData) {
+      if (ticketData[key]) {
+        formData.append(key, ticketData[key]);
+      }
+    }
+
+    createTicket(formData, {
       onSuccess: () => {
         toast.success("Chamado Cadastrado!");
         onUpdate?.();
@@ -280,14 +291,29 @@ const TicketFormStep = ({ formProps, onClose, onUpdate }: StepsProps) => {
 const TicketMainForm = ({
   formProps,
   errors,
-  setValue,
 }: StepsProps & { errors: any }) => {
-  const { register } = formProps;
+  const { register, setValue } = formProps;
+  const [files, setFiles] = useState<File[]>([]);
 
-  const handleChangeInputValue = (current) => {
-    const files = current.target.files;
-    setValue("files", files, {
-      shouldDirty: true,
+  const handleChangeInputValue = (current: ChangeEvent<HTMLInputElement>) => {
+    const fileList = current.target.files;
+
+    if (fileList?.length) {
+      const newFiles = Array.from(fileList);
+      setFiles((prevFiles) => [...prevFiles, ...newFiles]);
+      setValue("files", fileList as FileList, {
+        shouldDirty: true,
+      });
+    }
+  };
+
+  const handleRemoveFile = (fileToRemove: File) => {
+    setFiles((prevFiles) => {
+      const updatedFiles = prevFiles.filter((file) => file !== fileToRemove);
+      setValue("files", updatedFiles as unknown as FileList, {
+        shouldDirty: true,
+      });
+      return updatedFiles;
     });
   };
 
@@ -305,7 +331,28 @@ const TicketMainForm = ({
         error={errors.description?.message}
         register={{ ...register("description") }}
       />
-      <Input type="file" multiple onChange={handleChangeInputValue} />
+      <section className="file-input-container">
+        <Input type="file" multiple onChange={handleChangeInputValue} />
+        {files.length > 0 && (
+          <div className="file-list">
+            {files.map((file, index) => (
+              <div key={index} className="file-item">
+                <p>
+                  {file.name.length > 25
+                    ? `${file.name.slice(0, 20)}${file.name.slice(-4)}`
+                    : file.name}
+                </p>
+
+                <ButtonComponent buttonStyles="text" title="Remover arquivo">
+                  <AiOutlineCloseCircle
+                    onClick={() => handleRemoveFile(file)}
+                  />
+                </ButtonComponent>
+              </div>
+            ))}
+          </div>
+        )}
+      </section>
     </FormContentContainer>
   );
 };

@@ -34,7 +34,9 @@ const UserTicketsView = ({ tickets, onOpenModal }: userTicketProps) => {
       return tickets.filter((ticket) => ticket.user.code === user.code);
     }
     return tickets.filter(
-      (ticket) => ticket.sector.responsible_code === user.code
+      (ticket) =>
+        ticket.sector.responsible_code === user.code ||
+        ticket.user.code === user.code
     );
   }, [tickets, user.code, user.role]);
 
@@ -96,7 +98,7 @@ const GroupedList = ({ tickets, title, onOpenModal }: groupTickets) => {
   const [openAccordeon, setOpenAccordeon] = useState(true);
 
   const maxHeight = useMemo(() => {
-    const totalTickets = tickets.reduce((a, b) => {
+    const totalTickets = tickets.reduce((a) => {
       return a + tickets.length * 40 + 100;
     }, 0);
 

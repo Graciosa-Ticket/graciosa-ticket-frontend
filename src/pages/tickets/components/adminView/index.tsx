@@ -1,4 +1,4 @@
-import { CSSProperties, useEffect, useMemo, useState } from "react";
+import { CSSProperties, useMemo, useState } from "react";
 import { TicketModel } from "../../../../models/ticket";
 import { useAuth } from "../../../../hooks/auth";
 import { AdminGroupTickets, groupTickets } from "../groupTicket";
@@ -138,7 +138,7 @@ const GroupedList = ({ tickets, title, onOpenModal }: groupTickets) => {
   const [openAccordeon, setOpenAccordeon] = useState(true);
 
   const maxHeight = useMemo(() => {
-    const totalTickets = tickets.reduce((a, b) => {
+    const totalTickets = tickets.reduce((a) => {
       return a + tickets.length * 40 + 100;
     }, 0);
 

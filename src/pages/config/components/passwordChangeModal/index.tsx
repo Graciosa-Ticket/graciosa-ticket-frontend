@@ -3,7 +3,6 @@ import { modalActions } from "../../../../shared/global.interface";
 import { ModalTitle } from "../../../../components/centerModal";
 import ButtonComponent from "../../../../components/buttons";
 import { AiOutlineClose } from "react-icons/ai";
-import { useAuth } from "../../../../hooks/auth";
 import { PasswordChangeModalComponent } from "./styles";
 import {
   FormContainer,
@@ -50,6 +49,7 @@ export default function PasswordChangeModal({
     passwordChange(data, {
       onSuccess: () => {
         toast.success("Senha Alterada com sucesso");
+        onClose?.();
       },
       onError: () => {},
     });
