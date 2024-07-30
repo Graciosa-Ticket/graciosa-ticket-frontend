@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { CounterToChartModel } from "../../../../models/counterToChart";
 import { useFetch } from "../../../../services/hooks/getQuery";
 import BarGraph from "./bar/barGraph";
@@ -7,42 +7,63 @@ import LoadingScreen from "../../../../components/loading/loadingScreen";
 import SelectSector from "../../../../components/selectSector";
 import { useForm } from "react-hook-form";
 import { SectorCardModel } from "../../../../models/sector";
+import TabComponent from "../../../../components/tabComponent";
+import { map } from "lodash";
+import SectorBarGraph from "./bar/barGraphSector";
 
 const HomeGraph = () => {
-  const [dataSource, setDataSource] = useState<CounterToChartModel | null>(
-    null
-  );
+  const [dataSource, setDataSource] = useState<CounterToChartModel>();
+
   const [selectedDataSource, setSelectedDataSource] =
-    useState<SectorCardModel | null>(null);
+    useState<CounterToChartModel[]>();
 
   const { setValue, watch } = useForm<SectorCardModel>();
 
   const { isLoading: isLoadingAllSectorsCounters } =
     useFetch<CounterToChartModel>("/counters/CounterToChart", ["counter"], {
-      onSuccess: (geralData) => setDataSource(geralData),
+      onSuccess: (geralData) => {
+        console.log({ geralData });
+        setDataSource(geralData);
+      },
     });
 
-  const { isLoading: isLoadingSelectedSector } = useFetch<SectorCardModel>(
-    `/counters/counterToChart/sector/${watch("code")}`,
-    ["selectedSectorCounter", watch("code")],
-    {
-      onSuccess: (selectedSectorData) => {
-        // console.log(selectedSectorData);
-        setSelectedDataSource(selectedSectorData);
-      },
-    }
-  );
+  const { isLoading: isLoadingSelectedSector } = useFetch<
+    CounterToChartModel[]
+  >(`/counters/counterToChart/allsectors`, ["selectedSectorCounter"], {
+    onSuccess: (selectedSectorData) => {
+      setSelectedDataSource(
+        map(selectedSectorData[0], (a: any, b) => ({
+          sector_code: b,
+          ...a,
+        }))
+      );
+    },
+  });
 
   const isLoading = isLoadingAllSectorsCounters || isLoadingSelectedSector;
 
-  const allTickets =
-    (dataSource?.aberto ?? 0) +
-    (dataSource?.aguardando_aprovacao ?? 0) +
-    (dataSource?.cancelado ?? 0) +
-    (dataSource?.concluido ?? 0) +
-    (dataSource?.em_andamento ?? 0) +
-    (dataSource?.impeditivo ?? 0) +
-    (dataSource?.reaberto ?? 0);
+  const allTicketsCount = useMemo(() => {
+    const dataSourceKeys = Object.values(dataSource || {});
+
+    if (!dataSourceKeys.length) return 0;
+
+    return dataSourceKeys.reduce((a, b) => a + b, 0);
+  }, [dataSource]);
+
+  const tabOptions = useMemo(() => {
+    return [
+      {
+        title: "Geral",
+        value: "geral",
+        content: <BarGraph data={dataSource} />,
+      },
+      {
+        title: "Setores",
+        value: "sector",
+        content: <SectorBarGraph data={selectedDataSource} />,
+      },
+    ];
+  }, [dataSource, selectedDataSource]);
 
   if (isLoading) {
     return (
@@ -65,17 +86,13 @@ const HomeGraph = () => {
           </li>
 
           <li>
-            <p>{allTickets}</p>
+            <p>{allTicketsCount}</p>
             <span>Chamados totais</span>
           </li>
         </ul>
       </section>
 
       <section className="bar-chart">
-        <BarGraph data={dataSource || selectedDataSource} />
-      </section>
-
-      <section className="sector-search">
         <SelectSector
           label=""
           title="Selecionar Setor"
@@ -83,7 +100,11 @@ const HomeGraph = () => {
             setValue("code", data?.code as string, { shouldDirty: true });
           }}
         />
+
+        <TabComponent data={tabOptions} />
       </section>
+
+      <section className="sector-search"></section>
     </HomeGraphContainer>
   );
 };

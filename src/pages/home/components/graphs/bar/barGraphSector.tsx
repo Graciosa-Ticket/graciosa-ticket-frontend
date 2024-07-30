@@ -20,24 +20,25 @@ ChartJS.register(
   Legend
 );
 
+type SectorGraphData = CounterToChartModel & { sector_code?: string };
+
 interface BarGraphProps {
-  data?: CounterToChartModel;
+  data?: SectorGraphData[];
 }
 
-export const BarGraph = ({ data }: BarGraphProps) => {
+const SectorBarGraph = ({ data }: BarGraphProps) => {
   const theme = useTheme();
-  console.log(data);
 
   if (!data) return <div> Carregando...</div>;
 
   return (
     <Bar
       data={{
-        labels: Object.keys(data),
-        datasets: [
-          {
+        labels: data.map((e) => e?.sector_code),
+        datasets: data.map((e) => {
+          return {
             label: "Chamados",
-            data: Object.values(data),
+            data: Object.values(e),
             backgroundColor: [
               theme.colors.ticket_status.open,
               theme.colors.ticket_status.waiting_approval,
@@ -57,8 +58,8 @@ export const BarGraph = ({ data }: BarGraphProps) => {
               theme.colors.ticket_status.re_open,
             ],
             borderWidth: 1,
-          },
-        ],
+          };
+        }),
       }}
       options={{
         responsive: true,
@@ -106,4 +107,4 @@ export const BarGraph = ({ data }: BarGraphProps) => {
   );
 };
 
-export default BarGraph;
+export default SectorBarGraph;
