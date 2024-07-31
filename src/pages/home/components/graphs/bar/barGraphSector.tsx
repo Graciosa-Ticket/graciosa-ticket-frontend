@@ -64,7 +64,7 @@ const SectorBarGraph = ({ data }: BarGraphProps) => {
       options={{
         responsive: true,
         onClick: (event, elements, chart) => {
-          console.log(event, elements, chart);
+          // console.log(event, elements, chart);
         },
         plugins: {
           legend: {

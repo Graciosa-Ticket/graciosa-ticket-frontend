@@ -31,7 +31,6 @@ export default function SectorModal({
       {},
       {
         onSuccess: () => {
-          console.log(data?.code);
           toast.success("Setor deletado com sucesso!");
           onUpdate?.();
         },

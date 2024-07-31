@@ -6,7 +6,11 @@ import { useState } from "react";
 import { useFetch } from "../../../../services/hooks/getQuery";
 import TicketCard from "../../../../components/ticket";
 
-const HomeTicketComponent = () => {
+interface HomeTicketProps {
+  isAdmin: boolean;
+}
+
+const HomeTicketComponent = ({ isAdmin }: HomeTicketProps) => {
   const [dataSource, setDataSource] = useState<TicketModel[]>([]);
 
   const {} = useFetch<TicketModel[]>("/ticket", ["ticket"], {
@@ -16,7 +20,7 @@ const HomeTicketComponent = () => {
   });
 
   return (
-    <TicketsHomeContainer>
+    <TicketsHomeContainer $isAdmin={isAdmin}>
       <div className="section-title">
         <h3>Últimos tickets</h3>
 

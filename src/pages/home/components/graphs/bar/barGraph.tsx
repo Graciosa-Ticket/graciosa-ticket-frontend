@@ -26,7 +26,6 @@ interface BarGraphProps {
 
 export const BarGraph = ({ data }: BarGraphProps) => {
   const theme = useTheme();
-  console.log(data);
 
   if (!data) return <div> Carregando...</div>;
 
@@ -62,9 +61,6 @@ export const BarGraph = ({ data }: BarGraphProps) => {
       }}
       options={{
         responsive: true,
-        onClick: (event, elements, chart) => {
-          console.log(event, elements, chart);
-        },
         plugins: {
           legend: {
             display: false,

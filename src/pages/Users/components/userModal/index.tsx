@@ -1,4 +1,8 @@
-import { AiOutlineDelete, AiOutlineEdit } from "react-icons/ai";
+import {
+  AiOutlineCheckCircle,
+  AiOutlineDelete,
+  AiOutlineEdit,
+} from "react-icons/ai";
 import { FaAngleLeft } from "react-icons/fa";
 import ButtonComponent from "../../../../components/buttons";
 import Modal, { ModalHeader, ModalTitle } from "../../../../components/modal";
@@ -36,6 +40,21 @@ export default function UserModal({
       {
         onSuccess: () => {
           toast.success("usuário deletado com sucesso!");
+          onUpdate?.();
+        },
+      }
+    );
+  };
+
+  const { mutate: unDeleteUser, isLoading: isLoadingUnDelete } =
+    useMutationQuery(`/users/undoDeletedUser/${data?.code}`, "post");
+
+  const handleReactiveUser = () => {
+    unDeleteUser(
+      {},
+      {
+        onSuccess: () => {
+          toast.success("usuário Reativado com sucesso!");
           onUpdate?.();
         },
       }
@@ -97,24 +116,46 @@ export default function UserModal({
         )}
         <div className="footer">
           <div />
-          <ActionsModalComponent
-            message="Confirme para deletar este usuário. Esta ação não pode ser desfeita."
-            actionButton={
-              <ButtonComponent
-                buttonStyles="delete"
-                onClick={handleDeleteUser}
-                isLoading={isLoadingDelete}
-              >
-                Confirmar Deletar usuário
-              </ButtonComponent>
-            }
-            buttonProps={{
-              buttonStyles: "delete",
-              buttonStylesType: "outline",
-            }}
-          >
-            <AiOutlineDelete /> Deletar
-          </ActionsModalComponent>
+          {!data?.deleted_at ? (
+            <ActionsModalComponent
+              message="Confirme para deletar este usuário. Esta ação não pode ser desfeita."
+              actionButton={
+                <ButtonComponent
+                  buttonStyles="delete"
+                  onClick={handleDeleteUser}
+                  isLoading={isLoadingDelete}
+                >
+                  Confirmar Deletar usuário
+                </ButtonComponent>
+              }
+              buttonProps={{
+                buttonStyles: "delete",
+                buttonStylesType: "outline",
+              }}
+            >
+              <AiOutlineDelete /> Deletar
+            </ActionsModalComponent>
+          ) : (
+            <ActionsModalComponent
+              message="Confirme para reativar este usuário."
+              actionButton={
+                <ButtonComponent
+                  buttonStyles="confirm"
+                  onClick={handleReactiveUser}
+                  isLoading={isLoadingUnDelete}
+                >
+                  Confirmar
+                </ButtonComponent>
+              }
+              buttonProps={{
+                buttonStyles: "confirm",
+                buttonStylesType: "outline",
+              }}
+            >
+              <AiOutlineCheckCircle /> Reativar
+            </ActionsModalComponent>
+          )}
+
           <EditUserButton data={data} onUpdate={onUpdate} />
         </div>
       </UserComponent>

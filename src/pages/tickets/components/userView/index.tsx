@@ -67,7 +67,7 @@ const columns: TypeColumn[] = [
   },
   {
     name: "title",
-    header: "Título",
+    header: "Tìtulo",
     render: ({ value }) => <b>{value}</b>,
   },
   {
@@ -79,11 +79,15 @@ const columns: TypeColumn[] = [
     name: "created_at",
     header: "Dt. abertura",
     render: ({ value }) =>
-      value ? format(value as Date, "dd/MM/yyyy 'às' HH'h'mm") : "",
+      value ? format(value as Date, "dd/MM/yyyy 'ás' HH'h'mm") : "",
   },
   {
-    name: "user_code",
+    name: "user",
     header: "Usuário",
+    render: ({ value }) => {
+      const name = value?.name || "Sem usuário";
+      return name.length > 12 ? `${name.substring(0, 10)}...` : name;
+    },
   },
   {
     name: "status",
