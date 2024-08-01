@@ -19,11 +19,15 @@ const HomeGraph = ({ userSector }: homeGraphProps) => {
     useState<CounterToChartModel[]>();
 
   const { isLoading: isLoadingAllSectorsCounters } =
-    useFetch<CounterToChartModel>("/counters/CounterToChart", ["counter"], {
-      onSuccess: (geralCountData) => {
-        setDataSource(geralCountData);
-      },
-    });
+    useFetch<CounterToChartModel>(
+      "/counters/counterToChart",
+      ["geralCountData"],
+      {
+        onSuccess: (geralCountData) => {
+          setDataSource(geralCountData);
+        },
+      }
+    );
 
   const { isLoading: isLoadingSelectedSector } = useFetch<
     CounterToChartModel[]
@@ -46,6 +50,7 @@ const HomeGraph = ({ userSector }: homeGraphProps) => {
         onSuccess: (counterBySectorCode) => {
           const sectorData = Object.values(counterBySectorCode)[0];
           setDataSource(sectorData);
+          console.log("counterBySectorCode: " + sectorData);
         },
       }
     );

@@ -32,7 +32,7 @@ import { UserModel } from "../../../../models/user";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { useAuth } from "../../../../hooks/auth";
 import getDirtyFields from "../../../../utils/getDirtyFields";
-import { AiOutlineCloseCircle } from "react-icons/ai";
+import { AiOutlineCloseCircle, AiOutlineFileAdd } from "react-icons/ai";
 
 type viewOptions = "sector" | "main";
 
@@ -333,8 +333,12 @@ const TicketMainForm = ({
         register={{ ...register("description") }}
       />
       <section className="file-input-container">
-        <label className="label-container" htmlFor="fileInput">
-          Teste
+        <label
+          className="label-container"
+          htmlFor="fileInput"
+          title="Adicionar anexo"
+        >
+          Adicionar anexo <AiOutlineFileAdd />
         </label>
 
         <input
@@ -344,6 +348,7 @@ const TicketMainForm = ({
           onChange={handleChangeInputValue}
         />
 
+        {files.length > 0 && <h3>Lista de anexos</h3>}
         {files.length > 0 && (
           <div className="file-list">
             {files.map((file, index) => (
@@ -354,7 +359,11 @@ const TicketMainForm = ({
                     : file.name}
                 </p>
 
-                <ButtonComponent buttonStyles="text" title="Remover arquivo">
+                <ButtonComponent
+                  buttonStyles="text"
+                  className="remove-icon"
+                  title="Remover arquivo"
+                >
                   <AiOutlineCloseCircle
                     onClick={() => handleRemoveFile(file)}
                   />

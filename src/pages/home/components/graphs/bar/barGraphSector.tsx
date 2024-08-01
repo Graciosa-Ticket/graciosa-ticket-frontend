@@ -29,7 +29,9 @@ interface BarGraphProps {
 const SectorBarGraph = ({ data }: BarGraphProps) => {
   const theme = useTheme();
 
-  if (!data) return <div> Carregando...</div>;
+  if (!data) return;
+  console.log(data);
+  <div> Carregando...</div>;
 
   return (
     <Bar
@@ -63,9 +65,6 @@ const SectorBarGraph = ({ data }: BarGraphProps) => {
       }}
       options={{
         responsive: true,
-        onClick: (event, elements, chart) => {
-          // console.log(event, elements, chart);
-        },
         plugins: {
           legend: {
             display: false,

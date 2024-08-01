@@ -27,7 +27,9 @@ interface BarGraphProps {
 export const BarGraph = ({ data }: BarGraphProps) => {
   const theme = useTheme();
 
-  if (!data) return <div> Carregando...</div>;
+  if (!data) return;
+  console.log(data);
+  <div> Carregando...</div>;
 
   return (
     <Bar

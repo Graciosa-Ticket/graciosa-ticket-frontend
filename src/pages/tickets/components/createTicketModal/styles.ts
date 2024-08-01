@@ -88,38 +88,80 @@ export const TicketFormContainer = styled.div`
     flex: 1;
   }
 `;
-
 export const TicketMainFormContainer = styled(FormContentContainer)`
   .file-input-container {
     min-height: 300px;
+    color: ${({ theme }) => theme.colors.grayscale.gray_80};
+    border-radius: 0.5em;
+    display: flex;
+    flex-direction: column;
+
+    h3 {
+      margin-top: 5px;
+      margin-left: 2px;
+      margin-bottom: 5px;
+      color: ${({ theme }) => theme.colors.grayscale.gray_80};
+      ${({ theme }) => theme.font.p.normal};
+      font-weight: 500;
+    }
 
     #fileInput {
       display: none;
     }
 
     .label-container {
-      border: solid red 1px;
-      border-radius: 12px;
-      padding: 20px;
+      border: solid 1px;
+      border-radius: 0.5em;
+      padding: 8px;
       cursor: pointer;
+      color: ${({ theme }) => theme.colors.grayscale.gray_80};
+      ${({ theme }) => theme.font.p.normal};
+      width: 50%;
+      margin-top: 2px;
+      margin-left: 2px;
+      text-align: center;
+
+      &:hover {
+        background-color: ${({ theme }) => theme.colors.grayscale.gray_80};
+        color: ${({ theme }) => theme.colors.brand.white};
+        transition: background-color 0.3s ease;
+      }
     }
 
     .file-list {
-      width: 100%;
+      width: 80%;
+      max-height: 250px;
       padding: 0.8em 0.8em;
-      color: ${({ theme }) => theme.colors.grayscale.gray_30};
+      color: ${({ theme }) => theme.colors.grayscale.gray_80};
       ${({ theme }) => theme.font.p.normal};
       border-radius: 0.5em;
       border: 1px solid;
+      margin-top: 2px;
+      text-align: center;
+      overflow-y: auto;
+      transition: background-color 0.3s ease, color 0.3s ease;
     }
 
     .file-item {
       display: flex;
-      gap: 8px;
       align-items: center;
+      justify-content: space-between;
+      padding: 0.4em;
 
       p {
-        justify-content: center;
+        color: ${({ theme }) => theme.colors.grayscale.gray_80};
+        ${({ theme }) => theme.font.p.normal};
+      }
+
+      .remove-icon {
+        color: ${({ theme }) => theme.colors.grayscale.gray_80};
+        cursor: pointer;
+
+        &:hover {
+          background-color: ${({ theme }) => theme.colors.grayscale.gray_80};
+          color: ${({ theme }) => theme.colors.brand.white};
+          transition: background-color 0.3s ease;
+        }
       }
     }
   }

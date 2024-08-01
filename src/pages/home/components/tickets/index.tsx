@@ -31,11 +31,14 @@ const HomeTicketComponent = ({ isAdmin }: HomeTicketProps) => {
       </div>
 
       <ul className="ticket-list">
-        {dataSource.map((e, i) => (
-          <li key={i}>
-            <TicketCard data={e} />
-          </li>
-        ))}
+        {dataSource
+          .slice()
+          .reverse()
+          .map((e, i) => (
+            <li key={i}>
+              <TicketCard data={e} />
+            </li>
+          ))}
       </ul>
     </TicketsHomeContainer>
   );
