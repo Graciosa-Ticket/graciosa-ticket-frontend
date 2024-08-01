@@ -19,6 +19,7 @@ import { FaAngleLeft } from "react-icons/fa";
 import PictureInput from "../../../../components/form/picture";
 import { useAuth } from "../../../../hooks/auth";
 import { AddressByCep } from "../../../../utils/addressByCep";
+import { api } from "../../../../services/api.service";
 
 export default function CreateUserModal({
   onClose,
@@ -27,6 +28,7 @@ export default function CreateUserModal({
   data: userData,
 }: modalActions<UserModel>) {
   const { user, updateProfile } = useAuth();
+  const [loading, setLoading] = useState(false);
 
   const {
     handleSubmit,
@@ -77,14 +79,9 @@ export default function CreateUserModal({
     }
   };
 
-  const { mutate: createUser, isLoading: isLoadingUpdate } = useMutationQuery(
-    "/users",
-    userData ? "put" : "post"
-  );
-
-  const onSubmit = handleSubmit(() => {
+  const onSubmit = handleSubmit(async () => {
+    setLoading(true);
     const { ...rest } = getDirtyFields(dirtyFields, getValues);
-
     const formData = new FormData();
 
     const data = {
@@ -106,6 +103,7 @@ export default function CreateUserModal({
           if (userData.code === user.code) {
             updateProfile(data);
           }
+
           toast.success("Cadastro Atualizado!");
         } else {
           toast.success("Cadastro concluído!");
@@ -210,7 +208,7 @@ export default function CreateUserModal({
             title="Confirmar"
             className="confirm-btn"
             onClick={onSubmit}
-            isLoading={isLoadingUpdate}
+            isLoading={loading}
           >
             {userData ? "Confirmar Edição" : "Cadastrar"}
           </ButtonComponent>
