@@ -22,7 +22,7 @@ const HomeSector = () => {
     isFetching: fetchingCounter,
     data: counterData,
     refetch: refetchCounter,
-  } = useFetch<SectorCardModel[]>("/counters/counterToChart/allSectors", [
+  } = useFetch<SectorCardModel[]>("/counters/counterToChart/allsectors", [
     "sectorCounter",
   ]);
 

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useMutation } from "react-query";
 import { api } from "../api.service";
 
@@ -7,16 +8,11 @@ export const useMutationQuery = <T = any, R = any>(
   url: string,
   method: methods = "post"
 ) => {
-  const prepareMutation = (data: T, isFormData: boolean = false) => {
-    const headers = isFormData ? { "Content-Type": "multipart/form-data" } : {};
-
-    return api[method]<R>(url, data, { headers });
+  const prepareMutation = <T>(data: T) => {
+    return api[method]<R>(url, data);
   };
 
-  return useMutation(
-    (data: T) => prepareMutation(data, data instanceof FormData),
-    {
-      retry: false,
-    }
-  );
+  return useMutation(prepareMutation<T>, {
+    retry: false,
+  });
 };

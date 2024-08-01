@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { CreateUserComponent } from "./styles";
 import { ModalHeader, ModalTitle } from "../../../../components/modal";
 import ButtonComponent from "../../../../components/buttons";
@@ -97,22 +97,31 @@ export default function CreateUserModal({
       }
     }
 
-    createUser(formData, {
-      onSuccess: () => {
-        if (userData) {
-          if (userData.code === user.code) {
-            updateProfile(data);
-          }
+    const createUser = userData ? api.put : api.post;
 
-          toast.success("Cadastro Atualizado!");
-        } else {
-          toast.success("Cadastro concluído!");
+    try {
+      await createUser("/users", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      if (userData) {
+        if (userData.code === user.code) {
+          updateProfile(data);
         }
-        onUpdate?.();
-        onClose?.();
-      },
-      onError: () => {},
-    });
+
+        toast.success("Cadastro Atualizado!");
+      } else {
+        toast.success("Cadastro concluído!");
+      }
+      setLoading(false);
+      onUpdate?.();
+      onClose?.();
+    } catch (error) {
+      setLoading(false);
+      toast.error("Ocorreu um erro, tente novamente!");
+    }
   });
 
   return (

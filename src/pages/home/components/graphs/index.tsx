@@ -31,7 +31,7 @@ const HomeGraph = ({ userSector }: homeGraphProps) => {
 
   const { isLoading: isLoadingSelectedSector } = useFetch<
     CounterToChartModel[]
-  >(`/counters/counterToChart/allSectors`, ["selectedSectorCounter"], {
+  >(`/counters/counterToChart/allsectors`, ["selectedSectorCounter"], {
     onSuccess: (selectedSectorCountData) => {
       setSelectedDataSource(
         map(selectedSectorCountData[0], (a: any, b) => ({
