@@ -19,6 +19,7 @@ import { FaAngleLeft } from "react-icons/fa";
 import PictureInput from "../../../../components/form/picture";
 import { useAuth } from "../../../../hooks/auth";
 import { AddressByCep } from "../../../../utils/addressByCep";
+import { api } from "../../../../services/api.service";
 
 export default function CreateUserModal({
   onClose,
@@ -27,10 +28,7 @@ export default function CreateUserModal({
   data: userData,
 }: modalActions<UserModel>) {
   const { user, updateProfile } = useAuth();
-  const [address, setAddress] = useState<{
-    logradouro: string;
-    bairro: string;
-  } | null>(null);
+  const [loading, setLoading] = useState(false);
 
   const {
     handleSubmit,
@@ -81,14 +79,9 @@ export default function CreateUserModal({
     }
   };
 
-  const { mutate: createUser, isLoading: isLoadingUpdate } = useMutationQuery(
-    "/users",
-    userData ? "put" : "post"
-  );
-
-  const onSubmit = handleSubmit(() => {
+  const onSubmit = handleSubmit(async () => {
+    setLoading(true);
     const { ...rest } = getDirtyFields(dirtyFields, getValues);
-
     const formData = new FormData();
 
     const data = {
@@ -104,22 +97,31 @@ export default function CreateUserModal({
       }
     }
 
-    createUser(formData, {
-      onSuccess: () => {
-        if (userData) {
-          if (userData.code === user.code) {
-            updateProfile(data);
-          }
+    const createUser = userData ? api.put : api.post;
 
-          toast.success("Cadastro Atualizado!");
-        } else {
-          toast.success("Cadastro concluído!");
+    try {
+      await createUser("/users", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      if (userData) {
+        if (userData.code === user.code) {
+          updateProfile(data);
         }
-        onUpdate?.();
-        onClose?.();
-      },
-      onError: () => {},
-    });
+
+        toast.success("Cadastro Atualizado!");
+      } else {
+        toast.success("Cadastro concluído!");
+      }
+      setLoading(false);
+      onUpdate?.();
+      onClose?.();
+    } catch (error) {
+      setLoading(false);
+      toast.error("Ocorreu um erro, tente novamente!");
+    }
   });
 
   return (
@@ -215,7 +217,7 @@ export default function CreateUserModal({
             title="Confirmar"
             className="confirm-btn"
             onClick={onSubmit}
-            isLoading={isLoadingUpdate}
+            isLoading={loading}
           >
             {userData ? "Confirmar Edição" : "Cadastrar"}
           </ButtonComponent>
