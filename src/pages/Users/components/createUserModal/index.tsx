@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { CreateUserComponent } from "./styles";
 import { ModalHeader, ModalTitle } from "../../../../components/modal";
 import ButtonComponent from "../../../../components/buttons";
@@ -27,10 +27,6 @@ export default function CreateUserModal({
   data: userData,
 }: modalActions<UserModel>) {
   const { user, updateProfile } = useAuth();
-  const [address, setAddress] = useState<{
-    logradouro: string;
-    bairro: string;
-  } | null>(null);
 
   const {
     handleSubmit,
@@ -110,7 +106,6 @@ export default function CreateUserModal({
           if (userData.code === user.code) {
             updateProfile(data);
           }
-
           toast.success("Cadastro Atualizado!");
         } else {
           toast.success("Cadastro concluído!");
