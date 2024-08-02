@@ -125,7 +125,7 @@ const ConnectionsMessageCard = ({ data }: chatCardProps) => {
     <ChatCardContainer $self={isCurrentUser}>
       <section className="header">
         <h1>
-          á{" "}
+          {" "}
           {data?.created_at
             ? timeConverter(new Date(data.created_at))
             : "Data inválida"}{" "}

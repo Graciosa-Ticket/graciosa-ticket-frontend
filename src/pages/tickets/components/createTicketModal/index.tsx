@@ -29,7 +29,7 @@ import { SectorCardModel } from "../../../../models/sector";
 import { useMutationQuery } from "../../../../services/hooks/useMutationQuery";
 import { toast } from "sonner";
 import { UserModel } from "../../../../models/user";
-import { ChangeEvent, useEffect, useRef, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { useAuth } from "../../../../hooks/auth";
 import getDirtyFields from "../../../../utils/getDirtyFields";
 import { AiOutlineCloseCircle, AiOutlineFileAdd } from "react-icons/ai";

@@ -5,12 +5,14 @@ import { AiOutlineEye } from "react-icons/ai";
 import { useState } from "react";
 import { useFetch } from "../../../../services/hooks/getQuery";
 import TicketCard from "../../../../components/ticket";
+import { SectorCardModel } from "../../../../models/sector";
 
 interface HomeTicketProps {
   isAdmin: boolean;
+  userSector?: SectorCardModel;
 }
 
-const HomeTicketComponent = ({ isAdmin }: HomeTicketProps) => {
+const HomeTicketComponent = ({ isAdmin, userSector }: HomeTicketProps) => {
   const [dataSource, setDataSource] = useState<TicketModel[]>([]);
 
   const {} = useFetch<TicketModel[]>("/ticket", ["ticket"], {

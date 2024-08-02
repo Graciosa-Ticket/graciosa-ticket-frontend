@@ -14,6 +14,7 @@ interface homeProps {
 export default function Home({}: homeProps) {
   const { user } = useAuth();
   const isAdmin = user.role === "Administrator";
+  console.log(isAdmin);
 
   const { data: sectorsListData } = useFetch<SectorCardModel[]>("/sectors", [
     "sector",
@@ -27,13 +28,13 @@ export default function Home({}: homeProps) {
     <HomeSection isAdmin={isAdmin}>
       {isAdmin ? (
         <>
-          <HomeGraph />
+          <HomeGraph isAdmin={isAdmin} />
           <HomeTicketComponent isAdmin={isAdmin} />
           <HomeSector />
         </>
       ) : (
         <>
-          <HomeGraph userSector={userSector} />
+          <HomeGraph userSector={userSector} isAdmin={isAdmin} />
           <HomeTicketComponent isAdmin={isAdmin} />
         </>
       )}

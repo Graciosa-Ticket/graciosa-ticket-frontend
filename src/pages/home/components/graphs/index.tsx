@@ -10,24 +10,42 @@ import { SectorCardModel } from "../../../../models/sector";
 
 interface homeGraphProps {
   userSector?: SectorCardModel;
+  isAdmin: boolean;
 }
 
-const HomeGraph = ({ userSector }: homeGraphProps) => {
+const HomeGraph = ({ userSector, isAdmin }: homeGraphProps) => {
   const [dataSource, setDataSource] = useState<CounterToChartModel>();
 
   const [selectedDataSource, setSelectedDataSource] =
     useState<CounterToChartModel[]>();
 
-  const { isLoading: isLoadingAllSectorsCounters } =
-    useFetch<CounterToChartModel>(
+  let isLoadingAllSectorsCounters = false;
+  let isLoadingCountBySectorCode = false;
+
+  if (isAdmin) {
+    ({ isLoading: isLoadingAllSectorsCounters } = useFetch<CounterToChartModel>(
       "/counters/counterToChart",
       ["geralCountData"],
       {
         onSuccess: (geralCountData) => {
           setDataSource(geralCountData);
+          console.log("2" + dataSource);
         },
       }
-    );
+    ));
+  } else {
+    ({ isLoading: isLoadingCountBySectorCode } = useFetch<CounterToChartModel>(
+      `/counters/counterToChart/sector/${userSector?.responsible_code}`,
+      ["counterBySectorCode"],
+      {
+        onSuccess: (counterBySectorCode) => {
+          const sectorData = Object.values(counterBySectorCode)[0];
+          setDataSource(sectorData);
+          console.log("1" + dataSource);
+        },
+      }
+    ));
+  }
 
   const { isLoading: isLoadingSelectedSector } = useFetch<
     CounterToChartModel[]
@@ -41,19 +59,6 @@ const HomeGraph = ({ userSector }: homeGraphProps) => {
       );
     },
   });
-
-  const { isLoading: isLoadingCountBySectorCode } =
-    useFetch<CounterToChartModel>(
-      `/counters/counterToChart/sector/${userSector?.responsible_code}`,
-      ["counterBySectorCode"],
-      {
-        onSuccess: (counterBySectorCode) => {
-          const sectorData = Object.values(counterBySectorCode)[0];
-          setDataSource(sectorData);
-          console.log("counterBySectorCode: " + sectorData);
-        },
-      }
-    );
 
   const isLoading =
     isLoadingAllSectorsCounters ||
@@ -108,7 +113,7 @@ const HomeGraph = ({ userSector }: homeGraphProps) => {
         {userSector ? (
           <BarGraph data={dataSource} />
         ) : (
-          <TabComponent data={tabOptions} />
+          <TabComponent data={tabOptions} defaultValue="geral" />
         )}
       </section>
 
