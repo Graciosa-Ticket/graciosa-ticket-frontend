@@ -35,6 +35,10 @@ export default function SuggestionsModal({ onClose }: modalActions) {
       </ModalHeader>
 
       <SuggestionsModalComponent>
+        <p>
+          Buscamos sempre melhorar! Se tiver ideias, sugestões ou feedback,
+          compartilhe conosco. Sua opinião é essencial para nosso crescimento!
+        </p>
         <FormContainer onSubmit={onSubmit}>
           <FormContentContainer>
             <Input
@@ -54,10 +58,10 @@ export default function SuggestionsModal({ onClose }: modalActions) {
             <ButtonComponent
               type="submit"
               buttonStyles="confirm"
-              title={"Salvar Nova Senha"}
+              title={"Enviar Sugestão"}
               className="confirm-btn"
             >
-              Salvar
+              Enviar
             </ButtonComponent>
           </FormButtonsContainer>
         </FormContainer>

@@ -19,11 +19,13 @@ import { useAuth } from "../../hooks/auth";
 import SuggestionsModal from "./components/suggestionsModal";
 import SupportModal from "./components/supportModal";
 import { useDarkMode } from "../../hooks/theme";
+import FaqModal from "./components/faqModal";
 
 export default function Config({}: modalActions<UserModel>) {
   const [openPasswordChangeModal, setopenPasswordChangeModal] = useState(false);
   const [openSuggestionsModa, setopenSuggestionsModal] = useState(false);
   const [openSupportModa, setopenSupportModal] = useState(false);
+  const [openFaqModal, setopenFaqModal] = useState(false);
   const { user } = useAuth();
   const { onChangeTheme } = useDarkMode();
 
@@ -65,6 +67,13 @@ export default function Config({}: modalActions<UserModel>) {
         <SupportModal data={user} onClose={() => setopenSupportModal(false)} />
       </CenterModal>
 
+      <CenterModal
+        open={openFaqModal}
+        onOpenChange={() => setopenFaqModal(!openFaqModal)}
+      >
+        <FaqModal data={user} onClose={() => setopenFaqModal(false)} />
+      </CenterModal>
+
       <ConfigContainer>
         <PageHeaderComponent.container>
           <PageHeaderComponent.title>Configuração</PageHeaderComponent.title>
@@ -73,7 +82,7 @@ export default function Config({}: modalActions<UserModel>) {
           <ButtonComponent
             className="card"
             title="Perguntas Frequentes"
-            onClick={() => console.log("pao")}
+            onClick={() => setopenFaqModal(true)}
           >
             <AiOutlineComment style={{ fontSize: "2em" }} />
             FAQ

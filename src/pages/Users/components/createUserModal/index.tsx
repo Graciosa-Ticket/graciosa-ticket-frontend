@@ -10,7 +10,6 @@ import {
   updateUserValidation,
 } from "./validation/createUserValidation";
 import { Select, SelectItem } from "../../../../components/form/select";
-import { useMutationQuery } from "../../../../services/hooks/useMutationQuery";
 import { toast } from "sonner";
 import { modalActions } from "../../../../shared/global.interface";
 import { UserModel } from "../../../../models/user";
@@ -165,12 +164,6 @@ export default function CreateUserModal({
               register={{ ...register("birth_date") }}
             />
             <Input
-              label="Endereço"
-              placeholder="Digite o Endereço"
-              error={errors.address?.message}
-              register={{ ...register("address") }}
-            />
-            <Input
               label="Cep"
               placeholder="Digite o Cep"
               error={errors.cep?.message}
@@ -178,6 +171,12 @@ export default function CreateUserModal({
               register={{
                 ...register("cep"),
               }}
+            />
+            <Input
+              label="Endereço"
+              placeholder="Digite o Endereço"
+              error={errors.address?.message}
+              register={{ ...register("address") }}
             />
             <Input
               label="Telefone"
