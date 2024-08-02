@@ -20,7 +20,7 @@ const HomeGraph = ({
   sectorsListData,
 }: homeGraphProps) => {
   const [dataSource, setDataSource] = useState<CounterToChartModel>();
-  console.log("no graph" + " " + sectorsListData);
+
   const [selectedDataSource, setSelectedDataSource] =
     useState<CounterToChartModel[]>();
 

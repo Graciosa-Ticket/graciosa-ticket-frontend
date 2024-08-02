@@ -2,26 +2,28 @@ import { ReactNode, useEffect, useState } from "react";
 import { TabContainer } from "./styles";
 import ButtonComponent from "../buttons";
 
+type tabData = {
+  title: string;
+  value: string;
+  content: ReactNode;
+};
+
 interface TabComponentProps {
-  data: {
-    title: string;
-    value: string;
-    content: ReactNode;
-  }[];
+  data: tabData[];
   defaultValue?: string;
 }
 
 const TabComponent = ({ data, defaultValue }: TabComponentProps) => {
-  const [tabSelected, setTabSelected] = useState<ReactNode>(data[0]?.content);
+  const [tabSelected, setTabSelected] = useState<tabData>(data[0]);
 
   useEffect(() => {
-    const defaultTab =
-      data.find((e) => e.value === defaultValue)?.content || data[0]?.content;
+    const defaultTab = data.find((e) => e.value === defaultValue) || data[0];
+
     setTabSelected(defaultTab);
   }, [defaultValue, data]);
 
-  const handleChangeTab = (content: ReactNode) => {
-    setTabSelected(content);
+  const handleChangeTab = (data: tabData) => {
+    setTabSelected(data);
   };
 
   return (
@@ -29,10 +31,14 @@ const TabComponent = ({ data, defaultValue }: TabComponentProps) => {
       <div className="tab-header">
         {data.map((e) => (
           <ButtonComponent
-            className="button"
+            className={
+              tabSelected.value === e.value
+                ? "tab-button active-tab"
+                : "tab-button"
+            }
             buttonStyles="text"
             key={e.value}
-            onClick={() => handleChangeTab(e.content)}
+            onClick={() => handleChangeTab(e)}
             title={`Alterar para ${e.title}`}
           >
             {e.title}
@@ -40,7 +46,7 @@ const TabComponent = ({ data, defaultValue }: TabComponentProps) => {
         ))}
       </div>
 
-      <div className="tab-content">{tabSelected}</div>
+      <div className="tab-content">{tabSelected?.content}</div>
     </TabContainer>
   );
 };

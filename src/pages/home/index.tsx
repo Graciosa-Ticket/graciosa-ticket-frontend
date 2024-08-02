@@ -10,13 +10,14 @@ export default function Home() {
   const { user } = useAuth();
   const isAdmin = user.role === "Administrator";
 
-  const { data: sectorsListData } = useFetch<SectorCardModel[]>("/sectors", [
-    "sectorsListData",
-  ]);
-
-  const userSector = sectorsListData?.find(
-    (data) => data.responsible_code === user.code
+  const { data: sectorsListData = [] } = useFetch<SectorCardModel[]>(
+    "/sectors",
+    ["sectorsListData"]
   );
+
+  const userSector = sectorsListData?.length
+    ? sectorsListData?.find((data) => data.responsible_code === user.code)
+    : undefined;
 
   return (
     <HomeSection isAdmin={isAdmin}>

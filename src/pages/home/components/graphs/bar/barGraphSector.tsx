@@ -12,6 +12,7 @@ import { useTheme } from "styled-components";
 import { CounterToChartModel } from "../../../../../models/counterToChart";
 import { SectorCardModel } from "../../../../../models/sector";
 import styled from "styled-components";
+import GCCBarGraph from "../graphTeste";
 
 ChartJS.register(
   CategoryScale,
@@ -32,10 +33,7 @@ interface SectorBarGraphProps {
   sectorsListData: SectorCardModel[];
 }
 
-const GraphContainer = styled.div`
-  overflow-y: auto; /* Permite rolagem vertical */
-  max-height: 500px; /* Ajuste a altura conforme necessário */
-`;
+const GraphContainer = styled.div``;
 
 const SectorBarGraph = ({ data, sectorsListData }: SectorBarGraphProps) => {
   const theme = useTheme();
@@ -73,26 +71,26 @@ const SectorBarGraph = ({ data, sectorsListData }: SectorBarGraphProps) => {
     return sector?.name || "Desconhecido";
   });
 
+  console.log(data);
+
   const datasets = statuses.map((status, index) => ({
     label: status,
     data: extendedData.map((sector) => Number(sector[status]) || 0),
     backgroundColor: backgroundColor[index],
     borderColor: borderColor[index],
-    borderWidth: 1,
-    barThickness: 15,
-    borderRadius: 3,
-    borderSkipped: false,
-    categoryPercentage: 0.2,
-    barPercentage: 0.8,
+    barThickness: 10,
+    borderRadius: 90,
   }));
 
   return (
     <GraphContainer>
-      <Bar
+      <GCCBarGraph data={extendedData} />
+      {/* <Bar
         data={{
           labels: labels,
           datasets: datasets,
         }}
+        style={{ width: "100%" }}
         options={{
           responsive: true,
           plugins: {
@@ -104,11 +102,9 @@ const SectorBarGraph = ({ data, sectorsListData }: SectorBarGraphProps) => {
               text: "Gráfico de Chamados por Status",
             },
           },
+
           scales: {
             x: {
-              grid: {
-                lineWidth: 6,
-              },
               title: {
                 display: true,
                 text: "Setores",
@@ -131,7 +127,7 @@ const SectorBarGraph = ({ data, sectorsListData }: SectorBarGraphProps) => {
             },
           },
         }}
-      />
+      /> */}
     </GraphContainer>
   );
 };
