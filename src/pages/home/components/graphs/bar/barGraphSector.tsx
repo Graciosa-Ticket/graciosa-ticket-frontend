@@ -11,6 +11,7 @@ import { Bar } from "react-chartjs-2";
 import { useTheme } from "styled-components";
 import { CounterToChartModel } from "../../../../../models/counterToChart";
 import { SectorCardModel } from "../../../../../models/sector";
+import styled from "styled-components";
 
 ChartJS.register(
   CategoryScale,
@@ -31,10 +32,17 @@ interface SectorBarGraphProps {
   sectorsListData: SectorCardModel[];
 }
 
+const GraphContainer = styled.div`
+  overflow-y: auto; /* Permite rolagem vertical */
+  max-height: 500px; /* Ajuste a altura conforme necessário */
+`;
+
 const SectorBarGraph = ({ data, sectorsListData }: SectorBarGraphProps) => {
   const theme = useTheme();
 
   if (!data || data.length === 0) return <div>Carregando...</div>;
+
+  const extendedData = Array.from({ length: 10 }).flatMap(() => data);
 
   const statuses = [
     "aberto",
@@ -58,7 +66,7 @@ const SectorBarGraph = ({ data, sectorsListData }: SectorBarGraphProps) => {
 
   const borderColor = backgroundColor;
 
-  const labels = data.map((item) => {
+  const labels = extendedData.map((item) => {
     const sector = sectorsListData.find(
       (sector) => sector.code === item.sector_code
     );
@@ -67,7 +75,7 @@ const SectorBarGraph = ({ data, sectorsListData }: SectorBarGraphProps) => {
 
   const datasets = statuses.map((status, index) => ({
     label: status,
-    data: data.map((sector) => sector[status] || 0),
+    data: extendedData.map((sector) => Number(sector[status]) || 0),
     backgroundColor: backgroundColor[index],
     borderColor: borderColor[index],
     borderWidth: 1,
@@ -79,49 +87,52 @@ const SectorBarGraph = ({ data, sectorsListData }: SectorBarGraphProps) => {
   }));
 
   return (
-    <Bar
-      data={{
-        labels: labels,
-        datasets: datasets,
-      }}
-      options={{
-        responsive: true,
-        plugins: {
-          legend: {
-            display: false,
-          },
-          title: {
-            display: false,
-            text: "Gráfico de Chamados por Status",
-          },
-        },
-        scales: {
-          x: {
-            grid: {
-              lineWidth: 6,
-            },
-            title: {
-              display: true,
-              text: "Setores",
-            },
-            ticks: {
-              display: true,
-            },
-            stacked: false,
-          },
-          y: {
-            grid: {
-              lineWidth: 0,
+    <GraphContainer>
+      <Bar
+        data={{
+          labels: labels,
+          datasets: datasets,
+        }}
+        options={{
+          responsive: true,
+          plugins: {
+            legend: {
+              display: false,
             },
             title: {
               display: false,
-              text: "Quantidade",
+              text: "Gráfico de Chamados por Status",
             },
-            beginAtZero: true,
           },
-        },
-      }}
-    />
+          scales: {
+            x: {
+              grid: {
+                lineWidth: 6,
+              },
+              title: {
+                display: true,
+                text: "Setores",
+              },
+              ticks: {
+                display: true,
+              },
+              stacked: false,
+            },
+            y: {
+              grid: {
+                lineWidth: 0,
+              },
+              title: {
+                display: false,
+                text: "Quantidade",
+              },
+              beginAtZero: true,
+              // Removido suggestedMax
+            },
+          },
+        }}
+      />
+    </GraphContainer>
   );
 };
 
