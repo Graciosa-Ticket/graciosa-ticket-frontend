@@ -10,6 +10,7 @@ import {
 import { Bar } from "react-chartjs-2";
 import { useTheme } from "styled-components";
 import { CounterToChartModel } from "../../../../../models/counterToChart";
+import { SectorCardModel } from "../../../../../models/sector";
 
 ChartJS.register(
   CategoryScale,
@@ -27,9 +28,10 @@ type SectorGraphData = CounterToChartModel & {
 
 interface SectorBarGraphProps {
   data?: SectorGraphData[];
+  sectorsListData: SectorCardModel[];
 }
 
-const SectorBarGraph = ({ data }: SectorBarGraphProps) => {
+const SectorBarGraph = ({ data, sectorsListData }: SectorBarGraphProps) => {
   const theme = useTheme();
 
   if (!data || data.length === 0) return <div>Carregando...</div>;
@@ -56,7 +58,12 @@ const SectorBarGraph = ({ data }: SectorBarGraphProps) => {
 
   const borderColor = backgroundColor;
 
-  const labels = data.map((item) => item.sector_code);
+  const labels = data.map((item) => {
+    const sector = sectorsListData.find(
+      (sector) => sector.code === item.sector_code
+    );
+    return sector?.name || "Desconhecido";
+  });
 
   const datasets = statuses.map((status, index) => ({
     label: status,
@@ -64,11 +71,11 @@ const SectorBarGraph = ({ data }: SectorBarGraphProps) => {
     backgroundColor: backgroundColor[index],
     borderColor: borderColor[index],
     borderWidth: 1,
-    barThickness: 15, // Define a largura das barras
-    borderRadius: 3, // Adiciona bordas arredondadas
-    borderSkipped: false, // Aplica a borda a todas as partes da barra
-    categoryPercentage: 0.2, // Define a largura relativa do grupo de barras
-    barPercentage: 0.8, // Controla o espaçamento relativo entre as barras dentro de um grupo
+    barThickness: 15,
+    borderRadius: 3,
+    borderSkipped: false,
+    categoryPercentage: 0.2,
+    barPercentage: 0.8,
   }));
 
   return (

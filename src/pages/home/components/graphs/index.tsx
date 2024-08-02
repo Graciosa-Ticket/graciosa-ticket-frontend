@@ -11,11 +11,16 @@ import { SectorCardModel } from "../../../../models/sector";
 interface homeGraphProps {
   userSector?: SectorCardModel;
   isAdmin: boolean;
+  sectorsListData?: SectorCardModel[];
 }
 
-const HomeGraph = ({ userSector, isAdmin }: homeGraphProps) => {
+const HomeGraph = ({
+  userSector,
+  isAdmin,
+  sectorsListData,
+}: homeGraphProps) => {
   const [dataSource, setDataSource] = useState<CounterToChartModel>();
-
+  console.log("no graph" + " " + sectorsListData);
   const [selectedDataSource, setSelectedDataSource] =
     useState<CounterToChartModel[]>();
 
@@ -81,7 +86,12 @@ const HomeGraph = ({ userSector, isAdmin }: homeGraphProps) => {
       {
         title: "Setores",
         value: "sector",
-        content: <SectorBarGraph data={selectedDataSource} />,
+        content: (
+          <SectorBarGraph
+            data={selectedDataSource as any}
+            sectorsListData={sectorsListData || []}
+          />
+        ),
       },
     ];
   }, [dataSource, selectedDataSource]);

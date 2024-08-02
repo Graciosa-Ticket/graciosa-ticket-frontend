@@ -112,11 +112,11 @@ export default function Config({}: modalActions<UserModel>) {
             onClick={handleThemeChange}
           >
             {isDarkMode ? (
-              <AiOutlineMoon style={{ fontSize: "2em" }} />
-            ) : (
               <AiOutlineSun style={{ fontSize: "2em" }} />
+            ) : (
+              <AiOutlineMoon style={{ fontSize: "2em" }} />
             )}
-            Temas
+            Tema
           </ButtonComponent>
 
           {user.role === "Administrator" && (

@@ -12,7 +12,7 @@ export const FaqModalComponent = styled.section`
   }
 
   p {
-    max-width: 450px;
+    max-width: 500px;
     display: block;
     ${({ theme }) => theme.font.p.small};
     color: ${({ theme }) => theme.colors.grayscale.gray_80};

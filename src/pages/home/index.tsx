@@ -6,18 +6,12 @@ import HomeSector from "./components/sectors";
 import HomeTicketComponent from "./components/tickets";
 import { HomeSection } from "./styles";
 
-interface homeProps {
-  sector: SectorCardModel;
-  isAdmin: boolean;
-}
-
-export default function Home({}: homeProps) {
+export default function Home() {
   const { user } = useAuth();
   const isAdmin = user.role === "Administrator";
-  console.log(isAdmin);
 
   const { data: sectorsListData } = useFetch<SectorCardModel[]>("/sectors", [
-    "sector",
+    "sectorsListData",
   ]);
 
   const userSector = sectorsListData?.find(
@@ -28,14 +22,18 @@ export default function Home({}: homeProps) {
     <HomeSection isAdmin={isAdmin}>
       {isAdmin ? (
         <>
-          <HomeGraph isAdmin={isAdmin} />
+          <HomeGraph isAdmin={isAdmin} sectorsListData={sectorsListData} />
           <HomeTicketComponent isAdmin={isAdmin} />
           <HomeSector />
         </>
       ) : (
         <>
-          <HomeGraph userSector={userSector} isAdmin={isAdmin} />
-          <HomeTicketComponent isAdmin={isAdmin} />
+          <HomeGraph
+            userSector={userSector}
+            isAdmin={isAdmin}
+            sectorsListData={sectorsListData}
+          />
+          <HomeTicketComponent isAdmin={isAdmin} user={user} />
         </>
       )}
     </HomeSection>
