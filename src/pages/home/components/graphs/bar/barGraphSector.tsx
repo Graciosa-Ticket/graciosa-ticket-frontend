@@ -71,8 +71,6 @@ const SectorBarGraph = ({ data, sectorsListData }: SectorBarGraphProps) => {
     return sector?.name || "Desconhecido";
   });
 
-  console.log(data);
-
   const datasets = statuses.map((status, index) => ({
     label: status,
     data: extendedData.map((sector) => Number(sector[status]) || 0),

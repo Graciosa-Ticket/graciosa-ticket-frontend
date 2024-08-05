@@ -1,12 +1,12 @@
 import styled from "styled-components";
 
 interface TicketsHomeContainerProps {
-  $isAdmin: boolean;
+  $isadmin: boolean;
 }
 
 export const TicketsHomeContainer = styled.section<TicketsHomeContainerProps>`
-  border-right: ${({ $isAdmin, theme }) =>
-    $isAdmin ? `1px solid ${theme.colors.grayscale.gray_10}` : "none"};
+  border-right: ${({ $isadmin, theme }) =>
+    $isadmin ? `1px solid ${theme.colors.grayscale.gray_10}` : "none"};
   padding-right: 2em;
 
   .section-title {

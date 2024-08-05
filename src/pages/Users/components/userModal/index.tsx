@@ -122,6 +122,7 @@ export default function UserModal({
               actionButton={
                 <ButtonComponent
                   buttonStyles="delete"
+                  buttonStylesType="outline"
                   onClick={handleDeleteUser}
                   isLoading={isLoadingDelete}
                 >

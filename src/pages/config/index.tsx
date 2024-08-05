@@ -55,7 +55,7 @@ export default function Config({}: modalActions<UserModel>) {
         onOpenChange={() => setopenSuggestionsModal(!openSuggestionsModa)}
       >
         <SuggestionsModal
-          data={user}
+          user={user}
           onClose={() => setopenSuggestionsModal(false)}
         />
       </CenterModal>

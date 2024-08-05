@@ -86,6 +86,7 @@ export default function SectorModal({
             actionButton={
               <ButtonComponent
                 buttonStyles="delete"
+                buttonStylesType="outline"
                 onClick={handleDeleteSector}
                 isLoading={isLoadingDelete}
               >

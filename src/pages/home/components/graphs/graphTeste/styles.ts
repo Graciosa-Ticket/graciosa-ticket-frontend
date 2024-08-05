@@ -1,7 +1,7 @@
-import { styled } from "styled-components";
+import { styled, css } from "styled-components";
 import { theme } from "../../../../../styles/theme";
 
-export const Graph = styled.section`
+export const Graph = styled.section<{ selectionactive: boolean }>`
   width: fit-content;
   min-width: 100%;
   height: 250px;
@@ -29,6 +29,9 @@ export const Graph = styled.section`
     align-items: center;
     gap: 0.2em;
 
+    cursor: ${({ selectionactive }) =>
+      selectionactive ? "pointer" : "default"};
+
     &:after {
       content: "";
       top: -0.2em;
@@ -44,9 +47,13 @@ export const Graph = styled.section`
     }
 
     &:hover {
-      &:after {
-        opacity: 1;
-      }
+      ${({ selectionactive }) =>
+        selectionactive &&
+        css`
+          &:after {
+            opacity: 1;
+          }
+        `}
     }
 
     .lines {
@@ -61,6 +68,14 @@ export const Graph = styled.section`
     .date-indicator {
       ${({ theme }) => theme.font.p.extra_small};
       color: ${({ theme }) => theme.colors.grayscale.gray_70};
+      text-align: left;
+      width: 100%;
+      font-weight: 550;
+      margin-left: 1px;
+      max-width: 120px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
   }
 
@@ -105,7 +120,7 @@ const releasesType = {
   reaberto: theme().colors.ticket_status.re_open,
 };
 
-interface relaseGraphItemProps {
+interface releaseGraphItemProps {
   $type:
     | "aberto"
     | "aguardando_aprovacao"
@@ -116,7 +131,7 @@ interface relaseGraphItemProps {
     | "reaberto";
 }
 
-export const GraphItem = styled.div<relaseGraphItemProps>`
+export const GraphItem = styled.div<releaseGraphItemProps>`
   flex: 1;
   height: 0%;
   background-color: ${({ $type }) => releasesType[$type]};
@@ -124,4 +139,32 @@ export const GraphItem = styled.div<relaseGraphItemProps>`
   border-radius: 7px;
   position: relative;
   z-index: 2;
+
+  &:hover {
+    filter: brightness(85%);
+    transform: scaleY(1.05);
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+    z-index: 3;
+  }
+
+  .graph-item-tooltip {
+    position: absolute;
+    background: #333;
+    color: #fff;
+    padding: 5px;
+    border-radius: 4px;
+    font-size: 0.75em;
+    white-space: nowrap;
+    transform: translateX(-50%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+    z-index: 1000; /* Aumentado para garantir sobreposição */
+    top: -5px; /* Ajuste conforme necessário */
+    left: 50%; /* Ajuste conforme necessário */
+  }
+
+  &:hover .graph-item-tooltip {
+    opacity: 1;
+  }
 `;

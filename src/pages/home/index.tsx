@@ -8,7 +8,7 @@ import { HomeSection } from "./styles";
 
 export default function Home() {
   const { user } = useAuth();
-  const isAdmin = user.role === "Administrator";
+  const isadmin = user.role === "Administrator";
 
   const { data: sectorsListData = [] } = useFetch<SectorCardModel[]>(
     "/sectors",
@@ -20,21 +20,21 @@ export default function Home() {
     : undefined;
 
   return (
-    <HomeSection isAdmin={isAdmin}>
-      {isAdmin ? (
+    <HomeSection isadmin={isadmin}>
+      {isadmin ? (
         <>
-          <HomeGraph isAdmin={isAdmin} sectorsListData={sectorsListData} />
-          <HomeTicketComponent isAdmin={isAdmin} />
+          <HomeGraph isadmin={isadmin} sectorsListData={sectorsListData} />
+          <HomeTicketComponent isadmin={isadmin} />
           <HomeSector />
         </>
       ) : (
         <>
           <HomeGraph
             userSector={userSector}
-            isAdmin={isAdmin}
+            isadmin={isadmin}
             sectorsListData={sectorsListData}
           />
-          <HomeTicketComponent isAdmin={isAdmin} user={user} />
+          <HomeTicketComponent isadmin={isadmin} user={user} />
         </>
       )}
     </HomeSection>

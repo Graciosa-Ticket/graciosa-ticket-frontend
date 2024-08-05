@@ -4,19 +4,18 @@ import { useFetch } from "../../../../services/hooks/getQuery";
 import BarGraph from "./bar/barGraph";
 import { HomeGraphContainer } from "./styles";
 import TabComponent from "../../../../components/tabComponent";
-import { map } from "lodash";
-import SectorBarGraph from "./bar/barGraphSector";
 import { SectorCardModel } from "../../../../models/sector";
+import GCCBarGraph from "./graphTeste";
 
 interface homeGraphProps {
   userSector?: SectorCardModel;
-  isAdmin: boolean;
+  isadmin: boolean;
   sectorsListData?: SectorCardModel[];
 }
 
 const HomeGraph = ({
   userSector,
-  isAdmin,
+  isadmin,
   sectorsListData,
 }: homeGraphProps) => {
   const [dataSource, setDataSource] = useState<CounterToChartModel>();
@@ -27,26 +26,24 @@ const HomeGraph = ({
   let isLoadingAllSectorsCounters = false;
   let isLoadingCountBySectorCode = false;
 
-  if (isAdmin) {
+  if (isadmin) {
     ({ isLoading: isLoadingAllSectorsCounters } = useFetch<CounterToChartModel>(
       "/counters/counterToChart",
       ["geralCountData"],
       {
         onSuccess: (geralCountData) => {
           setDataSource(geralCountData);
-          console.log("2" + dataSource);
         },
       }
     ));
   } else {
     ({ isLoading: isLoadingCountBySectorCode } = useFetch<CounterToChartModel>(
-      `/counters/counterToChart/sector/${userSector?.responsible_code}`,
+      `/counters/counterToChart/sector/${userSector?.code}`,
       ["counterBySectorCode"],
       {
         onSuccess: (counterBySectorCode) => {
           const sectorData = Object.values(counterBySectorCode)[0];
           setDataSource(sectorData);
-          console.log("1" + dataSource);
         },
       }
     ));
@@ -56,12 +53,25 @@ const HomeGraph = ({
     CounterToChartModel[]
   >(`/counters/counterToChart/allSectors`, ["selectedSectorCounter"], {
     onSuccess: (selectedSectorCountData) => {
-      setSelectedDataSource(
-        map(selectedSectorCountData[0], (a: any, b) => ({
-          sector_code: b,
-          ...a,
-        }))
+      const counters = selectedSectorCountData[0];
+
+      // console.log("Counters:", counters);
+      // console.log("Sectors List Data:", sectorsListData);
+
+      const updatedData = Object.entries(counters).map(
+        ([sector_code, values]) => {
+          const sector = sectorsListData?.find((s) => s.code === sector_code);
+
+          // console.log(`Sector Code: ${sector_code}, Found Sector:`, sector);
+
+          return {
+            sector_code,
+            ...values,
+            name: sector?.name || "Desconhecido",
+          };
+        }
       );
+      setSelectedDataSource(updatedData);
     },
   });
 
@@ -86,12 +96,7 @@ const HomeGraph = ({
       {
         title: "Setores",
         value: "sector",
-        content: (
-          <SectorBarGraph
-            data={selectedDataSource as any}
-            sectorsListData={sectorsListData || []}
-          />
-        ),
+        content: <GCCBarGraph data={selectedDataSource as any} />,
       },
     ];
   }, [dataSource, selectedDataSource]);

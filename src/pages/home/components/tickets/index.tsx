@@ -8,11 +8,11 @@ import TicketCard from "../../../../components/ticket";
 import { UserModel } from "../../../../models/user";
 
 interface HomeTicketProps {
-  isAdmin: boolean;
+  isadmin: boolean;
   user?: UserModel;
 }
 
-const HomeTicketComponent = ({ isAdmin, user }: HomeTicketProps) => {
+const HomeTicketComponent = ({ isadmin, user }: HomeTicketProps) => {
   const [dataSource, setDataSource] = useState<TicketModel[]>([]);
 
   useFetch<TicketModel[]>("/ticket", ["ticket"], {
@@ -22,7 +22,7 @@ const HomeTicketComponent = ({ isAdmin, user }: HomeTicketProps) => {
   });
 
   return (
-    <TicketsHomeContainer $isAdmin={isAdmin}>
+    <TicketsHomeContainer $isadmin={isadmin}>
       <div className="section-title">
         <h3>Últimos tickets</h3>
 
@@ -37,7 +37,7 @@ const HomeTicketComponent = ({ isAdmin, user }: HomeTicketProps) => {
           .slice()
           .reverse()
           .filter((ticket) =>
-            isAdmin ? true : ticket.sector.responsible_code === user?.code
+            isadmin ? true : ticket.sector.responsible_code === user?.code
           )
           .map((e, i) => (
             <li key={i}>

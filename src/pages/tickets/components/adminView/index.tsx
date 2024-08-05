@@ -140,7 +140,6 @@ const columns: TypeColumn[] = [
 
 const GroupedList = ({ tickets, title, onOpenModal }: groupTickets) => {
   const [openAccordeon, setOpenAccordeon] = useState(true);
-  console.log(tickets);
 
   const maxHeight = useMemo(() => {
     const totalTickets = tickets.reduce((a) => {

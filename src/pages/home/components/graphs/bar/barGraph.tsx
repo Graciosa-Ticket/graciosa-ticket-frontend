@@ -28,7 +28,6 @@ export const BarGraph = ({ data }: BarGraphProps) => {
   const theme = useTheme();
 
   if (!data) return;
-  console.log(data);
   <div> Carregando...</div>;
 
   return (

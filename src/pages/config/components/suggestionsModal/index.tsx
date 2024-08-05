@@ -9,15 +9,31 @@ import {
   FormContentContainer,
   FormButtonsContainer,
 } from "../../../../components/form/form";
-import Input from "../../../../components/form/input";
 import { toast } from "sonner";
 import { useForm } from "react-hook-form";
 import TextArea from "../../../../components/form/textarea";
+import { UserModel } from "../../../../models/user";
 
-export default function SuggestionsModal({ onClose }: modalActions) {
+interface SuggestionsModalProps extends modalActions {
+  user: UserModel;
+}
+
+export default function SuggestionsModal({
+  onClose,
+  user,
+}: SuggestionsModalProps) {
   const { handleSubmit, register } = useForm({});
 
-  const onSubmit = handleSubmit(() => {
+  const onSubmit = handleSubmit((data) => {
+    const { suggestion } = data;
+
+    const suggestionData = {
+      userCode: user.code,
+      suggestion: suggestion,
+    };
+
+    console.log(suggestionData);
+
     toast.success("Obrigado pela sugestão");
   });
 
@@ -41,16 +57,10 @@ export default function SuggestionsModal({ onClose }: modalActions) {
         </p>
         <FormContainer onSubmit={onSubmit}>
           <FormContentContainer>
-            <Input
-              label="Usuario"
-              placeholder="Usuario"
-              register={{ ...register("password") }}
-            />
             <TextArea
-              label="Descrição"
-              placeholder="Descrição"
+              placeholder="Escreva sua sugestão"
               rows={5}
-              register={{ ...register("description") }}
+              register={{ ...register("suggestion") }}
             />
           </FormContentContainer>
           <FormButtonsContainer $columns={2}>

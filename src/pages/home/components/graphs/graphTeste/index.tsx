@@ -1,120 +1,150 @@
 import { useMemo, useState } from "react";
 import { Graph, GraphItem } from "./styles";
 import { CounterToChartModel } from "../../../../../models/counterToChart";
-import { filter, map } from "lodash";
+import { map } from "lodash";
 import ButtonComponent from "../../../../../components/buttons";
+import { FaAngleLeft } from "react-icons/fa";
+import formatLabel from "../../../../../utils/formatLabel";
 
 type SectorGraphData = CounterToChartModel & {
   sector_code?: string;
+  name?: string;
   [key: string]: number | string | undefined;
 };
 
 interface graphProps {
   data: SectorGraphData[];
 }
-
 const GCCBarGraph = ({ data }: graphProps) => {
-  const [graphPosition, setGraphPosition] = useState<number>();
+  const [graphPosition, setGraphPosition] = useState<number | undefined>();
+  const [selectionactive, setSelectionActive] = useState<boolean>(true);
+  const [tooltip, setTooltip] = useState<{
+    label: string;
+    value: number;
+    x: number;
+    y: number;
+  } | null>(null);
 
   const chartData = useMemo(() => {
     if (!data.length) return [];
 
-    const buildData = data.map((e) => {
+    return data.map((e) => {
       const sector_code = e.sector_code;
+      const sector_name = e.name;
+
+      // console.log(`Processing sector: ${sector_code} - ${sector_name}`); // Debug log
 
       return {
         sector_code,
+        sector_name,
         data: map(e, (a, b) => ({
           label: b,
           value: a,
         })),
       };
     });
-
-    return buildData;
   }, [data]);
 
-  const handleChangeGraphPositon = (index: number | undefined) => {
-    console.log(index);
-
+  const handleChangeGraphPosition = (index: number | undefined) => {
+    if (!selectionactive) return; // Bloquear o clique se a seleção estiver desativada
     setGraphPosition(index);
+    setSelectionActive(index === undefined); // Desativar a seleção se o índice for indefinido
   };
 
   const maxValue = useMemo(() => {
     if (!data.length) return 0;
 
-    const flattedMap = data.map((e) => Object.values(e)).flat();
+    const maxNumb = chartData
+      .flatMap((e) => e.data)
+      .filter((d) => typeof d.value === "number")
+      .map((d) => d.value as number);
 
-    const maxNumb = filter(flattedMap, (a) => {
-      if (typeof a === "number") return true;
-      return false;
-    });
-
-    return Math.max(...(maxNumb as number[]));
-  }, [data]);
+    return Math.max(...maxNumb);
+  }, [chartData]);
 
   const graphLines = useMemo(() => {
     if (maxValue > 0) {
+      const steps = maxValue; // Número de linhas no gráfico
+      const stepValue = maxValue / steps;
+
       return (
         <div className="graph-line-container">
-          {[1, 2, 3, 4, 0].map((e) => {
-            if (!e) {
-              return (
-                <span key={e} className="graph-line">
-                  {e}
-                </span>
-              );
-            }
-
-            return <span className="graph-line" key={e} />;
+          {[...Array(steps + 1)].map((_, index) => {
+            const value = maxValue - stepValue * index;
+            return (
+              <span key={index} className="graph-line">
+                {value.toFixed()}
+              </span>
+            );
           })}
         </div>
       );
     }
+    return null;
   }, [maxValue]);
 
   return (
     <div>
-      <ButtonComponent onClick={() => handleChangeGraphPositon(undefined)}>
-        teste
-      </ButtonComponent>
-
-      <Graph>
+      {!selectionactive && (
+        <ButtonComponent
+          buttonStyles="text"
+          onClick={() => {
+            setGraphPosition(undefined);
+            setSelectionActive(true); // Reativar a seleção
+          }}
+        >
+          <FaAngleLeft fontSize="1.9em" />
+        </ButtonComponent>
+      )}
+      <Graph selectionactive={selectionactive}>
         {chartData
           ?.slice(
-            graphPosition,
-            typeof graphPosition === "number" ? 1 + graphPosition : -1
+            graphPosition !== undefined ? graphPosition : 0,
+            graphPosition !== undefined ? graphPosition + 1 : chartData.length
           )
           .map((e, i) => (
             <button
               type="button"
-              key={(e.sector_code as string) + i}
+              key={`${e.sector_code}-${i}`}
               className="lines-container"
-              onClick={() => handleChangeGraphPositon(i)}
+              onClick={() => handleChangeGraphPosition(i)}
             >
               <div className="lines">
                 {e.data
-                  .filter((filter) => filter.label !== "sector_code")
+                  .filter((item) => item.label !== "sector_code")
                   .map((total, index) => {
-                    if (total.value) {
+                    const value = Number(total.value);
+                    if (!isNaN(value)) {
                       return (
                         <GraphItem
-                          key={
-                            Number(total.value) +
-                            (index + 1) +
-                            (e?.sector_code as string)
-                          }
+                          key={`${e.sector_code}-${total.label}-${index}`}
                           style={{
-                            height:
-                              (Number(total.value) * 100) / maxValue + "%",
+                            height: (value * 100) / maxValue + "%",
                           }}
                           $type={total.label as keyof CounterToChartModel}
-                        />
+                          onMouseEnter={(event) => {
+                            const rect = (
+                              event.currentTarget as HTMLElement
+                            ).getBoundingClientRect();
+                            setTooltip({
+                              label: formatLabel(total.label),
+                              value,
+                              x: rect.left + window.scrollX + rect.width / 2,
+                              y: rect.top + window.scrollY - 5,
+                            });
+                          }}
+                          onMouseLeave={() => setTooltip(null)}
+                        >
+                          <div className="graph-item-tooltip">
+                            {`${formatLabel(total.label)}: ${value}`}
+                          </div>
+                        </GraphItem>
                       );
                     }
+                    return null;
                   })}
               </div>
-              <p className="date-indicator">{e.sector_code}</p>
+              <p className="date-indicator">{e.sector_name || e.sector_code}</p>
             </button>
           ))}
 
