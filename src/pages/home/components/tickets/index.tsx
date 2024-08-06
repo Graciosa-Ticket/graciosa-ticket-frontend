@@ -12,7 +12,7 @@ interface HomeTicketProps {
   user?: UserModel;
 }
 
-const HomeTicketComponent = ({ isadmin, user }: HomeTicketProps) => {
+const HomeTicketComponent = ({ isadmin = false, user }: HomeTicketProps) => {
   const [dataSource, setDataSource] = useState<TicketModel[]>([]);
 
   useFetch<TicketModel[]>("/ticket", ["ticket"], {

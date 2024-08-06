@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { CounterToChartModel } from "../../../../models/counterToChart";
 import { useFetch } from "../../../../services/hooks/getQuery";
 import BarGraph from "./bar/barGraph";
@@ -15,7 +15,7 @@ interface homeGraphProps {
 
 const HomeGraph = ({
   userSector,
-  isadmin,
+  isadmin = false,
   sectorsListData,
 }: homeGraphProps) => {
   const [countersDataSource, setcountersDataSource] =
@@ -27,60 +27,37 @@ const HomeGraph = ({
   const [selectedDataSource, setSelectedDataSource] =
     useState<CounterToChartModel[]>();
 
-  const { isLoading: isLoadingAllSectorsCounters } = isadmin
-    ? useFetch<CounterToChartModel>(
-        "/counters/counterToChart",
-        ["geralCountData"],
-        {
-          onSuccess: (geralCountData) => {
-            setcountersDataSource(geralCountData);
-          },
-        }
-      )
-    : { isLoading: false };
+  const { isLoading: isLoadingAllSectorsCounters } =
+    useFetch<CounterToChartModel>(
+      "/counters/counterToChart" +
+        (isadmin ? "" : `/sector/${userSector?.code}`),
+      ["geralCountData", isadmin, userSector?.code],
+      {
+        onSuccess: (geralCountData) => {
+          setcountersDataSource(geralCountData);
+        },
+      }
+    );
 
-  const { isLoading: isLoadingCountBySectorCode } = !isadmin
-    ? useFetch<CounterToChartModel>(
-        `/counters/counterToChart/sector/${userSector?.code}`,
-        ["counterBySectorCode"],
-        {
-          onSuccess: (counterBySectorCode) => {
-            const sectorData = Object.values(counterBySectorCode)[0];
-            setcountersDataSource(sectorData);
-          },
-        }
-      )
-    : { isLoading: false };
+  const { isLoading: isLoadingCreatedTicketsCounterDataByCode } =
+    useFetch<number>(
+      `/ticket/count/getCreatedTickets/` + (isadmin ? "" : userSector?.code),
+      ["createdTicketsCounterDataByCode", isadmin, userSector?.code],
+      {
+        onSuccess: (createdTicketsCounterDataByCode) => {
+          setcreatedTicketsCounterDataSource(createdTicketsCounterDataByCode);
+        },
+      }
+    );
 
-  const { isLoading: isLoadingCreatedTicketsCounterData } = isadmin
-    ? useFetch<number>(
-        "/ticket/count/getCreatedTickets",
-        ["createdTicketsCounterData"],
-        {
-          onSuccess: (createdTicketsCounterData) => {
-            setcreatedTicketsCounterDataSource(createdTicketsCounterData);
-          },
-        }
-      )
-    : { isLoading: false };
+  const { isLoading: isLoadingSelectedSector, data: allSectorsCountData } =
+    useFetch<CounterToChartModel[]>("/counters/counterToChart/allSectors", [
+      "selectedSectorCounter",
+    ]);
 
-  const { isLoading: isLoadingCreatedTicketsCounterDataByCode } = !isadmin
-    ? useFetch<number>(
-        `/ticket/count/getCreatedTickets/${userSector?.code}`,
-        ["createdTicketsCounterDataByCode"],
-        {
-          onSuccess: (createdTicketsCounterDataByCode) => {
-            setcreatedTicketsCounterDataSource(createdTicketsCounterDataByCode);
-          },
-        }
-      )
-    : { isLoading: false };
-
-  const { isLoading: isLoadingSelectedSector } = useFetch<
-    CounterToChartModel[]
-  >("/counters/counterToChart/allSectors", ["selectedSectorCounter"], {
-    onSuccess: (selectedSectorCountData) => {
-      const counters = selectedSectorCountData[0];
+  useEffect(() => {
+    if (allSectorsCountData?.length) {
+      const counters = allSectorsCountData[0];
 
       const updatedData = Object.entries(counters).map(
         ([sector_code, values]) => {
@@ -94,13 +71,11 @@ const HomeGraph = ({
         }
       );
       setSelectedDataSource(updatedData);
-    },
-  });
+    }
+  }, [allSectorsCountData, sectorsListData]);
 
   const isLoading =
     isLoadingAllSectorsCounters ||
-    isLoadingCountBySectorCode ||
-    isLoadingCreatedTicketsCounterData ||
     isLoadingCreatedTicketsCounterDataByCode ||
     isLoadingSelectedSector;
 

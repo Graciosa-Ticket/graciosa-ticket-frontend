@@ -163,6 +163,8 @@ export const StyledTooltipContent = styled(Tooltip.Content)`
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
   white-space: nowrap;
   z-index: 1000;
+  ${({ theme }) => theme.font.p.extra_small};
+  color: ${({ theme }) => theme.colors.grayscale.gray_70};
   animation-duration: 0.3s;
   animation-timing-function: ease-in-out;
 

@@ -217,7 +217,13 @@ const TicketFormStep = ({ formProps, onClose, onUpdate }: StepsProps) => {
 
     for (const key in ticketData) {
       if (ticketData[key]) {
-        formData.append(key, ticketData[key]);
+        if (key === "files") {
+          for (let i = 0; i < ticketData[key].length; i++) {
+            formData.append("files", ticketData[key][i]);
+          }
+        } else {
+          formData.append(key, ticketData[key]);
+        }
       }
     }
 

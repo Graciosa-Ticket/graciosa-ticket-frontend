@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useAuth } from "../../hooks/auth";
 import { SectorCardModel } from "../../models/sector";
 import { useFetch } from "../../services/hooks/getQuery";
@@ -8,19 +9,21 @@ import { HomeSection } from "./styles";
 
 export default function Home() {
   const { user } = useAuth();
+  const [sectorsListData, setSectorListData] = useState<SectorCardModel[]>([]);
   const isadmin = user.role === "Administrator";
 
-  const { data: sectorsListData = [] } = useFetch<SectorCardModel[]>(
-    "/sectors",
-    ["sectorsListData"]
-  );
+  useFetch<SectorCardModel[]>("/sectors", ["sectorsListData"], {
+    onSuccess: (data) => {
+      setSectorListData(data);
+    },
+  });
 
   const userSector = sectorsListData?.length
     ? sectorsListData?.find((data) => data.responsible_code === user.code)
     : undefined;
 
   return (
-    <HomeSection isadmin={isadmin}>
+    <HomeSection $isadmin={isadmin}>
       {isadmin ? (
         <>
           <HomeGraph isadmin={isadmin} sectorsListData={sectorsListData} />

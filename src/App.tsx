@@ -15,7 +15,7 @@ function App() {
   const { theme } = useDarkMode();
 
   return (
-    <ThemeProvider theme={themesOptions[theme]}>
+    <ThemeProvider theme={themesOptions[theme] as any}>
       <QueryClientProvider client={queryClient}>
         <AuthProvider>
           <GlobalStyle />
