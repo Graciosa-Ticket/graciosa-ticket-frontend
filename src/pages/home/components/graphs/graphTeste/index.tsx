@@ -1,10 +1,16 @@
-import { useMemo, useState } from "react";
-import { Graph, GraphItem } from "./styles";
+import { useEffect, useMemo, useState } from "react";
+import {
+  Graph,
+  GraphItem,
+  StyledTooltipArrow,
+  StyledTooltipContent,
+} from "./styles";
 import { CounterToChartModel } from "../../../../../models/counterToChart";
 import { map } from "lodash";
 import ButtonComponent from "../../../../../components/buttons";
 import { FaAngleLeft } from "react-icons/fa";
 import formatLabel from "../../../../../utils/formatLabel";
+import * as Tooltip from "@radix-ui/react-tooltip";
 
 type SectorGraphData = CounterToChartModel & {
   sector_code?: string;
@@ -15,15 +21,11 @@ type SectorGraphData = CounterToChartModel & {
 interface graphProps {
   data: SectorGraphData[];
 }
+
 const GCCBarGraph = ({ data }: graphProps) => {
   const [graphPosition, setGraphPosition] = useState<number | undefined>();
   const [selectionactive, setSelectionActive] = useState<boolean>(true);
-  const [tooltip, setTooltip] = useState<{
-    label: string;
-    value: number;
-    x: number;
-    y: number;
-  } | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const chartData = useMemo(() => {
     if (!data.length) return [];
@@ -31,8 +33,6 @@ const GCCBarGraph = ({ data }: graphProps) => {
     return data.map((e) => {
       const sector_code = e.sector_code;
       const sector_name = e.name;
-
-      // console.log(`Processing sector: ${sector_code} - ${sector_name}`); // Debug log
 
       return {
         sector_code,
@@ -45,10 +45,16 @@ const GCCBarGraph = ({ data }: graphProps) => {
     });
   }, [data]);
 
+  useEffect(() => {
+    if (data.length) {
+      setIsLoading(false);
+    }
+  }, [data]);
+
   const handleChangeGraphPosition = (index: number | undefined) => {
-    if (!selectionactive) return; // Bloquear o clique se a seleção estiver desativada
+    if (!selectionactive) return;
     setGraphPosition(index);
-    setSelectionActive(index === undefined); // Desativar a seleção se o índice for indefinido
+    setSelectionActive(index === undefined);
   };
 
   const maxValue = useMemo(() => {
@@ -64,7 +70,7 @@ const GCCBarGraph = ({ data }: graphProps) => {
 
   const graphLines = useMemo(() => {
     if (maxValue > 0) {
-      const steps = maxValue; // Número de linhas no gráfico
+      const steps = maxValue;
       const stepValue = maxValue / steps;
 
       return (
@@ -83,6 +89,10 @@ const GCCBarGraph = ({ data }: graphProps) => {
     return null;
   }, [maxValue]);
 
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <div>
       {!selectionactive && (
@@ -90,7 +100,7 @@ const GCCBarGraph = ({ data }: graphProps) => {
           buttonStyles="text"
           onClick={() => {
             setGraphPosition(undefined);
-            setSelectionActive(true); // Reativar a seleção
+            setSelectionActive(true);
           }}
         >
           <FaAngleLeft fontSize="1.9em" />
@@ -116,29 +126,24 @@ const GCCBarGraph = ({ data }: graphProps) => {
                     const value = Number(total.value);
                     if (!isNaN(value)) {
                       return (
-                        <GraphItem
+                        <Tooltip.Root
                           key={`${e.sector_code}-${total.label}-${index}`}
-                          style={{
-                            height: (value * 100) / maxValue + "%",
-                          }}
-                          $type={total.label as keyof CounterToChartModel}
-                          onMouseEnter={(event) => {
-                            const rect = (
-                              event.currentTarget as HTMLElement
-                            ).getBoundingClientRect();
-                            setTooltip({
-                              label: formatLabel(total.label),
-                              value,
-                              x: rect.left + window.scrollX + rect.width / 2,
-                              y: rect.top + window.scrollY - 5,
-                            });
-                          }}
-                          onMouseLeave={() => setTooltip(null)}
                         >
-                          <div className="graph-item-tooltip">
-                            {`${formatLabel(total.label)}: ${value}`}
-                          </div>
-                        </GraphItem>
+                          <Tooltip.Trigger asChild>
+                            <GraphItem
+                              style={{
+                                height: (value * 100) / maxValue + "%",
+                              }}
+                              $type={total.label as keyof CounterToChartModel}
+                            />
+                          </Tooltip.Trigger>
+                          <Tooltip.Portal>
+                            <StyledTooltipContent side="top" align="center">
+                              {`${formatLabel(total.label)}: ${value}`}
+                              <StyledTooltipArrow />
+                            </StyledTooltipContent>
+                          </Tooltip.Portal>
+                        </Tooltip.Root>
                       );
                     }
                     return null;

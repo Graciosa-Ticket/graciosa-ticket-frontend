@@ -1,5 +1,6 @@
-import { styled, css } from "styled-components";
+import { styled, css, keyframes } from "styled-components";
 import { theme } from "../../../../../styles/theme";
+import * as Tooltip from "@radix-ui/react-tooltip";
 
 export const Graph = styled.section<{ selectionactive: boolean }>`
   width: fit-content;
@@ -131,6 +132,53 @@ interface releaseGraphItemProps {
     | "reaberto";
 }
 
+const slideInX = keyframes`
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+`;
+
+const slideOutX = keyframes`
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(10px);
+  }
+`;
+
+export const StyledTooltipContent = styled(Tooltip.Content)`
+  background-color: #333;
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 0.875em;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  white-space: nowrap;
+  z-index: 1000;
+  animation-duration: 0.3s;
+  animation-timing-function: ease-in-out;
+
+  &[data-state="delayed-open"] {
+    animation-name: ${slideInX};
+  }
+
+  &[data-state="closed"] {
+    animation-name: ${slideOutX};
+  }
+`;
+
+export const StyledTooltipArrow = styled(Tooltip.Arrow)`
+  fill: #333;
+`;
+
 export const GraphItem = styled.div<releaseGraphItemProps>`
   flex: 1;
   height: 0%;
@@ -145,26 +193,5 @@ export const GraphItem = styled.div<releaseGraphItemProps>`
     transform: scaleY(1.05);
     box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
     z-index: 3;
-  }
-
-  .graph-item-tooltip {
-    position: absolute;
-    background: #333;
-    color: #fff;
-    padding: 5px;
-    border-radius: 4px;
-    font-size: 0.75em;
-    white-space: nowrap;
-    transform: translateX(-50%);
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    pointer-events: none;
-    z-index: 1000; /* Aumentado para garantir sobreposição */
-    top: -5px; /* Ajuste conforme necessário */
-    left: 50%; /* Ajuste conforme necessário */
-  }
-
-  &:hover .graph-item-tooltip {
-    opacity: 1;
   }
 `;

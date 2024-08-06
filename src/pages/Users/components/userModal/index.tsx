@@ -81,6 +81,11 @@ export default function UserModal({
         <div className="user-info-area">
           <InputPlaceholder label="Código" value={data?.code} />
           <InputPlaceholder label="Nome" value={data?.name} />
+          <InputPlaceholder
+            label="Email"
+            value={data?.email}
+            copyText={data?.email as string}
+          />
 
           <InputPlaceholder
             label="Nascimento"
@@ -101,6 +106,7 @@ export default function UserModal({
           <InputPlaceholder
             label="Telefone/Ramal"
             value={phoneMask(data?.phone_number as string)}
+            copyText={data?.phone_number as string}
           />
         </div>
         {data?.role !== "Administrator" && (

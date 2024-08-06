@@ -9,15 +9,9 @@ import {
 } from "react-icons/ai";
 import { modalActions } from "../../../../shared/global.interface";
 import { SupportModalComponent } from "./styles";
-import { toast } from "sonner";
+import FieldCopy from "../../../../utils/fieldCopy";
 
 export default function SupportModal({ onClose }: modalActions) {
-  const handleCopy = (text: string) => {
-    navigator.clipboard.writeText(text).then(() => {
-      toast.success("Copiado com sucesso!");
-    });
-  };
-
   return (
     <>
       <ModalHeader>
@@ -47,7 +41,7 @@ export default function SupportModal({ onClose }: modalActions) {
           <AiOutlineCopy
             className="copy-icon"
             title="Clique aqui para copiar"
-            onClick={() => handleCopy("suporte1@graciosa.com.br")}
+            onClick={() => FieldCopy("suporte1@graciosa.com.br")}
           />
           <br />
           <AiOutlineMail className="icon" />
@@ -55,7 +49,7 @@ export default function SupportModal({ onClose }: modalActions) {
           <AiOutlineCopy
             className="copy-icon"
             title="Clique aqui para copiar"
-            onClick={() => handleCopy("suporte2@graciosa.com.br")}
+            onClick={() => FieldCopy("suporte2@graciosa.com.br")}
           />
           <br />
           <AiOutlineMail className="icon" />
@@ -63,7 +57,7 @@ export default function SupportModal({ onClose }: modalActions) {
           <AiOutlineCopy
             className="copy-icon"
             title="Clique aqui para copiar"
-            onClick={() => handleCopy("suporte3@graciosa.com.br")}
+            onClick={() => FieldCopy("suporte3@graciosa.com.br")}
           />
           <br />
           <AiOutlinePhone className="icon" />
@@ -71,7 +65,7 @@ export default function SupportModal({ onClose }: modalActions) {
           <AiOutlineCopy
             className="copy-icon"
             title="Clique aqui para copiar"
-            onClick={() => handleCopy("41 9610-6776")}
+            onClick={() => FieldCopy("41 9610-6776")}
           />
         </span>
       </SupportModalComponent>

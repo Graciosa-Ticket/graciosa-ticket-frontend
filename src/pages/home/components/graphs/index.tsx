@@ -18,51 +18,73 @@ const HomeGraph = ({
   isadmin,
   sectorsListData,
 }: homeGraphProps) => {
-  const [dataSource, setDataSource] = useState<CounterToChartModel>();
+  const [countersDataSource, setcountersDataSource] =
+    useState<CounterToChartModel>();
+
+  const [createdTicketsCounterDataSource, setcreatedTicketsCounterDataSource] =
+    useState<number>();
 
   const [selectedDataSource, setSelectedDataSource] =
     useState<CounterToChartModel[]>();
 
-  let isLoadingAllSectorsCounters = false;
-  let isLoadingCountBySectorCode = false;
+  const { isLoading: isLoadingAllSectorsCounters } = isadmin
+    ? useFetch<CounterToChartModel>(
+        "/counters/counterToChart",
+        ["geralCountData"],
+        {
+          onSuccess: (geralCountData) => {
+            setcountersDataSource(geralCountData);
+          },
+        }
+      )
+    : { isLoading: false };
 
-  if (isadmin) {
-    ({ isLoading: isLoadingAllSectorsCounters } = useFetch<CounterToChartModel>(
-      "/counters/counterToChart",
-      ["geralCountData"],
-      {
-        onSuccess: (geralCountData) => {
-          setDataSource(geralCountData);
-        },
-      }
-    ));
-  } else {
-    ({ isLoading: isLoadingCountBySectorCode } = useFetch<CounterToChartModel>(
-      `/counters/counterToChart/sector/${userSector?.code}`,
-      ["counterBySectorCode"],
-      {
-        onSuccess: (counterBySectorCode) => {
-          const sectorData = Object.values(counterBySectorCode)[0];
-          setDataSource(sectorData);
-        },
-      }
-    ));
-  }
+  const { isLoading: isLoadingCountBySectorCode } = !isadmin
+    ? useFetch<CounterToChartModel>(
+        `/counters/counterToChart/sector/${userSector?.code}`,
+        ["counterBySectorCode"],
+        {
+          onSuccess: (counterBySectorCode) => {
+            const sectorData = Object.values(counterBySectorCode)[0];
+            setcountersDataSource(sectorData);
+          },
+        }
+      )
+    : { isLoading: false };
+
+  const { isLoading: isLoadingCreatedTicketsCounterData } = isadmin
+    ? useFetch<number>(
+        "/ticket/count/getCreatedTickets",
+        ["createdTicketsCounterData"],
+        {
+          onSuccess: (createdTicketsCounterData) => {
+            setcreatedTicketsCounterDataSource(createdTicketsCounterData);
+          },
+        }
+      )
+    : { isLoading: false };
+
+  const { isLoading: isLoadingCreatedTicketsCounterDataByCode } = !isadmin
+    ? useFetch<number>(
+        `/ticket/count/getCreatedTickets/${userSector?.code}`,
+        ["createdTicketsCounterDataByCode"],
+        {
+          onSuccess: (createdTicketsCounterDataByCode) => {
+            setcreatedTicketsCounterDataSource(createdTicketsCounterDataByCode);
+          },
+        }
+      )
+    : { isLoading: false };
 
   const { isLoading: isLoadingSelectedSector } = useFetch<
     CounterToChartModel[]
-  >(`/counters/counterToChart/allSectors`, ["selectedSectorCounter"], {
+  >("/counters/counterToChart/allSectors", ["selectedSectorCounter"], {
     onSuccess: (selectedSectorCountData) => {
       const counters = selectedSectorCountData[0];
-
-      // console.log("Counters:", counters);
-      // console.log("Sectors List Data:", sectorsListData);
 
       const updatedData = Object.entries(counters).map(
         ([sector_code, values]) => {
           const sector = sectorsListData?.find((s) => s.code === sector_code);
-
-          // console.log(`Sector Code: ${sector_code}, Found Sector:`, sector);
 
           return {
             sector_code,
@@ -77,21 +99,23 @@ const HomeGraph = ({
 
   const isLoading =
     isLoadingAllSectorsCounters ||
-    isLoadingSelectedSector ||
-    isLoadingCountBySectorCode;
+    isLoadingCountBySectorCode ||
+    isLoadingCreatedTicketsCounterData ||
+    isLoadingCreatedTicketsCounterDataByCode ||
+    isLoadingSelectedSector;
 
   const allSetorsTicketsCount = useMemo(() => {
-    const dataSourceKeys = Object.values(dataSource || {});
+    const dataSourceKeys = Object.values(countersDataSource || {});
     if (!dataSourceKeys.length) return 0;
     return dataSourceKeys.reduce((a, b) => a + b, 0);
-  }, [dataSource]);
+  }, [countersDataSource]);
 
   const tabOptions = useMemo(() => {
     return [
       {
         title: "Geral",
         value: "geral",
-        content: <BarGraph data={dataSource} />,
+        content: <BarGraph data={countersDataSource} />,
       },
       {
         title: "Setores",
@@ -99,7 +123,7 @@ const HomeGraph = ({
         content: <GCCBarGraph data={selectedDataSource as any} />,
       },
     ];
-  }, [dataSource, selectedDataSource]);
+  }, [countersDataSource, selectedDataSource]);
 
   if (isLoading) {
     return <div>{/* <LoadingScreen /> */}</div>;
@@ -113,7 +137,7 @@ const HomeGraph = ({
         </div>
         <ul className="big-numbers-list">
           <li>
-            <p>35+</p>
+            <p>{createdTicketsCounterDataSource}</p>
             <span>Chamados abertos no último mês</span>
           </li>
 
@@ -126,7 +150,7 @@ const HomeGraph = ({
 
       <section className="bar-chart">
         {userSector ? (
-          <BarGraph data={dataSource} />
+          <BarGraph data={countersDataSource} />
         ) : (
           <TabComponent data={tabOptions} defaultValue="geral" />
         )}
