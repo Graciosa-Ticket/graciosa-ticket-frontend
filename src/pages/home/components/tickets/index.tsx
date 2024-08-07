@@ -5,18 +5,24 @@ import { AiOutlineEye } from "react-icons/ai";
 import { useState } from "react";
 import { useFetch } from "../../../../services/hooks/getQuery";
 import TicketCard from "../../../../components/ticket";
+import { UserModel } from "../../../../models/user";
 
-const HomeTicketComponent = () => {
+interface HomeTicketProps {
+  isadmin: boolean;
+  user?: UserModel;
+}
+
+const HomeTicketComponent = ({ isadmin = false, user }: HomeTicketProps) => {
   const [dataSource, setDataSource] = useState<TicketModel[]>([]);
 
-  const {} = useFetch<TicketModel[]>("/ticket", ["ticket"], {
+  useFetch<TicketModel[]>("/ticket", ["ticket"], {
     onSuccess: (data) => {
       setDataSource(data);
     },
   });
 
   return (
-    <TicketsHomeContainer>
+    <TicketsHomeContainer $isadmin={isadmin}>
       <div className="section-title">
         <h3>Últimos tickets</h3>
 
@@ -27,11 +33,17 @@ const HomeTicketComponent = () => {
       </div>
 
       <ul className="ticket-list">
-        {dataSource.map((e, i) => (
-          <li key={i}>
-            <TicketCard data={e} />
-          </li>
-        ))}
+        {dataSource
+          .slice()
+          .reverse()
+          .filter((ticket) =>
+            isadmin ? true : ticket.sector.responsible_code === user?.code
+          )
+          .map((e, i) => (
+            <li key={i}>
+              <TicketCard data={e} />
+            </li>
+          ))}
       </ul>
     </TicketsHomeContainer>
   );

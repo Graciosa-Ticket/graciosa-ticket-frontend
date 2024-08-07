@@ -124,7 +124,7 @@ const TicketModal = ({
             <SelectItem value="Cancelado">Cancelado</SelectItem>
             <SelectItem value="Reaberto">Reaberto</SelectItem>
             <SelectItem value="Impeditivo">Impeditivo</SelectItem>
-            {/* <SelectItem value="Concluído">Concluído</SelectItem> */}
+            <SelectItem value="Concluído">Concluído</SelectItem>
           </Select>
         </ModalHeaderSection>
       </ModalHeader>
@@ -172,6 +172,7 @@ const TicketModal = ({
                 actionButton={
                   <ButtonComponent
                     buttonStyles="delete"
+                    buttonStylesType="outline"
                     onClick={handleDeleteTicket}
                     isLoading={isLoadingDelete}
                   >

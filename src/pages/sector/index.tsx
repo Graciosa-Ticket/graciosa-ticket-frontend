@@ -27,7 +27,7 @@ export default function Sector() {
     isFetching: fetchingCounter,
     data: counterData,
     refetch: refetchCounter,
-  } = useFetch<SectorCardModel[]>("/counters/counterToChart/allsectors", [
+  } = useFetch<SectorCardModel[]>("/counters/counterToChart/allSectors", [
     "sectorCounter",
   ]);
 

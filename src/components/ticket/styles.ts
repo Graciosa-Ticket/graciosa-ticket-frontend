@@ -18,7 +18,7 @@ interface ticketContainerProps {
 
 const openStyle = css`
   background-color: ${({ theme }) => theme.colors.ticket_status.open};
-  color: ${({ theme }) => theme.colors.brand.white};
+  color: white;
 
   &:hover {
     background-color: ${({ theme }) =>
@@ -27,7 +27,7 @@ const openStyle = css`
 `;
 const onGoingStyle = css`
   background-color: ${({ theme }) => theme.colors.ticket_status.on_going};
-  color: ${({ theme }) => theme.colors.brand.white};
+  color: white;
 
   &:hover {
     background-color: ${({ theme }) =>
@@ -36,7 +36,7 @@ const onGoingStyle = css`
 `;
 const reOpenStyle = css`
   background-color: ${({ theme }) => theme.colors.ticket_status.re_open};
-  color: ${({ theme }) => theme.colors.brand.white};
+  color: white;
 
   &:hover {
     background-color: ${({ theme }) =>
@@ -45,7 +45,7 @@ const reOpenStyle = css`
 `;
 const canceledStyle = css`
   background-color: ${({ theme }) => theme.colors.ticket_status.canceled};
-  color: ${({ theme }) => theme.colors.brand.white};
+  color: white;
 
   &:hover {
     background-color: ${({ theme }) =>
@@ -55,7 +55,7 @@ const canceledStyle = css`
 const waitingApprovalStyle = css`
   background-color: ${({ theme }) =>
     theme.colors.ticket_status.waiting_approval};
-  color: ${({ theme }) => theme.colors.brand.white};
+  color: white;
 
   &:hover {
     background-color: ${({ theme }) =>
@@ -64,7 +64,7 @@ const waitingApprovalStyle = css`
 `;
 const impedimentStyle = css`
   background-color: ${({ theme }) => theme.colors.ticket_status.impediment};
-  color: ${({ theme }) => theme.colors.brand.white};
+  color: white;
 
   &:hover {
     background-color: ${({ theme }) =>
@@ -73,7 +73,7 @@ const impedimentStyle = css`
 `;
 const doneStyle = css`
   background-color: ${({ theme }) => theme.colors.ticket_status.done};
-  color: ${({ theme }) => theme.colors.brand.white};
+  color: white;
 
   &:hover {
     background-color: ${({ theme }) =>
@@ -84,9 +84,9 @@ const doneStyle = css`
 const statusStyle = {
   ["Aberto"]: openStyle,
   ["Em andamento"]: onGoingStyle,
-  ["Aguardando aprovação"]: reOpenStyle,
+  ["Aguardando aprovação"]: waitingApprovalStyle,
   ["Cancelado"]: canceledStyle,
-  ["Reaberto"]: waitingApprovalStyle,
+  ["Reaberto"]: reOpenStyle,
   ["Impeditivo"]: impedimentStyle,
   ["Concluído"]: doneStyle,
 };
@@ -144,7 +144,6 @@ export const TicketContainer = styled.button<ticketContainerProps>`
       border-radius: 6px;
       text-align: center;
       padding: 3px 4px;
-
       ${({ $status }) => statusStyle[$status]};
     }
   }

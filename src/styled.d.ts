@@ -6,6 +6,7 @@ interface IPalette {
 declare module "styled-components" {
   export interface DefaultTheme {
     colors: {
+      default: any;
       brand: {
         blue: string;
         dark_blue: string;

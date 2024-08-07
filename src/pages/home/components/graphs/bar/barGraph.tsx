@@ -10,8 +10,6 @@ import {
 import { Bar } from "react-chartjs-2";
 import { useTheme } from "styled-components";
 import { CounterToChartModel } from "../../../../../models/counterToChart";
-import { useState, useEffect } from "react";
-import { useFetch } from "../../../../../services/hooks/getQuery";
 
 ChartJS.register(
   CategoryScale,
@@ -22,38 +20,24 @@ ChartJS.register(
   Legend
 );
 
-export const BarGraph = () => {
+interface BarGraphProps {
+  data?: CounterToChartModel;
+}
+
+export const BarGraph = ({ data }: BarGraphProps) => {
   const theme = useTheme();
-  const [dataSource, setDataSource] = useState<CounterToChartModel | null>(
-    null
-  );
 
-  const { data } = useFetch<CounterToChartModel>(
-    "/counters/CounterToChart",
-    ["counter"],
-    {
-      onSuccess: (data) => {
-        setDataSource(data);
-      },
-    }
-  );
-
-  useEffect(() => {
-    if (data) {
-      setDataSource(data);
-    }
-  }, [data]);
-
-  if (!dataSource) return <div> Carregando...</div>;
+  if (!data) return;
+  <div> Carregando...</div>;
 
   return (
     <Bar
       data={{
-        labels: Object.keys(dataSource),
+        labels: Object.keys(data),
         datasets: [
           {
             label: "Chamados",
-            data: Object.values(dataSource),
+            data: Object.values(data),
             backgroundColor: [
               theme.colors.ticket_status.open,
               theme.colors.ticket_status.waiting_approval,
@@ -78,7 +62,6 @@ export const BarGraph = () => {
       }}
       options={{
         responsive: true,
-
         plugins: {
           legend: {
             display: false,

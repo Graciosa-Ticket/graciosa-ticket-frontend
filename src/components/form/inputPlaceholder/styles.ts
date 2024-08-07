@@ -28,5 +28,18 @@ export const InputPlaceholderContainer = styled.div`
       font-weight: 600;
       color: ${({ theme }) => theme.colors.grayscale.gray_60};
     }
+
+    .copy-icon {
+      margin-left: 8px;
+      font-weight: 500;
+      cursor: pointer;
+      color: ${({ theme }) => theme.colors.brand.dark_blue};
+    }
+
+    span {
+      text-overflow: ellipsis;
+      max-width: 250px;
+      overflow: hidden;
+    }
   }
 `;

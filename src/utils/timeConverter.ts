@@ -15,21 +15,21 @@ function timeConverter(dateInput: Date | string | undefined): string {
   if (days > 5) {
     return date.toLocaleDateString("pt-BR");
   } else if (seconds === 1) {
-    return `1 Seg`;
+    return `Há 1 Seg`;
   } else if (seconds < 60) {
-    return `${seconds} Segs`;
+    return `Há ${seconds} Segs`;
   } else if (minutes === 1) {
-    return `1 Min`;
+    return `Há 1 Min`;
   } else if (minutes < 60) {
-    return `${minutes} Mins`;
+    return `Há ${minutes} Mins`;
   } else if (hours === 1) {
-    return `1 Hr`;
+    return `Há 1 Hr`;
   } else if (hours < 24) {
-    return `${hours} Hrs`;
+    return `Há ${hours} Hrs`;
   } else if (days === 1) {
-    return `1 Dia`;
+    return `Há 1 Dia`;
   } else if (days < 7) {
-    return `${days} Dias`;
+    return `Há ${days} Dias`;
   } else {
     return "Tempo desconhecido";
   }

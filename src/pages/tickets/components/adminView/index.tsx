@@ -122,8 +122,12 @@ const columns: TypeColumn[] = [
       value ? format(value as Date, "dd/MM/yyyy 'ás' HH'h'mm") : "",
   },
   {
-    name: "user_code",
+    name: "user",
     header: "Usuário",
+    render: ({ value }) => {
+      const name = value?.name || "Sem usuário";
+      return name.length > 12 ? `${name.substring(0, 10)}...` : name;
+    },
   },
   {
     name: "status",

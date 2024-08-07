@@ -49,6 +49,7 @@ export const SectionGroupButton = styled(ButtonComponent)<groupButtonProps>`
 
 const openStyle = css`
   background-color: ${({ theme }) => theme.colors.ticket_status.open};
+  color: white;
 
   &:hover {
     background-color: ${({ theme }) =>
@@ -57,6 +58,7 @@ const openStyle = css`
 `;
 const onGoingStyle = css`
   background-color: ${({ theme }) => theme.colors.ticket_status.on_going};
+  color: white;
 
   &:hover {
     background-color: ${({ theme }) =>
@@ -65,6 +67,7 @@ const onGoingStyle = css`
 `;
 const reOpenStyle = css`
   background-color: ${({ theme }) => theme.colors.ticket_status.re_open};
+  color: white;
 
   &:hover {
     background-color: ${({ theme }) =>
@@ -73,6 +76,7 @@ const reOpenStyle = css`
 `;
 const canceledStyle = css`
   background-color: ${({ theme }) => theme.colors.ticket_status.canceled};
+  color: white;
 
   &:hover {
     background-color: ${({ theme }) =>
@@ -82,6 +86,7 @@ const canceledStyle = css`
 const waitingApprovalStyle = css`
   background-color: ${({ theme }) =>
     theme.colors.ticket_status.waiting_approval};
+  color: white;
 
   &:hover {
     background-color: ${({ theme }) =>
@@ -90,6 +95,7 @@ const waitingApprovalStyle = css`
 `;
 const impedimentStyle = css`
   background-color: ${({ theme }) => theme.colors.ticket_status.impediment};
+  color: white;
 
   &:hover {
     background-color: ${({ theme }) =>
@@ -98,6 +104,7 @@ const impedimentStyle = css`
 `;
 const doneStyle = css`
   background-color: ${({ theme }) => theme.colors.ticket_status.done};
+  color: white;
 
   &:hover {
     background-color: ${({ theme }) =>

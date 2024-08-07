@@ -7,6 +7,7 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import { AuthProvider } from "./hooks/auth";
 import { themesOptions } from "./styles/theme";
 import { useDarkMode } from "./hooks/theme";
+import * as Tooltip from "@radix-ui/react-tooltip";
 
 const queryClient = new QueryClient();
 
@@ -14,7 +15,7 @@ function App() {
   const { theme } = useDarkMode();
 
   return (
-    <ThemeProvider theme={themesOptions[theme]}>
+    <ThemeProvider theme={themesOptions[theme] as any}>
       <QueryClientProvider client={queryClient}>
         <AuthProvider>
           <GlobalStyle />
@@ -24,9 +25,11 @@ function App() {
             position="bottom-left"
             duration={8000}
           />
-          <BrowserRouter>
-            <AppRoutes />
-          </BrowserRouter>
+          <Tooltip.Provider>
+            <BrowserRouter>
+              <AppRoutes />
+            </BrowserRouter>
+          </Tooltip.Provider>
         </AuthProvider>
       </QueryClientProvider>
     </ThemeProvider>

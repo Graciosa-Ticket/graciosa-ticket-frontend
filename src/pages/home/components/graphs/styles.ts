@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const HomeGraphContainer = styled.section`
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(300px, 2fr));
   grid-column: span 2;
   gap: 20px;
   border-bottom: 1px solid ${({ theme }) => theme.colors.grayscale.gray_10};
@@ -11,18 +11,11 @@ export const HomeGraphContainer = styled.section`
   justify-content: center;
 
   .bar-chart {
+    width: 80%;
     border-radius: 0.5em;
     padding: 1em;
-  }
-
-  .revenueCard {
-    width: 92%;
-    height: 20rem;
-  }
-
-  .customerCard {
-    width: 50%;
-    height: 20rem;
+    grid-column: span 2;
+    justify-self: center;
   }
 
   .big-numbers {

@@ -31,7 +31,6 @@ export default function SectorModal({
       {},
       {
         onSuccess: () => {
-          console.log(data?.code);
           toast.success("Setor deletado com sucesso!");
           onUpdate?.();
         },
@@ -87,6 +86,7 @@ export default function SectorModal({
             actionButton={
               <ButtonComponent
                 buttonStyles="delete"
+                buttonStylesType="outline"
                 onClick={handleDeleteSector}
                 isLoading={isLoadingDelete}
               >
