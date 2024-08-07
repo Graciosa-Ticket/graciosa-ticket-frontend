@@ -41,7 +41,6 @@ export const ChooseSectorStepContainer = styled.div`
 `;
 
 const fadeInRight = keyframes`
-
 from{
   opacity: 0;
   transform: translateX(500px);
@@ -51,7 +50,6 @@ to{
   opacity: 1;
   transform: translateX(0px);
 }
-
 `;
 
 export const TicketFormContainer = styled.div`
