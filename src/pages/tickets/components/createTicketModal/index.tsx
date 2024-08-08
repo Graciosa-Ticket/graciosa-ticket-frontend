@@ -219,7 +219,7 @@ const TicketFormStep = ({ formProps, onClose, onUpdate }: StepsProps) => {
       user_code: user.code,
       urgency: "Normal",
       status: "Aberto",
-      is_current: true,
+      is_recurrent: true,
     };
 
     console.log(ticketData);

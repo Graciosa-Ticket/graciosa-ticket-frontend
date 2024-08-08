@@ -104,6 +104,7 @@ export default function CreateSectorModal({
             />
 
             <Input
+              inputStyle="secondary"
               label="Nome do Setor"
               placeholder="Digite o Nome do Setor"
               error={errors.name?.message}
