@@ -26,7 +26,7 @@ export interface TicketModel {
   created_at?: Date | string;
   updated_at?: Date;
   deleted_at?: Date;
-  is_recurrent: boolean;
+  is_recurrent?: boolean;
   user: Partial<
     Omit<
       UserModel,

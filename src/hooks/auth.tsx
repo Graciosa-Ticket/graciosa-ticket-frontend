@@ -80,6 +80,7 @@ export const AuthProvider = ({ children }: authProp) => {
       setLoading(false);
     } catch (error: any) {
       setLoading(false);
+      toast.error("Falha no login verifique dados e tente novamente");
     }
   };
 

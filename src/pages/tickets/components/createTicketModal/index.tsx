@@ -45,10 +45,9 @@ interface createInputProps {
   user_code: string;
   sector_code?: string;
   sector?: SectorCardModel;
-  recurrent: boolean;
   interval: string;
-  initial_date: string;
-  final_date: string;
+  start_date: Date;
+  end_date: Date;
   user: UserModel;
   files?: FileList;
   is_recurrent: boolean;
@@ -220,7 +219,10 @@ const TicketFormStep = ({ formProps, onClose, onUpdate }: StepsProps) => {
       user_code: user.code,
       urgency: "Normal",
       status: "Aberto",
+      is_current: true,
     };
+
+    console.log(ticketData);
 
     for (const key in ticketData) {
       if (ticketData[key]) {
@@ -392,7 +394,6 @@ const TicketMainForm = ({
 const TicketAdvancedOptionsForm = ({ formProps }: StepsProps) => {
   const { setValue, watch, register } = formProps;
 
-  // Certifique-se de que is_recurrent é falso se não tiver valor
   const isRecurrent = watch("is_recurrent") || false;
 
   return (
@@ -408,14 +409,14 @@ const TicketAdvancedOptionsForm = ({ formProps }: StepsProps) => {
         label="Início da Recorrência"
         placeholder="Início da Recorrência"
         type="datetime-local"
-        register={{ ...register("initial_date") }}
+        register={{ ...register("start_date") }}
         disabled={!isRecurrent}
       />
       <Input
         label="Fim da Recorrência"
         placeholder="Fim da Recorrência"
         type="datetime-local"
-        register={{ ...register("final_date") }}
+        register={{ ...register("end_date") }}
         disabled={!isRecurrent}
       />
       <Input

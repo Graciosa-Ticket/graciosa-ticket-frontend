@@ -20,9 +20,10 @@ export const LoginContainer = styled.section`
     padding: 50px;
 
     h1 {
-      ${({ theme }) => theme.font.h1};
+      margin-top: 80px;
+      ${({ theme }) => theme.font.h3};
       color: white;
-      font-weight: 900;
+      font-weight: 700;
     }
 
     p {
@@ -50,16 +51,21 @@ export const LoginContainer = styled.section`
       }
 
       h1 {
-        ${({ theme }) => theme.font.h2};
-        color: ${({ theme }) => theme.colors.brand.black};
-        font-weight: 900;
+        margin-top: 20px;
+        ${({ theme }) => theme.font.h3};
+        color: ${({ theme }) => theme.colors.brand.dark_blue};
+        font-weight: 800;
       }
 
       p {
-        color: ${({ theme }) => theme.colors.grayscale.gray_50};
+        color: ${({ theme }) => theme.colors.brand.dark_blue};
         ${({ theme }) => theme.font.p.small};
         margin-top: 0.5em;
       }
+    }
+
+    &::placeholder {
+      color: ${({ theme }) => theme.colors.brand.dark_blue};
     }
   }
 

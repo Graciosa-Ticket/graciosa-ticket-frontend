@@ -7,7 +7,6 @@ export const ModalContentBody = styled.main`
   grid-template-columns: 500px 400px;
   grid-template-rows: 1fr;
   padding: 0 25px 25px;
-
   .img-sector {
     margin-top: 20px;
   }

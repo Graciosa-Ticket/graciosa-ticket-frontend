@@ -12,6 +12,11 @@ export const SectorModalComponent = styled.section`
   transition: transform 0.2s ease-in-out;
   position: relative;
 
+  @media (max-height: 700px) {
+    overflow-y: auto;
+    max-height: 100vh;
+  }
+
   h1 {
     ${({ theme }) => theme.font.p.medium};
     color: ${({ theme }) => theme.colors.brand.dark_blue};

@@ -24,6 +24,11 @@ export const UserComponent = styled.section`
   position: relative;
   animation: 0.3s ${fadeInLeft} linear;
 
+  @media (max-height: 700px) {
+    overflow-y: auto;
+    max-height: 100vh;
+  }
+
   .img-sector {
     display: flex;
     align-items: center;

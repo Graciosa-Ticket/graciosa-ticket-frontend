@@ -10,6 +10,10 @@ export const CreateUserComponent = styled.section`
   gap: 10px;
   background-color: ${({ theme }) => theme.colors.brand.white};
 
+  @media (max-height: 650px) {
+    overflow-y: auto;
+    max-height: 100vh;
+  }
   h1 {
     ${({ theme }) => theme.font.h3};
     color: ${({ theme }) => theme.colors.brand.dark_blue};

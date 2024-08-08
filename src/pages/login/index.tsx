@@ -32,7 +32,7 @@ export default function LoginPage() {
 
       <LoginContainer>
         <div className="left-container">
-          <h1>Gestão de chamados graciosa country club</h1>
+          <h1>Gestão de chamados Graciosa Country Club</h1>
           <p>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
             eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
@@ -45,16 +45,19 @@ export default function LoginPage() {
             <div className="logo-container">
               <img src={Logo} />
               <h1>Bem vindo</h1>
-              <p>ao sistema de chamados graciosa country club</p>
+              <p>ao sistema de chamados Graciosa Country Club</p>
             </div>
 
             <form onSubmit={onSubmit}>
               <Input
+                inputStyle="secondary"
                 placeholder="login"
                 label="Login"
                 register={{ ...register("code") }}
               />
               <Input
+                inputStyle="secondary"
+                className="input-placeholder-text"
                 placeholder="Senha"
                 label="Senha"
                 type={showPassword ? "text" : "password"}
