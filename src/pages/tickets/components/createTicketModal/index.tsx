@@ -45,7 +45,7 @@ interface createInputProps {
   user_code: string;
   sector_code?: string;
   sector?: SectorCardModel;
-  interval: string;
+  break: string;
   start_date: Date;
   end_date: Date;
   user: UserModel;
@@ -424,7 +424,7 @@ const TicketAdvancedOptionsForm = ({ formProps }: StepsProps) => {
         type="number"
         step={10}
         min={0}
-        register={{ ...register("interval") }}
+        register={{ ...register("break") }}
         disabled={!isRecurrent}
       />
     </FormContentContainer>
