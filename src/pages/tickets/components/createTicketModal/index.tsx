@@ -51,6 +51,7 @@ interface createInputProps {
   final_date: string;
   user: UserModel;
   files?: FileList;
+  is_recurrent: boolean;
 }
 
 export default function CreateTicketModal({
@@ -204,6 +205,12 @@ const TicketFormStep = ({ formProps, onClose, onUpdate }: StepsProps) => {
   const { user } = useAuth();
 
   const onSubmit = handleSubmit(() => {
+    const values = getValues();
+
+    if (!values.is_recurrent) {
+      formProps.setValue("is_recurrent", false, { shouldDirty: true });
+    }
+
     const { ...rest } = getDirtyFields(dirtyFields, getValues);
 
     const formData = new FormData();
@@ -382,17 +389,19 @@ const TicketMainForm = ({
     </TicketMainFormContainer>
   );
 };
-
 const TicketAdvancedOptionsForm = ({ formProps }: StepsProps) => {
   const { setValue, watch, register } = formProps;
+
+  // Certifique-se de que is_recurrent é falso se não tiver valor
+  const isRecurrent = watch("is_recurrent") || false;
 
   return (
     <FormContentContainer $columns={2}>
       <CheckBoxComponent
         id="ocurrence"
         label="Recorrente"
-        checked={watch("recurrent")}
-        onCheckedChange={(value) => setValue("recurrent", value)}
+        checked={isRecurrent}
+        onCheckedChange={(value) => setValue("is_recurrent", value)}
       />
       <div />
       <Input
@@ -400,14 +409,14 @@ const TicketAdvancedOptionsForm = ({ formProps }: StepsProps) => {
         placeholder="Início da Recorrência"
         type="datetime-local"
         register={{ ...register("initial_date") }}
-        disabled={!watch("recurrent")}
+        disabled={!isRecurrent}
       />
       <Input
         label="Fim da Recorrência"
         placeholder="Fim da Recorrência"
         type="datetime-local"
         register={{ ...register("final_date") }}
-        disabled={!watch("recurrent")}
+        disabled={!isRecurrent}
       />
       <Input
         label="Intervalo (min)"
@@ -415,7 +424,7 @@ const TicketAdvancedOptionsForm = ({ formProps }: StepsProps) => {
         step={10}
         min={0}
         register={{ ...register("interval") }}
-        disabled={!watch("recurrent")}
+        disabled={!isRecurrent}
       />
     </FormContentContainer>
   );

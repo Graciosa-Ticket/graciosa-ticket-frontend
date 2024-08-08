@@ -82,6 +82,10 @@ export const ModalContentBody = styled.main`
     margin-top: 20px;
   }
 
+  .images-Section {
+    display: flow-root;
+  }
+
   .comment-section {
     margin-left: 10px;
     background-color: ${({ theme }) => theme.colors.grayscale.gray_10};

@@ -2,7 +2,7 @@ import { styled, css, keyframes } from "styled-components";
 import { theme } from "../../../../../styles/theme";
 import * as Tooltip from "@radix-ui/react-tooltip";
 
-export const Graph = styled.section<{ selectionactive: boolean }>`
+export const Graph = styled.section<{ $selectionactive: boolean }>`
   width: fit-content;
   min-width: 100%;
   height: 250px;
@@ -13,6 +13,7 @@ export const Graph = styled.section<{ selectionactive: boolean }>`
   position: relative;
   margin-top: 30px;
   overflow-x: auto;
+  transition: all 0.5s ease-in-out;
 
   @media (max-width: 800px) {
     max-width: 500px;
@@ -30,8 +31,8 @@ export const Graph = styled.section<{ selectionactive: boolean }>`
     align-items: center;
     gap: 0.2em;
 
-    cursor: ${({ selectionactive }) =>
-      selectionactive ? "pointer" : "default"};
+    cursor: ${({ $selectionactive }) =>
+      $selectionactive ? "pointer" : "default"};
 
     &:after {
       content: "";
@@ -48,8 +49,8 @@ export const Graph = styled.section<{ selectionactive: boolean }>`
     }
 
     &:hover {
-      ${({ selectionactive }) =>
-        selectionactive &&
+      ${({ $selectionactive }) =>
+        $selectionactive &&
         css`
           &:after {
             opacity: 1;
@@ -155,8 +156,7 @@ const slideOutX = keyframes`
 `;
 
 export const StyledTooltipContent = styled(Tooltip.Content)`
-  background-color: #333;
-  color: #fff;
+  background-color: ${({ theme }) => theme.colors.brand.black};
   padding: 5px 10px;
   border-radius: 4px;
   font-size: 0.875em;
@@ -164,7 +164,7 @@ export const StyledTooltipContent = styled(Tooltip.Content)`
   white-space: nowrap;
   z-index: 1000;
   ${({ theme }) => theme.font.p.extra_small};
-  color: ${({ theme }) => theme.colors.grayscale.gray_70};
+  color: ${({ theme }) => theme.colors.brand.white};
   animation-duration: 0.3s;
   animation-timing-function: ease-in-out;
 
@@ -178,17 +178,32 @@ export const StyledTooltipContent = styled(Tooltip.Content)`
 `;
 
 export const StyledTooltipArrow = styled(Tooltip.Arrow)`
-  fill: #333;
+  fill: ${({ theme }) => theme.colors.brand.black};
+`;
+
+const scaleUpFromBottom = keyframes`
+  from {
+    transform: scaleY(0);
+    transform-origin: bottom;
+    opacity: 0;
+  }
+  to {
+    transform: scaleY(1);
+    transform-origin: bottom;
+    opacity: 1;
+  }
 `;
 
 export const GraphItem = styled.div<releaseGraphItemProps>`
   flex: 1;
   height: 0%;
   background-color: ${({ $type }) => releasesType[$type]};
-  transition: 0.5s ease-out;
+  transition: 0.8s ease-out;
   border-radius: 7px;
   position: relative;
   z-index: 2;
+  animation: ${scaleUpFromBottom} 0.8s ease-out;
+  opacity: 1;
 
   &:hover {
     filter: brightness(85%);

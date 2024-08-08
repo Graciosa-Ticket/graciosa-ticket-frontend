@@ -18,6 +18,7 @@ import TicketUserCard from "./components/userCard";
 import { UserModel } from "../../../../models/user";
 import CenterModal from "../../../../components/centerModal";
 import TicketConclusionModal from "../ticketConclusionModal";
+import ImageViewer from "./components/imageViewer";
 
 const selectItemStyle = (status: TicketModel["status"]): CSSProperties => {
   const statusStyle = {
@@ -43,7 +44,6 @@ const TicketModal = ({
   onUpdate,
 }: modalActions<TicketModel>) => {
   const { user } = useAuth();
-
   const { watch, setValue } = useForm<{ status: TicketModel["status"] }>({
     defaultValues: data,
   });
@@ -160,10 +160,14 @@ const TicketModal = ({
               </div>
             </section>
 
-            <section>
+            <section className="images-Setion">
               <p>Anexos</p>
+              {data?.attachmentUrl?.map((url, index) => (
+                <ImageViewer />
+              ))}
             </section>
           </section>
+
           <section className="buttons-content">
             {(data?.user.code === user.code ||
               user.role === "Administrator") && (

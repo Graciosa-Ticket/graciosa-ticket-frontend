@@ -34,13 +34,15 @@ const GCCBarGraph = ({ data }: graphProps) => {
       const sector_code = e.sector_code;
       const sector_name = e.name;
 
+      const filteredData = map(e, (a, b) => ({
+        label: b,
+        value: a,
+      })).filter((item) => typeof item.value === "number" && item.value > 0);
+
       return {
         sector_code,
         sector_name,
-        data: map(e, (a, b) => ({
-          label: b,
-          value: a,
-        })),
+        data: filteredData,
       };
     });
   }, [data]);
@@ -48,6 +50,7 @@ const GCCBarGraph = ({ data }: graphProps) => {
   useEffect(() => {
     if (data.length) {
       setIsLoading(false);
+      // console.log("Data sent to the graph:", data); // add for debbuggin
     }
   }, [data]);
 
@@ -106,7 +109,7 @@ const GCCBarGraph = ({ data }: graphProps) => {
           <FaAngleLeft fontSize="1.9em" />
         </ButtonComponent>
       )}
-      <Graph selectionactive={selectionactive}>
+      <Graph $selectionactive={selectionactive}>
         {chartData
           ?.slice(
             graphPosition !== undefined ? graphPosition : 0,
