@@ -25,7 +25,7 @@ export const createUserValidation = yup.object<FormValues>().shape({
   cep: yup.string().max(9, "CEP invalido").required("CEP é obrigatorio"),
   phone_number: yup
     .string()
-    .max(11, "maximo 11 caracteres")
+    .max(20, "maximo 14 caracteres")
     .required("DD+telefone é obrigatorio"),
   profile_picture: yup.string().optional(),
   password: yup

@@ -1,4 +1,4 @@
-export default function phoneMask(phone_number: string) {
+function phoneMask(phone_number: string) {
   if (!phone_number) return "";
 
   let r = phone_number.replace(/\D/g, "");
@@ -15,3 +15,4 @@ export default function phoneMask(phone_number: string) {
   }
   return r;
 }
+export default phoneMask;

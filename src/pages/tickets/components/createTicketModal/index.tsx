@@ -160,30 +160,32 @@ const ChooseSectorStep = ({ formProps, onChangeStep }: StepsProps) => {
         <h2>Escolha o setor</h2>
       </div>
 
-      {!dataSource.length && !isLoadingFecth ? (
-        <NotFoundComponent />
-      ) : isLoadingFecth ? (
-        <SectorSkeletonLoading
-          style={{
-            display: "grid",
-            gridTemplateColumns: "1fr 1fr",
-            marginTop: "20px",
-          }}
-        />
-      ) : (
-        <ul className="sectors-list">
-          {dataSource.map((e, i) => (
-            <li key={i}>
-              <SectorCard
-                data={e}
-                onClick={(data) => {
-                  handleSelectSector(data);
-                }}
-              />
-            </li>
-          ))}
-        </ul>
-      )}
+      <section className="scroll-sec">
+        {!dataSource.length && !isLoadingFecth ? (
+          <NotFoundComponent />
+        ) : isLoadingFecth ? (
+          <SectorSkeletonLoading
+            style={{
+              display: "grid",
+              gridTemplateColumns: "1fr 1fr",
+              marginTop: "20px",
+            }}
+          />
+        ) : (
+          <ul className="sectors-list">
+            {dataSource.map((e, i) => (
+              <li key={i}>
+                <SectorCard
+                  data={e}
+                  onClick={(data) => {
+                    handleSelectSector(data);
+                  }}
+                />
+              </li>
+            ))}
+          </ul>
+        )}
+      </section>
     </ChooseSectorStepContainer>
   );
 };

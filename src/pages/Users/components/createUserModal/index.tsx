@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { CreateUserComponent } from "./styles";
 import { ModalHeader, ModalTitle } from "../../../../components/modal";
 import ButtonComponent from "../../../../components/buttons";
@@ -19,6 +19,8 @@ import PictureInput from "../../../../components/form/picture";
 import { useAuth } from "../../../../hooks/auth";
 import { AddressByCep } from "../../../../utils/addressByCep";
 import { api } from "../../../../services/api.service";
+import formatPhoneNumber from "../../../../utils/formatPhoneNumber";
+import formatCep from "../../../../utils/cepMask";
 
 export default function CreateUserModal({
   onClose,
@@ -80,8 +82,15 @@ export default function CreateUserModal({
 
   const onSubmit = handleSubmit(async () => {
     setLoading(true);
-    const { ...rest } = getDirtyFields(dirtyFields, getValues);
+    const { phone_number, cep, ...rest } = getDirtyFields(
+      dirtyFields,
+      getValues
+    );
     const formData = new FormData();
+
+    // Adiciona o número de telefone bruto ao FormData
+    formData.append("phone_number", getRawPhoneNumber(phone_number || ""));
+    formData.append("cep", getRawCep(cep || ""));
 
     const data = {
       ...rest,
@@ -113,6 +122,7 @@ export default function CreateUserModal({
         toast.success("Cadastro Atualizado!");
       } else {
         toast.success("Cadastro concluído!");
+        console.log(userData);
       }
       setLoading(false);
       onUpdate?.();
@@ -122,6 +132,26 @@ export default function CreateUserModal({
       toast.error("Ocorreu um erro, tente novamente!");
     }
   });
+
+  function getRawPhoneNumber(value: string): string {
+    return value.replace(/\D/g, "");
+  }
+
+  const handlePhoneChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+    const formattedValue = formatPhoneNumber(value);
+    setValue("phone_number", formattedValue, { shouldDirty: true });
+  };
+
+  function getRawCep(value: string): string {
+    return value.replace(/\D/g, "");
+  }
+
+  const handleCepChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+    const formattedValue = formatCep(value);
+    setValue("cep", formattedValue, { shouldDirty: true });
+  };
 
   return (
     <>
@@ -168,9 +198,9 @@ export default function CreateUserModal({
               placeholder="Digite o Cep"
               error={errors.cep?.message}
               onBlur={onSearchByCEP}
-              register={{
-                ...register("cep"),
-              }}
+              onChange={handleCepChange}
+              value={watch("cep")}
+              register={{ ...register("cep") }}
             />
             <Input
               label="Endereço"
@@ -182,6 +212,8 @@ export default function CreateUserModal({
               label="Telefone"
               placeholder="Digite DD + Telefone"
               error={errors.phone_number?.message}
+              onChange={handlePhoneChange}
+              value={watch("phone_number")}
               register={{ ...register("phone_number") }}
             />
             {!userData && (
