@@ -15,4 +15,5 @@ export interface UserModel {
   deleted_at?: Date;
   status?: boolean;
   file?: File;
+  sector_name: string;
 }

@@ -102,30 +102,6 @@ export default function CreateUserModal({
     }
   }, [emailValue, setError, clearErrors]);
 
-  function prepareData(
-    phone_number: string | undefined,
-    cep: string | undefined,
-    rest: any
-  ) {
-    const formData = new FormData();
-
-    if (phone_number) {
-      formData.append("phone_number", getRawPhoneNumber(phone_number));
-    }
-
-    if (cep) {
-      formData.append("cep", getRawCep(cep));
-    }
-
-    for (let key in rest) {
-      if (rest[key]) {
-        formData.append(key, rest[key]);
-      }
-    }
-
-    return formData;
-  }
-
   const onSubmit = handleSubmit(async () => {
     setLoading(true);
 
@@ -136,8 +112,8 @@ export default function CreateUserModal({
       );
       const formData = new FormData();
 
-      // Se userData existe, é uma atualização
       if (userData) {
+        // Atualização de usuário existente
         const dataToSend = {
           ...userData,
           phone_number: phone_number
@@ -149,18 +125,25 @@ export default function CreateUserModal({
           ...rest,
         };
 
-        for (let key in dataToSend) {
-          if (dataToSend[key]) {
-            formData.append(key, dataToSend[key]);
+        Object.entries(dataToSend).forEach(([key, value]) => {
+          if (value !== undefined && value !== null) {
+            formData.append(key, String(value));
           }
-        }
+        });
       } else {
-        // Para criação de um novo usuário
-        const manipulatedData = prepareData(phone_number, cep, rest);
+        // Criação de novo usuário
+        formData.append("phone_number", getRawPhoneNumber(phone_number || ""));
+        formData.append("cep", getRawCep(cep || ""));
 
-        for (let key in manipulatedData) {
-          formData.append(key, manipulatedData as any[typeof key]);
-        }
+        // Define o role como "Collaborator" se não houver um valor para ele
+        const role = rest.role || "Collaborator";
+        formData.append("role", role);
+
+        Object.entries(rest).forEach(([key, value]) => {
+          if (key !== "role" && value !== undefined && value !== null) {
+            formData.append(key, String(value));
+          }
+        });
       }
 
       const createUser = userData ? api.put : api.post;
@@ -178,18 +161,17 @@ export default function CreateUserModal({
             ...rest,
           });
         }
-
         toast.success("Cadastro Atualizado!");
       } else {
         toast.success("Cadastro concluído!");
       }
 
+      setLoading(false);
       onUpdate?.();
       onClose?.();
     } catch (error) {
-      toast.error("Ocorreu um erro, tente novamente!");
-    } finally {
       setLoading(false);
+      toast.error("Ocorreu um erro, tente novamente!");
     }
   });
 
@@ -275,6 +257,11 @@ export default function CreateUserModal({
               onChange={handlePhoneChange}
               value={watch("phone_number")}
               register={{ ...register("phone_number") }}
+            />
+            <Input
+              label="Setor"
+              placeholder="Digite o Setor"
+              register={{ ...register("sector_name") }}
             />
             {!userData && (
               <Input
