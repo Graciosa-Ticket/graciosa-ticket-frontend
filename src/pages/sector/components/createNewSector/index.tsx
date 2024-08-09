@@ -111,6 +111,7 @@ export default function CreateSectorModal({
               register={{ ...register("name") }}
             />
             <TextArea
+              inputStyle="secondary"
               label="Descrição"
               error={errors.description?.message}
               placeholder="Descrição"

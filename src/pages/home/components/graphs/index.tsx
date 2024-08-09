@@ -41,7 +41,7 @@ const HomeGraph = ({
 
   const { isLoading: isLoadingCreatedTicketsCounterDataByCode } =
     useFetch<number>(
-      `/ticket/count/getCreatedTickets/` + (isadmin ? "" : userSector?.code),
+      `/ticket/count/getCreatedTickets` + (isadmin ? "/" : userSector?.code),
       ["createdTicketsCounterDataByCode", isadmin, userSector?.code],
       {
         onSuccess: (createdTicketsCounterDataByCode) => {

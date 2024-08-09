@@ -46,7 +46,7 @@ export const SectorComponent = styled.button`
 
     h3 {
       ${({ theme }) => theme.font.p.medium_bold};
-      color: ${({ theme }) => theme.colors.grayscale.gray_80};
+      color: ${({ theme }) => theme.colors.brand.dark_blue};
       max-width: 150px;
       white-space: nowrap;
       text-align: left;
@@ -65,12 +65,12 @@ export const SectorComponent = styled.button`
 
     p {
       ${({ theme }) => theme.font.p.extra_small};
-      color: ${({ theme }) => theme.colors.brand.black};
+      color: ${({ theme }) => theme.colors.grayscale.gray_40};
     }
     span {
       ${({ theme }) => theme.font.p.extra_small};
       text-align: center;
-      color: ${({ theme }) => theme.colors.brand.black};
+      color: ${({ theme }) => theme.colors.grayscale.gray_40};
     }
   }
 
@@ -80,16 +80,17 @@ export const SectorComponent = styled.button`
     h6 {
       text-align: left;
       ${({ theme }) => theme.font.p.extra_small_bold};
-      color: ${({ theme }) => theme.colors.grayscale.gray_80};
+      color: ${({ theme }) => theme.colors.brand.black};
     }
     p {
       max-width: 95%;
       text-align: left;
       ${({ theme }) => theme.font.p.extra_small};
-      color: ${({ theme }) => theme.colors.grayscale.gray_80};
-      white-space: nowrap;
+      color: ${({ theme }) => theme.colors.grayscale.gray_40};
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
       overflow: hidden;
-      text-overflow: ellipsis;
     }
   }
 `;

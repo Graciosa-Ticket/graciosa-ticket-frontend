@@ -29,11 +29,10 @@ export const SectionGroupButton = styled(ButtonComponent)<groupButtonProps>`
     max-width: 80%;
     ${({ theme }) => theme.font.h4};
     font-weight: 700;
-    text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
     text-align: left;
-    color: ${({ theme }) => theme.colors.brand.black};
+    color: ${({ theme }) => theme.colors.brand.dark_blue};
   }
 
   &::after {
@@ -138,7 +137,7 @@ export const StatusGroupButton = styled(ButtonComponent)<statusButtonProps>`
   &::after {
     content: attr(data-total);
     ${({ theme }) => theme.font.p.small};
-    color: ${({ theme }) => theme.colors.grayscale.gray_80};
+    color: ${({ theme }) => theme.colors.brand.dark_blue};
     position: absolute;
     right: -20px;
   }

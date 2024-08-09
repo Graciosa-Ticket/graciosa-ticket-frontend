@@ -9,7 +9,11 @@ export const Layout = styled.section`
 
   span {
     color: ${({ theme }) => theme.colors.brand.dark_blue};
-    ${({ theme }) => theme.font.p.large};
+    ${({ theme }) => theme.font.p.normal};
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Centraliza o texto verticalmente e horizontalmente */
   }
 `;
 
@@ -58,10 +62,15 @@ const statusStyle = {
 
 export const StatusP = styled.p<StatusPProps>`
   ${({ status }) => statusStyle[status]}
-  width: max-content;
-  line-height: 1em;
-  padding: 0.4em 0.9em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40%; /* Garante que o retângulo ocupe toda a largura disponível */
+  min-width: 120px; /* Define um tamanho mínimo para manter consistência entre os elementos */
+  height: 40px; /* Define uma altura padrão para todos os retângulos */
+  padding: 0; /* Remove padding para garantir que a altura seja consistente */
   border-radius: 8px;
-  position: relative;
   color: white;
+  ${({ theme }) => theme.font.p.extra_small};
+  text-align: center; /* Centraliza o texto horizontalmente */
 `;
