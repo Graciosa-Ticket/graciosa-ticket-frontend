@@ -67,7 +67,7 @@ export const SectorComponent = styled.button`
       text-overflow: ellipsis;
       max-width: 150px;
       ${({ theme }) => theme.font.p.normal_bold};
-      color: ${({ theme }) => theme.colors.grayscale.gray_80};
+      color: ${({ theme }) => theme.colors.brand.dark_blue};
     }
   }
 
@@ -90,7 +90,7 @@ export const SectorComponent = styled.button`
     h6 {
       text-align: left;
       ${({ theme }) => theme.font.p.extra_small_bold};
-      color: ${({ theme }) => theme.colors.grayscale.gray_80};
+      color: ${({ theme }) => theme.colors.brand.dark_blue};
     }
     p {
       text-align: left;

@@ -7,7 +7,6 @@ export const ModalContentBody = styled.main`
   grid-template-columns: 500px 400px;
   grid-template-rows: 1fr;
   padding: 0 25px 25px;
-
   .img-sector {
     margin-top: 20px;
   }
@@ -80,6 +79,10 @@ export const ModalContentBody = styled.main`
     display: grid;
     grid-template-columns: 200px 1fr 1fr;
     margin-top: 20px;
+  }
+
+  .images-Section {
+    display: flow-root;
   }
 
   .comment-section {

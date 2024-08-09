@@ -11,9 +11,16 @@ export const SectorModalComponent = styled.section`
   background-color: ${({ theme }) => theme.colors.brand.white};
   transition: transform 0.2s ease-in-out;
   position: relative;
+  margin-top: 25px;
+
+  @media (max-height: 700px) {
+    overflow-y: auto;
+    max-height: 100vh;
+  }
 
   h1 {
-    ${({ theme }) => theme.font.p.medium};
+    margin-top: 15px;
+    ${({ theme }) => theme.font.p.normal};
     color: ${({ theme }) => theme.colors.brand.dark_blue};
   }
 

@@ -45,12 +45,12 @@ interface createInputProps {
   user_code: string;
   sector_code?: string;
   sector?: SectorCardModel;
-  recurrent: boolean;
-  interval: string;
-  initial_date: string;
-  final_date: string;
+  break: string;
+  start_date: Date;
+  end_date: Date;
   user: UserModel;
   files?: FileList;
+  is_recurrent: boolean;
 }
 
 export default function CreateTicketModal({
@@ -160,30 +160,32 @@ const ChooseSectorStep = ({ formProps, onChangeStep }: StepsProps) => {
         <h2>Escolha o setor</h2>
       </div>
 
-      {!dataSource.length && !isLoadingFecth ? (
-        <NotFoundComponent />
-      ) : isLoadingFecth ? (
-        <SectorSkeletonLoading
-          style={{
-            display: "grid",
-            gridTemplateColumns: "1fr 1fr",
-            marginTop: "20px",
-          }}
-        />
-      ) : (
-        <ul className="sectors-list">
-          {dataSource.map((e, i) => (
-            <li key={i}>
-              <SectorCard
-                data={e}
-                onClick={(data) => {
-                  handleSelectSector(data);
-                }}
-              />
-            </li>
-          ))}
-        </ul>
-      )}
+      <section className="scroll-sec">
+        {!dataSource.length && !isLoadingFecth ? (
+          <NotFoundComponent />
+        ) : isLoadingFecth ? (
+          <SectorSkeletonLoading
+            style={{
+              display: "grid",
+              gridTemplateColumns: "1fr 1fr",
+              marginTop: "20px",
+            }}
+          />
+        ) : (
+          <ul className="sectors-list">
+            {dataSource.map((e, i) => (
+              <li key={i}>
+                <SectorCard
+                  data={e}
+                  onClick={(data) => {
+                    handleSelectSector(data);
+                  }}
+                />
+              </li>
+            ))}
+          </ul>
+        )}
+      </section>
     </ChooseSectorStepContainer>
   );
 };
@@ -204,6 +206,12 @@ const TicketFormStep = ({ formProps, onClose, onUpdate }: StepsProps) => {
   const { user } = useAuth();
 
   const onSubmit = handleSubmit(() => {
+    const values = getValues();
+
+    if (!values.is_recurrent) {
+      formProps.setValue("is_recurrent", false, { shouldDirty: true });
+    }
+
     const { ...rest } = getDirtyFields(dirtyFields, getValues);
 
     const formData = new FormData();
@@ -213,7 +221,10 @@ const TicketFormStep = ({ formProps, onClose, onUpdate }: StepsProps) => {
       user_code: user.code,
       urgency: "Normal",
       status: "Aberto",
+      is_recurrent: true,
     };
+
+    console.log(ticketData);
 
     for (const key in ticketData) {
       if (ticketData[key]) {
@@ -382,40 +393,41 @@ const TicketMainForm = ({
     </TicketMainFormContainer>
   );
 };
-
 const TicketAdvancedOptionsForm = ({ formProps }: StepsProps) => {
   const { setValue, watch, register } = formProps;
+
+  const isRecurrent = watch("is_recurrent") || false;
 
   return (
     <FormContentContainer $columns={2}>
       <CheckBoxComponent
         id="ocurrence"
         label="Recorrente"
-        checked={watch("recurrent")}
-        onCheckedChange={(value) => setValue("recurrent", value)}
+        checked={isRecurrent}
+        onCheckedChange={(value) => setValue("is_recurrent", value)}
       />
       <div />
       <Input
         label="Início da Recorrência"
         placeholder="Início da Recorrência"
         type="datetime-local"
-        register={{ ...register("initial_date") }}
-        disabled={!watch("recurrent")}
+        register={{ ...register("start_date") }}
+        disabled={!isRecurrent}
       />
       <Input
         label="Fim da Recorrência"
         placeholder="Fim da Recorrência"
         type="datetime-local"
-        register={{ ...register("final_date") }}
-        disabled={!watch("recurrent")}
+        register={{ ...register("end_date") }}
+        disabled={!isRecurrent}
       />
       <Input
         label="Intervalo (min)"
         type="number"
         step={10}
         min={0}
-        register={{ ...register("interval") }}
-        disabled={!watch("recurrent")}
+        register={{ ...register("break") }}
+        disabled={!isRecurrent}
       />
     </FormContentContainer>
   );

@@ -41,7 +41,11 @@ export default function UserViewModal({ onClose }: modalActions<UserModel>) {
         <div className="user-info-area">
           <InputPlaceholder label="Código" value={user.code} />
           <InputPlaceholder label="Nome" value={user.name} />
-
+          <InputPlaceholder
+            label="Email"
+            value={user?.email}
+            copyText={user?.email as string}
+          />
           <InputPlaceholder
             label="Nascimento"
             value={
@@ -57,7 +61,8 @@ export default function UserViewModal({ onClose }: modalActions<UserModel>) {
           <InputPlaceholder label="CEP" value={formatCEP(user.cep as string)} />
           <InputPlaceholder
             label="Telefone/Ramal"
-            value={phoneMask(user.phone_number as string)}
+            value={phoneMask(user?.phone_number as string)}
+            copyText={user?.phone_number as string}
           />
         </div>
         {user.role !== "Administrator" && (
@@ -75,9 +80,7 @@ export default function UserViewModal({ onClose }: modalActions<UserModel>) {
         <div className="footer">
           <div />
           <div />
-          {user?.role !== "Collaborator" && (        
-            <EditUserButton data={user} />            
-          )}
+          {user?.role !== "Collaborator" && <EditUserButton data={user} />}
         </div>
       </UserComponent>
     </>

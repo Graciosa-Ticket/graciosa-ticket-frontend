@@ -70,7 +70,7 @@ export default function SectorModal({
       <SectorModalComponent>
         <SelectUsers
           label="Responsável"
-          title="Adicionar Responsável"
+          title="Alterar Responsável"
           showRemoveButton={false}
           placeholderIcon={<AiOutlineSwap />}
           defaultValue={data?.user as UserModel}

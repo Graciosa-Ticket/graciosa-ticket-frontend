@@ -7,7 +7,7 @@ export const SelectUsersContainer = styled.div`
     color: ${({ theme }) => theme.colors.brand.dark_blue};
     margin-bottom: 0.2em;
     display: block;
-    font-weight: 500;
+    margin-bottom: 10px;
   }
 
   .add-user-button-container {
@@ -24,10 +24,10 @@ export const SelectUsersContainerPlaceholder = styled.div`
   gap: 1em;
   transition: 0.3s;
   border-radius: 10px;
-  
+  background-color: ${({ theme }) => theme.colors.grayscale.gray_05};
 
   &:hover {
-    background-color: ${({ theme }) => theme.colors.grayscale.gray_05};
+    background-color: ${({ theme }) => theme.colors.grayscale.gray_20};
   }
 
   svg {
@@ -55,7 +55,7 @@ export const SearchUsersContainer = styled.section`
     ul {
       max-height: 300px;
       overflow-y: auto;
-    } 
+    }
   }
 `;
 

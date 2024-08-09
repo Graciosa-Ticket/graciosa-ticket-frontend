@@ -28,7 +28,9 @@ export const ChooseSectorStepContainer = styled.div`
     h2 {
       text-align: center;
       ${({ theme }) => theme.font.p.small};
-      color: ${({ theme }) => theme.colors.grayscale.gray_80};
+      color: ${({ theme }) => theme.colors.brand.dark_blue};
+      font-weight: 600;
+      margin-top: 30px;
     }
   }
 
@@ -37,6 +39,12 @@ export const ChooseSectorStepContainer = styled.div`
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 1em;
+    overflow-y: auto;
+    max-height: calc(100vh - 80px);
+    padding-bottom: 150px;
+    padding-top: 10px;
+    padding-right: 15px;
+    padding-left: 10px;
   }
 `;
 

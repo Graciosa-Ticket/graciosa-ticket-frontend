@@ -14,10 +14,10 @@ const primary = css`
 const secondary = css`
   ${({ theme }) => {
     return css`
-      background-color: transparent;
-      border: 1px solid ${theme.colors.grayscale.gray_90};
+      background-color: ${theme.colors.brand.white};
+      border: 1px solid ${theme.colors.grayscale.gray_30};
       ${theme.font.p.normal};
-      color: ${theme.colors.grayscale.gray_60};
+      color: ${theme.colors.brand.white};
     `;
   }}
 `;
@@ -78,10 +78,14 @@ export const InputContainer = styled.div<inputStyleProps>`
 
   .input-label {
     ${({ theme }) => theme.font.p.small};
-    color: ${({ theme }) => theme.colors.grayscale.gray_70};
+    color: ${({ $inputStyle, theme }) =>
+      $inputStyle === "secondary"
+        ? theme.colors.brand.dark_blue
+        : theme.colors.grayscale.gray_70};
     margin-bottom: 0.2em;
     display: block;
   }
+
   .error-container {
     ${({ theme }) => theme.font.p.small};
     color: ${({ theme }) => theme.colors.support.error};

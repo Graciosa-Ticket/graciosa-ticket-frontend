@@ -72,10 +72,14 @@ export const InputContainer = styled.div<inputStyleProps>`
 
   .input-label {
     ${({ theme }) => theme.font.p.small};
-    color: ${({ theme }) => theme.colors.grayscale.gray_70};
+    color: ${({ $inputStyle, theme }) =>
+      $inputStyle === "secondary"
+        ? theme.colors.brand.dark_blue
+        : theme.colors.grayscale.gray_70};
     margin-bottom: 0.2em;
     display: block;
   }
+
   .error-container {
     ${({ theme }) => theme.font.p.small};
     color: ${({ theme }) => theme.colors.support.error};
