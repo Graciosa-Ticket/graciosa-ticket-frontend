@@ -11,7 +11,10 @@ export const createUserValidation = yup.object<FormValues>().shape({
     .string()
     .required("Nome é obrigatorio")
     .min(3, "Minimo 3 caracteres"),
-  email: yup.string().email("email Invalido").required("Email é obrigatorio"),
+  email: yup
+    .string()
+    .required("Email é obrigatório")
+    .matches(/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/, "Email inválido"),
   birth_date: yup
     .date()
     .typeError("Data incorreta")
@@ -26,6 +29,7 @@ export const createUserValidation = yup.object<FormValues>().shape({
   phone_number: yup
     .string()
     .max(20, "maximo 14 caracteres")
+    .min(14, "DD+telefone é obrigatorio")
     .required("DD+telefone é obrigatorio"),
   profile_picture: yup.string().optional(),
   password: yup

@@ -38,6 +38,8 @@ export default function CreateUserModal({
     formState: { errors, dirtyFields },
     setValue,
     watch,
+    setError,
+    clearErrors,
   } = useForm<UserModel>({
     resolver: yupResolver(
       userData ? updateUserValidation : (createUserValidation as any)
@@ -80,34 +82,89 @@ export default function CreateUserModal({
     }
   };
 
-  const onSubmit = handleSubmit(async () => {
-    setLoading(true);
-    const { phone_number, cep, ...rest } = getDirtyFields(
-      dirtyFields,
-      getValues
-    );
+  // Watch the email field
+  const emailValue = watch("email");
+
+  // Validate the email field on change
+  useEffect(() => {
+    if (emailValue) {
+      createUserValidation
+        .validateAt("email", { email: emailValue })
+        .then(() => {
+          clearErrors("email");
+        })
+        .catch((error) => {
+          setError("email", {
+            type: "manual",
+            message: error.message,
+          });
+        });
+    }
+  }, [emailValue, setError, clearErrors]);
+
+  function prepareData(
+    phone_number: string | undefined,
+    cep: string | undefined,
+    rest: any
+  ) {
     const formData = new FormData();
 
-    // Adiciona o número de telefone bruto ao FormData
-    formData.append("phone_number", getRawPhoneNumber(phone_number || ""));
-    formData.append("cep", getRawCep(cep || ""));
+    if (phone_number) {
+      formData.append("phone_number", getRawPhoneNumber(phone_number));
+    }
 
-    const data = {
-      ...rest,
-      status: userData?.status || true,
-      role: rest?.role || userData?.role || "Collaborator",
-      code: userData?.code,
-    };
+    if (cep) {
+      formData.append("cep", getRawCep(cep));
+    }
 
-    for (let key in data) {
-      if (data[key]) {
-        formData.append(key, data[key]);
+    for (let key in rest) {
+      if (rest[key]) {
+        formData.append(key, rest[key]);
       }
     }
 
-    const createUser = userData ? api.put : api.post;
+    return formData;
+  }
+
+  const onSubmit = handleSubmit(async () => {
+    setLoading(true);
 
     try {
+      const { phone_number, cep, ...rest } = getDirtyFields(
+        dirtyFields,
+        getValues
+      );
+      const formData = new FormData();
+
+      // Se userData existe, é uma atualização
+      if (userData) {
+        const dataToSend = {
+          ...userData,
+          phone_number: phone_number
+            ? getRawPhoneNumber(phone_number)
+            : userData.phone_number,
+          cep: cep ? getRawCep(cep) : userData.cep,
+          role: rest.role || userData.role || "Collaborator",
+          status: userData.status || true,
+          ...rest,
+        };
+
+        for (let key in dataToSend) {
+          if (dataToSend[key]) {
+            formData.append(key, dataToSend[key]);
+          }
+        }
+      } else {
+        // Para criação de um novo usuário
+        const manipulatedData = prepareData(phone_number, cep, rest);
+
+        for (let key in manipulatedData) {
+          formData.append(key, manipulatedData as any[typeof key]);
+        }
+      }
+
+      const createUser = userData ? api.put : api.post;
+
       await createUser("/users", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
@@ -116,20 +173,23 @@ export default function CreateUserModal({
 
       if (userData) {
         if (userData.code === user.code) {
-          updateProfile(data);
+          updateProfile({
+            ...userData,
+            ...rest,
+          });
         }
 
         toast.success("Cadastro Atualizado!");
       } else {
         toast.success("Cadastro concluído!");
-        console.log(userData);
       }
-      setLoading(false);
+
       onUpdate?.();
       onClose?.();
     } catch (error) {
-      setLoading(false);
       toast.error("Ocorreu um erro, tente novamente!");
+    } finally {
+      setLoading(false);
     }
   });
 
