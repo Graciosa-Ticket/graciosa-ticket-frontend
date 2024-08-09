@@ -162,7 +162,7 @@ const TicketModal = ({
 
             <section className="images-Setion">
               <p>Anexos</p>
-              {data?.attachmentUrl?.map((url, index) => (
+              {data?.attachmentUrl?.map(() => (
                 <ImageViewer />
               ))}
             </section>
