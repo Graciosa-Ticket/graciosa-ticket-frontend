@@ -35,17 +35,20 @@ const SearchUsers = ({ onChange, selectedSector }: searchSectorProps) => {
   const sectorList = useMemo(() => {
     if (dataSource.length) {
       return dataSource
-        .filter((user) => {
+        .filter((sector) => {
           const search = watch("search");
 
-          if (user?.code?.includes(search) || user?.name?.includes(search)) {
+          if (
+            sector?.code?.includes(search) ||
+            sector?.name?.includes(search)
+          ) {
             return true;
           }
           return false;
         })
-        .filter((user) => {
+        .filter((sector) => {
           if (selectedSector) {
-            return user.code !== selectedSector.code;
+            return sector.code !== selectedSector.code;
           }
           return true;
         });

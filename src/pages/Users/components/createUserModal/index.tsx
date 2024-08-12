@@ -21,6 +21,7 @@ import { AddressByCep } from "../../../../utils/addressByCep";
 import { api } from "../../../../services/api.service";
 import formatPhoneNumber from "../../../../utils/formatPhoneNumber";
 import formatCep from "../../../../utils/cepMask";
+import SelectSector from "../../../../components/selectSector";
 
 export default function CreateUserModal({
   onClose,
@@ -112,6 +113,12 @@ export default function CreateUserModal({
       );
       const formData = new FormData();
 
+      // Handle file upload
+      const file = watch("file");
+      if (file) {
+        formData.append("file", file);
+      }
+
       if (userData) {
         // Atualização de usuário existente
         const dataToSend = {
@@ -134,10 +141,7 @@ export default function CreateUserModal({
         // Criação de novo usuário
         formData.append("phone_number", getRawPhoneNumber(phone_number || ""));
         formData.append("cep", getRawCep(cep || ""));
-
-        // Define o role como "Collaborator" se não houver um valor para ele
-        const role = rest.role || "Collaborator";
-        formData.append("role", role);
+        formData.append("role", rest.role || "Collaborator");
 
         Object.entries(rest).forEach(([key, value]) => {
           if (key !== "role" && value !== undefined && value !== null) {
@@ -147,19 +151,13 @@ export default function CreateUserModal({
       }
 
       const createUser = userData ? api.put : api.post;
-
       await createUser("/users", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
+        headers: { "Content-Type": "multipart/form-data" },
       });
 
       if (userData) {
         if (userData.code === user.code) {
-          updateProfile({
-            ...userData,
-            ...rest,
-          });
+          updateProfile({ ...userData, ...rest });
         }
         toast.success("Cadastro Atualizado!");
       } else {
@@ -258,11 +256,6 @@ export default function CreateUserModal({
               value={watch("phone_number")}
               register={{ ...register("phone_number") }}
             />
-            <Input
-              label="Setor"
-              placeholder="Digite o Setor"
-              register={{ ...register("sector_name") }}
-            />
             {!userData && (
               <Input
                 label="Senha"
@@ -285,6 +278,14 @@ export default function CreateUserModal({
               <SelectItem value="Supervisor">Supervisor</SelectItem>
               <SelectItem value="Administrator">Administrator</SelectItem>
             </Select>
+            <SelectSector
+              title="Selecione o Setor"
+              onChange={(data) => {
+                setValue("sector_name", data?.name as string, {
+                  shouldDirty: true,
+                });
+              }}
+            />
           </form>
         </div>
         <div className="button-div">

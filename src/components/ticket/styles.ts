@@ -109,7 +109,7 @@ export const TicketContainer = styled.button<ticketContainerProps>`
 
   h4 {
     ${({ theme }) => theme.font.p.normal_bold};
-    color: ${({ theme }) => theme.colors.grayscale.gray_90};
+    color: ${({ theme }) => theme.colors.brand.dark_blue};
     max-width: 150px;
     overflow: hidden;
     white-space: nowrap;

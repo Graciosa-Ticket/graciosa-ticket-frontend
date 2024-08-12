@@ -47,7 +47,7 @@ export const SelectUsersContainerPlaceholder = styled.div`
 `;
 
 export const SearchUsersContainer = styled.section`
-  width: 400px;
+  /* width: 400px; */
   padding: 8px;
 
   .search-result {

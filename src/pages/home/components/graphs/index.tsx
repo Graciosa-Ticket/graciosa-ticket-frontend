@@ -112,10 +112,10 @@ const HomeGraph = ({
           <h1>Chamados Graciosa Country Club</h1>
         </div>
         <ul className="big-numbers-list">
-          <li>
+          <div className="sl">
             <p>{createdTicketsCounterDataSource}</p>
             <span>Chamados abertos no último mês</span>
-          </li>
+          </div>
 
           <li>
             <p>{allSetorsTicketsCount}</p>

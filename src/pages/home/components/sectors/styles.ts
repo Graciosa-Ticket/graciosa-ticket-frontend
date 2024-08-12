@@ -3,6 +3,10 @@ import styled from "styled-components";
 export const SectorsHomeContainer = styled.section`
   height: 200px;
 
+  h1 {
+    ${({ theme }) => theme.font.p.large_bold};
+    color: ${({ theme }) => theme.colors.brand.dark_blue};
+  }
   .div-sector-all {
     width: 100%;
 

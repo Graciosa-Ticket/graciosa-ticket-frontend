@@ -1,18 +1,9 @@
 import styled from "styled-components";
 
 export const UserContainer = styled.section`
-  .user-header {
-    margin: 10px 0 20px;
-    display: flex;
-    align-items: center;
-    gap: 1em;
-
-    h1 {
-      ${({ theme }) => theme.font.h1};
-      font-weight: 700;
-    }
+  .search-user {
+    margin-left: 20 px;
   }
-
   .select-buttons-area {
     margin-top: 2em;
     display: flex;

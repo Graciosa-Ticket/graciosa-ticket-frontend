@@ -77,20 +77,23 @@ export const SectorComponent = styled.button`
   .description-section {
     width: 100%;
     margin-top: 1em;
+
     h6 {
       text-align: left;
       ${({ theme }) => theme.font.p.extra_small_bold};
       color: ${({ theme }) => theme.colors.brand.black};
     }
+
     p {
       max-width: 95%;
       text-align: left;
       ${({ theme }) => theme.font.p.extra_small};
       color: ${({ theme }) => theme.colors.grayscale.gray_40};
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
+      display: block;
       overflow: hidden;
+      text-overflow: ellipsis;
+      line-height: 1.5em; /* Ajuste conforme necessário */
+      max-height: 3em; /* Define a altura máxima para duas linhas de texto (1.5em * 2 linhas) */
     }
   }
 `;
