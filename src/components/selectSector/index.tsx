@@ -67,7 +67,12 @@ const SelectSector = ({
             </button>
 
             {selectedSector && showRemoveButton && (
-              <ButtonComponent buttonStyles="text" onClick={handleClearSelect}>
+              <ButtonComponent
+                buttonStyles="text"
+                buttonStylesType="outline"
+                title="remover setor"
+                onClick={handleClearSelect}
+              >
                 <FaXmark />
               </ButtonComponent>
             )}
