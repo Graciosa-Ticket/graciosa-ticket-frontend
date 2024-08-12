@@ -33,18 +33,22 @@ const SearchUsers = ({
 
   const userlist = useMemo(() => {
     if (dataSource.length) {
+      const search = watch("search");
+
+      // Cria uma expressão regular para busca case insensitive
+      const searchRegex = new RegExp(search, "i");
+
       return dataSource
         .filter((user) => {
-          const search = watch("search");
+          const code = user?.code || "";
+          const name = user?.name || "";
+          const email = user?.email || "";
 
-          if (
-            user?.code?.includes(search) ||
-            user?.name?.includes(search) ||
-            user?.email?.includes(search)
-          ) {
-            return true;
-          }
-          return false;
+          return (
+            searchRegex.test(code) ||
+            searchRegex.test(name) ||
+            searchRegex.test(email)
+          );
         })
         .filter((user) => {
           if (selectedUser) {
