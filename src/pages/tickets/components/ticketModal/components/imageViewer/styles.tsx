@@ -13,7 +13,7 @@ export const ImageViewerContainer = styled.div`
 export const Thumbnail = styled.img`
   width: 100%; /* Faz com que a imagem ocupe toda a largura da célula da grade */
   height: auto; /* Mantém a proporção da imagem */
-  border-radius: 8px; /* Opcional: adiciona bordas arredondadas */
+  border-radius: 4px; /* Opcional: adiciona bordas arredondadas */
 `;
 
 export const LoadingText = styled.p`

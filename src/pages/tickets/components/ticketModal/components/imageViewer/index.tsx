@@ -7,10 +7,8 @@ interface ImageViewerProps {
   imageUrl?: string;
 }
 
-const ImageViewer = ({
-  imageUrl = "https://cdn.wallpaper.tn/large/2K-Resolution-Wallpaper-87962.jpg",
-}: ImageViewerProps) => {
-  const [thumbnailUrl] = useState<string>(imageUrl);
+const ImageViewer = ({ imageUrl }: ImageViewerProps) => {
+  const [thumbnailUrl] = useState<string>(imageUrl as any);
   const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
 
   const openModal = () => {
@@ -28,7 +26,7 @@ const ImageViewer = ({
           <Thumbnail src={thumbnailUrl} onClick={openModal} />
 
           <CenterModal open={modalIsOpen} onOpenChange={setModalIsOpen}>
-            <ImageViewerModal imageUrl={imageUrl} onClose={closeModal} />
+            <ImageViewerModal imageUrl={imageUrl as any} onClose={closeModal} />
           </CenterModal>
         </>
       ) : (

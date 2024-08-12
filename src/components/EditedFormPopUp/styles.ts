@@ -4,6 +4,13 @@ export const EditedFormContainer = styled.div`
   min-width: 250px;
   padding: 10px 1em;
 
+  .alert-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: ${({ theme }) => theme.colors.support.warning};
+  }
+
   p {
     text-align: center;
     ${({ theme }) => theme.font.p.normal};
