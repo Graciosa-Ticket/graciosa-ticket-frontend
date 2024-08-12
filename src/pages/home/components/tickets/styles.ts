@@ -16,7 +16,7 @@ export const TicketsHomeContainer = styled.section<TicketsHomeContainerProps>`
 
     h3 {
       ${({ theme }) => theme.font.p.large_bold};
-      color: ${({ theme }) => theme.colors.grayscale.gray_90};
+      color: ${({ theme }) => theme.colors.brand.dark_blue};
     }
 
     a {
@@ -24,7 +24,7 @@ export const TicketsHomeContainer = styled.section<TicketsHomeContainerProps>`
       align-items: center;
       gap: 0.5em;
       ${({ theme }) => theme.font.p.small};
-      color: ${({ theme }) => theme.colors.grayscale.gray_90};
+      color: ${({ theme }) => theme.colors.grayscale.gray_50};
       text-decoration: none;
     }
   }

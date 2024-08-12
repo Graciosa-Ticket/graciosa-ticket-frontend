@@ -24,7 +24,9 @@ export default function MenuHeader() {
       </Modal>
       <MenuHeaderHome>
         <div className="left-side">
-          <img src={Logo} alt="" />
+          <NavLink to="/home">
+            <img src={Logo} alt="Logo" title="Home" />
+          </NavLink>
         </div>
 
         <nav className="menu">
@@ -32,12 +34,14 @@ export default function MenuHeader() {
             <NavLink
               to={user.role !== "Collaborator" ? "/home" : "/chamados"}
               className={({ isActive }) => (isActive ? "active-button" : "")}
+              title="Home"
             >
               {user.role !== "Collaborator" ? "Inicio" : "Chamados"}
             </NavLink>
             {user.role !== "Collaborator" && (
               <>
                 <NavLink
+                  title="Chamados"
                   to={"/chamados"}
                   className={({ isActive }) =>
                     isActive ? "active-button" : ""
@@ -49,6 +53,7 @@ export default function MenuHeader() {
                 {user.role !== "Supervisor" && (
                   <>
                     <NavLink
+                      title="Setores"
                       to={"/setor"}
                       className={({ isActive }) =>
                         isActive ? "active-button" : ""
@@ -58,6 +63,7 @@ export default function MenuHeader() {
                     </NavLink>
 
                     <NavLink
+                      title="Usuarios"
                       to={"/users"}
                       className={({ isActive }) =>
                         isActive ? "active-button" : ""
@@ -70,6 +76,7 @@ export default function MenuHeader() {
               </>
             )}
             <NavLink
+              title="Configuração"
               to={"/config"}
               className={({ isActive }) => (isActive ? "active-button" : "")}
             >
@@ -110,6 +117,7 @@ const UserCaller = () => {
         </>
       </Modal>
       <UserCallerContainer
+        title="Seu Perfil"
         buttonStyles="text"
         onClick={() => setOpenModal(true)}
       >
@@ -167,7 +175,7 @@ const AddNewTicketButton = ({ onUpdate }: modalActions) => {
           onSetEditedData={setHasEditedData}
         />
       </Modal>
-      <ButtonComponent title="Cadastrar Novo Ticket" onClick={handleOpenModal}>
+      <ButtonComponent title="Novo Ticket" onClick={handleOpenModal}>
         <FaPlus />
       </ButtonComponent>
     </>

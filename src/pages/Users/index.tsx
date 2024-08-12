@@ -64,6 +64,15 @@ export default function User() {
         <PageHeaderComponent.container>
           <PageHeaderComponent.title>Usuários</PageHeaderComponent.title>
           <AddNewButton onUpdate={refetch} />
+
+          <div className="search-user">
+            <SelectUsers
+              title="Buscar Usuario"
+              onChange={handleUserSelect}
+              filterCollaborators={false}
+              showPicturePlaceholder={false}
+            />
+          </div>
         </PageHeaderComponent.container>
 
         <div className="select-buttons-area">
@@ -88,15 +97,6 @@ export default function User() {
           >
             Colaboradores
           </ButtonComponent>
-
-          <div className="search-user">
-            <SelectUsers
-              title="Buscar Usuario"
-              onChange={handleUserSelect}
-              filterCollaborators={false}
-              showPicturePlaceholder={false}
-            />
-          </div>
         </div>
 
         <div className="user-cards">

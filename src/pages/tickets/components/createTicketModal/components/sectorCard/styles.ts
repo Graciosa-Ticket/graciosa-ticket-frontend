@@ -87,15 +87,21 @@ export const SectorComponent = styled.button`
   .description-section {
     width: 100%;
     margin-top: 1em;
+
     h6 {
       text-align: left;
       ${({ theme }) => theme.font.p.extra_small_bold};
       color: ${({ theme }) => theme.colors.brand.dark_blue};
+      max-width: 300px; /* Define o limite máximo de largura */
+      overflow-wrap: break-word; /* Garante que o texto quebre em palavras longas */
     }
+
     p {
       text-align: left;
       ${({ theme }) => theme.font.p.extra_small};
       color: ${({ theme }) => theme.colors.grayscale.gray_80};
+      max-width: 300px; /* Define o limite máximo de largura */
+      overflow-wrap: break-word; /* Garante que o texto quebre em palavras longas */
     }
   }
 `;

@@ -37,7 +37,7 @@ export const MenuHeaderHome = styled.header`
 
     a {
       text-decoration: none;
-      color: ${({ theme }) => theme.colors.brand.black};
+      color: ${({ theme }) => theme.colors.grayscale.gray_60};
       ${({ theme }) => theme.font.p.small};
       padding: 10px;
       border-radius: 8px;

@@ -13,6 +13,7 @@ import TableComponent from "../table";
 import { TypeColumn } from "@inovua/reactdatagrid-community/types";
 import { format } from "date-fns";
 import { FaAngleRight } from "react-icons/fa";
+import Avatar from "../../../../components/Avatar";
 
 interface adminTicketProps {
   tickets: TicketModel[];
@@ -107,8 +108,16 @@ const columns: TypeColumn[] = [
   },
   {
     name: "title",
-    header: "Tìtulo",
-    render: ({ value }) => <b>{value}</b>,
+    header: "Título",
+    render: ({ value }) => (
+      <b
+        style={{
+          color: "#012648",
+        }}
+      >
+        {value}
+      </b>
+    ),
   },
   {
     name: "description",
@@ -119,14 +128,28 @@ const columns: TypeColumn[] = [
     name: "created_at",
     header: "Dt. abertura",
     render: ({ value }) =>
-      value ? format(value as Date, "dd/MM/yyyy 'ás' HH'h'mm") : "",
+      value ? format(value as Date, "dd/MM/yyyy 'às' HH'h'mm") : "",
   },
   {
     name: "user",
     header: "Usuário",
     render: ({ value }) => {
       const name = value?.name || "Sem usuário";
-      return name.length > 12 ? `${name.substring(0, 10)}...` : name;
+      const profilePicture = value?.profile_picture; // Acessa a imagem de perfil
+
+      return (
+        <div style={{ display: "flex", alignItems: "center" }}>
+          {profilePicture && (
+            <Avatar
+              src={profilePicture}
+              style={{ width: 20, height: 20, marginRight: 4 }} // Espaço entre a imagem e o texto
+            />
+          )}
+          <span title={name}>
+            {name.length > 12 ? `${name.substring(0, 10)}...` : name}
+          </span>
+        </div>
+      );
     },
   },
   {
@@ -135,6 +158,7 @@ const columns: TypeColumn[] = [
     render: ({ value }) => (
       <StatusSpanTable $status={value}>{value}</StatusSpanTable>
     ),
+    width: 200,
   },
 ];
 

@@ -21,14 +21,15 @@ export const HomeGraphContainer = styled.section`
   .big-numbers {
     .section-header {
       h1 {
-        ${({ theme }) => theme.font.h1};
-        color: ${({ theme }) => theme.colors.grayscale.gray_90};
+        ${({ theme }) => theme.font.h2};
+        color: ${({ theme }) => theme.colors.brand.dark_blue};
         font-weight: 700;
+        margin-left: 50px;
       }
     }
 
     .big-numbers-list {
-      margin-top: 2em;
+      margin-top: 1em;
       display: flex;
       gap: 2em;
       align-items: center;
@@ -42,13 +43,48 @@ export const HomeGraphContainer = styled.section`
         max-width: 150px;
 
         p {
-          ${({ theme }) => theme.font.p.large_bold};
-          color: ${({ theme }) => theme.colors.grayscale.gray_90};
+          ${({ theme }) => theme.font.h3};
+          color: ${({ theme }) => theme.colors.brand.dark_blue};
+          font-weight: 700;
+          text-align: center; /* Centraliza os números */
+          line-height: 1; /* Alinha melhor o texto numerico */
         }
 
         span {
           ${({ theme }) => theme.font.p.small};
-          color: ${({ theme }) => theme.colors.grayscale.gray_90};
+          color: ${({ theme }) => theme.colors.brand.dark_blue};
+          text-align: center; /* Centraliza o texto */
+          display: inline-block;
+          max-width: 100%; /* Garante que o texto respeite a largura do contêiner */
+          overflow-wrap: break-word; /* Permite quebra de linha em palavras longas */
+          white-space: pre-wrap; /* Mantém os espaços em branco e quebras de linha */
+        }
+      }
+
+      .sl {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        max-width: 150px;
+        margin-top: 20px;
+
+        p {
+          ${({ theme }) => theme.font.h3};
+          color: ${({ theme }) => theme.colors.brand.dark_blue};
+          font-weight: 700;
+          text-align: center; /* Centraliza os números */
+          line-height: 1; /* Alinha melhor o texto numerico */
+        }
+
+        span {
+          ${({ theme }) => theme.font.p.small};
+          color: ${({ theme }) => theme.colors.brand.dark_blue};
+          text-align: center; /* Centraliza o texto */
+          display: inline-block;
+          max-width: 100%; /* Garante que o texto respeite a largura do contêiner */
+          overflow-wrap: break-word; /* Permite quebra de linha em palavras longas */
+          white-space: pre-wrap; /* Mantém os espaços em branco e quebras de linha */
         }
       }
     }
