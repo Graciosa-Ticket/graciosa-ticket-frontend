@@ -208,24 +208,28 @@ const TicketFormStep = ({ formProps, onClose, onUpdate }: StepsProps) => {
   const onSubmit = handleSubmit(() => {
     const values = getValues();
 
-    if (!values.is_recurrent) {
-      formProps.setValue("is_recurrent", false, { shouldDirty: true });
-    }
+    // Garantir que o valor de is_recurrent seja um booleano
+    const isRecurrent = values.is_recurrent || false;
+
+    // Atualiza o valor de is_recurrent no formulário se necessário
+    formProps.setValue("is_recurrent", isRecurrent, { shouldDirty: true });
 
     const { ...rest } = getDirtyFields(dirtyFields, getValues);
 
     const formData = new FormData();
 
+    // Cria o objeto ticketData com a propriedade is_recurrent corretamente definida
     const ticketData = {
       ...rest,
       user_code: user.code,
       urgency: "Normal",
       status: "Aberto",
-      is_recurrent: true,
+      is_recurrent: isRecurrent,
     };
 
     console.log(ticketData);
 
+    // Adiciona os dados ao FormData
     for (const key in ticketData) {
       if (ticketData[key]) {
         if (key === "files") {
@@ -238,6 +242,7 @@ const TicketFormStep = ({ formProps, onClose, onUpdate }: StepsProps) => {
       }
     }
 
+    // Envia os dados do formulário
     createTicket(formData, {
       onSuccess: () => {
         toast.success("Chamado Cadastrado!");
@@ -425,7 +430,7 @@ const TicketAdvancedOptionsForm = ({ formProps }: StepsProps) => {
         label="Intervalo (min)"
         type="number"
         step={10}
-        min={0}
+        min={30}
         register={{ ...register("break") }}
         disabled={!isRecurrent}
       />

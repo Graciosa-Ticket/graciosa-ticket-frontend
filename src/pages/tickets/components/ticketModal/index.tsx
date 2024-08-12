@@ -49,7 +49,7 @@ const TicketModal = ({
   });
 
   const { mutate: updateTicket, isLoading: isLoadingUpdate } = useMutationQuery(
-    "/ticket",
+    "/ticket/setStatus",
     "put"
   );
 
@@ -162,8 +162,11 @@ const TicketModal = ({
 
             <section className="images-Setion">
               <p>Anexos</p>
-              {data?.attachmentUrl?.map(() => (
-                <ImageViewer />
+              {data?.attachmentUrl?.map((attachment, index) => (
+                <ImageViewer
+                  key={index} // Usar o index como chave para a lista
+                  imageUrl={attachment} // Ajuste conforme o formato dos URLs
+                />
               ))}
             </section>
           </section>

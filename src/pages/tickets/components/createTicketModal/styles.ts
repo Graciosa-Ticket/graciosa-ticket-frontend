@@ -24,6 +24,11 @@ to{
 export const ChooseSectorStepContainer = styled.div`
   animation: 0.3s ${fadeInLeft} linear;
 
+  @media (max-height: 950px) {
+    overflow-y: auto;
+    max-height: 60vh;
+  }
+
   .header {
     h2 {
       text-align: center;
@@ -68,6 +73,11 @@ export const TicketFormContainer = styled.div`
   transform-origin: right;
   animation: 0.3s ${fadeInRight} linear;
 
+  @media (max-height: 650px) {
+    overflow-y: auto;
+    max-height: 100vh;
+  }
+
   .content {
     h2 {
       text-align: center;
@@ -97,7 +107,7 @@ export const TicketFormContainer = styled.div`
 export const TicketMainFormContainer = styled(FormContentContainer)`
   .file-input-container {
     min-height: 300px;
-    color: ${({ theme }) => theme.colors.grayscale.gray_80};
+    color: ${({ theme }) => theme.colors.grayscale.gray_50};
     border-radius: 0.5em;
     display: flex;
     flex-direction: column;
@@ -106,7 +116,7 @@ export const TicketMainFormContainer = styled(FormContentContainer)`
       margin-top: 5px;
       margin-left: 2px;
       margin-bottom: 5px;
-      color: ${({ theme }) => theme.colors.grayscale.gray_80};
+      color: ${({ theme }) => theme.colors.grayscale.gray_50};
       ${({ theme }) => theme.font.p.normal};
       font-weight: 500;
     }
@@ -120,7 +130,7 @@ export const TicketMainFormContainer = styled(FormContentContainer)`
       border-radius: 0.5em;
       padding: 8px;
       cursor: pointer;
-      color: ${({ theme }) => theme.colors.grayscale.gray_80};
+      color: ${({ theme }) => theme.colors.grayscale.gray_50};
       ${({ theme }) => theme.font.p.normal};
       width: 50%;
       margin-top: 2px;
@@ -128,7 +138,7 @@ export const TicketMainFormContainer = styled(FormContentContainer)`
       text-align: center;
 
       &:hover {
-        background-color: ${({ theme }) => theme.colors.grayscale.gray_80};
+        background-color: ${({ theme }) => theme.colors.grayscale.gray_50};
         color: ${({ theme }) => theme.colors.brand.white};
         transition: background-color 0.3s ease;
       }
@@ -138,7 +148,7 @@ export const TicketMainFormContainer = styled(FormContentContainer)`
       width: 80%;
       max-height: 250px;
       padding: 0.8em 0.8em;
-      color: ${({ theme }) => theme.colors.grayscale.gray_80};
+      color: ${({ theme }) => theme.colors.grayscale.gray_50};
       ${({ theme }) => theme.font.p.normal};
       border-radius: 0.5em;
       border: 1px solid;
@@ -155,16 +165,16 @@ export const TicketMainFormContainer = styled(FormContentContainer)`
       padding: 0.4em;
 
       p {
-        color: ${({ theme }) => theme.colors.grayscale.gray_80};
+        color: ${({ theme }) => theme.colors.grayscale.gray_50};
         ${({ theme }) => theme.font.p.normal};
       }
 
       .remove-icon {
-        color: ${({ theme }) => theme.colors.grayscale.gray_80};
+        color: ${({ theme }) => theme.colors.grayscale.gray_50};
         cursor: pointer;
 
         &:hover {
-          background-color: ${({ theme }) => theme.colors.grayscale.gray_80};
+          background-color: ${({ theme }) => theme.colors.grayscale.gray_50};
           color: ${({ theme }) => theme.colors.brand.white};
           transition: background-color 0.3s ease;
         }

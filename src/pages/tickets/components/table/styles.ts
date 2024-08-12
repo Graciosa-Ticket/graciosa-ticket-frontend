@@ -17,7 +17,7 @@ export const TableContainer = styled.div`
 
       .InovuaReactDataGrid__column-header__content {
         ${({ theme }) => theme.font.p.extra_small};
-        color: ${({ theme }) => theme.colors.grayscale.gray_70};
+        color: ${({ theme }) => theme.colors.grayscale.gray_80};
       }
     }
 
@@ -30,7 +30,7 @@ export const TableContainer = styled.div`
 
       .InovuaReactDataGrid__cell__content {
         ${({ theme }) => theme.font.p.small};
-        color: ${({ theme }) => theme.colors.brand.black};
+        color: ${({ theme }) => theme.colors.grayscale.gray_90};
       }
     }
   }
