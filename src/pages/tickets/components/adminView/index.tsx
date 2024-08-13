@@ -146,7 +146,7 @@ const columns: TypeColumn[] = [
         <div style={{ display: "flex", alignItems: "center" }}>
           {profilePicture && (
             <Avatar
-              src={profilePicture}
+              src={`profile-picture/${value?.code}/regularSize_${value?.profile_picture}`}
               style={{ width: 20, height: 20, marginRight: 4 }} // Espaço entre a imagem e o texto
             />
           )}
