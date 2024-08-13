@@ -4,6 +4,11 @@ export const SupportModalComponent = styled.section`
   gap: 20px;
   padding: 20px;
 
+  @media (max-height: 650px) {
+    overflow-y: auto;
+    max-height: 60vh;
+  }
+
   span {
     display: block;
     ${({ theme }) => theme.font.p.medium};

@@ -5,6 +5,10 @@ export const TicketModalComponent = styled.div`
   max-width: 50vw;
   padding: 1em;
   height: 100%;
+  @media (max-height: 850px) {
+    max-height: 200vh; /* Limite a altura do modal a 90% da viewport */
+    overflow-y: auto; /* Adicione rolagem vertical se necessário */
+  }
 `;
 
 const fadeInLeft = keyframes`
@@ -23,11 +27,6 @@ to{
 
 export const ChooseSectorStepContainer = styled.div`
   animation: 0.3s ${fadeInLeft} linear;
-
-  @media (max-height: 950px) {
-    overflow-y: auto;
-    max-height: 60vh;
-  }
 
   .header {
     h2 {
@@ -79,15 +78,23 @@ export const TicketFormContainer = styled.div`
   }
 
   .content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     h2 {
       text-align: center;
-      ${({ theme }) => theme.font.p.normal_bold};
-      color: ${({ theme }) => theme.colors.grayscale.gray_80};
+      ${({ theme }) => theme.font.p.normal};
+      color: ${({ theme }) => theme.colors.brand.dark_blue};
+      font-weight: 700;
     }
     p {
+      margin-top: 10px;
       text-align: center;
       ${({ theme }) => theme.font.p.small};
       color: ${({ theme }) => theme.colors.grayscale.gray_80};
+      max-width: 350px;
+      overflow-wrap: break-word;
     }
   }
 

@@ -136,7 +136,10 @@ const SelectedUserContainer = ({
   return (
     <SelectUsersContainerPlaceholder>
       {showPicturePlaceholder && (
-        <Avatar src={data.profile_picture} className="avatar-img" />
+        <Avatar
+          src={`profile-picture/${data?.code}/regularSize_${data?.profile_picture}`}
+          className="avatar-img"
+        />
       )}
       <span className="selected-user-span">{data.name}</span>
     </SelectUsersContainerPlaceholder>

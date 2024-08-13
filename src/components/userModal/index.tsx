@@ -35,7 +35,11 @@ export default function UserViewModal({ onClose }: modalActions<UserModel>) {
       </ModalHeader>
       <UserComponent>
         <div className="img-sector">
-          <Avatar src={user?.profile_picture} alt="" className="user-avatar" />
+          <Avatar
+            src={`profile-picture/${user.code}/regularSize_${user?.profile_picture}`}
+            alt=""
+            className="user-avatar"
+          />
         </div>
         <h3 className="user-info-title">informações Pessoais</h3>
         <div className="user-info-area">

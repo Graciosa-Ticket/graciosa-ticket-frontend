@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const FaqModalComponent = styled.section`
+export const PasswordChangeRequestModalComponent = styled.section`
   gap: 20px;
   padding: 20px;
 

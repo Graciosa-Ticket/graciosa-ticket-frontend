@@ -8,6 +8,7 @@ export const AdminTicketViewContainer = styled.section`
   .section-group-header {
     border-bottom: 1px solid ${({ theme }) => theme.colors.grayscale.gray_10};
     padding-bottom: 0.4em;
+    margin-top: 20px;
   }
 
   .tickets-list {
@@ -26,7 +27,7 @@ export const SectionGroupButton = styled(ButtonComponent)<groupButtonProps>`
   justify-content: flex-start;
 
   span {
-    max-width: 80%;
+    max-width: 100%;
     ${({ theme }) => theme.font.h4};
     font-weight: 700;
     overflow: hidden;

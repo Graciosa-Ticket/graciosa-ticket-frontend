@@ -9,7 +9,7 @@ interface sectorCardProps {
 
 export default function SectorCard({ data, onClick }: sectorCardProps) {
   return (
-    <SectorComponent onClick={() => onClick(data)}>
+    <SectorComponent onClick={() => onClick(data)} title={data?.name}>
       <div className="header-sector">
         <h3>{data?.name}</h3>
         <div className="user-container">

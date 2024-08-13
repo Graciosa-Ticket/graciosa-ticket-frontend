@@ -24,7 +24,7 @@ export const SectorModalComponent = styled.section`
     gap: 10px; /* Adiciona espaço entre os itens */
   }
 
-  .p-button {
+  .arrows-button {
     display: flex;
     align-items: center; /* Alinha o conteúdo interno verticalmente no centro */
     justify-content: center; /* Alinha o conteúdo interno horizontalmente no centro */
@@ -38,10 +38,10 @@ export const SectorModalComponent = styled.section`
     ${({ theme }) => theme.font.p.extra_small};
   }
 
-  .p-button svg {
+  .arrows-button svg {
     transform: rotate(90deg); /* Gira o ícone em 90 graus */
-    transition: transform 0.2s ease-in-out; /* Suaviza a transição de rotação */
   }
+
   h1 {
     margin-top: 15px;
     ${({ theme }) => theme.font.p.small};

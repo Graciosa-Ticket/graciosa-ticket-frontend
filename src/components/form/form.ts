@@ -24,4 +24,13 @@ export const FormButtonsContainer = styled.div<formContentProps>`
   display: grid;
   grid-template-columns: ${({ $columns = 1 }) => `repeat(${$columns}, 1fr)`};
   gap: 1em;
+  margin-bottom: 10px;
+  margin-right: 10px;
+
+  .cancel-button {
+    color: ${({ theme }) => theme.colors.brand.black};
+    &:hover {
+      color: white;
+    }
+  }
 `;

@@ -206,7 +206,7 @@ export default function CreateUserModal({
       <CreateUserComponent>
         <div className="img-sector">
           <PictureInput
-            defaultUrl={userData?.profile_picture}
+            defaultUrl={`profile-picture/${userData?.code}/regularSize_${userData?.profile_picture}`}
             onChangeImage={handleImageChange}
           />
         </div>

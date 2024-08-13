@@ -34,7 +34,7 @@ export default function SectorCard({
           <div className="user-container">
             {/* <span>{data?.user?.name}</span> */}
             <Avatar
-              src={data?.user?.profile_picture}
+              src={`profile-picture/${data?.user.code}/minSize_${data?.user.profile_picture}`}
               style={{ width: 30, height: 30 }}
             />
           </div>

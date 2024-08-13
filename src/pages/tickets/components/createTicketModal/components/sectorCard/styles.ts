@@ -92,7 +92,7 @@ export const SectorComponent = styled.button`
       text-align: left;
       ${({ theme }) => theme.font.p.extra_small_bold};
       color: ${({ theme }) => theme.colors.brand.dark_blue};
-      max-width: 300px; /* Define o limite máximo de largura */
+      max-width: 250px; /* Define o limite máximo de largura */
       overflow-wrap: break-word; /* Garante que o texto quebre em palavras longas */
     }
 
@@ -100,7 +100,7 @@ export const SectorComponent = styled.button`
       text-align: left;
       ${({ theme }) => theme.font.p.extra_small};
       color: ${({ theme }) => theme.colors.grayscale.gray_80};
-      max-width: 300px; /* Define o limite máximo de largura */
+      max-width: 250px; /* Define o limite máximo de largura */
       overflow-wrap: break-word; /* Garante que o texto quebre em palavras longas */
     }
   }

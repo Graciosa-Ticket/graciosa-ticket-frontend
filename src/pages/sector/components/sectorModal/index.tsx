@@ -78,13 +78,14 @@ export default function SectorModal({
             defaultValue={data?.user as UserModel}
             onChange={handleChangeUser}
           />
-          <p className="p-button">
+          <p className="arrows-button">
             <FaArrowRightArrowLeft /> Substituir
           </p>
         </div>
 
         <h1>Chamados do Setor</h1>
         <SectorTicketsDisplay data={data} />
+
         <div className="footer">
           <div />
 
