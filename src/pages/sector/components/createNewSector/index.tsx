@@ -104,14 +104,12 @@ export default function CreateSectorModal({
             />
 
             <Input
-              inputStyle="primary"
               label="Nome do Setor"
               placeholder="Digite o Nome do Setor"
               error={errors.name?.message}
               register={{ ...register("name") }}
             />
             <TextArea
-              inputStyle="primary"
               label="Descrição"
               error={errors.description?.message}
               placeholder="Limite de 80 Caracteres"

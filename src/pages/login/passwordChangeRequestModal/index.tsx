@@ -1,64 +1,94 @@
-// import { AiOutlineClose } from "react-icons/ai";
-// import ButtonComponent from "../../../components/buttons";
-// import { ModalHeader, ModalTitle } from "../../../components/modal";
-// import { modalActions } from "../../../shared/global.interface";
-// import { PasswordChangeRequestModalComponent } from "./styles";
-// import { TicketModel } from "../../../models/ticket";
+import { AiOutlineClose } from "react-icons/ai";
+import ButtonComponent from "../../../components/buttons";
+import { ModalHeader, ModalTitle } from "../../../components/modal";
+import { modalActions } from "../../../shared/global.interface";
+import { PasswordChangeRequestModalComponent } from "./styles";
+import Input from "../../../components/form/input";
+import { useForm } from "react-hook-form";
+import { useMutationQuery } from "../../../services/hooks/useMutationQuery";
+import { toast } from "sonner";
+import {
+  FormButtonsContainer,
+  FormContainer,
+  FormContentContainer,
+} from "../../../components/form/form";
 
-// export default function PasswordChangeRequestModal({
-//   onClose,
-//   data: ticketData,
-// }: modalActions<TicketModel>) {
+interface PasswordChangeRequestModalProps {
+  user_code: string;
+  email: string;
+}
 
-//   return (
-//     <>
-//       <ModalHeader>
-//         <div className="left-side">
-//           <ModalTitle>Esqueceu sua senha ?</ModalTitle>
-//         </div>
-//         <div className="right-side">
-//           <ButtonComponent buttonStyles="text" title="Fechar" onClick={onClose}>
-//             <AiOutlineClose fontSize="1em" />
-//           </ButtonComponent>
-//         </div>
-//       </ModalHeader>
+export default function PasswordChangeRequestModal({
+  onClose,
+}: modalActions<PasswordChangeRequestModalProps>) {
+  const { handleSubmit, register } = useForm({});
 
-//       <PasswordChangeRequestModalComponent>
-//         <h2>O que é o nosso sistema de abertura de chamados?</h2>
-//         <p>
-//           Nosso software é uma solução completa para gerenciamento de chamados,
-//           permitindo que você registre, acompanheKKk e resolva problemas de
-//           maneira rápida e eficiente.
-//         </p>
+  const { mutate: createFeedback, isLoading: isLoadingFeedback } =
+    useMutationQuery("/feedback");
 
-//         <h2>Como faço para abrir um chamado?</h2>
-//         <p>
-//           Basta acessar a tela inicial do sistema, selecionar "Novo Chamado",
-//           escolher o setor para qual área o chamado será destinado, em seguida
-//           preencher os campos de título, descrição e, caso necessário, adicionar
-//           um anexo. Em seguida, o time responsável receberá a solicitação e
-//           iniciará o atendimento.
-//         </p>
+  const onSubmit = handleSubmit((data) => {
+    createFeedback(data, {
+      onSuccess: () => {
+        toast.success("Obrigado pela sugestão");
+        onClose?.();
+      },
+      onError: () => {},
+    });
+    console.log(data);
+  });
 
-//         <h2>Posso acompanhar o status dos meus chamados?</h2>
-//         <p>
-//           Sim! Você pode visualizar o status de todos os seus chamados, além de
-//           receber notificações sobre atualizações e resoluções.
-//         </p>
+  return (
+    <>
+      <ModalHeader>
+        <div className="left-side">
+          <ModalTitle>Esqueceu sua senha ?</ModalTitle>
+        </div>
+        <div className="right-side">
+          <ButtonComponent buttonStyles="text" title="Fechar" onClick={onClose}>
+            <AiOutlineClose fontSize="1em" />
+          </ButtonComponent>
+        </div>
+      </ModalHeader>
 
-//         <h2>Quem pode utilizar o sistema?</h2>
-//         <p>
-//           O sistema é acessível para todos os membros autorizados do Clube
-//           Graciosa.
-//         </p>
+      <PasswordChangeRequestModalComponent>
+        <FormContainer onSubmit={onSubmit}>
+          <FormContentContainer>
+            <Input
+              label="Código de Usuário"
+              placeholder="Informe código de usuário"
+              //   error={errors.user_code?.message}
+              {...register("user_code", {
+                required: "Código de usuário é obrigatório",
+              })}
+            />
+            <Input
+              label="Email"
+              placeholder="Informe email"
+              //   error={errors.email?.message}
+              {...register("email", {
+                required: "Email é obrigatório",
+                pattern: {
+                  value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                  message: "Email inválido",
+                },
+              })}
+            />
+          </FormContentContainer>
 
-//         <h2>Como entro em contato com o suporte técnico?</h2>
-//         <p>
-//           Você pode abrir um chamado de suporte diretamente no sistema ou entrar
-//           em contato através dos canais de atendimento disponíveis na seção de
-//           suporte.
-//         </p>
-//       </PasswordChangeRequestModalComponent>
-//     </>
-//   );
-// }
+          <FormButtonsContainer $columns={2}>
+            <div />
+            <ButtonComponent
+              type="submit"
+              buttonStyles="confirm"
+              title="Solicitar nova senha"
+              className="confirm-btn"
+              isLoading={isLoadingFeedback}
+            >
+              sim, Solicitar
+            </ButtonComponent>
+          </FormButtonsContainer>
+        </FormContainer>
+      </PasswordChangeRequestModalComponent>
+    </>
+  );
+}
