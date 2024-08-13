@@ -25,11 +25,11 @@ export default function SuggestionsModal({
   const { handleSubmit, register } = useForm({});
 
   const onSubmit = handleSubmit((data) => {
-    const { suggestion } = data;
+    const { comment } = data;
 
     const suggestionData = {
       userCode: user.code,
-      suggestion: suggestion,
+      comment: comment,
     };
 
     console.log(suggestionData);
@@ -58,9 +58,10 @@ export default function SuggestionsModal({
         <FormContainer onSubmit={onSubmit}>
           <FormContentContainer>
             <TextArea
-              placeholder="Escreva sua sugestão"
+              placeholder="deixe sua sugestão aqui.
+As sugestões são realizadas de forma anônima, fique tranquilo."
               rows={5}
-              register={{ ...register("suggestion") }}
+              register={{ ...register("comment") }}
             />
           </FormContentContainer>
           <FormButtonsContainer $columns={2}>

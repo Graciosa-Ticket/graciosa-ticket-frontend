@@ -56,7 +56,11 @@ const TicketUserCard = ({ data }: ticketUserCardProps) => {
         onClick={onOpenModal}
         isLoading={loading}
       >
-        <Avatar src={data?.profile_picture} alt="" className="user-avatar" />
+        <Avatar
+          src={`profile-picture/${user.code}/minSize_${user?.profile_picture}`}
+          alt=""
+          className="user-avatar"
+        />
         <span>{data?.name?.slice(0, 10) + "."}</span>
       </TicketUserButton>
     </>

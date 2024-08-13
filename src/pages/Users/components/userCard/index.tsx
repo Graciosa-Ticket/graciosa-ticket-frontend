@@ -15,7 +15,6 @@ interface UserCardProps {
 }
 
 const UserCard = ({ data, refetch }: UserCardProps) => {
-  
   const [open, setOpen] = useState(false);
   const { user } = useAuth();
 
@@ -47,7 +46,11 @@ const UserCard = ({ data, refetch }: UserCardProps) => {
           <StatusComponent status={!data?.deleted_at} />
         </div>
         <div className="header-container">
-          <Avatar src={data?.profile_picture} alt="" className="user-avatar" />
+          <Avatar
+            src={`profile-picture/${data?.code}/regularSize_${data?.profile_picture}`}
+            alt=""
+            className="user-avatar"
+          />
         </div>
         <div className="userdata-container">
           <h5>{data.name.slice(0, 10) + "."}</h5>

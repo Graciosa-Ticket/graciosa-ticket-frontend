@@ -75,7 +75,11 @@ export default function UserModal({
 
       <UserComponent>
         <div className="img-sector">
-          <Avatar src={data?.profile_picture} alt="" className="user-avatar" />
+          <Avatar
+            src={`profile-picture/${data?.code}/regularSize_${data?.profile_picture}`}
+            alt=""
+            className="user-avatar"
+          />
         </div>
         <h3 className="user-info-title">informações Pessoais</h3>
         <div className="user-info-area">

@@ -289,8 +289,9 @@ const TicketFormStep = ({ formProps, onClose, onUpdate }: StepsProps) => {
             {viewAdvancedOptions ? "Voltar" : "Avançado"}
           </ButtonComponent>
           <ButtonComponent
+            className="cancel-button"
             buttonStylesType="outline"
-            buttonStyles="text"
+            buttonStyles="delete"
             title="Cancelar criação de chamado"
             onClick={onClose}
           >

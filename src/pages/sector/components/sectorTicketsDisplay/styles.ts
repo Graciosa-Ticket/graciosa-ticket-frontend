@@ -6,6 +6,7 @@ export const Layout = styled.section`
   grid-template-columns: 1fr 25px;
   margin-top: 10px;
   gap: 4px;
+  margin-bottom: 20px;
 
   span {
     color: ${({ theme }) => theme.colors.brand.dark_blue};

@@ -14,6 +14,7 @@ import { TypeColumn } from "@inovua/reactdatagrid-community/types";
 import { format } from "date-fns";
 import { FaAngleRight } from "react-icons/fa";
 import Avatar from "../../../../components/Avatar";
+import { useTheme } from "styled-components";
 
 interface adminTicketProps {
   tickets: TicketModel[];
@@ -109,15 +110,19 @@ const columns: TypeColumn[] = [
   {
     name: "title",
     header: "Título",
-    render: ({ value }) => (
-      <b
-        style={{
-          color: "#012648",
-        }}
-      >
-        {value}
-      </b>
-    ),
+    render: ({ value }) => {
+      const theme = useTheme();
+
+      return (
+        <b
+          style={{
+            color: theme.colors.brand.dark_blue,
+          }}
+        >
+          {value}
+        </b>
+      );
+    },
   },
   {
     name: "description",
