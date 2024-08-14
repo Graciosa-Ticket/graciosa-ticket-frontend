@@ -21,7 +21,7 @@ import { AddressByCep } from "../../../../utils/addressByCep";
 import { api } from "../../../../services/api.service";
 import formatPhoneNumber from "../../../../utils/formatPhoneNumber";
 import formatCep from "../../../../utils/cepMask";
-import SelectSector from "../../../../components/selectSector";
+import SectorSelect from "./components/sectorSelect";
 
 export default function CreateUserModal({
   onClose,
@@ -160,8 +160,10 @@ export default function CreateUserModal({
           updateProfile({ ...userData, ...rest });
         }
         toast.success("Cadastro Atualizado!");
+        console.log("atuazli  " + userData);
       } else {
         toast.success("Cadastro concluído!");
+        console.log("conlusiasad " + userData);
       }
 
       setLoading(false);
@@ -191,6 +193,10 @@ export default function CreateUserModal({
     const { value } = event.target;
     const formattedValue = formatCep(value);
     setValue("cep", formattedValue, { shouldDirty: true });
+  };
+
+  const handleSectorSelect = (value: string) => {
+    setValue("sector_name", value, { shouldDirty: true });
   };
 
   const defaultUrl = userData
@@ -282,13 +288,11 @@ export default function CreateUserModal({
               <SelectItem value="Supervisor">Supervisor</SelectItem>
               <SelectItem value="Administrator">Administrator</SelectItem>
             </Select>
-            <SelectSector
-              title="Selecione o Setor"
-              onChange={(data) => {
-                setValue("sector_name", data?.name as string, {
-                  shouldDirty: true,
-                });
-              }}
+            <SectorSelect
+              onSelect={handleSectorSelect}
+              defaultValue={
+                userData?.sector_name || "01 - Caixa do Bar da Sede"
+              }
             />
           </form>
         </div>

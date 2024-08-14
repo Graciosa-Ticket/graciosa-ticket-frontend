@@ -47,7 +47,7 @@ const TicketModal = ({
   const [currentTicket, setCurrentTicket] = useState<TicketModel>(
     data as TicketModel
   );
-  const { watch, setValue } = useForm<{ status: TicketModel["status"] }>({
+  const { setValue } = useForm<{ status: TicketModel["status"] }>({
     defaultValues: data,
   });
 
@@ -121,7 +121,9 @@ const TicketModal = ({
 
           <Select
             defaultValue={currentTicket?.status}
-            triggerStyle={selectItemStyle(watch("status") || "Em andamento")}
+            triggerStyle={selectItemStyle(
+              currentTicket?.status || "Em andamento"
+            )}
             onValueChange={handleStatusChange}
             isLoading={isLoadingUpdate}
           >
@@ -199,7 +201,7 @@ const TicketModal = ({
               </ActionsModalComponent>
             )}
 
-            {watch("status") !== "Concluído" && (
+            {currentTicket?.status !== "Concluído" && (
               <CloseTicketButton
                 data={currentTicket as TicketModel}
                 onCloseTicket={handleCloseTicket}
@@ -213,7 +215,7 @@ const TicketModal = ({
             <h6>Chat</h6>
           </div>
 
-          <ChatComponent ticket_data={watch() as TicketModel} />
+          <ChatComponent ticket_data={currentTicket as TicketModel} />
         </section>
       </ModalContentBody>
     </>
