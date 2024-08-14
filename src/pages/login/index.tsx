@@ -7,6 +7,8 @@ import Input from "../../components/form/input";
 import ButtonComponent from "../../components/buttons";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import LoadingScreen from "../../components/loading/loadingScreen";
+import CenterModal from "../../components/centerModal";
+import PasswordChangeRequestModal from "./passwordChangeRequestModal";
 
 interface login {
   code: string;
@@ -26,8 +28,22 @@ export default function LoginPage() {
     signIn(code, password);
   });
 
+  const [openPasswordChangeRequestModal, setPasswordChangeRequestModal] =
+    useState(false);
+
   return (
     <>
+      <CenterModal
+        open={openPasswordChangeRequestModal}
+        onOpenChange={() =>
+          setPasswordChangeRequestModal(!PasswordChangeRequestModal)
+        }
+      >
+        <PasswordChangeRequestModal
+          onClose={() => setPasswordChangeRequestModal(false)}
+        />
+      </CenterModal>
+
       {loading && <LoadingScreen />}
 
       <LoginContainer>
@@ -70,7 +86,6 @@ export default function LoginPage() {
                 }}
                 register={{ ...register("password") }}
               />
-
               <div className="buttons-container">
                 <ButtonComponent
                   type="submit"
@@ -81,6 +96,11 @@ export default function LoginPage() {
                 </ButtonComponent>
               </div>
             </form>
+            <div className="reset-Password-container">
+              <span onClick={() => setPasswordChangeRequestModal(true)}>
+                Esqueci minha senha
+              </span>
+            </div>
           </div>
         </section>
       </LoginContainer>

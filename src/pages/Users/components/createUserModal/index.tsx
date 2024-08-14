@@ -197,7 +197,12 @@ export default function CreateUserModal({
 
   const handleSectorSelect = (value: string) => {
     setValue("sector_name", value, { shouldDirty: true });
+    console.log(value);
   };
+
+  useEffect(() => {
+    handleSectorSelect(userData?.sector_name || "01 - Caixa do Bar da Sede");
+  }, [userData]);
 
   const defaultUrl = userData
     ? `profile-picture/${userData?.code}/regularSize_${userData?.profile_picture}`

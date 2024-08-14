@@ -23,13 +23,13 @@ export default function PasswordChangeRequestModal({
 }: modalActions<PasswordChangeRequestModalProps>) {
   const { handleSubmit, register } = useForm({});
 
-  const { mutate: createFeedback, isLoading: isLoadingFeedback } =
-    useMutationQuery("/feedback");
+  const { mutate: createPasswordChangeTicket, isLoading: isLoadingFeedback } =
+    useMutationQuery("/management/forgotPassword");
 
   const onSubmit = handleSubmit((data) => {
-    createFeedback(data, {
+    createPasswordChangeTicket(data, {
       onSuccess: () => {
-        toast.success("Obrigado pela sugestão");
+        toast.success("Tudo Certo, aguarde a resposta do chamado");
         onClose?.();
       },
       onError: () => {},
@@ -53,14 +53,6 @@ export default function PasswordChangeRequestModal({
         <FormContainer onSubmit={onSubmit}>
           <FormContentContainer>
             <Input
-              label="Código de Usuário"
-              placeholder="Informe código de usuário"
-              //   error={errors.user_code?.message}
-              {...register("user_code", {
-                required: "Código de usuário é obrigatório",
-              })}
-            />
-            <Input
               label="Email"
               placeholder="Informe email"
               //   error={errors.email?.message}
@@ -70,6 +62,14 @@ export default function PasswordChangeRequestModal({
                   value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
                   message: "Email inválido",
                 },
+              })}
+            />
+            <Input
+              label="Código de Usuário"
+              placeholder="Informe código de usuário"
+              //   error={errors.user_code?.message}
+              {...register("user_code", {
+                required: "Código de usuário é obrigatório",
               })}
             />
           </FormContentContainer>
@@ -82,6 +82,7 @@ export default function PasswordChangeRequestModal({
               title="Solicitar nova senha"
               className="confirm-btn"
               isLoading={isLoadingFeedback}
+              onClick={onClose}
             >
               sim, Solicitar
             </ButtonComponent>
