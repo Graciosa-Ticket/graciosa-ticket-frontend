@@ -31,7 +31,7 @@ const loading = keyframes`
 export const SelectContainer = styled.div`
   .select-label {
     ${({ theme }) => theme.font.p.small};
-    color: ${({ theme }) => theme.colors.grayscale.gray_70};
+    color: ${({ theme }) => theme.colors.brand.dark_blue};
     margin-bottom: 0.2em;
     display: block;
   }

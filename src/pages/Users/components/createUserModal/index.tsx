@@ -193,6 +193,14 @@ export default function CreateUserModal({
     setValue("cep", formattedValue, { shouldDirty: true });
   };
 
+  useEffect(() => {
+    console.log(userData?.profile_picture);
+  }, [userData?.profile_picture]);
+
+  const defaultUrl = userData
+    ? `profile-picture/${userData?.code}/regularSize_${userData?.profile_picture}`
+    : undefined;
+
   return (
     <>
       <ModalHeader>
@@ -206,7 +214,7 @@ export default function CreateUserModal({
       <CreateUserComponent>
         <div className="img-sector">
           <PictureInput
-            defaultUrl={`profile-picture/${userData?.code}/regularSize_${userData?.profile_picture}`}
+            defaultUrl={defaultUrl}
             onChangeImage={handleImageChange}
           />
         </div>

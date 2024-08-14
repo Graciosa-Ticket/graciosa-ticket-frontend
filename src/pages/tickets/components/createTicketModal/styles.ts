@@ -2,7 +2,6 @@ import styled, { keyframes } from "styled-components";
 import { FormContentContainer } from "../../../../components/form/form";
 
 export const TicketModalComponent = styled.div`
-  max-width: 50vw;
   padding: 1em;
   height: 100%;
   @media (max-height: 850px) {
@@ -41,10 +40,8 @@ export const ChooseSectorStepContainer = styled.div`
   .sectors-list {
     margin-top: 20px;
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 1em;
-    overflow-y: auto;
-    max-height: calc(100vh - 80px);
     padding-bottom: 150px;
     padding-top: 10px;
     padding-right: 15px;
@@ -133,16 +130,21 @@ export const TicketMainFormContainer = styled(FormContentContainer)`
     }
 
     .label-container {
+      width: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
       border: solid 1px;
       border-radius: 0.5em;
       padding: 8px;
       cursor: pointer;
       color: ${({ theme }) => theme.colors.grayscale.gray_50};
       ${({ theme }) => theme.font.p.normal};
-      width: 50%;
       margin-top: 2px;
       margin-left: 2px;
       text-align: center;
+      transition: 300ms;
 
       &:hover {
         background-color: ${({ theme }) => theme.colors.grayscale.gray_50};

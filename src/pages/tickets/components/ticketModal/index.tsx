@@ -18,7 +18,7 @@ import TicketUserCard from "./components/userCard";
 import { UserModel } from "../../../../models/user";
 import CenterModal from "../../../../components/centerModal";
 import TicketConclusionModal from "../ticketConclusionModal";
-import ImageViewer from "./components/imageViewer";
+import TicketFileViewer from "./components/ticketFileViewer";
 
 const selectItemStyle = (status: TicketModel["status"]): CSSProperties => {
   const statusStyle = {
@@ -162,12 +162,7 @@ const TicketModal = ({
 
             <section className="images-Setion">
               <p>Anexos</p>
-              {data?.attachmentUrl?.map((attachment, index) => (
-                <ImageViewer
-                  key={index} // Usar o index como chave para a lista
-                  imageUrl={attachment} // Ajuste conforme o formato dos URLs
-                />
-              ))}
+              <TicketFileViewer files={data?.attachmentUrl} />
             </section>
           </section>
 

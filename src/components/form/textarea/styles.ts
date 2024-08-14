@@ -6,10 +6,10 @@ const primary = css`
     return css`
       background-color: ${theme.colors.brand.white};
       ${theme.font.p.normal};
-      color: ${theme.colors.grayscale.gray_80};
+      color: ${theme.colors.grayscale.gray_50};
 
       textarea {
-        border: 1px solid ${theme.colors.grayscale.gray_30};
+        border: 1px solid ${theme.colors.grayscale.gray_20};
       }
     `;
   }}
@@ -19,10 +19,10 @@ const secondary = css`
     return css`
       background-color: transparent;
       ${theme.font.p.normal};
-      color: ${theme.colors.grayscale.gray_60};
+      color: ${theme.colors.grayscale.gray_30};
 
       textarea {
-        border: 1px solid ${theme.colors.grayscale.gray_70};
+        border: 1px solid ${theme.colors.grayscale.gray_40};
       }
     `;
   }}
@@ -76,7 +76,7 @@ export const InputContainer = styled.div<inputStyleProps>`
       $inputStyle === "secondary"
         ? theme.colors.brand.dark_blue
         : theme.colors.grayscale.gray_70};
-    margin-bottom: 0.2em;
+    margin-bottom: 0.4em;
     display: block;
   }
 

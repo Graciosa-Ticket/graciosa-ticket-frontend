@@ -25,18 +25,15 @@ function ImageMagnifier(props: ImageMagnifierProps): JSX.Element {
             height: 1800,
           },
           enlargedImageContainerDimensions: {
-            width: "200%",
-            height: "200%",
+            width: "100%",
+            height: "100%",
           },
           enlargedImageContainerStyle: {
             position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
+            top: "10%",
+            left: "10%",
             overflow: "hidden",
             pointerEvents: "none",
-            maxWidth: "100vw",
-            maxHeight: "100vh",
             zIndex: 10,
           },
         }}

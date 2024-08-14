@@ -1,14 +1,14 @@
 import { useState } from "react";
-import { ImageViewerContainer, LoadingText, Thumbnail } from "./styles";
+import { ImageViewerContainer, Thumbnail } from "./styles";
 import CenterModal from "../../../../../../components/centerModal";
 import ImageViewerModal from "./imageViewerModal";
+import { amazonURL } from "../../../../../../components/Avatar";
 
 interface ImageViewerProps {
   imageUrl?: string;
 }
 
 const ImageViewer = ({ imageUrl }: ImageViewerProps) => {
-  const [thumbnailUrl] = useState<string>(imageUrl as any);
   const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
 
   const openModal = () => {
@@ -20,19 +20,17 @@ const ImageViewer = ({ imageUrl }: ImageViewerProps) => {
   };
 
   return (
-    <ImageViewerContainer>
-      {thumbnailUrl ? (
-        <>
-          <Thumbnail src={thumbnailUrl} onClick={openModal} />
-
-          <CenterModal open={modalIsOpen} onOpenChange={setModalIsOpen}>
-            <ImageViewerModal imageUrl={imageUrl as any} onClose={closeModal} />
-          </CenterModal>
-        </>
-      ) : (
-        <LoadingText>Loading...</LoadingText>
-      )}
-    </ImageViewerContainer>
+    <>
+      <CenterModal open={modalIsOpen} onOpenChange={setModalIsOpen}>
+        <ImageViewerModal
+          imageUrl={(amazonURL + imageUrl) as any}
+          onClose={closeModal}
+        />
+      </CenterModal>
+      <ImageViewerContainer>
+        <Thumbnail src={amazonURL + imageUrl} onClick={openModal} />
+      </ImageViewerContainer>
+    </>
   );
 };
 

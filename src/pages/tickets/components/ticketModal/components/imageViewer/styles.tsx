@@ -2,7 +2,6 @@ import styled from "styled-components";
 
 export const ImageViewerContainer = styled.div`
   display: grid;
-  grid-template-columns: repeat(2, 1fr); /* Cria uma grade com 3 colunas */
   gap: 10px; /* Espaçamento entre as imagens */
   align-items: center;
   padding: 5px;
@@ -12,6 +11,7 @@ export const ImageViewerContainer = styled.div`
 
 export const Thumbnail = styled.img`
   width: 100%; /* Faz com que a imagem ocupe toda a largura da célula da grade */
+  max-width: 20px;
   height: auto; /* Mantém a proporção da imagem */
   border-radius: 4px; /* Opcional: adiciona bordas arredondadas */
 `;

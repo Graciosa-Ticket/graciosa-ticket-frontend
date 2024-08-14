@@ -6,20 +6,41 @@ import { useState } from "react";
 import { useFetch } from "../../../../services/hooks/getQuery";
 import TicketCard from "../../../../components/ticket";
 import { UserModel } from "../../../../models/user";
+import { SectorCardModel } from "../../../../models/sector";
 
 interface HomeTicketProps {
   isadmin: boolean;
   user?: UserModel;
+  userSector?: SectorCardModel;
 }
 
-const HomeTicketComponent = ({ isadmin = false, user }: HomeTicketProps) => {
+const HomeTicketComponent = ({
+  isadmin,
+  user,
+  userSector,
+}: HomeTicketProps) => {
   const [dataSource, setDataSource] = useState<TicketModel[]>([]);
-
-  useFetch<TicketModel[]>("/ticket", ["ticket"], {
-    onSuccess: (data) => {
-      setDataSource(data);
-    },
-  });
+  if (isadmin) {
+    useFetch<TicketModel[]>(
+      "/ticket/getLatest/latestTickets",
+      ["latestTicket"],
+      {
+        onSuccess: (data) => {
+          setDataSource(data);
+        },
+      }
+    );
+  } else {
+    useFetch<TicketModel[]>(
+      `/ticket/getLatest/latestTickets/${userSector?.code}`,
+      ["latestTicket"],
+      {
+        onSuccess: (data) => {
+          setDataSource(data);
+        },
+      }
+    );
+  }
 
   return (
     <TicketsHomeContainer $isadmin={isadmin}>

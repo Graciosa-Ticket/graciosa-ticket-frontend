@@ -9,7 +9,10 @@ import {
 } from "chart.js";
 import { Bar } from "react-chartjs-2";
 import { useTheme } from "styled-components";
-import { CounterToChartModel } from "../../../../../models/counterToChart";
+import {
+  CounterToChartModel,
+  CounterToChartModelSector,
+} from "../../../../../models/counterToChart";
 
 ChartJS.register(
   CategoryScale,
@@ -21,11 +24,12 @@ ChartJS.register(
 );
 
 interface BarGraphProps {
-  data?: CounterToChartModel;
+  data?: CounterToChartModel | CounterToChartModelSector;
 }
 
 export const BarGraph = ({ data }: BarGraphProps) => {
   const theme = useTheme();
+  console.log("adas" + data);
 
   if (!data) return;
   <div> Carregando...</div>;

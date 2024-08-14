@@ -39,7 +39,7 @@ export const SectorComponent = styled.button`
 
   .header-sector {
     width: 100%;
-    display: flex;
+    display: grid;
     align-items: center;
     justify-content: space-between;
     gap: 4px;

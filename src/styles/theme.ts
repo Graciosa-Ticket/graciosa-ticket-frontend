@@ -41,9 +41,9 @@ export const light = {
     ticket_status: {
       open: "#2253CF",
       on_going: "#A222CF",
-      re_open: "#B01313",
+      re_open: "#FFA500",
       canceled: "#969696",
-      waiting_approval: "#FFA500",
+      waiting_approval: "#B01313",
       impediment: "#202020",
       done: "#02BA2A",
     },

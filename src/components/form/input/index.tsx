@@ -19,7 +19,7 @@ const Input = forwardRef(
   (
     {
       affix,
-      inputStyle = "primary",
+      inputStyle = "secondary",
       label,
       required = false,
       error,

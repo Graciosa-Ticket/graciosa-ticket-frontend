@@ -23,6 +23,18 @@ export const TableContainer = styled.div`
 
     .InovuaReactDataGrid__row {
       background-color: transparent;
+
+      .InovuaReactDataGrid__row-cell-wrap.InovuaReactDataGrid__row-cell-wrap.InovuaReactDataGrid__row-cell-wrap {
+        transition: 300ms;
+
+        &:hover {
+          background-color: ${({ theme }) => theme.colors.grayscale.gray_10};
+
+          .InovuaReactDataGrid__cell__content {
+            color: ${({ theme }) => theme.colors.grayscale.gray_90};
+          }
+        }
+      }
     }
 
     .InovuaReactDataGrid__cell {

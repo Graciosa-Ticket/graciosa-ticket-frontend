@@ -82,7 +82,7 @@ export const InputContainer = styled.div<inputStyleProps>`
       $inputStyle === "secondary"
         ? theme.colors.brand.dark_blue
         : theme.colors.grayscale.gray_70};
-    margin-bottom: 0.2em;
+    margin-bottom: 0.4em;
     display: block;
   }
 

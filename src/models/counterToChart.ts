@@ -7,3 +7,7 @@ export interface CounterToChartModel {
   impeditivo: number;
   reaberto: number;
 }
+
+export type CounterToChartModelSector = {
+  [key: string]: CounterToChartModel;
+};

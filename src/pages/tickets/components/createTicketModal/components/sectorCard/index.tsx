@@ -13,12 +13,11 @@ export default function SectorCard({ data, onClick }: sectorCardProps) {
       <div className="header-sector">
         <h3>{data?.name}</h3>
         <div className="user-container">
-          <span>{data?.user?.name}</span>
-
           <Avatar
             src={data?.user?.profile_picture}
             style={{ width: 30, height: 30 }}
           />
+          <span>{data?.user?.name}</span>
         </div>
       </div>
 

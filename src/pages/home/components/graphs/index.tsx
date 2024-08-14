@@ -1,12 +1,16 @@
 import { useEffect, useMemo, useState } from "react";
-import { CounterToChartModel } from "../../../../models/counterToChart";
+import {
+  CounterToChartModel,
+  CounterToChartModelSector,
+} from "../../../../models/counterToChart";
 import { useFetch } from "../../../../services/hooks/getQuery";
 import BarGraph from "./bar/barGraph";
 import { HomeGraphContainer } from "./styles";
 import TabComponent from "../../../../components/tabComponent";
 import { SectorCardModel } from "../../../../models/sector";
-import GCCBarGraph from "./graphTeste";
+import GCCBarGraph from "./barGraphGCC";
 
+// Define as propriedades esperadas para o componente HomeGraph
 interface homeGraphProps {
   userSector?: SectorCardModel;
   isadmin: boolean;
@@ -18,50 +22,66 @@ const HomeGraph = ({
   isadmin = false,
   sectorsListData,
 }: homeGraphProps) => {
-  const [countersDataSource, setcountersDataSource] =
-    useState<CounterToChartModel>();
+  // Estado para armazenar os dados dos contadores recebidos da API
+  const [countersDataSource, setcountersDataSource] = useState<
+    CounterToChartModel | CounterToChartModelSector
+  >();
 
+  // Estado para armazenar o número de tickets criados
   const [createdTicketsCounterDataSource, setcreatedTicketsCounterDataSource] =
     useState<number>();
 
+  // Estado para armazenar os dados selecionados de um setor específico
   const [selectedDataSource, setSelectedDataSource] =
     useState<CounterToChartModel[]>();
 
-  const { isLoading: isLoadingAllSectorsCounters } =
-    useFetch<CounterToChartModel>(
-      "/counters/counterToChart" +
-        (isadmin ? "" : `/sector/${userSector?.code}`),
-      ["geralCountData", isadmin, userSector?.code],
-      {
-        onSuccess: (geralCountData) => {
-          setcountersDataSource(geralCountData);
-        },
-      }
-    );
+  // Hook para buscar os dados gerais dos contadores de todos os setores ou de um setor específico
+  const { isLoading: isLoadingAllSectorsCounters } = useFetch<
+    CounterToChartModel | CounterToChartModelSector
+  >(
+    "/counters/counterToChart" + (isadmin ? "" : `/sector/${userSector?.code}`), // Define a URL de acordo com o tipo de usuário
+    ["geralCountData", isadmin, userSector?.code],
+    {
+      onSuccess: (geralCountData) => {
+        // Atualiza o estado com os dados recebidos
+        setcountersDataSource(() => {
+          if (isadmin) return geralCountData;
 
+          return (geralCountData as CounterToChartModelSector)?.[
+            userSector?.code as string
+          ];
+        });
+      },
+    }
+  );
+
+  // Hook para buscar o número de tickets criados, filtrando por setor se o usuário não for administrador
   const { isLoading: isLoadingCreatedTicketsCounterDataByCode } =
     useFetch<number>(
       `/ticket/count/getCreatedTickets` +
-        (isadmin ? "" : "/" + userSector?.code),
+        (isadmin ? "" : "/" + userSector?.code), // Define a URL de acordo com o tipo de usuário
       ["createdTicketsCounterDataByCode", isadmin, userSector?.code],
       {
         onSuccess: (createdTicketsCounterDataByCode) => {
+          // Atualiza o estado com o número de tickets criados
           setcreatedTicketsCounterDataSource(createdTicketsCounterDataByCode);
         },
       }
     );
 
+  // Hook para buscar os dados dos contadores de todos os setores
   const { isLoading: isLoadingSelectedSector, data: allSectorsCountData } =
     useFetch<CounterToChartModel[]>("/counters/counterToChart/allSectors", [
       "selectedSectorCounter",
     ]);
 
+  // Efeito que é executado quando os dados de todos os setores são carregados
   useEffect(() => {
     if (allSectorsCountData?.length) {
       const counters = allSectorsCountData[0];
-
-      const updatedData = Object.entries(counters).map(
-        ([sector_code, values]) => {
+      const updatedData = Object.entries(counters)
+        .map(([sector_code, values]) => {
+          // Encontra o setor correspondente e adiciona o nome ao objeto
           const sector = sectorsListData?.find((s) => s.code === sector_code);
 
           return {
@@ -69,42 +89,50 @@ const HomeGraph = ({
             ...values,
             name: sector?.name || "Desconhecido",
           };
-        }
-      );
+        })
+        .filter((sector) => sector.name !== "Desconhecido"); // Filtra setores com o nome "Desconhecido"
+
+      // Atualiza o estado com os dados dos setores selecionados
       setSelectedDataSource(updatedData);
     }
   }, [allSectorsCountData, sectorsListData]);
 
+  // Define a flag de carregamento combinando os estados de carregamento dos diferentes hooks
   const isLoading =
     isLoadingAllSectorsCounters ||
     isLoadingCreatedTicketsCounterDataByCode ||
     isLoadingSelectedSector;
 
+  // Calcula o número total de tickets de todos os setores
   const allSetorsTicketsCount = useMemo(() => {
     const dataSourceKeys = Object.values(countersDataSource || {});
     if (!dataSourceKeys.length) return 0;
     return dataSourceKeys.reduce((a, b) => a + b, 0);
   }, [countersDataSource]);
 
+  // Define as opções de abas (tabs) para o componente TabComponent
   const tabOptions = useMemo(() => {
+    console.log({ selectedDataSource });
     return [
       {
         title: "Geral",
         value: "geral",
-        content: <BarGraph data={countersDataSource} />,
+        content: <BarGraph data={countersDataSource} />, // Gráfico de barras para dados gerais
       },
       {
         title: "Setores",
         value: "sector",
-        content: <GCCBarGraph data={selectedDataSource as any} />,
+        content: <GCCBarGraph data={selectedDataSource as any} />, // Gráfico de barras para setores específicos
       },
     ];
   }, [countersDataSource, selectedDataSource]);
 
+  // Se estiver carregando, exibe um elemento de carregamento (comentado no momento)
   if (isLoading) {
     return <div>{/* <LoadingScreen /> */}</div>;
   }
 
+  // Retorna o conteúdo do componente HomeGraph
   return (
     <HomeGraphContainer>
       <section className="big-numbers">

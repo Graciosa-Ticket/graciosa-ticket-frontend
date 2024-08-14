@@ -13,6 +13,7 @@ import { toast } from "sonner";
 import { useForm } from "react-hook-form";
 import TextArea from "../../../../components/form/textarea";
 import { UserModel } from "../../../../models/user";
+import { useMutationQuery } from "../../../../services/hooks/useMutationQuery";
 
 interface SuggestionsModalProps extends modalActions {
   user: UserModel;
@@ -24,17 +25,25 @@ export default function SuggestionsModal({
 }: SuggestionsModalProps) {
   const { handleSubmit, register } = useForm({});
 
+  const { mutate: createFeedback, isLoading: isLoadingFeedback } =
+    useMutationQuery("/feedback");
+
   const onSubmit = handleSubmit((data) => {
     const { comment } = data;
 
     const suggestionData = {
-      userCode: user.code,
+      user_code: user.code,
       comment: comment,
     };
 
+    createFeedback(suggestionData, {
+      onSuccess: () => {
+        toast.success("Obrigado pela sugestão");
+        onClose?.();
+      },
+      onError: () => {},
+    });
     console.log(suggestionData);
-
-    toast.success("Obrigado pela sugestão");
   });
 
   return (
@@ -71,6 +80,7 @@ As sugestões são realizadas de forma anônima, fique tranquilo."
               buttonStyles="confirm"
               title={"Enviar Sugestão"}
               className="confirm-btn"
+              isLoading={isLoadingFeedback}
             >
               Enviar
             </ButtonComponent>
