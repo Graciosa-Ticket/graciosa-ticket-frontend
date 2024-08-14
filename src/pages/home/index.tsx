@@ -19,8 +19,9 @@ export default function Home() {
   });
 
   const userSector = sectorsListData?.length
-    ? sectorsListData?.find((data) => data.responsible_code === user.code)
+    ? sectorsListData?.find((data) => data.user.code === user.code)
     : undefined;
+  // console.log("auqqeiqwe" + JSON.stringify(userSector, null, 2)); //add for debuggin
 
   return (
     <HomeSection $isadmin={isadmin}>
@@ -37,7 +38,11 @@ export default function Home() {
             isadmin={isadmin}
             sectorsListData={sectorsListData}
           />
-          <HomeTicketComponent isadmin={isadmin} user={user} />
+          <HomeTicketComponent
+            isadmin={isadmin}
+            user={user}
+            userSector={userSector}
+          />
         </>
       )}
     </HomeSection>

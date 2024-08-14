@@ -1,7 +1,7 @@
 import { CounterToChartModel } from "../../../../../models/counterToChart";
 import { SectorCardModel } from "../../../../../models/sector";
 import styled from "styled-components";
-import GCCBarGraph from "../graphTeste";
+import GCCBarGraph from "../barGraphGCC";
 
 type SectorGraphData = CounterToChartModel & {
   sector_code?: string;
