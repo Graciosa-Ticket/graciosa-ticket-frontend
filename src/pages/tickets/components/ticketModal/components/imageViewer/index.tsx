@@ -28,7 +28,11 @@ const ImageViewer = ({ imageUrl }: ImageViewerProps) => {
         />
       </CenterModal>
       <ImageViewerContainer>
-        <Thumbnail src={amazonURL + imageUrl} onClick={openModal} />
+        <Thumbnail
+          src={amazonURL + imageUrl}
+          onClick={openModal}
+          title="Clique para expandir"
+        />
       </ImageViewerContainer>
     </>
   );

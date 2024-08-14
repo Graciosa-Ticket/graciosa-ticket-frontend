@@ -32,7 +32,7 @@ const HomeTicketComponent = ({
     );
   } else {
     useFetch<TicketModel[]>(
-      `/ticket/getLatest/latestTickets/${userSector?.code}`,
+      `/ticket/getLatest/latestTickets/1`,
       ["latestTicket"],
       {
         onSuccess: (data) => {

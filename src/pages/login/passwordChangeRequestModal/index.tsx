@@ -34,7 +34,6 @@ export default function PasswordChangeRequestModal({
       },
       onError: () => {},
     });
-    console.log(data);
   });
 
   return (

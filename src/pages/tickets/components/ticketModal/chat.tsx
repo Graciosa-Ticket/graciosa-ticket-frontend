@@ -134,7 +134,7 @@ const ConnectionsMessageCard = ({ data }: chatCardProps) => {
         <span>{data.user.name.slice(0, 10)}.</span>
         <div className="user-side">
           <Avatar
-            src={`profile-picture/${data?.code}/minSize_${data?.user.profile_picture}`}
+            src={`profile-picture/${data?.user.code}/minSize_${data?.user.profile_picture}`}
             style={{ width: 32, height: 32 }}
           />
         </div>
