@@ -7,8 +7,8 @@ interface SectorSelectProps {
 }
 
 function SectorSelect({ onSelect, defaultValue }: SectorSelectProps) {
-  const [selectedValue, setSelectedValue] = useState<string | undefined>(
-    defaultValue
+  const [selectedValue, setSelectedValue] = useState<string>(
+    defaultValue || ""
   );
 
   const handleValueChange = (value: string) => {
