@@ -14,7 +14,11 @@ interface HomeTicketProps {
   userSector?: SectorCardModel;
 }
 
-const HomeTicketComponent = ({ isadmin, user }: HomeTicketProps) => {
+const HomeTicketComponent = ({
+  isadmin,
+  user,
+  userSector,
+}: HomeTicketProps) => {
   const [dataSource, setDataSource] = useState<TicketModel[]>([]);
   if (isadmin) {
     useFetch<TicketModel[]>(
@@ -28,7 +32,7 @@ const HomeTicketComponent = ({ isadmin, user }: HomeTicketProps) => {
     );
   } else {
     useFetch<TicketModel[]>(
-      `/ticket/getLatest/latestTickets/1`,
+      `/ticket/getLatest/latestTickets/${userSector?.code}`,
       ["latestTicket"],
       {
         onSuccess: (data) => {
@@ -50,17 +54,14 @@ const HomeTicketComponent = ({ isadmin, user }: HomeTicketProps) => {
       </div>
 
       <ul className="ticket-list">
-        {dataSource
-          .slice()
-          .reverse()
-          .filter((ticket) =>
-            isadmin ? true : ticket.sector.responsible_code === user?.code
-          )
-          .map((e, i) => (
+        {dataSource.slice().map((e, i) => {
+          // console.log("Ticket enviado para TicketCard:", e); // Log do ticket
+          return (
             <li key={i}>
               <TicketCard data={e} />
             </li>
-          ))}
+          );
+        })}
       </ul>
     </TicketsHomeContainer>
   );

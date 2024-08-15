@@ -28,7 +28,7 @@ const GCCBarGraph = ({ data }: graphProps) => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const chartData = useMemo(() => {
-    if (!data.length) return [];
+    if (!data?.length) return [];
 
     return data
       ?.slice(
@@ -53,7 +53,7 @@ const GCCBarGraph = ({ data }: graphProps) => {
   }, [data, graphPosition]);
 
   useEffect(() => {
-    if (data.length) {
+    if (data?.length) {
       setIsLoading(false);
       // console.log("Data sent to the graph:", data); // add for debbuggin
     }
@@ -66,7 +66,7 @@ const GCCBarGraph = ({ data }: graphProps) => {
   };
 
   const maxValue = useMemo(() => {
-    if (!data.length) return 0;
+    if (!data?.length) return 0;
 
     const maxNumb = chartData
       .flatMap((e) => e.data)

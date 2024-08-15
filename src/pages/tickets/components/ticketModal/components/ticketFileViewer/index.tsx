@@ -64,12 +64,10 @@ const TicketFileViewer = ({ files }: ticketFileViewerProps) => {
   };
 
   const getCleanFileName = (file: string) => {
-    // Extrai o nome do arquivo sem o caminho
     const fileName = file.split("/").pop() || file;
-
-    // Remove qualquer sequência de números seguida de um underscore
     return fileName.replace(/^\d+_/, "");
   };
+
   return (
     <TicketFileContainer>
       <ul>

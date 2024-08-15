@@ -277,7 +277,6 @@ const TicketFormStep = ({ formProps, onClose, onUpdate }: StepsProps) => {
         ) : (
           <TicketMainForm formProps={formProps} errors={errors} />
         )}
-
         <FormButtonsContainer $columns={3}>
           <ButtonComponent
             buttonStyles="text"
@@ -286,24 +285,29 @@ const TicketFormStep = ({ formProps, onClose, onUpdate }: StepsProps) => {
           >
             {viewAdvancedOptions ? "Voltar" : "Avançado"}
           </ButtonComponent>
-          <ButtonComponent
-            className="cancel-button"
-            buttonStylesType="outline"
-            buttonStyles="delete"
-            title="Cancelar criação de chamado"
-            onClick={onClose}
-          >
-            Cancelar
-          </ButtonComponent>
-          <ButtonComponent
-            buttonStyles="confirm"
-            type="button"
-            title="Enviar chamado"
-            onClick={onSubmit}
-            isLoading={isLoadingUpdate}
-          >
-            Enviar
-          </ButtonComponent>
+
+          {!viewAdvancedOptions && (
+            <>
+              <ButtonComponent
+                className="cancel-button"
+                buttonStylesType="outline"
+                buttonStyles="delete"
+                title="Cancelar criação de chamado"
+                onClick={onClose}
+              >
+                Cancelar
+              </ButtonComponent>
+              <ButtonComponent
+                buttonStyles="confirm"
+                type="button"
+                title="Enviar chamado"
+                onClick={onSubmit}
+                isLoading={isLoadingUpdate}
+              >
+                Enviar
+              </ButtonComponent>
+            </>
+          )}
         </FormButtonsContainer>
       </FormContainer>
     </TicketFormContainer>

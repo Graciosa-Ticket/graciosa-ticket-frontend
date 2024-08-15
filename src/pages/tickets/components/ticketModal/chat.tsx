@@ -54,6 +54,17 @@ const ChatComponent = ({ ticket_data }: ChatComponentProps) => {
   };
 
   const onKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
+    const textLength = spanRef.current?.innerText.length || 0;
+    const maxChars = 255;
+
+    if (
+      textLength >= maxChars &&
+      event.key !== "Backspace" &&
+      event.key !== "Delete"
+    ) {
+      event.preventDefault();
+    }
+
     if (!event.shiftKey && event.code === "Enter") {
       event.preventDefault();
       handleChatSubmit();

@@ -37,7 +37,11 @@ export default function Home() {
             isadmin={isadmin}
             sectorsListData={sectorsListData}
           />
-          <HomeTicketComponent isadmin={isadmin} user={user} />
+          <HomeTicketComponent
+            isadmin={isadmin}
+            user={user}
+            userSector={userSector}
+          />
         </>
       )}
     </HomeSection>

@@ -11,13 +11,13 @@ import { formatDate } from "date-fns";
 import { calculateAge } from "../../utils/calculateAge";
 import formatCEP from "../../utils/cepMask";
 import phoneMask from "../../utils/phoneMask";
-import SectorIcon from "../../pages/Users/components/sectorIcon";
 import Avatar from "../Avatar";
 import ActionsModalComponent from "../actionModal";
 import { useState } from "react";
 import EditedFormPopUp from "../EditedFormPopUp";
 import CreateUserModal from "../../pages/Users/components/createUserModal";
 import { AiOutlineEdit } from "react-icons/ai";
+import SectorIcon from "../../pages/Users/components/sectorIcon";
 
 export default function UserViewModal({ onClose }: modalActions<UserModel>) {
   const { user } = useAuth();

@@ -106,6 +106,8 @@ const TicketModal = ({
     onClose?.();
   };
 
+  console.log("attachmentUrl:", currentTicket?.attachmentUrl);
+
   return (
     <>
       <ModalHeader>
@@ -171,9 +173,11 @@ const TicketModal = ({
               </div>
             </section>
 
-            <section className="images-Setion">
+            <section className="images-Section">
               <p>Anexos</p>
-              <TicketFileViewer files={currentTicket?.attachmentUrl} />
+              {currentTicket?.attachmentUrl?.map((file, index) => (
+                <TicketFileViewer key={index} files={[file]} />
+              ))}
             </section>
           </section>
 
