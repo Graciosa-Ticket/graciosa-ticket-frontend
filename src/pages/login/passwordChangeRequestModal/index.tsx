@@ -32,7 +32,9 @@ export default function PasswordChangeRequestModal({
         toast.success("Tudo Certo, aguarde a resposta do chamado");
         onClose?.();
       },
-      onError: () => {},
+      onError: () => {
+        toast.error("Erro ao solicitar a nova senha.");
+      },
     });
   });
 
@@ -55,7 +57,6 @@ export default function PasswordChangeRequestModal({
             <Input
               label="Email"
               placeholder="Informe email"
-              //   error={errors.email?.message}
               {...register("email", {
                 required: "Email é obrigatório",
                 pattern: {
@@ -67,7 +68,6 @@ export default function PasswordChangeRequestModal({
             <Input
               label="Código de Usuário"
               placeholder="Informe código de usuário"
-              //   error={errors.user_code?.message}
               {...register("user_code", {
                 required: "Código de usuário é obrigatório",
               })}
@@ -82,9 +82,8 @@ export default function PasswordChangeRequestModal({
               title="Solicitar nova senha"
               className="confirm-btn"
               isLoading={isLoadingFeedback}
-              onClick={onClose}
             >
-              sim, Solicitar
+              Sim, Solicitar
             </ButtonComponent>
           </FormButtonsContainer>
         </FormContainer>

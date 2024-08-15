@@ -13,9 +13,10 @@ export const IconComponent = styled.section`
   }
 
   h2 {
-    ${({ theme }) => theme.font.p.small};
+    ${({ theme }) => theme.font.p.extra_small};
     font-weight: 500;
     color: ${({ theme }) => theme.colors.brand.dark_blue};
+    margin-top: 2px;
   }
 
   .prints {

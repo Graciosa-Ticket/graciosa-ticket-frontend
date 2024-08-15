@@ -14,11 +14,7 @@ interface HomeTicketProps {
   userSector?: SectorCardModel;
 }
 
-const HomeTicketComponent = ({
-  isadmin,
-  user,
-  userSector,
-}: HomeTicketProps) => {
+const HomeTicketComponent = ({ isadmin, user }: HomeTicketProps) => {
   const [dataSource, setDataSource] = useState<TicketModel[]>([]);
   if (isadmin) {
     useFetch<TicketModel[]>(
