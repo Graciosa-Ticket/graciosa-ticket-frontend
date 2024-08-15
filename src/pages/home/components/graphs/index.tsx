@@ -112,7 +112,6 @@ const HomeGraph = ({
 
   // Define as opções de abas (tabs) para o componente TabComponent
   const tabOptions = useMemo(() => {
-    console.log({ selectedDataSource });
     return [
       {
         title: "Geral",

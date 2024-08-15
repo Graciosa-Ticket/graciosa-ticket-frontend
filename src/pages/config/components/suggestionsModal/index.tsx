@@ -43,7 +43,6 @@ export default function SuggestionsModal({
       },
       onError: () => {},
     });
-    console.log(suggestionData);
   });
 
   return (

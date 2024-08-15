@@ -227,8 +227,6 @@ const TicketFormStep = ({ formProps, onClose, onUpdate }: StepsProps) => {
       is_recurrent: isRecurrent,
     };
 
-    console.log(ticketData);
-
     // Adiciona os dados ao FormData
     for (const key in ticketData) {
       if (ticketData[key]) {

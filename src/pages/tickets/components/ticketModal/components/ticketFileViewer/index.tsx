@@ -3,7 +3,8 @@ import { TicketFileContainer } from "./styles";
 import { IoDocumentOutline } from "react-icons/io5";
 import { FaRegFileExcel, FaRegFilePdf } from "react-icons/fa";
 import ImageViewer from "../imageViewer";
-// import ButtonComponent from "../../../../../../components/buttons";
+import ButtonComponent from "../../../../../../components/buttons";
+import { amazonURL } from "../../../../../../components/Avatar";
 
 type formattedFileType = {
   file: string;
@@ -21,6 +22,7 @@ const fileTypes = {
   jpg: "image",
   png: "image",
   doc: "doc",
+  docx: "doc",
   csv: "excel",
   xlsx: "excel",
 };
@@ -30,12 +32,6 @@ const fileIcons = {
   excel: <FaRegFileExcel />,
   doc: <IoDocumentOutline />,
 };
-
-// const blobTypes = {
-//   excel: "application/vnd.ms-excel",
-//   pdf: "application/pdf",
-//   doc: "application/doc",
-// };
 
 const TicketFileViewer = ({ files }: ticketFileViewerProps) => {
   const formattedFiles: formattedFileType[] = useMemo(() => {
@@ -52,41 +48,53 @@ const TicketFileViewer = ({ files }: ticketFileViewerProps) => {
     });
   }, [files]);
 
-  //   const handleDownload = (file: string, type: formattedFileType["type"]) => {
-  //     const link = document.createElement("a");
-  //     link.target = "self";
-  //     const blob = new Blob([file], {
-  //       type: blobTypes[type],
-  //     });
-  //     link.href = URL.createObjectURL(blob);
-  //     link.download = file;
-  //     link.click();
-  //   };
+  const handleDownload = (file: string) => {
+    const link = document.createElement("a");
+    link.target = "_self";
+    const baseUrl = amazonURL;
+    const cleanFileName =
+      file
+        .split("/")
+        .pop()
+        ?.replace(/^ticketAttachments_\d+_/, "") || file;
+    const fullUrl = baseUrl + file;
+    link.href = fullUrl;
+    link.download = cleanFileName;
+    link.click();
+  };
 
+  const getCleanFileName = (file: string) => {
+    // Extrai o nome do arquivo sem o caminho
+    const fileName = file.split("/").pop() || file;
+
+    // Remove qualquer sequência de números seguida de um underscore
+    return fileName.replace(/^\d+_/, "");
+  };
   return (
     <TicketFileContainer>
       <ul>
         {formattedFiles.map((e, i) => {
+          const cleanFileName = getCleanFileName(e.file);
+
           if (e.type === "image") {
             return (
               <li key={i}>
                 <ImageViewer imageUrl={e.file} />
-
-                <span>{e.file}</span>
+                <span>{cleanFileName}</span>
               </li>
             );
           }
 
           return (
             <li key={i}>
-              {/* <ButtonComponent
+              <ButtonComponent
                 buttonStyles="text"
-                onClick={() => handleDownload(e.file, e.type)}
+                onClick={() => handleDownload(e.file)}
+                title="Clique para baixar"
               >
-              </ButtonComponent> */}
-              {fileIcons[e.type]}
-
-              <span>{e.file}</span>
+                {fileIcons[e.type]}
+                <span>{cleanFileName}</span>
+              </ButtonComponent>
             </li>
           );
         })}

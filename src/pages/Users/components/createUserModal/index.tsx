@@ -21,7 +21,7 @@ import { AddressByCep } from "../../../../utils/addressByCep";
 import { api } from "../../../../services/api.service";
 import formatPhoneNumber from "../../../../utils/formatPhoneNumber";
 import formatCep from "../../../../utils/cepMask";
-import SelectSector from "../../../../components/selectSector";
+import SectorSelect from "./components/sectorSelect";
 
 export default function CreateUserModal({
   onClose,
@@ -193,9 +193,13 @@ export default function CreateUserModal({
     setValue("cep", formattedValue, { shouldDirty: true });
   };
 
+  const handleSectorSelect = (value: string) => {
+    setValue("sector_name", value, { shouldDirty: true });
+  };
+
   useEffect(() => {
-    console.log(userData?.profile_picture);
-  }, [userData?.profile_picture]);
+    handleSectorSelect(userData?.sector_name || "01 - Caixa do Bar da Sede");
+  }, [userData]);
 
   const defaultUrl = userData
     ? `profile-picture/${userData?.code}/regularSize_${userData?.profile_picture}`
@@ -286,13 +290,11 @@ export default function CreateUserModal({
               <SelectItem value="Supervisor">Supervisor</SelectItem>
               <SelectItem value="Administrator">Administrator</SelectItem>
             </Select>
-            <SelectSector
-              title="Selecione o Setor"
-              onChange={(data) => {
-                setValue("sector_name", data?.name as string, {
-                  shouldDirty: true,
-                });
-              }}
+            <SectorSelect
+              onSelect={handleSectorSelect}
+              defaultValue={
+                userData?.sector_name || "01 - Caixa do Bar da Sede"
+              }
             />
           </form>
         </div>

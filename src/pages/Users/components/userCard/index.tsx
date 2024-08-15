@@ -41,13 +41,19 @@ const UserCard = ({ data, refetch }: UserCardProps) => {
         )}
       </Modal>
 
-      <UserComponent type="button" onClick={() => setOpen(true)}>
+      <UserComponent
+        type="button"
+        onClick={() => setOpen(true)}
+        title={data.name}
+      >
         <div className="status-container">
           <StatusComponent status={!data?.deleted_at} />
         </div>
         <div className="header-container">
           <Avatar
-            src={`profile-picture/${data?.code}/regularSize_${data?.profile_picture}`}
+            {...(data?.profile_picture && {
+              src: `profile-picture/${data?.code}/regularSize_${data?.profile_picture}`,
+            })}
             alt=""
             className="user-avatar"
           />

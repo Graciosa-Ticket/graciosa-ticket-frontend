@@ -14,11 +14,7 @@ interface HomeTicketProps {
   userSector?: SectorCardModel;
 }
 
-const HomeTicketComponent = ({
-  isadmin,
-  user,
-  userSector,
-}: HomeTicketProps) => {
+const HomeTicketComponent = ({ isadmin, user }: HomeTicketProps) => {
   const [dataSource, setDataSource] = useState<TicketModel[]>([]);
   if (isadmin) {
     useFetch<TicketModel[]>(
@@ -32,7 +28,7 @@ const HomeTicketComponent = ({
     );
   } else {
     useFetch<TicketModel[]>(
-      `/ticket/getLatest/latestTickets/${userSector?.code}`,
+      `/ticket/getLatest/latestTickets/1`,
       ["latestTicket"],
       {
         onSuccess: (data) => {

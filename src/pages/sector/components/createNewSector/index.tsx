@@ -56,7 +56,6 @@ export default function CreateSectorModal({
 
     const data = {
       ...rest,
-      status: true,
       code: sectorData?.code,
     };
 

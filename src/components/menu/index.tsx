@@ -1,5 +1,5 @@
 import { MenuHeaderHome, UserCallerContainer } from "./styles";
-import Logo from "../../assets/graciosa-logo 2.svg";
+import Logo from "../../assets/graciosa-icon.svg";
 import Modal from "../modal";
 import { useMemo, useState } from "react";
 import ButtonComponent from "../buttons";

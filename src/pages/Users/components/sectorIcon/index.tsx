@@ -17,12 +17,15 @@ const SectorIcon = ({ data }: UserCardProps) => {
     Collaborator: <RiBuildingLine className="icon" />,
   };
 
+  // Remove a parte inicial do texto "04 - " e mantém apenas o nome do setor
+  const sectorName = data.sector_name.replace(/^\d+\s*-\s*/, "");
+
   return (
     <IconComponent>
       {iconOptions[data.role]}
       <div className="prints">
         <p>Setor</p>
-        <h2>{data.sector_name}</h2>
+        <h2>{sectorName}</h2>
       </div>
     </IconComponent>
   );

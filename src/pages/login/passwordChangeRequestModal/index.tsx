@@ -23,18 +23,19 @@ export default function PasswordChangeRequestModal({
 }: modalActions<PasswordChangeRequestModalProps>) {
   const { handleSubmit, register } = useForm({});
 
-  const { mutate: createFeedback, isLoading: isLoadingFeedback } =
-    useMutationQuery("/feedback");
+  const { mutate: createPasswordChangeTicket, isLoading: isLoadingFeedback } =
+    useMutationQuery("/management/forgotPassword");
 
   const onSubmit = handleSubmit((data) => {
-    createFeedback(data, {
+    createPasswordChangeTicket(data, {
       onSuccess: () => {
-        toast.success("Obrigado pela sugestão");
+        toast.success("Tudo Certo, aguarde a resposta do chamado");
         onClose?.();
       },
-      onError: () => {},
+      onError: () => {
+        toast.error("Erro ao solicitar a nova senha.");
+      },
     });
-    console.log(data);
   });
 
   return (
@@ -54,23 +55,21 @@ export default function PasswordChangeRequestModal({
         <FormContainer onSubmit={onSubmit}>
           <FormContentContainer>
             <Input
-              label="Código de Usuário"
-              placeholder="Informe código de usuário"
-              //   error={errors.user_code?.message}
-              {...register("user_code", {
-                required: "Código de usuário é obrigatório",
-              })}
-            />
-            <Input
               label="Email"
               placeholder="Informe email"
-              //   error={errors.email?.message}
               {...register("email", {
                 required: "Email é obrigatório",
                 pattern: {
                   value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
                   message: "Email inválido",
                 },
+              })}
+            />
+            <Input
+              label="Código de Usuário"
+              placeholder="Informe código de usuário"
+              {...register("user_code", {
+                required: "Código de usuário é obrigatório",
               })}
             />
           </FormContentContainer>
@@ -84,7 +83,7 @@ export default function PasswordChangeRequestModal({
               className="confirm-btn"
               isLoading={isLoadingFeedback}
             >
-              sim, Solicitar
+              Sim, Solicitar
             </ButtonComponent>
           </FormButtonsContainer>
         </FormContainer>

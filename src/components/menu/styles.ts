@@ -14,7 +14,7 @@ export const MenuHeaderHome = styled.header`
     align-items: center;
     img {
       max-width: 36px;
-      mix-blend-mode: multiply;
+      /* mix-blend-mode: multiply; */
     }
   }
 

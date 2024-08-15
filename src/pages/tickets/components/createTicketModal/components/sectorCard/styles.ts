@@ -68,6 +68,7 @@ export const SectorComponent = styled.button`
       max-width: 150px;
       ${({ theme }) => theme.font.p.normal_bold};
       color: ${({ theme }) => theme.colors.brand.dark_blue};
+      margin-bottom: 8px;
     }
   }
 

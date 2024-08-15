@@ -7,6 +7,18 @@ export const ModalContentBody = styled.main`
   grid-template-columns: 500px 400px;
   grid-template-rows: 1fr;
   padding: 0 25px 25px;
+  overflow: auto; /* Adiciona rolagem automática se necessário */
+
+  @media (max-height: 1050px) {
+    max-height: 90vh; /* Limite a altura do modal a 90% da viewport */
+    overflow-y: auto; /* Adiciona rolagem vertical se necessário */
+  }
+
+  @media (max-width: 950px) {
+    grid-template-columns: 1fr; /* Ajuste a coluna para telas menores */
+    grid-template-rows: auto; /* Ajuste as linhas para telas menores */
+    padding: 10px; /* Ajuste o padding para telas menores */
+  }
   .img-sector {
     margin-top: 20px;
   }
@@ -171,6 +183,7 @@ export const ChatContainer = styled.section`
     }
 
     .input-button-container {
+      margin-top: 10px;
       display: flex;
       flex-direction: column;
       gap: 0.2em;
@@ -208,6 +221,7 @@ export const ChatCardContainer = styled.div<chatCardProps>`
   position: relative;
   padding: 0.5em 0.8em 0.5em 0.5em;
   animation: 0.2s ${chatAppearingAnimation} ease-in;
+  margin-right: 8px;
 
   &::after {
     width: 15px;

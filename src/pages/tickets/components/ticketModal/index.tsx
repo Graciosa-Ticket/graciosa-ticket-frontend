@@ -24,9 +24,9 @@ const selectItemStyle = (status: TicketModel["status"]): CSSProperties => {
   const statusStyle = {
     ["Aberto"]: "open",
     ["Em andamento"]: "on_going",
-    ["Aguardando aprovação"]: "re_open",
+    ["Aguardando aprovação"]: "waiting_approval",
     ["Cancelado"]: "canceled",
-    ["Reaberto"]: "waiting_approval",
+    ["Reaberto"]: "re_open",
     ["Impeditivo"]: "impediment",
     ["Concluído"]: "done",
   };
@@ -44,7 +44,10 @@ const TicketModal = ({
   onUpdate,
 }: modalActions<TicketModel>) => {
   const { user } = useAuth();
-  const { watch, setValue } = useForm<{ status: TicketModel["status"] }>({
+  const [currentTicket, setCurrentTicket] = useState<TicketModel>(
+    data as TicketModel
+  );
+  const { setValue } = useForm<{ status: TicketModel["status"] }>({
     defaultValues: data,
   });
 
@@ -54,16 +57,22 @@ const TicketModal = ({
   );
 
   const handleStatusChange = (newStatus: TicketModel["status"]) => {
-    if (data) {
-      const updatedTicket = {
-        code: data.code,
+    if (currentTicket) {
+      // Crie um objeto com apenas os campos "code" e "status"
+      const ticketToUpdate = {
+        code: currentTicket.code,
         status: newStatus,
       };
 
-      updateTicket(updatedTicket, {
+      setCurrentTicket((prev) => ({
+        ...prev,
+        status: newStatus,
+      })); // Atualiza o estado com o ticket modificado
+
+      updateTicket(ticketToUpdate, {
         onSuccess: () => {
           toast.success("Status Alterado!", { position: "bottom-left" });
-          setValue("status", updatedTicket.status);
+          setValue("status", newStatus);
           onUpdate?.();
         },
         onError: () => {},
@@ -72,7 +81,7 @@ const TicketModal = ({
   };
 
   const { mutate: deleteTicket, isLoading: isLoadingDelete } = useMutationQuery(
-    `/ticket/${data?.code}`,
+    `/ticket/${currentTicket?.code}`,
     "delete"
   );
 
@@ -104,15 +113,17 @@ const TicketModal = ({
           <ButtonComponent buttonStyles="text" onClick={handleClose}>
             <FaAngleLeft fontSize="1.9em" />
           </ButtonComponent>
-          <ModalTitle>{`#${data?.code} - ${data?.title}`}</ModalTitle>
+          <ModalTitle>{`#${currentTicket?.code} - ${currentTicket?.title}`}</ModalTitle>
         </div>
 
         <ModalHeaderSection>
           <span>Status do chamado</span>
 
           <Select
-            defaultValue={data?.status}
-            triggerStyle={selectItemStyle(watch("status") || "Em andamento")}
+            defaultValue={currentTicket?.status}
+            triggerStyle={selectItemStyle(
+              currentTicket?.status || "Em andamento"
+            )}
             onValueChange={handleStatusChange}
             isLoading={isLoadingUpdate}
           >
@@ -132,21 +143,21 @@ const TicketModal = ({
       <ModalContentBody>
         <section className="ticket-content-side">
           <div className="ticket-content-header">
-            <h2>{data?.title}</h2>
+            <h2>{currentTicket?.title}</h2>
 
             <div className="right-side">
               <span>
-                {data?.created_at
+                {currentTicket?.created_at
                   ? `${formatDate(
-                      data?.created_at,
+                      currentTicket?.created_at,
                       "dd/MM/yyyy"
-                    )} as ${formatDate(data?.created_at, "HH:mm")}`
+                    )} as ${formatDate(currentTicket?.created_at, "HH:mm")}`
                   : "data invalida"}
               </span>
             </div>
           </div>
 
-          <p className="description">{data?.description}</p>
+          <p className="description">{currentTicket?.description}</p>
 
           <div className="details-header">
             <h6>Detalhes</h6>
@@ -156,18 +167,18 @@ const TicketModal = ({
             <section className="details-section">
               <div className="ticket-owner">
                 <p>Quem Abriu?</p>
-                <TicketUserCard data={data?.user as UserModel} />
+                <TicketUserCard data={currentTicket?.user as UserModel} />
               </div>
             </section>
 
             <section className="images-Setion">
               <p>Anexos</p>
-              <TicketFileViewer files={data?.attachmentUrl} />
+              <TicketFileViewer files={currentTicket?.attachmentUrl} />
             </section>
           </section>
 
           <section className="buttons-content">
-            {(data?.user.code === user.code ||
+            {(currentTicket?.user.code === user.code ||
               user.role === "Administrator") && (
               <ActionsModalComponent
                 message="Confirme para excluir este Ticket. Esta ação não pode ser desfeita."
@@ -190,9 +201,9 @@ const TicketModal = ({
               </ActionsModalComponent>
             )}
 
-            {watch("status") !== "Concluído" && (
+            {currentTicket?.status !== "Concluído" && (
               <CloseTicketButton
-                data={data as TicketModel}
+                data={currentTicket as TicketModel}
                 onCloseTicket={handleCloseTicket}
               />
             )}
@@ -204,7 +215,7 @@ const TicketModal = ({
             <h6>Chat</h6>
           </div>
 
-          <ChatComponent ticket_data={watch() as TicketModel} />
+          <ChatComponent ticket_data={currentTicket as TicketModel} />
         </section>
       </ModalContentBody>
     </>

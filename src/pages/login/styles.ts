@@ -86,4 +86,14 @@ export const LoginContainer = styled.section`
       }
     }
   }
+
+  .reset-Password-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: ${({ theme }) => theme.colors.brand.dark_blue};
+    ${({ theme }) => theme.font.p.normal};
+    cursor: pointer;
+    margin-top: 20px;
+  }
 `;

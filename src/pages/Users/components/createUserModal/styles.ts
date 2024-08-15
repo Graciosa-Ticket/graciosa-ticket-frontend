@@ -14,6 +14,13 @@ export const CreateUserComponent = styled.section`
     overflow-y: auto;
     max-height: 100vh;
   }
+
+  @media (max-width: 650px) {
+    grid-template-columns: 1fr; /* Ajuste a coluna para telas menores */
+    grid-template-rows: auto; /* Ajuste as linhas para telas menores */
+    padding: 10px; /* Ajuste o padding para telas menores */
+  }
+
   h1 {
     ${({ theme }) => theme.font.h3};
     color: ${({ theme }) => theme.colors.brand.dark_blue};
