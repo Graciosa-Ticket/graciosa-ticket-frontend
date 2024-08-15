@@ -111,7 +111,7 @@ export const TicketFormContainer = styled.div`
 export const TicketMainFormContainer = styled(FormContentContainer)`
   .file-input-container {
     min-height: 300px;
-    color: ${({ theme }) => theme.colors.grayscale.gray_50};
+    color: ${({ theme }) => theme.colors.brand.dark_blue};
     border-radius: 0.5em;
     display: flex;
     flex-direction: column;
@@ -120,9 +120,8 @@ export const TicketMainFormContainer = styled(FormContentContainer)`
       margin-top: 5px;
       margin-left: 2px;
       margin-bottom: 5px;
-      color: ${({ theme }) => theme.colors.grayscale.gray_50};
-      ${({ theme }) => theme.font.p.normal};
-      font-weight: 500;
+      color: ${({ theme }) => theme.colors.brand.dark_blue};
+      ${({ theme }) => theme.font.p.small};
     }
 
     #fileInput {
@@ -139,15 +138,16 @@ export const TicketMainFormContainer = styled(FormContentContainer)`
       border-radius: 0.5em;
       padding: 8px;
       cursor: pointer;
-      color: ${({ theme }) => theme.colors.grayscale.gray_50};
+      color: ${({ theme }) => theme.colors.brand.dark_blue};
       ${({ theme }) => theme.font.p.normal};
       margin-top: 2px;
       margin-left: 2px;
       text-align: center;
       transition: 300ms;
+      border-color: ${({ theme }) => theme.colors.grayscale.gray_50};
 
       &:hover {
-        background-color: ${({ theme }) => theme.colors.grayscale.gray_50};
+        background-color: ${({ theme }) => theme.colors.brand.dark_blue};
         color: ${({ theme }) => theme.colors.brand.white};
         transition: background-color 0.3s ease;
       }
@@ -174,16 +174,16 @@ export const TicketMainFormContainer = styled(FormContentContainer)`
       padding: 0.4em;
 
       p {
-        color: ${({ theme }) => theme.colors.grayscale.gray_50};
+        color: ${({ theme }) => theme.colors.brand.dark_blue};
         ${({ theme }) => theme.font.p.normal};
       }
 
       .remove-icon {
-        color: ${({ theme }) => theme.colors.grayscale.gray_50};
+        color: ${({ theme }) => theme.colors.brand.dark_blue};
         cursor: pointer;
 
         &:hover {
-          background-color: ${({ theme }) => theme.colors.grayscale.gray_50};
+          background-color: ${({ theme }) => theme.colors.brand.dark_blue};
           color: ${({ theme }) => theme.colors.brand.white};
           transition: background-color 0.3s ease;
         }

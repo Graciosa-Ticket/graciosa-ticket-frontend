@@ -160,10 +160,8 @@ export default function CreateUserModal({
           updateProfile({ ...userData, ...rest });
         }
         toast.success("Cadastro Atualizado!");
-        console.log("atuazli  " + userData);
       } else {
         toast.success("Cadastro concluído!");
-        console.log("conlusiasad " + userData);
       }
 
       setLoading(false);

@@ -183,6 +183,7 @@ export const ChatContainer = styled.section`
     }
 
     .input-button-container {
+      margin-top: 10px;
       display: flex;
       flex-direction: column;
       gap: 0.2em;
@@ -220,6 +221,7 @@ export const ChatCardContainer = styled.div<chatCardProps>`
   position: relative;
   padding: 0.5em 0.8em 0.5em 0.5em;
   animation: 0.2s ${chatAppearingAnimation} ease-in;
+  margin-right: 8px;
 
   &::after {
     width: 15px;

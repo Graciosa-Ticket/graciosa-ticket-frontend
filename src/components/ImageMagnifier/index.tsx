@@ -8,7 +8,7 @@ interface ImageMagnifierProps {
 }
 
 function ImageMagnifier(props: ImageMagnifierProps): JSX.Element {
-  const { src, alt = "", width = "550px" } = props;
+  const { src, alt = "", width = "350px" } = props;
 
   return (
     <div style={{ position: "relative", width }}>
@@ -22,16 +22,16 @@ function ImageMagnifier(props: ImageMagnifierProps): JSX.Element {
           largeImage: {
             src,
             width: 1200,
-            height: 1800,
+            height: 800,
           },
           enlargedImageContainerDimensions: {
-            width: "100%",
-            height: "100%",
+            width: "120%",
+            height: "120%",
           },
           enlargedImageContainerStyle: {
             position: "absolute",
-            top: "10%",
-            left: "10%",
+            top: "120%",
+            left: "-12%",
             overflow: "hidden",
             pointerEvents: "none",
             zIndex: 10,

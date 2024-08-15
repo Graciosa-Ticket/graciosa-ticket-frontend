@@ -22,6 +22,7 @@ const fileTypes = {
   jpg: "image",
   png: "image",
   doc: "doc",
+  docx: "doc",
   csv: "excel",
   xlsx: "excel",
 };
@@ -62,16 +63,24 @@ const TicketFileViewer = ({ files }: ticketFileViewerProps) => {
     link.click();
   };
 
+  const getCleanFileName = (file: string) => {
+    // Extrai o nome do arquivo sem o caminho
+    const fileName = file.split("/").pop() || file;
+
+    // Remove qualquer sequência de números seguida de um underscore
+    return fileName.replace(/^\d+_/, "");
+  };
   return (
     <TicketFileContainer>
       <ul>
         {formattedFiles.map((e, i) => {
+          const cleanFileName = getCleanFileName(e.file);
+
           if (e.type === "image") {
             return (
               <li key={i}>
                 <ImageViewer imageUrl={e.file} />
-
-                <span>{e.file}</span>
+                <span>{cleanFileName}</span>
               </li>
             );
           }
@@ -81,11 +90,11 @@ const TicketFileViewer = ({ files }: ticketFileViewerProps) => {
               <ButtonComponent
                 buttonStyles="text"
                 onClick={() => handleDownload(e.file)}
+                title="Clique para baixar"
               >
                 {fileIcons[e.type]}
-                <span>{e.file}</span>
+                <span>{cleanFileName}</span>
               </ButtonComponent>
-              <span>{e.file}</span>
             </li>
           );
         })}
