@@ -67,10 +67,11 @@ export default function User() {
 
           <div className="search-user">
             <SelectUsers
-              title="Buscar Usuario"
+              title="Buscar"
               onChange={handleUserSelect}
               filterCollaborators={false}
-              showPicturePlaceholder={false}
+              showPicturePlaceholder={true}
+              showSearchIcon={true}
             />
           </div>
         </PageHeaderComponent.container>

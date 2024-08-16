@@ -95,11 +95,13 @@ interface userCardList {
 }
 
 const UserCardList = ({ data, onChange }: userCardList) => {
+  const profilePictureSrc = data.profile_picture
+    ? `profile-picture/${data.code}/minSize_${data.profile_picture}`
+    : undefined;
+
   return (
     <UserCardListContainer buttonStyles="text" onClick={() => onChange(data)}>
-      <Avatar
-        src={`profile-picture/${data.code}/minSize_${data?.profile_picture}`}
-      />
+      <Avatar src={profilePictureSrc} />
 
       <div className="user-information">
         <h3>{data.name}</h3>

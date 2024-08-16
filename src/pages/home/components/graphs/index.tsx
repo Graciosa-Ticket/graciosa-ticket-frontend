@@ -136,7 +136,7 @@ const HomeGraph = ({
     <HomeGraphContainer>
       <section className="big-numbers">
         <div className="section-header">
-          <h1>Chamados Graciosa Country Club</h1>
+          <h1>Indicadores Graciosa Country Club</h1>
         </div>
         <ul className="big-numbers-list">
           <div className="sl">

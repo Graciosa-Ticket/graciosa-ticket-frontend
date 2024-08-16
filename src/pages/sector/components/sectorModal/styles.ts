@@ -43,7 +43,7 @@ export const SectorModalComponent = styled.section`
   }
 
   h1 {
-    margin-top: 15px;
+    margin-top: 40px;
     ${({ theme }) => theme.font.p.small};
     color: ${({ theme }) => theme.colors.brand.dark_blue};
   }

@@ -24,11 +24,15 @@ export const LoginContainer = styled.section`
       ${({ theme }) => theme.font.h3};
       color: white;
       font-weight: 700;
+      max-width: 85%;
+      margin-left: 25px;
     }
 
     p {
       color: white;
-      ${({ theme }) => theme.font.p.small};
+      ${({ theme }) => theme.font.p.extra_small};
+      max-width: 70%;
+      margin-left: 25px;
     }
   }
 
@@ -76,6 +80,7 @@ export const LoginContainer = styled.section`
 
     .buttons-container {
       display: grid;
+      margin-top: 20px;
 
       button {
         padding: 0.6em 2em;

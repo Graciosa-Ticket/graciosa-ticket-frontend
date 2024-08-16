@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import {
   Graph,
   GraphItem,
+  Separator,
   StyledTooltipArrow,
   StyledTooltipContent,
 } from "./styles";
@@ -11,6 +12,7 @@ import ButtonComponent from "../../../../../components/buttons";
 import { FaAngleLeft } from "react-icons/fa";
 import formatLabel from "../../../../../utils/formatLabel";
 import * as Tooltip from "@radix-ui/react-tooltip";
+import React from "react";
 
 type SectorGraphData = CounterToChartModel & {
   sector_code?: string;
@@ -121,48 +123,51 @@ const GCCBarGraph = ({ data }: graphProps) => {
       )}
       <Graph $selectionactive={selectionactive}>
         {chartData.map((e, i) => (
-          <button
-            type="button"
-            key={`${e.sector_code}-${i}`}
-            className="lines-container"
-            onClick={() => handleChangeGraphPosition(i)}
-          >
-            <div className="lines">
-              {e.data
-                .filter((item) => item.label !== "sector_code")
-                .map((total, index) => {
-                  const value = Number(total.value);
-                  if (!isNaN(value)) {
-                    const height = (value * 100) / maxValue;
+          <React.Fragment key={i}>
+            {/* Adiciona o Separator antes do button */}
+            {i > 0 && <Separator />}
 
-                    return (
-                      <Tooltip.Root
-                        key={`${e.sector_code}-${total.label}-${index}`}
-                      >
-                        <Tooltip.Trigger asChild>
-                          <GraphItem
-                            style={{
-                              height: (height <= 1 ? 2 : height) + "%",
-                            }}
-                            $type={total.label as keyof CounterToChartModel}
-                          />
-                        </Tooltip.Trigger>
-                        <Tooltip.Portal>
-                          <StyledTooltipContent side="top" align="center">
-                            {`${formatLabel(total.label)}: ${value}`}
-                            <StyledTooltipArrow />
-                          </StyledTooltipContent>
-                        </Tooltip.Portal>
-                      </Tooltip.Root>
-                    );
-                  }
-                  return null;
-                })}
-            </div>
-            <p className="date-indicator">{e.sector_name || e.sector_code}</p>
-          </button>
+            <button
+              type="button"
+              className="lines-container"
+              onClick={() => handleChangeGraphPosition(i)}
+            >
+              <div className="lines">
+                {e.data
+                  .filter((item) => item.label !== "sector_code")
+                  .map((total, index) => {
+                    const value = Number(total.value);
+                    if (!isNaN(value)) {
+                      const height = (value * 100) / maxValue;
+
+                      return (
+                        <Tooltip.Root
+                          key={`${e.sector_code}-${total.label}-${index}`}
+                        >
+                          <Tooltip.Trigger asChild>
+                            <GraphItem
+                              style={{
+                                height: (height <= 1 ? 2 : height) + "%",
+                              }}
+                              $type={total.label as keyof CounterToChartModel}
+                            />
+                          </Tooltip.Trigger>
+                          <Tooltip.Portal>
+                            <StyledTooltipContent side="top" align="center">
+                              {`${formatLabel(total.label)}: ${value}`}
+                              <StyledTooltipArrow />
+                            </StyledTooltipContent>
+                          </Tooltip.Portal>
+                        </Tooltip.Root>
+                      );
+                    }
+                    return null;
+                  })}
+              </div>
+              <p className="date-indicator">{e.sector_name || e.sector_code}</p>
+            </button>
+          </React.Fragment>
         ))}
-
         {graphLines}
       </Graph>
     </div>

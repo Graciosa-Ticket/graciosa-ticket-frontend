@@ -1,4 +1,5 @@
 import { FaRegFaceSmile, FaXmark } from "react-icons/fa6";
+import { IoSearchOutline } from "react-icons/io5"; // Importando o novo ícone
 import {
   SelectUsersContainer,
   SelectUsersContainerPlaceholder,
@@ -6,9 +7,10 @@ import {
 import { PopOverRoot } from "../../popOver";
 import SearchUsers from "./searchUsers";
 import { UserModel } from "../../../models/user";
-import Avatar from "../../Avatar";
+import Avatar, { blankAvatar } from "../../Avatar";
 import ButtonComponent from "../../buttons";
 import { useState } from "react";
+import { StyledIcon } from "../../../pages/home/components/graphs/barGraphGCC/styles";
 
 interface selectUserProps {
   label?: string;
@@ -19,6 +21,7 @@ interface selectUserProps {
   showRemoveButton?: boolean;
   filterCollaborators?: boolean;
   showPicturePlaceholder?: boolean;
+  showSearchIcon?: boolean;
 }
 
 const SelectUsers = ({
@@ -30,6 +33,7 @@ const SelectUsers = ({
   showRemoveButton = true,
   filterCollaborators = true,
   showPicturePlaceholder = true,
+  showSearchIcon = false,
 }: selectUserProps) => {
   const [open, setOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState<UserModel | undefined>(
@@ -79,6 +83,7 @@ const SelectUsers = ({
                     title={title}
                     icon={placeholderIcon}
                     showPicturePlaceholder={showPicturePlaceholder}
+                    showSearchIcon={showSearchIcon}
                   />
                 )}
               </button>
@@ -109,16 +114,25 @@ interface picturePlaceholderProps {
   title: string;
   icon: any;
   showPicturePlaceholder: boolean;
+  showSearchIcon?: boolean;
 }
 
 const PicturePlaceholder = ({
   title,
-  icon = <FaRegFaceSmile fontSize={"1.5em"} />,
+  icon = <FaRegFaceSmile />,
   showPicturePlaceholder,
+  showSearchIcon = false,
 }: picturePlaceholderProps) => {
   return (
     <SelectUsersContainerPlaceholder>
-      {showPicturePlaceholder && icon}
+      {showPicturePlaceholder &&
+        (showSearchIcon ? (
+          <StyledIcon size=".7em">
+            <IoSearchOutline />
+          </StyledIcon>
+        ) : (
+          <StyledIcon size=".8em">{icon}</StyledIcon>
+        ))}
       <span>{title}</span>
     </SelectUsersContainerPlaceholder>
   );
@@ -133,13 +147,14 @@ const SelectedUserContainer = ({
   data,
   showPicturePlaceholder,
 }: selectedUserProps) => {
+  const profilePictureSrc = data.profile_picture
+    ? `profile-picture/${data.code}/regularSize_${data.profile_picture}`
+    : undefined;
+
   return (
     <SelectUsersContainerPlaceholder>
       {showPicturePlaceholder && (
-        <Avatar
-          src={`profile-picture/${data?.code}/regularSize_${data?.profile_picture}`}
-          className="avatar-img"
-        />
+        <Avatar src={profilePictureSrc} className="avatar-img" />
       )}
       <span className="selected-user-span">{data.name}</span>
     </SelectUsersContainerPlaceholder>

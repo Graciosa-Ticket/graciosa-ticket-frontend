@@ -30,6 +30,7 @@ export const Graph = styled.section<{ $selectionactive: boolean }>`
     position: relative;
     align-items: center;
     gap: 0.2em;
+    padding: 4px;
 
     cursor: ${({ $selectionactive }) =>
       $selectionactive ? "pointer" : "default"};
@@ -40,9 +41,9 @@ export const Graph = styled.section<{ $selectionactive: boolean }>`
       bottom: -0.2em;
       left: -0.2em;
       right: -0.2em;
-      border: 1px solid ${({ theme }) => theme.colors.grayscale.gray_30};
       opacity: 0;
       position: absolute;
+      border: 1px solid ${({ theme }) => theme.colors.grayscale.gray_30};
       border-radius: 0.8em;
       transition: 0.3s;
       pointer-events: none;
@@ -69,7 +70,7 @@ export const Graph = styled.section<{ $selectionactive: boolean }>`
 
     .date-indicator {
       ${({ theme }) => theme.font.p.extra_small};
-      color: ${({ theme }) => theme.colors.grayscale.gray_70};
+      color: ${({ theme }) => theme.colors.brand.dark_blue};
       text-align: left;
       width: 100%;
       font-weight: 550;
@@ -78,6 +79,8 @@ export const Graph = styled.section<{ $selectionactive: boolean }>`
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
+      z-index: 10; /* Certifique-se de que o texto está sobre a linha pontilhada */
+      position: relative;
     }
   }
 
@@ -102,11 +105,15 @@ export const Graph = styled.section<{ $selectionactive: boolean }>`
         display: inline-block;
         height: 1px;
         border-bottom: 1px dashed
-          ${({ theme }) => theme.colors.grayscale.gray_10};
+          ${({ theme }) => theme.colors.grayscale.gray_70};
         position: absolute;
         right: 0;
         left: 20px;
         z-index: 1;
+      }
+
+      &:nth-last-child(1)::after {
+        display: none; /* Remove a última linha */
       }
     }
   }
@@ -211,4 +218,12 @@ export const GraphItem = styled.div<releaseGraphItemProps>`
     box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
     z-index: 3;
   }
+`;
+
+export const Separator = styled.div`
+  background-color: ${({ theme }) => theme.colors.grayscale.gray_30};
+  border: dashed 1px ${({ theme }) => theme.colors.grayscale.gray_05};
+`;
+export const StyledIcon = styled.div<{ size?: string }>`
+  font-size: ${(props) => props.size || "1.5em"};
 `;
