@@ -33,6 +33,7 @@ import { ChangeEvent, useEffect, useState } from "react";
 import { useAuth } from "../../../../hooks/auth";
 import getDirtyFields from "../../../../utils/getDirtyFields";
 import { AiOutlineCloseCircle, AiOutlineFileAdd } from "react-icons/ai";
+import fileLimit from "../../../../utils/fileSizeLimit";
 
 type viewOptions = "sector" | "main";
 
@@ -49,7 +50,7 @@ interface createInputProps {
   start_date: Date;
   end_date: Date;
   user: UserModel;
-  files?: FileList;
+  files?: FileList | File[];
   is_recurrent: boolean;
 }
 
@@ -232,7 +233,8 @@ const TicketFormStep = ({ formProps, onClose, onUpdate }: StepsProps) => {
       if (ticketData[key]) {
         if (key === "files") {
           for (let i = 0; i < ticketData[key].length; i++) {
-            formData.append("files", ticketData[key][i]);
+            const currentFile = ticketData[key][i];
+            formData.append("files", currentFile);
           }
         } else {
           formData.append(key, ticketData[key]);
@@ -277,6 +279,7 @@ const TicketFormStep = ({ formProps, onClose, onUpdate }: StepsProps) => {
         ) : (
           <TicketMainForm formProps={formProps} errors={errors} />
         )}
+
         <FormButtonsContainer $columns={3}>
           <ButtonComponent
             buttonStyles="text"
@@ -285,29 +288,24 @@ const TicketFormStep = ({ formProps, onClose, onUpdate }: StepsProps) => {
           >
             {viewAdvancedOptions ? "Voltar" : "Avançado"}
           </ButtonComponent>
-
-          {!viewAdvancedOptions && (
-            <>
-              <ButtonComponent
-                className="cancel-button"
-                buttonStylesType="outline"
-                buttonStyles="delete"
-                title="Cancelar criação de chamado"
-                onClick={onClose}
-              >
-                Cancelar
-              </ButtonComponent>
-              <ButtonComponent
-                buttonStyles="confirm"
-                type="button"
-                title="Enviar chamado"
-                onClick={onSubmit}
-                isLoading={isLoadingUpdate}
-              >
-                Enviar
-              </ButtonComponent>
-            </>
-          )}
+          <ButtonComponent
+            className="cancel-button"
+            buttonStylesType="outline"
+            buttonStyles="delete"
+            title="Cancelar criação de chamado"
+            onClick={onClose}
+          >
+            Cancelar
+          </ButtonComponent>
+          <ButtonComponent
+            buttonStyles="confirm"
+            type="button"
+            title="Enviar chamado"
+            onClick={onSubmit}
+            isLoading={isLoadingUpdate}
+          >
+            Enviar
+          </ButtonComponent>
         </FormButtonsContainer>
       </FormContainer>
     </TicketFormContainer>
@@ -322,12 +320,27 @@ const TicketMainForm = ({
   const [files, setFiles] = useState<File[]>([]);
 
   const handleChangeInputValue = (current: ChangeEvent<HTMLInputElement>) => {
-    const fileList = current.target.files;
+    const fileList = current.target.files as FileList;
 
     if (fileList?.length) {
-      const newFiles = Array.from(fileList);
-      setFiles((prevFiles) => [...prevFiles, ...newFiles]);
-      setValue("files", fileList as FileList, {
+      const filesArray = Array.from(fileList);
+
+      for (let i = 0; i < filesArray.length; i++) {
+        const currentFile = filesArray[i];
+
+        const { canUpload } = fileLimit(
+          currentFile,
+          1,
+          `O arquivo: ${currentFile.name}, é muito grande`
+        );
+
+        if (!canUpload) {
+          filesArray.splice(i, 1);
+        }
+      }
+
+      setFiles((prevFiles) => [...prevFiles, ...filesArray]);
+      setValue("files", filesArray, {
         shouldDirty: true,
       });
     }

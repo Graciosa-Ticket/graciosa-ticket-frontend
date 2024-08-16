@@ -21,7 +21,7 @@ const TicketUserCard = ({ data }: ticketUserCardProps) => {
   const onOpenModal = async () => {
     setLoading(true);
     try {
-      const { data: res } = await api.get(`users/${data.code}`);
+      const { data: res } = await api.get(`users/${data?.code}`);
       setModalData({ ...res, ...data });
       setOpen(true);
       setLoading(false);
@@ -57,7 +57,7 @@ const TicketUserCard = ({ data }: ticketUserCardProps) => {
         isLoading={loading}
       >
         <Avatar
-          src={`profile-picture/${data.code}/regularSize_${data?.profile_picture}`}
+          src={`profile-picture/${data?.code}/regularSize_${data?.profile_picture}`}
           alt=""
           className="user-avatar"
         />

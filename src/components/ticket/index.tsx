@@ -27,7 +27,7 @@ export default function TicketCard({ data }: ticketCardProps) {
       <TicketContainer
         $status={data.status}
         type="button"
-        // onClick={() => setOpenModal(true)}
+        onClick={() => setOpenModal(true)}
       >
         <div className="top-ticketCard">
           <div className="left-side">

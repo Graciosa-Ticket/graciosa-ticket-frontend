@@ -6,7 +6,7 @@ import { ModalContentBody, ModalHeaderSection } from "./styles";
 import { formatDate } from "date-fns";
 import { Select, SelectItem } from "../../../../components/form/select";
 import { theme, ticketStatus } from "../../../../styles/theme";
-import { CSSProperties, useState } from "react";
+import { CSSProperties, useEffect, useState } from "react";
 import ChatComponent from "./chat";
 import { modalActions } from "../../../../shared/global.interface";
 import { useMutationQuery } from "../../../../services/hooks/useMutationQuery";
@@ -47,6 +47,13 @@ const TicketModal = ({
   const [currentTicket, setCurrentTicket] = useState<TicketModel>(
     data as TicketModel
   );
+
+  useEffect(() => {
+    if (data) {
+      setCurrentTicket(data);
+    }
+  }, [data]);
+
   const { setValue } = useForm<{ status: TicketModel["status"] }>({
     defaultValues: data,
   });
@@ -105,8 +112,6 @@ const TicketModal = ({
   const handleClose = () => {
     onClose?.();
   };
-
-  console.log("attachmentUrl:", currentTicket?.attachmentUrl);
 
   return (
     <>
@@ -182,7 +187,7 @@ const TicketModal = ({
           </section>
 
           <section className="buttons-content">
-            {(currentTicket?.user.code === user.code ||
+            {(currentTicket?.user?.code === user.code ||
               user.role === "Administrator") && (
               <ActionsModalComponent
                 message="Confirme para excluir este Ticket. Esta ação não pode ser desfeita."
