@@ -25,7 +25,7 @@ export default function SectorCard({
           onClose={() => setOpenModal(false)}
         />
       </Modal>
-      <SectorComponent onClick={() => setOpenModal(true)}>
+      <SectorComponent onClick={() => setOpenModal(true)} title={data?.name}>
         {/* <div className="status-container">
           <StatusComponent status={data?.deleted_at ? false : true} />
         </div> */}

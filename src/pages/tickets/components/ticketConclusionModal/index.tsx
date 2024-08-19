@@ -25,8 +25,7 @@ export default function TicketConclusionModal({
   onClose,
 }: modalActions<TicketModel>) {
   const { user } = useAuth();
-  const defaultMessage = "Mensagem de conclusão do chamado:<br><br>";
-
+  const defaultMessage = "Mensagem de conclusão do chamado:";
   const {
     handleSubmit,
     register,
@@ -63,7 +62,6 @@ export default function TicketConclusionModal({
     updateTicket(data, {
       onSuccess: async () => {
         if (description) {
-          // Concatenate the default message with the description
           const messageToSend = `${defaultMessage}${description}`;
 
           createComment(
