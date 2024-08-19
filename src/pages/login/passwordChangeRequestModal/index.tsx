@@ -12,16 +12,37 @@ import {
   FormContainer,
   FormContentContainer,
 } from "../../../components/form/form";
+import CheckBoxComponent from "../../../components/form/checkbox";
+import * as Yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 interface PasswordChangeRequestModalProps {
   user_code: string;
   email: string;
+  confirmBox: boolean;
 }
+
+// Esquema de validação com Yup
+const passwordChangeRequestSchema = Yup.object().shape({
+  email: Yup.string().email("Email inválido").required("Email é obrigatório"),
+  user_code: Yup.string().required("Código de usuário é obrigatório"),
+  confirmBox: Yup.boolean()
+    .oneOf([true], "Você deve confirmar para solicitar a alteração de senha")
+    .required("Confirmação é obrigatória"),
+});
 
 export default function PasswordChangeRequestModal({
   onClose,
 }: modalActions<PasswordChangeRequestModalProps>) {
-  const { handleSubmit, register } = useForm({});
+  const {
+    handleSubmit,
+    register,
+    setValue,
+    watch,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(passwordChangeRequestSchema),
+  });
 
   const { mutate: createPasswordChangeTicket, isLoading: isLoadingFeedback } =
     useMutationQuery("/management/forgotPassword");
@@ -37,6 +58,8 @@ export default function PasswordChangeRequestModal({
       },
     });
   });
+
+  const confirmed = watch("confirmBox") || false;
 
   return (
     <>
@@ -57,20 +80,21 @@ export default function PasswordChangeRequestModal({
             <Input
               label="Email"
               placeholder="Informe email"
-              {...register("email", {
-                required: "Email é obrigatório",
-                pattern: {
-                  value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                  message: "Email inválido",
-                },
-              })}
+              error={errors.email?.message}
+              register={{ ...register("email") }}
             />
             <Input
               label="Código de Usuário"
               placeholder="Informe código de usuário"
-              {...register("user_code", {
-                required: "Código de usuário é obrigatório",
-              })}
+              error={errors.user_code?.message}
+              register={{ ...register("user_code") }}
+            />
+            <CheckBoxComponent
+              id="ocurrence"
+              label="Confirmo que desejo enviar uma solicitação de alteração de senha à administração."
+              checked={confirmed}
+              onCheckedChange={(value) => setValue("confirmBox", value)}
+              style={{ maxWidth: "80%" }} // Limita a largura do texto do checkbox
             />
           </FormContentContainer>
 
@@ -78,10 +102,15 @@ export default function PasswordChangeRequestModal({
             <div />
             <ButtonComponent
               type="submit"
-              buttonStyles="confirm"
-              title="Solicitar nova senha"
+              buttonStyles={confirmed ? "confirm" : "text"}
+              title={
+                confirmed
+                  ? "Solicitar nova senha"
+                  : "Marque a caixa para habilitar o envio da solicitação"
+              }
               className="confirm-btn"
               isLoading={isLoadingFeedback}
+              disabled={!confirmed}
             >
               Sim, Solicitar
             </ButtonComponent>

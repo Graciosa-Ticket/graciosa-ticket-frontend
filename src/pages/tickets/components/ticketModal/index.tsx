@@ -11,7 +11,6 @@ import ChatComponent from "./chat";
 import { modalActions } from "../../../../shared/global.interface";
 import { useMutationQuery } from "../../../../services/hooks/useMutationQuery";
 import { toast } from "sonner";
-import ActionsModalComponent from "../../../../components/actionModal";
 import { useAuth } from "../../../../hooks/auth";
 import { useForm } from "react-hook-form";
 import TicketUserCard from "./components/userCard";
@@ -19,6 +18,7 @@ import { UserModel } from "../../../../models/user";
 import CenterModal from "../../../../components/centerModal";
 import TicketConclusionModal from "../ticketConclusionModal";
 import TicketFileViewer from "./components/ticketFileViewer";
+import DeletePopUp from "../../../../components/deleteTicketPopUp";
 
 const selectItemStyle = (status: TicketModel["status"]): CSSProperties => {
   const statusStyle = {
@@ -67,7 +67,6 @@ const TicketModal = ({
 
   const handleStatusChange = (newStatus: TicketModel["status"]) => {
     if (currentTicket) {
-      // Crie um objeto com apenas os campos "code" e "status"
       const ticketToUpdate = {
         code: currentTicket.code,
         status: newStatus,
@@ -76,7 +75,7 @@ const TicketModal = ({
       setCurrentTicket((prev) => ({
         ...prev,
         status: newStatus,
-      })); // Atualiza o estado com o ticket modificado
+      }));
 
       updateTicket(ticketToUpdate, {
         onSuccess: () => {
@@ -88,6 +87,10 @@ const TicketModal = ({
       });
     }
   };
+
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
+
+  const handleOpenDeleteModal = () => setOpenDeleteModal(true);
 
   const { mutate: deleteTicket, isLoading: isLoadingDelete } = useMutationQuery(
     `/ticket/${currentTicket?.code}`,
@@ -101,6 +104,7 @@ const TicketModal = ({
         onSuccess: () => {
           toast.success("Ticket Excluido com sucesso!");
           onUpdate?.();
+          onClose?.();
         },
       }
     );
@@ -160,16 +164,18 @@ const TicketModal = ({
                   ? `${formatDate(
                       currentTicket?.created_at,
                       "dd/MM/yyyy"
-                    )} as ${formatDate(currentTicket?.created_at, "HH:mm")}`
-                  : "data invalida"}
+                    )} às ${formatDate(currentTicket?.created_at, "HH:mm")}`
+                  : "Data inválida"}
               </span>
             </div>
           </div>
 
-          <p className="description">{currentTicket?.description}</p>
+          <div className="description-container">
+            <p className="description">{currentTicket?.description}</p>
 
-          <div className="details-header">
-            <h6>Detalhes</h6>
+            <div className="details-header">
+              <h6>Detalhes</h6>
+            </div>
           </div>
 
           <section className="layout">
@@ -180,7 +186,7 @@ const TicketModal = ({
               </div>
             </section>
 
-            <section className="images-Section">
+            <section className="images-section">
               <p>Anexos</p>
               {currentTicket?.attachmentUrl?.map((file, index) => (
                 <TicketFileViewer key={index} files={[file]} />
@@ -191,25 +197,21 @@ const TicketModal = ({
           <section className="buttons-content">
             {(currentTicket?.user?.code === user.code ||
               user.role === "Administrator") && (
-              <ActionsModalComponent
-                message="Confirme para excluir este Ticket. Esta ação não pode ser desfeita."
-                actionButton={
-                  <ButtonComponent
-                    buttonStyles="delete"
-                    buttonStylesType="outline"
-                    onClick={handleDeleteTicket}
-                    isLoading={isLoadingDelete}
-                  >
-                    Confirmar Exclusão de Ticket
-                  </ButtonComponent>
-                }
-                buttonProps={{
-                  buttonStyles: "delete",
-                  buttonStylesType: "outline",
-                }}
-              >
-                Excluir
-              </ActionsModalComponent>
+              <>
+                <DeletePopUp
+                  open={openDeleteModal}
+                  onOpenChange={(open) => setOpenDeleteModal(open)}
+                  onConfirmDelete={handleDeleteTicket}
+                />
+                <ButtonComponent
+                  buttonStyles="delete"
+                  buttonStylesType="outline"
+                  onClick={handleOpenDeleteModal}
+                  isLoading={isLoadingDelete}
+                >
+                  Excluir
+                </ButtonComponent>
+              </>
             )}
 
             {currentTicket?.status !== "Concluído" && (
@@ -229,7 +231,7 @@ const TicketModal = ({
           <ChatComponent
             ticket_data={currentTicket as TicketModel}
             isDone={isDone}
-            isNewStyle={!isDone ? true : false}
+            isNewStyle={!isDone}
           />
         </section>
       </ModalContentBody>
@@ -237,12 +239,12 @@ const TicketModal = ({
   );
 };
 
-interface closeTicketButton {
+interface CloseTicketButtonProps {
   data: TicketModel;
   onCloseTicket(): void;
 }
 
-const CloseTicketButton = ({ onCloseTicket, data }: closeTicketButton) => {
+const CloseTicketButton = ({ onCloseTicket, data }: CloseTicketButtonProps) => {
   const [open, setOpen] = useState(false);
 
   return (

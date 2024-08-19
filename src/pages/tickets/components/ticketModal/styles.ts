@@ -1,24 +1,20 @@
 import styled, { css, keyframes } from "styled-components";
 
 export const ModalContentBody = styled.main`
-  height: 100%;
-  width: 100%;
-  display: grid;
-  grid-template-columns: 500px 400px;
-  grid-template-rows: 1fr;
+  display: flex;
+  flex-direction: row; /* Coluna por padrão, se quiser manter a estrutura em duas colunas */
   padding: 0 25px 25px;
-  overflow: auto; /* Adiciona rolagem automática se necessário */
+  overflow: auto;
 
   @media (max-height: 1050px) {
-    max-height: 90vh; /* Limite a altura do modal a 90% da viewport */
-    overflow-y: auto; /* Adiciona rolagem vertical se necessário */
+    overflow-y: auto;
   }
 
   @media (max-width: 950px) {
-    grid-template-columns: 1fr; /* Ajuste a coluna para telas menores */
-    grid-template-rows: auto; /* Ajuste as linhas para telas menores */
-    padding: 10px; /* Ajuste o padding para telas menores */
+    flex-direction: column;
+    padding: 10px;
   }
+
   .img-sector {
     margin-top: 20px;
   }
@@ -35,6 +31,7 @@ export const ModalContentBody = styled.main`
     flex-direction: column;
     border-right: 1px solid ${({ theme }) => theme.colors.grayscale.gray_10};
     padding: 20px 10px 0 0;
+    flex: 1; /* Garante que este lado ocupe o espaço disponível */
 
     .ticket-content-header {
       display: grid;
@@ -57,15 +54,19 @@ export const ModalContentBody = styled.main`
         }
       }
     }
+    .description-container {
+      display: grid;
+      grid-template-rows: auto auto;
+      gap: 80px;
+    }
 
     .description {
-      margin-top: 1em;
       ${({ theme }) => theme.font.p.small};
       color: ${({ theme }) => theme.colors.grayscale.gray_70};
+      max-width: 480px;
     }
 
     .details-header {
-      margin-top: 20px;
       ${({ theme }) => theme.font.p.large};
       color: ${({ theme }) => theme.colors.brand.dark_blue};
       font-weight: 600;
@@ -249,26 +250,7 @@ export const ChatCardContainer = styled.div<chatCardProps>`
     word-wrap: break-word;
   }
 
-  ${({ $self, $newStyle }) => {
-    if ($newStyle) {
-      return css`
-        /* Novo estilo */
-        background-color: ${({ theme }) => theme.colors.support.success};
-        border-radius: 12px;
-        padding: 1em;
-        color: ${({ theme }) => theme.colors.brand.white};
-
-        .header {
-          color: ${({ theme }) => theme.colors.brand.white};
-          font-weight: bold;
-        }
-
-        p {
-          color: ${({ theme }) => theme.colors.brand.white};
-        }
-      `;
-    }
-
+  ${({ $self }) => {
     if ($self) {
       return css`
         transform-origin: right;

@@ -12,12 +12,12 @@ import { calculateAge } from "../../utils/calculateAge";
 import formatCEP from "../../utils/cepMask";
 import phoneMask from "../../utils/phoneMask";
 import Avatar from "../Avatar";
-import ActionsModalComponent from "../actionModal";
 import { useState } from "react";
 import EditedFormPopUp from "../EditedFormPopUp";
 import CreateUserModal from "../../pages/Users/components/createUserModal";
 import { AiOutlineEdit } from "react-icons/ai";
 import SectorIcon from "../../pages/Users/components/sectorIcon";
+import LogoutPopUp from "../logOutFormPopUp";
 
 export default function UserViewModal({ onClose }: modalActions<UserModel>) {
   const { user } = useAuth();
@@ -146,25 +146,26 @@ const EditUserButton = ({ onUpdate, data }: modalActions) => {
 
 const LogOutButton = () => {
   const { signOut } = useAuth();
+  const [openLogoutModal, setOpenLogoutModal] = useState(false);
+
+  const handleOpenLogoutModal = () => setOpenLogoutModal(true);
+
+  const handleConfirmLogout = () => {
+    signOut();
+    setOpenLogoutModal(false);
+  };
 
   return (
     <>
-      <ActionsModalComponent
-        actionButton={
-          <ButtonComponent
-            buttonStyles="delete"
-            buttonStylesType="outline"
-            title="Sair"
-            onClick={signOut}
-          >
-            Sair
-          </ButtonComponent>
-        }
-        message="Você está saindo do sistema, tem certeza que deseja prosseguir?"
-      >
-        Sair
+      <LogoutPopUp
+        open={openLogoutModal}
+        onOpenChange={(open) => setOpenLogoutModal(open)}
+        onConfirmLogout={handleConfirmLogout}
+      />
+      <ButtonComponent buttonStyles="text" onClick={handleOpenLogoutModal}>
         <MdLogout />
-      </ActionsModalComponent>
+        Sair
+      </ButtonComponent>
     </>
   );
 };

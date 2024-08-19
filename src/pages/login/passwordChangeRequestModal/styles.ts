@@ -4,10 +4,6 @@ export const PasswordChangeRequestModalComponent = styled.section`
   gap: 20px;
   padding: 20px;
 
-  @media (max-height: 750px) {
-    overflow-y: auto;
-    max-height: 60vh;
-  }
   h2 {
     color: ${({ theme }) => theme.colors.brand.black};
     font-size: 1.25em; /* Ajuste o tamanho da fonte conforme necessário */

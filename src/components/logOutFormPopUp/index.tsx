@@ -5,51 +5,47 @@ import CenterModal, {
   ModalTitle,
   ModalTriggerClose,
 } from "../centerModal";
-import { EditedFormContainer } from "./styles";
 import { AiOutlineWarning } from "react-icons/ai";
+import { LogOutFormContainer } from "./styles";
 
-interface editedFormPopUp extends DialogProps {
-  onConfirmCloseModal(): void;
+interface LogoutPopUpProps extends DialogProps {
+  onConfirmLogout(): void;
 }
 
-const EditedFormPopUp = ({
-  onConfirmCloseModal,
-  ...props
-}: editedFormPopUp) => {
-  const handleConfirmClose = () => {
-    onConfirmCloseModal();
+const LogoutPopUp = ({ onConfirmLogout, ...props }: LogoutPopUpProps) => {
+  const handleConfirmLogout = () => {
+    onConfirmLogout();
   };
 
   return (
     <CenterModal {...props}>
       <CenterModalHeader>
-        <ModalTitle>Descartar informações</ModalTitle>
+        <ModalTitle>Confirmar Logout</ModalTitle>
       </CenterModalHeader>
 
-      <EditedFormContainer>
+      <LogOutFormContainer>
         <div className="alert-icon">
           <AiOutlineWarning size={80} />
         </div>
         <p>
-          Tem certeza que deseja fechar o formulário? <br /> as informações
-          serão perdidas.
+          Você está prestes a sair do sistema. <br /> Tem certeza que deseja
+          prosseguir?
         </p>
 
         <div className="buttons-container">
-          <ModalTriggerClose>Voltar</ModalTriggerClose>
+          <ModalTriggerClose>Cancelar</ModalTriggerClose>
 
           <ButtonComponent
             buttonStyles="delete"
             buttonStylesType="outline"
-            buttonSize="small"
-            onClick={handleConfirmClose}
+            onClick={handleConfirmLogout}
           >
-            sim, Fechar
+            Sim, Sair
           </ButtonComponent>
         </div>
-      </EditedFormContainer>
+      </LogOutFormContainer>
     </CenterModal>
   );
 };
 
-export default EditedFormPopUp;
+export default LogoutPopUp;
