@@ -5,51 +5,49 @@ import CenterModal, {
   ModalTitle,
   ModalTriggerClose,
 } from "../centerModal";
-import { EditedFormContainer } from "./styles";
 import { AiOutlineWarning } from "react-icons/ai";
+import { DeletePopUpContainer } from "./styles";
 
-interface editedFormPopUp extends DialogProps {
-  onConfirmCloseModal(): void;
+interface deletePopUpProps extends DialogProps {
+  onConfirmDelete(): void;
 }
 
-const EditedFormPopUp = ({
-  onConfirmCloseModal,
-  ...props
-}: editedFormPopUp) => {
-  const handleConfirmClose = () => {
-    onConfirmCloseModal();
+const DeletePopUp = ({ onConfirmDelete, ...props }: deletePopUpProps) => {
+  const handleConfirmDelete = () => {
+    onConfirmDelete();
   };
 
   return (
     <CenterModal {...props}>
       <CenterModalHeader>
-        <ModalTitle>Descartar informações</ModalTitle>
+        <ModalTitle>Confirmar exclusão de ticket</ModalTitle>
       </CenterModalHeader>
 
-      <EditedFormContainer>
+      <DeletePopUpContainer>
         <div className="alert-icon">
           <AiOutlineWarning size={80} />
         </div>
         <p>
-          Tem certeza que deseja fechar o formulário? <br /> as informações
-          serão perdidas.
+          Você está prestes a excluir o ticket. <br />
+          essa ação é irreversivel <br />
+          Tem certeza que deseja prosseguir?
         </p>
 
         <div className="buttons-container">
-          <ModalTriggerClose>Voltar</ModalTriggerClose>
+          <ModalTriggerClose>Cancelar</ModalTriggerClose>
 
           <ButtonComponent
             buttonStyles="delete"
             buttonStylesType="outline"
             buttonSize="small"
-            onClick={handleConfirmClose}
+            onClick={handleConfirmDelete}
           >
-            sim, Fechar
+            Sim, excluir
           </ButtonComponent>
         </div>
-      </EditedFormContainer>
+      </DeletePopUpContainer>
     </CenterModal>
   );
 };
 
-export default EditedFormPopUp;
+export default DeletePopUp;

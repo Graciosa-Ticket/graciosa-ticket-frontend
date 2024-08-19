@@ -76,7 +76,9 @@ export default function UserModal({
       <UserComponent>
         <div className="img-sector">
           <Avatar
-            src={`profile-picture/${data?.code}/regularSize_${data?.profile_picture}`}
+            {...(data?.profile_picture && {
+              src: `profile-picture/${data?.code}/regularSize_${data?.profile_picture}`,
+            })}
             alt=""
             className="user-avatar"
           />

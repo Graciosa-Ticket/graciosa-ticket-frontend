@@ -85,6 +85,7 @@ export default function PasswordChangeModal({
                   shouldDirty: true,
                 });
               }}
+              filterCollaborators={false}
             />
 
             <Input
@@ -103,7 +104,7 @@ export default function PasswordChangeModal({
             />
             <Input
               label="Confirmação"
-              placeholder="Confirme sua Senha"
+              placeholder="Confirme nova Senha"
               error={errors.confirmPassword?.message}
               register={{ ...register("confirmPassword") }}
               type={showPassword ? "text" : "password"}

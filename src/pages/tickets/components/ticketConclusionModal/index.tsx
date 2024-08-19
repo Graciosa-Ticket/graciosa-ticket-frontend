@@ -12,7 +12,6 @@ import {
 } from "../../../../components/form/form";
 import ButtonComponent from "../../../../components/buttons";
 import { useMutationQuery } from "../../../../services/hooks/useMutationQuery";
-
 import { toast } from "sonner";
 import { AiOutlineClose } from "react-icons/ai";
 import { TicketConclusionModalComponent } from "./style";
@@ -26,6 +25,7 @@ export default function TicketConclusionModal({
   onClose,
 }: modalActions<TicketModel>) {
   const { user } = useAuth();
+  const defaultMessage = "Mensagem de conclusão do chamado:<br><br>";
 
   const {
     handleSubmit,
@@ -62,17 +62,19 @@ export default function TicketConclusionModal({
 
     updateTicket(data, {
       onSuccess: async () => {
-        toast.success("Chamado Concluido");
-
         if (description) {
+          // Concatenate the default message with the description
+          const messageToSend = `${defaultMessage}${description}`;
+
           createComment(
             {
-              comment: description,
+              comment: messageToSend,
               userCode: user.code,
               ticketCode: ticketData?.code,
             },
             {
               onSuccess: () => {
+                toast.success("Chamado Concluido");
                 onUpdate?.();
                 onClose?.();
               },
@@ -105,16 +107,15 @@ export default function TicketConclusionModal({
         <FormContainer onSubmit={onSubmit}>
           <FormContentContainer>
             <TextArea
-              label="Descrição"
+              label="Detalhe a conclusão do chamado"
               error={errors.description?.message}
-              placeholder="Descrição"
+              placeholder="Descreva o que foi feito para resolver o problema e o resultado final do ticket. Isso ajuda a garantir que todos entendam a conclusão."
               rows={5}
               register={{ ...register("description") }}
             />
           </FormContentContainer>
           <FormButtonsContainer $columns={2}>
             <div />
-
             <ButtonComponent
               type="submit"
               buttonStyles="confirm"

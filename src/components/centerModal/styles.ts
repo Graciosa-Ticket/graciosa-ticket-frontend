@@ -83,7 +83,7 @@ export const ModalTriggerCloseStyle = styled(Dialog.Close)`
   justify-content: center;
   position: relative;
   transition: 0.3s;
-  ${({ theme }) => theme.font.p.large};
+  ${({ theme }) => theme.font.p.small};
   color: ${({ theme }) => theme.colors.grayscale.gray_80};
 
   &:hover {
