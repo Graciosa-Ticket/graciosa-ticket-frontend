@@ -210,7 +210,9 @@ to{
 
 interface chatCardProps {
   $self: boolean;
+  $newStyle?: boolean;
 }
+
 export const ChatCardContainer = styled.div<chatCardProps>`
   max-width: 90%;
   width: fit-content;
@@ -247,7 +249,26 @@ export const ChatCardContainer = styled.div<chatCardProps>`
     word-wrap: break-word;
   }
 
-  ${({ $self }) => {
+  ${({ $self, $newStyle }) => {
+    if ($newStyle) {
+      return css`
+        /* Novo estilo */
+        background-color: ${({ theme }) => theme.colors.support.success};
+        border-radius: 12px;
+        padding: 1em;
+        color: ${({ theme }) => theme.colors.brand.white};
+
+        .header {
+          color: ${({ theme }) => theme.colors.brand.white};
+          font-weight: bold;
+        }
+
+        p {
+          color: ${({ theme }) => theme.colors.brand.white};
+        }
+      `;
+    }
+
     if ($self) {
       return css`
         transform-origin: right;

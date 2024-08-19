@@ -1,4 +1,3 @@
-import { IoCartOutline } from "react-icons/io5";
 import { UserModel } from "../../../../models/user";
 import { IconComponent } from "./styles";
 // import {
@@ -9,7 +8,6 @@ import { IconComponent } from "./styles";
 import { MdOutlineFastfood } from "react-icons/md";
 import { AiOutlineCoffee } from "react-icons/ai";
 import { TbSteeringWheel } from "react-icons/tb";
-import { LiaCashRegisterSolid } from "react-icons/lia";
 import { PiCashRegisterBold } from "react-icons/pi";
 
 interface UserCardProps {

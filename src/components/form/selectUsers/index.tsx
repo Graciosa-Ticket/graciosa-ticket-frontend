@@ -7,7 +7,7 @@ import {
 import { PopOverRoot } from "../../popOver";
 import SearchUsers from "./searchUsers";
 import { UserModel } from "../../../models/user";
-import Avatar, { blankAvatar } from "../../Avatar";
+import Avatar from "../../Avatar";
 import ButtonComponent from "../../buttons";
 import { useState } from "react";
 import { StyledIcon } from "../../../pages/home/components/graphs/barGraphGCC/styles";

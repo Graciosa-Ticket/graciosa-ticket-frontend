@@ -10,9 +10,11 @@ import timeConverter from "../../../../utils/timeConverter";
 
 interface ChatComponentProps {
   ticket_data: TicketModel;
+  isDone?: boolean;
+  isNewStyle?: boolean;
 }
 
-const ChatComponent = ({ ticket_data }: ChatComponentProps) => {
+const ChatComponent = ({ ticket_data, isDone }: ChatComponentProps) => {
   const [chatConversation, setChatConversation] = useState<chatComment[]>([]);
   const [textAreaValue, setTextAreaValue] = useState<string>();
   const commentRef = useRef<HTMLDivElement>(null);
@@ -36,8 +38,11 @@ const ChatComponent = ({ ticket_data }: ChatComponentProps) => {
     useMutationQuery("/comment");
 
   const handleChatSubmit = () => {
+    if (isDone) return;
+
     const message = spanRef.current?.innerText;
     if (!message) return;
+
     createComment(
       {
         comment: message,
@@ -54,6 +59,11 @@ const ChatComponent = ({ ticket_data }: ChatComponentProps) => {
   };
 
   const onKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
+    if (isDone) {
+      event.preventDefault();
+      return;
+    }
+
     const textLength = spanRef.current?.innerText.length || 0;
     const maxChars = 255;
 
@@ -104,9 +114,10 @@ const ChatComponent = ({ ticket_data }: ChatComponentProps) => {
           className={textAreaValue ? "textarea" : "textarea empty-textarea"}
           role="textbox"
           ref={spanRef}
-          contentEditable
-          data-placeholder="Escreva um comentário..."
+          contentEditable={!isDone} // Desabilita edição se concluído
+          data-placeholder={isDone ? "" : "Escreva um comentário..."}
           onKeyDown={onKeyDown}
+          style={{ userSelect: isDone ? "none" : "text" }} // Evita seleção se concluído
         />
         <div className="input-button-container">
           <ButtonComponent
@@ -115,6 +126,7 @@ const ChatComponent = ({ ticket_data }: ChatComponentProps) => {
             buttonStylesType="fill"
             title="Enviar"
             isLoading={isLoadingUpdate}
+            disabled={isDone} // Desabilita botão se concluído
           >
             Enviar
           </ButtonComponent>

@@ -48,6 +48,8 @@ const TicketModal = ({
     data as TicketModel
   );
 
+  const isDone = currentTicket?.status === "Concluído";
+
   useEffect(() => {
     if (data) {
       setCurrentTicket(data);
@@ -224,7 +226,11 @@ const TicketModal = ({
             <h6>Chat</h6>
           </div>
 
-          <ChatComponent ticket_data={currentTicket as TicketModel} />
+          <ChatComponent
+            ticket_data={currentTicket as TicketModel}
+            isDone={isDone}
+            isNewStyle={!isDone ? true : false}
+          />
         </section>
       </ModalContentBody>
     </>
