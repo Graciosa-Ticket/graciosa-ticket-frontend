@@ -59,13 +59,13 @@ export const ModalContentBody = styled.main`
     }
 
     .description {
-      margin-top: 1em;
+      margin-top: 40px;
       ${({ theme }) => theme.font.p.small};
       color: ${({ theme }) => theme.colors.grayscale.gray_70};
     }
 
     .details-header {
-      margin-top: 20px;
+      margin-top: 150px;
       ${({ theme }) => theme.font.p.large};
       color: ${({ theme }) => theme.colors.brand.dark_blue};
       font-weight: 600;

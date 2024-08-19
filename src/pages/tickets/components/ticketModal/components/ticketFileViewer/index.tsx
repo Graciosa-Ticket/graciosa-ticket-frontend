@@ -15,7 +15,7 @@ interface ticketFileViewerProps {
   files?: string[];
 }
 
-type TFileTypes = "pdf" | "jpg" | "png" | "doc" | "csv" | "xlsx";
+type TFileTypes = "pdf" | "jpg" | "png" | "doc" | "csv" | "xlsx" | "docx";
 
 const fileTypes = {
   pdf: "pdf",
@@ -38,11 +38,12 @@ const TicketFileViewer = ({ files }: ticketFileViewerProps) => {
     if (!files?.length) return [];
 
     return files.map((file) => {
-      const [_, type] = file.split(".");
+      // Extrai a extensão do arquivo e converte para minúsculas
+      const fileExtension = file.split(".").pop()?.toLowerCase() || "";
 
       return {
-        type: (fileTypes?.[type as TFileTypes] ||
-          "image") as formattedFileType["type"],
+        type: (fileTypes?.[fileExtension as TFileTypes] ||
+          "doc") as formattedFileType["type"],
         file,
       };
     });
@@ -83,6 +84,22 @@ const TicketFileViewer = ({ files }: ticketFileViewerProps) => {
             );
           }
 
+          if (e.type === "pdf") {
+            return (
+              <li key={i}>
+                <ButtonComponent
+                  buttonStyles="text"
+                  onClick={() => handleDownload(e.file)}
+                  title="Clique para baixar o PDF"
+                >
+                  <FaRegFilePdf />
+                  <span>{cleanFileName}</span>
+                </ButtonComponent>
+              </li>
+            );
+          }
+
+          // Renderiza o ícone e o nome do arquivo para outros tipos (doc, excel)
           return (
             <li key={i}>
               <ButtonComponent
