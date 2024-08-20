@@ -24,6 +24,7 @@ type TFileTypes =
   | "csv"
   | "xlsx"
   | "xls"
+  | "txt"
   | "docx";
 
 const fileTypes = {
@@ -33,6 +34,7 @@ const fileTypes = {
   png: "image",
   doc: "doc",
   docx: "doc",
+  txt: "doc",
   csv: "excel",
   xlsx: "excel",
   xls: "excel",
