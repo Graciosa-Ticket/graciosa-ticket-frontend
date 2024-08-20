@@ -195,24 +195,24 @@ const TicketModal = ({
           </section>
 
           <section className="buttons-content">
-            {(currentTicket?.user?.code === user.code ||
-              user.role === "Administrator") && (
-              <>
-                <DeletePopUp
-                  open={openDeleteModal}
-                  onOpenChange={(open) => setOpenDeleteModal(open)}
-                  onConfirmDelete={handleDeleteTicket}
-                />
-                <ButtonComponent
-                  buttonStyles="delete"
-                  buttonStylesType="outline"
-                  onClick={handleOpenDeleteModal}
-                  isLoading={isLoadingDelete}
-                >
-                  Excluir
-                </ButtonComponent>
-              </>
-            )}
+            {user.role === "Administrator" &&
+              currentTicket?.status !== "Concluído" && (
+                <>
+                  <DeletePopUp
+                    open={openDeleteModal}
+                    onOpenChange={(open) => setOpenDeleteModal(open)}
+                    onConfirmDelete={handleDeleteTicket}
+                  />
+                  <ButtonComponent
+                    buttonStyles="delete"
+                    buttonStylesType="outline"
+                    onClick={handleOpenDeleteModal}
+                    isLoading={isLoadingDelete}
+                  >
+                    Excluir
+                  </ButtonComponent>
+                </>
+              )}
 
             {currentTicket?.status !== "Concluído" && (
               <CloseTicketButton

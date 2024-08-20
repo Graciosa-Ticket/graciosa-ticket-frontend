@@ -15,16 +15,27 @@ interface ticketFileViewerProps {
   files?: string[];
 }
 
-type TFileTypes = "pdf" | "jpg" | "png" | "doc" | "csv" | "xlsx" | "docx";
+type TFileTypes =
+  | "pdf"
+  | "jpg"
+  | "jpeg"
+  | "png"
+  | "doc"
+  | "csv"
+  | "xlsx"
+  | "xls"
+  | "docx";
 
 const fileTypes = {
   pdf: "pdf",
   jpg: "image",
+  jpeg: "image",
   png: "image",
   doc: "doc",
   docx: "doc",
   csv: "excel",
   xlsx: "excel",
+  xls: "excel",
 };
 
 const fileIcons = {
@@ -74,12 +85,17 @@ const TicketFileViewer = ({ files }: ticketFileViewerProps) => {
       <ul>
         {formattedFiles.map((e, i) => {
           const cleanFileName = getCleanFileName(e.file);
-
           if (e.type === "image") {
             return (
               <li key={i}>
                 <ImageViewer imageUrl={e.file} />
-                <span>{cleanFileName}</span>
+                <ButtonComponent
+                  buttonStyles="text"
+                  onClick={() => handleDownload(e.file)}
+                  title="Clique para baixar a imagem"
+                >
+                  <span>{cleanFileName}</span>
+                </ButtonComponent>
               </li>
             );
           }

@@ -9,6 +9,7 @@ import { HomeGraphContainer } from "./styles";
 import TabComponent from "../../../../components/tabComponent";
 import { SectorCardModel } from "../../../../models/sector";
 import GCCBarGraph from "./barGraphGCC";
+import GraphSkeletonLoading from "../../graphSkeleton";
 
 // Define as propriedades esperadas para o componente HomeGraph
 interface homeGraphProps {
@@ -155,7 +156,11 @@ const HomeGraph = ({
 
   // Se estiver carregando, exibe um elemento de carregamento (comentado no momento)
   if (isLoading) {
-    return <div>{/* <LoadingScreen /> */}</div>;
+    return (
+      <div>
+        <GraphSkeletonLoading style={{ margin: "20px" }} />
+      </div>
+    );
   }
 
   // Retorna o conteúdo do componente HomeGraph

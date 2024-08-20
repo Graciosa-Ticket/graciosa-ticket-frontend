@@ -5,9 +5,8 @@ import { AiOutlineEye } from "react-icons/ai";
 import { useState } from "react";
 import { useFetch } from "../../../../services/hooks/getQuery";
 import TicketCard from "../../../../components/ticket";
-
 import { SectorCardModel } from "../../../../models/sector";
-import { SkeletonAnimation } from "../../../../components/skeleton";
+import HomeTicketsSkeleton from "./homeTicketsSkeleton";
 
 interface HomeTicketProps {
   isadmin: boolean;
@@ -39,10 +38,7 @@ const HomeTicketComponent = ({ isadmin, userSector }: HomeTicketProps) => {
       </div>
 
       {isLoading ? (
-        <SkeletonAnimation.card>
-          <SkeletonAnimation.text />
-          <SkeletonAnimation.text />
-        </SkeletonAnimation.card>
+        <HomeTicketsSkeleton style={{ width: "100%", height: "200px" }} />
       ) : !dataSource.length ? (
         <p>Nenhum ticket encontrado</p>
       ) : (
