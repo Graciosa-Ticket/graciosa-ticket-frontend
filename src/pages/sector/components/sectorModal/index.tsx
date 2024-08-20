@@ -53,6 +53,17 @@ export default function SectorModal({
           toast.success("Responsável Alterado!");
           onUpdate?.();
         },
+        onError: (error: any) => {
+          if (
+            error?.response?.status === 500 &&
+            error?.response?.data?.message ===
+              "Já existe um setor com esse supervisor"
+          ) {
+            toast.error("Responsável já cadrastrado em outro setor.");
+          } else {
+            toast.error("Erro ao alterar responsável. Tente novamente.");
+          }
+        },
       }
     );
   };
