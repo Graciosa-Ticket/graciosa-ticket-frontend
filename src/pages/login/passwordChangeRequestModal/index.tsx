@@ -19,7 +19,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 interface PasswordChangeRequestModalProps {
   user_code: string;
   email: string;
-  confirmBox: boolean;
+  confirmBox?: boolean;
 }
 
 // Esquema de validação com Yup
@@ -40,14 +40,16 @@ export default function PasswordChangeRequestModal({
     setValue,
     watch,
     formState: { errors },
-  } = useForm({
-    resolver: yupResolver(passwordChangeRequestSchema),
+  } = useForm<PasswordChangeRequestModalProps>({
+    resolver: yupResolver(passwordChangeRequestSchema) as any,
   });
 
   const { mutate: createPasswordChangeTicket, isLoading: isLoadingFeedback } =
     useMutationQuery("/management/forgotPassword");
 
   const onSubmit = handleSubmit((data) => {
+    delete data.confirmBox;
+
     createPasswordChangeTicket(data, {
       onSuccess: () => {
         toast.success("Tudo Certo, aguarde a resposta do chamado");
@@ -58,8 +60,6 @@ export default function PasswordChangeRequestModal({
       },
     });
   });
-
-  const confirmed = watch("confirmBox") || false;
 
   return (
     <>
@@ -92,25 +92,24 @@ export default function PasswordChangeRequestModal({
             <CheckBoxComponent
               id="ocurrence"
               label="Confirmo que desejo enviar uma solicitação de alteração de senha à administração."
-              checked={confirmed}
               onCheckedChange={(value) => setValue("confirmBox", value)}
-              style={{ maxWidth: "80%" }} // Limita a largura do texto do checkbox
             />
+            <div />
           </FormContentContainer>
 
           <FormButtonsContainer $columns={2}>
             <div />
             <ButtonComponent
               type="submit"
-              buttonStyles={confirmed ? "confirm" : "text"}
+              buttonStyles={watch("confirmBox") ? "confirm" : "text"}
               title={
-                confirmed
+                watch("confirmBox")
                   ? "Solicitar nova senha"
                   : "Marque a caixa para habilitar o envio da solicitação"
               }
               className="confirm-btn"
               isLoading={isLoadingFeedback}
-              disabled={!confirmed}
+              disabled={!watch("confirmBox")}
             >
               Sim, Solicitar
             </ButtonComponent>

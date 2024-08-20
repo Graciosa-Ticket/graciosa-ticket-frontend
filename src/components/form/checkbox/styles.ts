@@ -13,7 +13,6 @@ export const Container = styled.div<ContainerProps>`
   width: fit-content;
   display: flex;
   align-items: center;
-  justify-content: space-between;
   gap: 12px;
   pointer-events: ${(prop) => (prop.readonly || prop.disabled) && "none"};
 

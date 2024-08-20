@@ -7,6 +7,7 @@ import { useFetch } from "../../../../services/hooks/getQuery";
 import TicketCard from "../../../../components/ticket";
 
 import { SectorCardModel } from "../../../../models/sector";
+import { SkeletonAnimation } from "../../../../components/skeleton";
 
 interface HomeTicketProps {
   isadmin: boolean;
@@ -15,27 +16,16 @@ interface HomeTicketProps {
 
 const HomeTicketComponent = ({ isadmin, userSector }: HomeTicketProps) => {
   const [dataSource, setDataSource] = useState<TicketModel[]>([]);
-  if (isadmin) {
-    useFetch<TicketModel[]>(
-      "/ticket/getLatest/latestTickets",
-      ["latestTicket"],
-      {
-        onSuccess: (data) => {
-          setDataSource(data);
-        },
-      }
-    );
-  } else {
-    useFetch<TicketModel[]>(
-      `/ticket/getLatest/latestTickets/${userSector?.code}`,
-      ["latestTicket"],
-      {
-        onSuccess: (data) => {
-          setDataSource(data);
-        },
-      }
-    );
-  }
+
+  const { isLoading } = useFetch<TicketModel[]>(
+    `/ticket/getLatest/latestTickets/${!isadmin ? userSector?.code : ""}`,
+    ["latestTicket", isadmin, userSector?.code],
+    {
+      onSuccess: (data) => {
+        setDataSource(data);
+      },
+    }
+  );
 
   return (
     <TicketsHomeContainer $isadmin={isadmin}>
@@ -48,16 +38,24 @@ const HomeTicketComponent = ({ isadmin, userSector }: HomeTicketProps) => {
         </NavLink>
       </div>
 
-      <ul className="ticket-list">
-        {dataSource.slice().map((e, i) => {
-          // console.log("Ticket enviado para TicketCard:", e); // Log do ticket
-          return (
-            <li key={i}>
-              <TicketCard data={e} />
-            </li>
-          );
-        })}
-      </ul>
+      {isLoading ? (
+        <SkeletonAnimation.card>
+          <SkeletonAnimation.text />
+          <SkeletonAnimation.text />
+        </SkeletonAnimation.card>
+      ) : !dataSource.length ? (
+        <p>Nenhum ticket encontrado</p>
+      ) : (
+        <ul className="ticket-list">
+          {dataSource?.slice()?.map?.((e, i) => {
+            return (
+              <li key={i}>
+                <TicketCard data={e} />
+              </li>
+            );
+          })}
+        </ul>
+      )}
     </TicketsHomeContainer>
   );
 };

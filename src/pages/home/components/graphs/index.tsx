@@ -17,6 +17,8 @@ interface homeGraphProps {
   sectorsListData?: SectorCardModel[];
 }
 
+type ResponseError = { message: string; statusCode: number };
+
 const HomeGraph = ({
   userSector,
   isadmin = false,
@@ -24,12 +26,12 @@ const HomeGraph = ({
 }: homeGraphProps) => {
   // Estado para armazenar os dados dos contadores recebidos da API
   const [countersDataSource, setcountersDataSource] = useState<
-    CounterToChartModel | CounterToChartModelSector
+    CounterToChartModel | CounterToChartModelSector | ResponseError
   >();
 
   // Estado para armazenar o número de tickets criados
   const [createdTicketsCounterDataSource, setcreatedTicketsCounterDataSource] =
-    useState<number>();
+    useState<number>(0);
 
   // Estado para armazenar os dados selecionados de um setor específico
   const [selectedDataSource, setSelectedDataSource] =
@@ -56,18 +58,27 @@ const HomeGraph = ({
   );
 
   // Hook para buscar o número de tickets criados, filtrando por setor se o usuário não for administrador
-  const { isLoading: isLoadingCreatedTicketsCounterDataByCode } =
-    useFetch<number>(
-      `/ticket/count/getCreatedTickets` +
-        (isadmin ? "" : "/" + userSector?.code), // Define a URL de acordo com o tipo de usuário
-      ["createdTicketsCounterDataByCode", isadmin, userSector?.code],
-      {
-        onSuccess: (createdTicketsCounterDataByCode) => {
-          // Atualiza o estado com o número de tickets criados
-          setcreatedTicketsCounterDataSource(createdTicketsCounterDataByCode);
-        },
-      }
-    );
+  const { isLoading: isLoadingCreatedTicketsCounterDataByCode } = useFetch<
+    number | ResponseError
+  >(
+    `/ticket/count/getCreatedTickets` + (isadmin ? "" : "/" + userSector?.code), // Define a URL de acordo com o tipo de usuário
+    ["createdTicketsCounterDataByCode", isadmin, userSector?.code],
+    {
+      onSuccess: (createdTicketsCounterDataByCode) => {
+        // Atualiza o estado com o número de tickets criados
+
+        if (
+          (createdTicketsCounterDataByCode as ResponseError)?.statusCode &&
+          (createdTicketsCounterDataByCode as ResponseError)?.statusCode !== 200
+        )
+          return;
+
+        setcreatedTicketsCounterDataSource(
+          createdTicketsCounterDataByCode as number
+        );
+      },
+    }
+  );
 
   // Hook para buscar os dados dos contadores de todos os setores
   const { isLoading: isLoadingSelectedSector, data: allSectorsCountData } =
@@ -105,6 +116,14 @@ const HomeGraph = ({
 
   // Calcula o número total de tickets de todos os setores
   const allSetorsTicketsCount = useMemo(() => {
+    console.log(countersDataSource);
+
+    if (
+      (countersDataSource as ResponseError)?.statusCode &&
+      (countersDataSource as ResponseError)?.statusCode !== 200
+    )
+      return 0;
+
     const dataSourceKeys = Object.values(countersDataSource || {});
     if (!dataSourceKeys.length) return 0;
     return dataSourceKeys.reduce((a, b) => a + b, 0);
@@ -116,7 +135,15 @@ const HomeGraph = ({
       {
         title: "Geral",
         value: "geral",
-        content: <BarGraph data={countersDataSource} />, // Gráfico de barras para dados gerais
+        content: (
+          <BarGraph
+            data={
+              countersDataSource as
+                | CounterToChartModel
+                | CounterToChartModelSector
+            }
+          />
+        ), // Gráfico de barras para dados gerais
       },
       {
         title: "Setores",
@@ -153,7 +180,13 @@ const HomeGraph = ({
 
       <section className="bar-chart">
         {userSector ? (
-          <BarGraph data={countersDataSource} />
+          <BarGraph
+            data={
+              countersDataSource as
+                | CounterToChartModel
+                | CounterToChartModelSector
+            }
+          />
         ) : (
           <TabComponent data={tabOptions} defaultValue="geral" />
         )}

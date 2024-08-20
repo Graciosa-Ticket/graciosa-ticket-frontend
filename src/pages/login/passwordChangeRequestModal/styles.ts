@@ -1,8 +1,8 @@
 import styled from "styled-components";
 
 export const PasswordChangeRequestModalComponent = styled.section`
-  gap: 20px;
   padding: 20px;
+  max-width: 500px;
 
   h2 {
     color: ${({ theme }) => theme.colors.brand.black};
@@ -18,5 +18,9 @@ export const PasswordChangeRequestModalComponent = styled.section`
     color: ${({ theme }) => theme.colors.grayscale.gray_80};
     padding: 10px;
     font-weight: 500;
+  }
+
+  label[for="ocurrence"] {
+    max-width: 80%;
   }
 `;

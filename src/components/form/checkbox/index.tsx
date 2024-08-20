@@ -33,12 +33,12 @@ const CheckBoxComponent = ({
 
     setTimeout(() => {
       setReloadBox(false);
-    }, 10);
+    }, 20);
   }, [checked]);
 
   return (
     <Container style={style}>
-      {!reloadBox && (
+      {!reloadBox ? (
         <CheckboxRoot
           id={id}
           defaultChecked={checked}
@@ -48,6 +48,8 @@ const CheckBoxComponent = ({
             <GoCheck />
           </CheckboxIndication>
         </CheckboxRoot>
+      ) : (
+        <div style={{ width: 16 }} />
       )}
       {label && <label htmlFor={id}>{label} </label>}
       {error && <p>{error}</p>}
