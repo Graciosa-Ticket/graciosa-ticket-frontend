@@ -208,18 +208,12 @@ const TicketFormStep = ({ formProps, onClose, onUpdate }: StepsProps) => {
 
   const onSubmit = handleSubmit(() => {
     const values = getValues();
-
-    // Garantir que o valor de is_recurrent seja um booleano
     const isRecurrent = values.is_recurrent || false;
-
-    // Atualiza o valor de is_recurrent no formulário se necessário
     formProps.setValue("is_recurrent", isRecurrent, { shouldDirty: true });
 
     const { ...rest } = getDirtyFields(dirtyFields, getValues);
-
     const formData = new FormData();
 
-    // Cria o objeto ticketData com a propriedade is_recurrent corretamente definida
     const ticketData = {
       ...rest,
       user_code: user.code,
@@ -228,14 +222,13 @@ const TicketFormStep = ({ formProps, onClose, onUpdate }: StepsProps) => {
       is_recurrent: isRecurrent,
     };
 
-    // Adiciona os dados ao FormData
     for (const key in ticketData) {
       if (ticketData[key]) {
         if (key === "files") {
-          for (let i = 0; i < ticketData[key].length; i++) {
-            const currentFile = ticketData[key][i];
-            formData.append("files", currentFile);
-          }
+          // Adiciona cada arquivo apenas uma vez
+          ticketData[key].forEach((file: File) => {
+            formData.append("files", file);
+          });
         } else {
           formData.append(key, ticketData[key]);
         }
@@ -325,22 +318,22 @@ const TicketMainForm = ({
     if (fileList?.length) {
       const filesArray = Array.from(fileList);
 
-      for (let i = 0; i < filesArray.length; i++) {
-        const currentFile = filesArray[i];
-
-        const { canUpload } = fileLimit(
-          currentFile,
-          1,
-          `O arquivo: ${currentFile.name}, é muito grande`
+      // Filtra arquivos duplicados e grandes
+      const newFiles = filesArray.filter((file) => {
+        const isDuplicate = files.some(
+          (existingFile) => existingFile.name === file.name
         );
+        const { canUpload } = fileLimit(
+          file,
+          1,
+          `O arquivo: ${file.name}, é muito grande`
+        );
+        return !isDuplicate && canUpload;
+      });
 
-        if (!canUpload) {
-          filesArray.splice(i, 1);
-        }
-      }
-
-      setFiles((prevFiles) => [...prevFiles, ...filesArray]);
-      setValue("files", filesArray, {
+      // Adiciona novos arquivos à lista existente
+      setFiles((prevFiles) => [...prevFiles, ...newFiles]);
+      setValue("files", [...files, ...newFiles], {
         shouldDirty: true,
       });
     }
