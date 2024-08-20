@@ -20,12 +20,17 @@ import SuggestionsModal from "./components/suggestionsModal";
 import SupportModal from "./components/supportModal";
 import { useDarkMode } from "../../hooks/theme";
 import FaqModal from "./components/faqModal";
+import { IoMegaphoneOutline } from "react-icons/io5";
+import SuggestionsListModal from "./components/suggestionsListModal";
 
 export default function Config({}: modalActions<UserModel>) {
   const [openPasswordChangeModal, setopenPasswordChangeModal] = useState(false);
   const [openSuggestionsModa, setopenSuggestionsModal] = useState(false);
   const [openSupportModa, setopenSupportModal] = useState(false);
   const [openFaqModal, setopenFaqModal] = useState(false);
+  const [openSuggestionsListModal, setopenSuggestionsListModal] =
+    useState(false);
+
   const { user } = useAuth();
   const { onChangeTheme } = useDarkMode();
 
@@ -74,6 +79,18 @@ export default function Config({}: modalActions<UserModel>) {
         <FaqModal data={user} onClose={() => setopenFaqModal(false)} />
       </CenterModal>
 
+      <CenterModal
+        open={openSuggestionsListModal}
+        onOpenChange={() =>
+          setopenSuggestionsListModal(!openSuggestionsListModal)
+        }
+      >
+        <SuggestionsListModal
+          data={user}
+          onClose={() => setopenSuggestionsListModal(false)}
+        />
+      </CenterModal>
+
       <ConfigContainer>
         <PageHeaderComponent.container>
           <PageHeaderComponent.title>Configuração</PageHeaderComponent.title>
@@ -99,11 +116,11 @@ export default function Config({}: modalActions<UserModel>) {
 
           <ButtonComponent
             className="card"
-            title="sugestões"
+            title="Fazer sugestão"
             onClick={() => setopenSuggestionsModal(true)}
           >
-            <AiOutlineLike style={{ fontSize: "2em" }} />
-            sugestões
+            <IoMegaphoneOutline style={{ fontSize: "2em" }} />
+            Fazer sugestão
           </ButtonComponent>
 
           <ButtonComponent
@@ -120,14 +137,24 @@ export default function Config({}: modalActions<UserModel>) {
           </ButtonComponent>
 
           {user.role === "Administrator" && (
-            <ButtonComponent
-              className="card"
-              title="Alterar senha"
-              onClick={() => setopenPasswordChangeModal(true)}
-            >
-              <AiOutlineKey style={{ fontSize: "2em" }} />
-              Alterar senha
-            </ButtonComponent>
+            <>
+              <ButtonComponent
+                className="card"
+                title="Temas"
+                onClick={() => setopenSuggestionsListModal(true)}
+              >
+                <AiOutlineLike style={{ fontSize: "2em" }} />
+                lista de sugestões
+              </ButtonComponent>
+              <ButtonComponent
+                className="card"
+                title="Alterar senha"
+                onClick={() => setopenPasswordChangeModal(true)}
+              >
+                <AiOutlineKey style={{ fontSize: "2em" }} />
+                Alterar senha
+              </ButtonComponent>
+            </>
           )}
         </section>
       </ConfigContainer>
