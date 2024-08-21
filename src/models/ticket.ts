@@ -67,4 +67,5 @@ export interface chatComment {
   attachmentUrl: string[];
   user: UserModel;
   created_at?: Date | string;
+  is_done?: boolean;
 }

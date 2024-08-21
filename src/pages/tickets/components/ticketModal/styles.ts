@@ -52,7 +52,7 @@ export const ModalContentBody = styled.main`
       .right-side {
         span {
           text-align: right;
-          ${({ theme }) => theme.font.p.small};
+          ${({ theme }) => theme.font.p.extra_small};
           color: ${({ theme }) => theme.colors.grayscale.gray_80};
         }
       }
@@ -213,7 +213,9 @@ interface chatCardProps {
   $newStyle?: boolean;
 }
 
-export const ChatCardContainer = styled.div<chatCardProps>`
+export const ChatCardContainer = styled.div<
+  chatCardProps & { $isDone?: boolean }
+>`
   max-width: 90%;
   width: fit-content;
   display: flex;
@@ -247,6 +249,15 @@ export const ChatCardContainer = styled.div<chatCardProps>`
   .message-container {
     width: 100%;
     word-wrap: break-word;
+  }
+
+  .conclusion-message {
+    ${({ theme }) => theme.font.p.normal};
+    color: ${({ $self, theme }) =>
+      $self ? theme.colors.brand.white : theme.colors.grayscale.gray_80};
+    margin-bottom: 0.5em; // Ajuste o espaçamento conforme necessário
+    font-weight: 600;
+    max-width: 250px;
   }
 
   ${({ $self }) => {
@@ -331,4 +342,10 @@ export const ChatCardContainer = styled.div<chatCardProps>`
       }
     `;
   }}
+
+  ${({ $isDone, theme }) =>
+    $isDone &&
+    css`
+      border: 4px solid ${theme.colors.support.success};
+    `}
 `;

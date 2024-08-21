@@ -152,7 +152,7 @@ export default function Config({}: modalActions<UserModel>) {
                 onClick={() => setopenPasswordChangeModal(true)}
               >
                 <AiOutlineKey style={{ fontSize: "2em" }} />
-                Alterar senha
+                Alterar senhas
               </ButtonComponent>
             </>
           )}

@@ -10,11 +10,11 @@ import timeConverter from "../../../../utils/timeConverter";
 
 interface ChatComponentProps {
   ticket_data: TicketModel;
-  isDone?: boolean;
+  ticketDone?: boolean;
   isNewStyle?: boolean;
 }
 
-const ChatComponent = ({ ticket_data, isDone }: ChatComponentProps) => {
+const ChatComponent = ({ ticket_data, ticketDone }: ChatComponentProps) => {
   const [chatConversation, setChatConversation] = useState<chatComment[]>([]);
   const [textAreaValue, setTextAreaValue] = useState<string>();
   const commentRef = useRef<HTMLDivElement>(null);
@@ -38,7 +38,7 @@ const ChatComponent = ({ ticket_data, isDone }: ChatComponentProps) => {
     useMutationQuery("/comment");
 
   const handleChatSubmit = () => {
-    if (isDone) return;
+    if (ticketDone) return;
 
     const message = spanRef.current?.innerText;
     if (!message) return;
@@ -59,7 +59,7 @@ const ChatComponent = ({ ticket_data, isDone }: ChatComponentProps) => {
   };
 
   const onKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
-    if (isDone) {
+    if (ticketDone) {
       event.preventDefault();
       return;
     }
@@ -114,10 +114,10 @@ const ChatComponent = ({ ticket_data, isDone }: ChatComponentProps) => {
           className={textAreaValue ? "textarea" : "textarea empty-textarea"}
           role="textbox"
           ref={spanRef}
-          contentEditable={!isDone} // Desabilita edição se concluído
-          data-placeholder={isDone ? "" : "Escreva um comentário..."}
+          contentEditable={!ticketDone} // Desabilita edição se concluído
+          data-placeholder={ticketDone ? "" : "Escreva um comentário..."}
           onKeyDown={onKeyDown}
-          style={{ userSelect: isDone ? "none" : "text" }} // Evita seleção se concluído
+          style={{ userSelect: ticketDone ? "none" : "text" }} // Evita seleção se concluído
         />
         <div className="input-button-container">
           <ButtonComponent
@@ -126,7 +126,7 @@ const ChatComponent = ({ ticket_data, isDone }: ChatComponentProps) => {
             buttonStylesType="fill"
             title="Enviar"
             isLoading={isLoadingUpdate}
-            disabled={isDone} // Desabilita botão se concluído
+            disabled={ticketDone} // Desabilita botão se concluído
           >
             Enviar
           </ButtonComponent>
@@ -139,17 +139,16 @@ const ChatComponent = ({ ticket_data, isDone }: ChatComponentProps) => {
 interface chatCardProps {
   data: chatComment;
 }
-
 const ConnectionsMessageCard = ({ data }: chatCardProps) => {
   const { user } = useAuth();
 
   const isCurrentUser = user.code === data?.user?.code;
+  const isDone = data.is_done;
 
   return (
-    <ChatCardContainer $self={isCurrentUser}>
+    <ChatCardContainer $self={isCurrentUser} $isDone={isDone}>
       <section className="header">
         <h1>
-          {" "}
           {data?.created_at
             ? timeConverter(new Date(data.created_at))
             : "Data inválida"}{" "}
@@ -164,6 +163,7 @@ const ConnectionsMessageCard = ({ data }: chatCardProps) => {
       </section>
 
       <section className="message-container">
+        {isDone && <p className="conclusion-message">Conclusão do chamado:</p>}
         <p>{data.comment}</p>
       </section>
     </ChatCardContainer>
