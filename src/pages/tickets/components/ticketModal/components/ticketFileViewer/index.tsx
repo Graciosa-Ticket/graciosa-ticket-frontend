@@ -51,7 +51,6 @@ const TicketFileViewer = ({ files }: ticketFileViewerProps) => {
     if (!files?.length) return [];
 
     return files.map((file) => {
-      // Extrai a extensão do arquivo e converte para minúsculas
       const fileExtension = file.split(".").pop()?.toLowerCase() || "";
 
       return {
@@ -66,11 +65,7 @@ const TicketFileViewer = ({ files }: ticketFileViewerProps) => {
     const link = document.createElement("a");
     link.target = "_self";
     const baseUrl = amazonURL;
-    const cleanFileName =
-      file
-        .split("/")
-        .pop()
-        ?.replace(/^ticketAttachments_\d+_/, "") || file;
+    const cleanFileName = getCleanFileName(file);
     const fullUrl = baseUrl + file;
     link.href = fullUrl;
     link.download = cleanFileName;
@@ -79,7 +74,8 @@ const TicketFileViewer = ({ files }: ticketFileViewerProps) => {
 
   const getCleanFileName = (file: string) => {
     const fileName = file.split("/").pop() || file;
-    return fileName.replace(/^\d+_/, "");
+    // Remove todos os prefixos numéricos seguidos de "_"
+    return fileName.replace(/^\d+(_\d+)*_/, "");
   };
 
   return (
