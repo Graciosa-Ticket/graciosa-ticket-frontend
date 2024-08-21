@@ -48,7 +48,7 @@ const TicketModal = ({
     data as TicketModel
   );
 
-  const isDone = currentTicket?.status === "Concluído";
+  const ticketDone = currentTicket?.status === "Concluído";
 
   useEffect(() => {
     if (data) {
@@ -195,24 +195,24 @@ const TicketModal = ({
           </section>
 
           <section className="buttons-content">
-            {(currentTicket?.user?.code === user.code ||
-              user.role === "Administrator") && (
-              <>
-                <DeletePopUp
-                  open={openDeleteModal}
-                  onOpenChange={(open) => setOpenDeleteModal(open)}
-                  onConfirmDelete={handleDeleteTicket}
-                />
-                <ButtonComponent
-                  buttonStyles="delete"
-                  buttonStylesType="outline"
-                  onClick={handleOpenDeleteModal}
-                  isLoading={isLoadingDelete}
-                >
-                  Excluir
-                </ButtonComponent>
-              </>
-            )}
+            {user.role === "Administrator" &&
+              currentTicket?.status !== "Concluído" && (
+                <>
+                  <DeletePopUp
+                    open={openDeleteModal}
+                    onOpenChange={(open) => setOpenDeleteModal(open)}
+                    onConfirmDelete={handleDeleteTicket}
+                  />
+                  <ButtonComponent
+                    buttonStyles="delete"
+                    buttonStylesType="outline"
+                    onClick={handleOpenDeleteModal}
+                    isLoading={isLoadingDelete}
+                  >
+                    Excluir
+                  </ButtonComponent>
+                </>
+              )}
 
             {currentTicket?.status !== "Concluído" && (
               <CloseTicketButton
@@ -230,8 +230,7 @@ const TicketModal = ({
 
           <ChatComponent
             ticket_data={currentTicket as TicketModel}
-            isDone={isDone}
-            isNewStyle={!isDone}
+            ticketDone={ticketDone}
           />
         </section>
       </ModalContentBody>

@@ -163,3 +163,20 @@ export const SkeletonBaseCardComponent = styled.div<skeletonCardProps>`
     `;
   }}
 `;
+export const SkeletonVerticalBarComponent = styled.div`
+  width: 30px;
+  height: 100px;
+  position: relative;
+  overflow: hidden;
+  background-color: ${({ theme }) => theme.colors.animation.skeleton_base};
+  background: ${({
+    theme,
+  }) => `linear-gradient(100deg, ${theme.colors.animation.skeleton_100} 40%,
+      ${theme.colors.animation.skeleton_50} 50%,
+      ${theme.colors.animation.skeleton_100} 60%
+    )
+    ${theme.colors.animation.skeleton_base}`};
+  background-size: 200% 100%;
+  background-position-x: 180%;
+  animation: ${skeletonLoading} 1s infinite;
+`;

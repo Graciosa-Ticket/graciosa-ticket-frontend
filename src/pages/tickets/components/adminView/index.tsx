@@ -92,7 +92,7 @@ const SectorList = ({
       >
         {tickets.map((ticket, index) => (
           <GroupedList
-            tickets={ticket.tickets.slice(0, 10)}
+            tickets={ticket.tickets}
             title={ticket.title}
             key={index}
             onOpenModal={handleOpenModal}

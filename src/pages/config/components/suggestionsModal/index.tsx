@@ -1,3 +1,6 @@
+import { useForm, SubmitHandler } from "react-hook-form";
+import { object, string } from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 import { ModalHeader } from "../../../../components/modal";
 import { ModalTitle } from "../../../../components/centerModal";
 import ButtonComponent from "../../../../components/buttons";
@@ -10,10 +13,17 @@ import {
   FormButtonsContainer,
 } from "../../../../components/form/form";
 import { toast } from "sonner";
-import { useForm } from "react-hook-form";
 import TextArea from "../../../../components/form/textarea";
 import { UserModel } from "../../../../models/user";
 import { useMutationQuery } from "../../../../services/hooks/useMutationQuery";
+
+// Define o schema de validação com yup
+const validationSchema = object({
+  comment: string()
+    .min(3, "O comentário deve ter pelo menos 3 caracteres.")
+    .max(255, "O comentário não pode ter mais de 255 caracteres.")
+    .required("Comentário é obrigatório."),
+});
 
 interface SuggestionsModalProps extends modalActions {
   user: UserModel;
@@ -23,12 +33,20 @@ export default function SuggestionsModal({
   onClose,
   user,
 }: SuggestionsModalProps) {
-  const { handleSubmit, register } = useForm({});
+  // Configura o useForm com o resolver do yup
+  const {
+    handleSubmit,
+    register,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(validationSchema),
+  });
 
   const { mutate: createFeedback, isLoading: isLoadingFeedback } =
     useMutationQuery("/feedback");
 
-  const onSubmit = handleSubmit((data) => {
+  // Define a função de submit
+  const onSubmit: SubmitHandler<{ comment: string }> = (data) => {
     const { comment } = data;
 
     const suggestionData = {
@@ -43,13 +61,13 @@ export default function SuggestionsModal({
       },
       onError: () => {},
     });
-  });
+  };
 
   return (
     <>
       <ModalHeader>
         <div className="left-side">
-          <ModalTitle>sugestões</ModalTitle>
+          <ModalTitle>Faça sua sugestão!</ModalTitle>
         </div>
         <div className="right-side">
           <ButtonComponent buttonStyles="text" title="Fechar" onClick={onClose}>
@@ -63,14 +81,17 @@ export default function SuggestionsModal({
           Buscamos sempre melhorar! Se tiver ideias, sugestões ou feedback,
           compartilhe conosco. Sua opinião é essencial para nosso crescimento!
         </p>
-        <FormContainer onSubmit={onSubmit}>
+        <FormContainer onSubmit={handleSubmit(onSubmit)}>
           <FormContentContainer>
             <TextArea
               placeholder="deixe sua sugestão aqui.
 As sugestões são realizadas de forma anônima, fique tranquilo."
               rows={5}
-              register={{ ...register("comment") }}
+              {...register("comment")}
             />
+            {errors.comment && (
+              <p className="error-message">{errors.comment.message}</p>
+            )}
           </FormContentContainer>
           <FormButtonsContainer $columns={2}>
             <div />
