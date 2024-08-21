@@ -4,6 +4,8 @@ import { TicketModel } from "../../../../models/ticket";
 
 export const AdminTicketViewContainer = styled.section`
   margin-top: 0.8em;
+  display: grid;
+  gap: 20px;
 
   .section-group-header {
     border-bottom: 1px solid ${({ theme }) => theme.colors.grayscale.gray_10};
@@ -23,6 +25,7 @@ interface groupButtonProps {
 }
 
 export const SectionGroupButton = styled(ButtonComponent)<groupButtonProps>`
+  width: 100%;
   padding: 0.4em !important;
   justify-content: flex-start;
 
@@ -165,6 +168,12 @@ export const GroupedListContainer = styled.section`
     overflow: hidden;
     cursor: pointer;
   }
+`;
+
+export const SectorListContainer = styled.div`
+  border: solid 1px ${({ theme }) => theme.colors.grayscale.gray_20};
+  padding: 0 10px;
+  border-radius: 12px;
 `;
 
 export const StatusSpanTable = styled.div<statusButtonProps>`

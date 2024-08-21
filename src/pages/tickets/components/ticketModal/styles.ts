@@ -1,24 +1,18 @@
 import styled, { css, keyframes } from "styled-components";
 
 export const ModalContentBody = styled.main`
-  height: 100%;
   width: 100%;
-  display: grid;
-  grid-template-columns: 500px 400px;
-  grid-template-rows: 1fr;
+  min-width: 80vw;
+  height: calc(100vh - 100px);
+  display: flex;
   padding: 0 25px 25px;
-  overflow: auto; /* Adiciona rolagem automática se necessário */
-
-  @media (max-height: 1050px) {
-    max-height: 90vh; /* Limite a altura do modal a 90% da viewport */
-    overflow-y: auto; /* Adiciona rolagem vertical se necessário */
-  }
 
   @media (max-width: 950px) {
     grid-template-columns: 1fr; /* Ajuste a coluna para telas menores */
     grid-template-rows: auto; /* Ajuste as linhas para telas menores */
     padding: 10px; /* Ajuste o padding para telas menores */
   }
+
   .img-sector {
     margin-top: 20px;
   }
@@ -32,7 +26,9 @@ export const ModalContentBody = styled.main`
 
   .ticket-content-side {
     display: flex;
+    flex-basis: 500px;
     flex-direction: column;
+    overflow-y: auto;
     border-right: 1px solid ${({ theme }) => theme.colors.grayscale.gray_10};
     padding: 20px 10px 0 0;
 
@@ -65,7 +61,7 @@ export const ModalContentBody = styled.main`
     }
 
     .details-header {
-      margin-top: 150px;
+      margin-top: 30px;
       ${({ theme }) => theme.font.p.large};
       color: ${({ theme }) => theme.colors.brand.dark_blue};
       font-weight: 600;
@@ -99,6 +95,8 @@ export const ModalContentBody = styled.main`
 
   .comment-section {
     margin-left: 10px;
+    flex-basis: 400px;
+    flex-grow: 1;
     background-color: ${({ theme }) => theme.colors.grayscale.gray_10};
     padding: 1em;
     border-radius: 1em;
@@ -136,19 +134,18 @@ export const ModalHeaderSection = styled.div`
 `;
 
 export const ChatContainer = styled.section`
-  flex: 1;
-  display: flex;
-  flex-direction: column;
+  height: calc(100% - 70px);
 
   .chat-container {
+    height: 100%;
     display: flex;
     margin-top: auto;
   }
   .chat-list {
     width: 100%;
+    height: 100%;
     margin-top: auto;
     overflow-y: auto;
-    max-height: 80vh;
 
     li {
       padding: 3px 0;

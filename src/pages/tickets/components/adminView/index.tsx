@@ -6,6 +6,7 @@ import {
   AdminTicketViewContainer,
   GroupedListContainer,
   SectionGroupButton,
+  SectorListContainer,
   StatusGroupButton,
   StatusSpanTable,
 } from "./styles";
@@ -68,7 +69,7 @@ const SectorList = ({
   }, [tickets]);
 
   return (
-    <div>
+    <SectorListContainer>
       <div className="section-group-header">
         <SectionGroupButton
           $open={openAccordeon}
@@ -98,7 +99,7 @@ const SectorList = ({
           />
         ))}
       </section>
-    </div>
+    </SectorListContainer>
   );
 };
 
