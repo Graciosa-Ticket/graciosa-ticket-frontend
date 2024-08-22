@@ -19,6 +19,7 @@ import CenterModal from "../../../../components/centerModal";
 import TicketConclusionModal from "../ticketConclusionModal";
 import TicketFileViewer from "./components/ticketFileViewer";
 import DeletePopUp from "../../../../components/deleteTicketPopUp";
+import { AiOutlineShareAlt } from "react-icons/ai";
 
 const selectItemStyle = (status: TicketModel["status"]): CSSProperties => {
   const statusStyle = {
@@ -119,6 +120,18 @@ const TicketModal = ({
     onClose?.();
   };
 
+  const shareTicket = () => {
+    const params = new URLSearchParams();
+
+    params.append("ticketID", data?.code as string);
+
+    const copyURL = window.location.href + "/?" + params.toString();
+
+    navigator.clipboard.writeText(copyURL);
+
+    toast.success("Link copiado para a área de transfêrencia");
+  };
+
   return (
     <>
       <ModalHeader>
@@ -167,6 +180,10 @@ const TicketModal = ({
                     )} às ${formatDate(currentTicket?.created_at, "HH:mm")}`
                   : "Data inválida"}
               </span>
+
+              <ButtonComponent buttonStyles="text" onClick={shareTicket}>
+                <AiOutlineShareAlt />
+              </ButtonComponent>
             </div>
           </div>
 

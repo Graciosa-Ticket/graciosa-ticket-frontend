@@ -11,13 +11,17 @@ const growAnimation = keyframes`
 `;
 
 export const ChatFileContainer = styled.div`
+  flex: 1;
+  background-color: ${({ theme }) => theme.colors.grayscale.gray_05};
+  padding: 0.7em;
+  border: 1px solid ${({ theme }) => theme.colors.grayscale.gray_20};
+  border-radius: 0.5em;
+
   ul {
     display: flex; /* Alinha os itens horizontalmente */
+    flex-wrap: wrap;
+    align-items: flex-start;
     gap: 8px; /* Espaçamento entre os itens */
-    width: 100%;
-    max-height: 90%;
-    max-width: 300px; /* Largura máxima */
-    overflow-x: auto; /* Permite rolagem horizontal se necessário */
     padding: 6;
     list-style: none;
   }
@@ -28,10 +32,19 @@ export const ChatFileContainer = styled.div`
     align-items: center;
     position: relative; /* Permite posicionar o botão "X" absolutamente */
     gap: 4px;
-    border: 1px solid ${({ theme }) => theme.colors.brand.dark_blue}; /* Borda ao redor do item */
+    border: 1px solid ${({ theme }) => theme.colors.grayscale.gray_10}; /* Borda ao redor do item */
     border-radius: 4px; /* Cantos arredondados da borda */
     color: ${({ theme }) => theme.colors.brand.dark_blue};
     padding: 8px; /* Espaçamento interno */
+
+    &.image-container {
+      padding: 0;
+    }
+
+    img {
+      max-width: 70px;
+      object-fit: cover;
+    }
 
     .file-icon {
       max-width: 100px;

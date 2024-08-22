@@ -23,7 +23,7 @@ type ResponseError = { message: string; statusCode: number };
 const HomeGraph = ({
   userSector,
   isadmin = false,
-  sectorsListData,
+  sectorsListData = [],
 }: homeGraphProps) => {
   // Estado para armazenar os dados dos contadores recebidos da API
   const [countersDataSource, setcountersDataSource] = useState<
@@ -89,7 +89,7 @@ const HomeGraph = ({
 
   // Efeito que é executado quando os dados de todos os setores são carregados
   useEffect(() => {
-    if (allSectorsCountData?.length) {
+    if (allSectorsCountData?.length && sectorsListData?.length) {
       const counters = allSectorsCountData[0];
       const updatedData = Object.entries(counters)
         .map(([sector_code, values]) => {

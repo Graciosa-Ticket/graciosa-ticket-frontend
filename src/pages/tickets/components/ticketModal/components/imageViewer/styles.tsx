@@ -9,10 +9,9 @@ export const ImageViewerContainer = styled.div`
 `;
 
 export const Thumbnail = styled.img`
-  width: 100%; /* Faz com que a imagem ocupe toda a largura da célula da grade */
-  max-width: 35px;
-  min-width: 35px;
+  width: 35px; /* Faz com que a imagem ocupe toda a largura da célula da grade */
   height: auto; /* Mantém a proporção da imagem */
+  object-fit: cover;
   border-radius: 4px; /* Opcional: adiciona bordas arredondadas */
 `;
 

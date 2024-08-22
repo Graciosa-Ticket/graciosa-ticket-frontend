@@ -32,7 +32,7 @@ const HomeSector = () => {
   };
 
   useEffect(() => {
-    if (sectorData?.length && counterData?.length) {
+    if (sectorData && sectorData?.length && counterData?.length) {
       const counters = map(counterData[0], (a, b) => ({
         sector_code: b,
         counters: a,

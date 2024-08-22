@@ -1,4 +1,4 @@
-import { KeyboardEvent, useEffect, useRef, useState } from "react";
+import { KeyboardEvent, useEffect, useMemo, useRef, useState } from "react";
 import { ChatCardContainer, ChatContainer } from "./styles";
 import { useAuth } from "../../../../hooks/auth";
 import ButtonComponent from "../../../../components/buttons";
@@ -9,11 +9,25 @@ import { useMutationQuery } from "../../../../services/hooks/useMutationQuery";
 import timeConverter from "../../../../utils/timeConverter";
 import ChatAddFilesButton from "./components/chatAddFileButton";
 import ChatFileViewer from "./components/chatFileViewer";
+import {
+  IdentifyFiles,
+  getCleanFileName,
+  handleDownloadFile,
+} from "../../../../utils/fileIdentify";
+import ImageViewer from "./components/imageViewer";
+import { FaRegFilePdf } from "react-icons/fa";
+import { fileIcons } from "./components/ticketFileViewer";
 
 interface ChatComponentProps {
   ticket_data: TicketModel;
   ticketDone?: boolean;
   isNewStyle?: boolean;
+}
+
+interface commentDataType {
+  comment: string;
+  userCode: string;
+  ticketCode: string;
 }
 
 const ChatComponent = ({ ticket_data, ticketDone }: ChatComponentProps) => {
@@ -55,15 +69,15 @@ const ChatComponent = ({ ticket_data, ticketDone }: ChatComponentProps) => {
     });
 
     // Adiciona dados do comentário ao FormData
-    const commentData = {
+    const commentData: commentDataType = {
       comment: "message",
-      userCode: user.code,
-      ticketCode: ticket_data.code,
+      userCode: user.code as string,
+      ticketCode: ticket_data.code as string,
     };
 
     // Adiciona os dados do comentário ao FormData
     Object.keys(commentData).forEach((key) => {
-      formData.append(key, commentData[key]);
+      formData.append(key, commentData[key as keyof commentDataType]);
     });
 
     createComment(formData, {
@@ -129,77 +143,141 @@ const ChatComponent = ({ ticket_data, ticketDone }: ChatComponentProps) => {
         {chatConversation.length > 0 && (
           <ul className="chat-list">
             {chatConversation.map((e, i) => (
-              <li key={i}>
-                <ConnectionsMessageCard data={e} />
+              <li
+                key={i}
+                className={
+                  user.code === e?.user?.code ? "is-current-user-list-item" : ""
+                }
+              >
+                <ConnectionsMessageCard
+                  data={e}
+                  isCurrentUser={user.code === e?.user?.code}
+                  isDone={e?.is_done || false}
+                />
               </li>
             ))}
           </ul>
         )}
       </div>
 
-      <div className="chat-input-container">
-        <ChatAddFilesButton setFiles={setFiles} files={files} />
-        {files.length > 0 ? (
-          <>
-            <ChatFileViewer files={files} onRemoveFile={handleRemoveFile} />
-          </>
-        ) : (
-          <div
-            className={textAreaValue ? "textarea" : "textarea empty-textarea"}
-            role="textbox"
-            ref={spanRef}
-            contentEditable={!ticketDone} // Desabilita edição se concluído
-            data-placeholder={ticketDone ? "" : "Escreva um comentário..."}
-            onKeyDown={onKeyDown}
-            style={{ userSelect: ticketDone ? "none" : "text" }} // Evita seleção se concluído
-          />
-        )}
-        <div className="input-button-container">
-          <ButtonComponent
-            onClick={handleChatSubmit}
-            buttonStyles="primary"
-            buttonStylesType="fill"
-            title="Enviar"
-            isLoading={isLoadingUpdate}
-            disabled={ticketDone || !isButtonEnabled} // Desabilita botão se concluído ou se não houver texto/arquivos
-          >
-            Enviar
-          </ButtonComponent>
+      {isButtonEnabled && (
+        <div className="chat-input-container">
+          <ChatAddFilesButton setFiles={setFiles} files={files} />
+          {files.length > 0 ? (
+            <>
+              <ChatFileViewer files={files} onRemoveFile={handleRemoveFile} />
+            </>
+          ) : (
+            <div
+              className={textAreaValue ? "textarea" : "textarea empty-textarea"}
+              role="textbox"
+              ref={spanRef}
+              contentEditable={!ticketDone} // Desabilita edição se concluído
+              data-placeholder={ticketDone ? "" : "Escreva um comentário..."}
+              onKeyDown={onKeyDown}
+              style={{ userSelect: ticketDone ? "none" : "text" }} // Evita seleção se concluído
+            />
+          )}
+          <div className="input-button-container">
+            <ButtonComponent
+              onClick={handleChatSubmit}
+              buttonStyles="primary"
+              buttonStylesType="fill"
+              title="Enviar"
+              isLoading={isLoadingUpdate}
+              disabled={ticketDone || !isButtonEnabled} // Desabilita botão se concluído ou se não houver texto/arquivos
+            >
+              Enviar
+            </ButtonComponent>
+          </div>
         </div>
-      </div>
+      )}
     </ChatContainer>
   );
 };
 
 interface chatCardProps {
   data: chatComment;
+  isCurrentUser: boolean;
+  isDone: boolean;
 }
-const ConnectionsMessageCard = ({ data }: chatCardProps) => {
-  const { user } = useAuth();
+const ConnectionsMessageCard = ({
+  data,
+  isCurrentUser,
+  isDone,
+}: chatCardProps) => {
+  const commentFiles = useMemo(() => {
+    if (data?.attachmentUrl.length) {
+      const files = IdentifyFiles(data?.attachmentUrl);
 
-  const isCurrentUser = user.code === data?.user?.code;
-  const isDone = data.is_done;
+      return (
+        <ul className="file-list">
+          {files.map((e, i) => {
+            const cleanFileName = getCleanFileName(e.file);
+            if (e.type === "image") {
+              return (
+                <li key={i}>
+                  <ImageViewer imageUrl={e.file} style={{ width: "100%" }} />
+                </li>
+              );
+            }
+
+            if (e.type === "pdf") {
+              return (
+                <li key={i} className="not-image-container">
+                  <ButtonComponent
+                    buttonStyles="text"
+                    onClick={() => handleDownloadFile(e.file)}
+                    title="Clique para baixar o PDF"
+                  >
+                    <FaRegFilePdf />
+                    <span>{cleanFileName}</span>
+                  </ButtonComponent>
+                </li>
+              );
+            }
+
+            // Renderiza o ícone e o nome do arquivo para outros tipos (doc, excel)
+            return (
+              <li key={i} className="not-image-container">
+                <ButtonComponent
+                  buttonStyles="text"
+                  onClick={() => handleDownloadFile(e.file)}
+                  title="Clique para baixar"
+                >
+                  {fileIcons[e.type]}
+                  <span>{cleanFileName}</span>
+                </ButtonComponent>
+              </li>
+            );
+          })}
+        </ul>
+      );
+    }
+
+    return undefined;
+  }, [data?.attachmentUrl]);
 
   return (
     <ChatCardContainer $self={isCurrentUser} $isDone={isDone}>
       <section className="header">
-        <h1>
+        <h6>
           {data?.created_at
             ? timeConverter(new Date(data.created_at))
             : "Data inválida"}{" "}
-        </h1>
+        </h6>
         <span>{data.user.name.slice(0, 10)}.</span>
         <div className="user-side">
           <Avatar
             src={`profile-picture/${data?.user.code}/minSize_${data?.user.profile_picture}`}
-            style={{ width: 32, height: 32 }}
+            style={{ width: 22, height: 22 }}
           />
         </div>
       </section>
 
       <section className="message-container">
         {isDone && <p className="conclusion-message">Conclusão do chamado:</p>}
-        <p>{data.comment}</p>
+        {commentFiles ? commentFiles : <p>{data.comment}</p>}
       </section>
     </ChatCardContainer>
   );

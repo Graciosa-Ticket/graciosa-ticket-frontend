@@ -15,6 +15,10 @@ export const TicketFileContainer = styled.div`
       ${({ theme }) => theme.font.p.extra_small};
       color: ${({ theme }) => theme.colors.brand.dark_blue};
 
+      svg {
+        font-size: 1.4em;
+      }
+
       span {
         max-width: 100px;
         overflow: hidden;
