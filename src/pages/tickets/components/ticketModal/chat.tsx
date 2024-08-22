@@ -47,21 +47,24 @@ const ChatComponent = ({ ticket_data, ticketDone }: ChatComponentProps) => {
 
     if (!message && files.length === 0) return; // Não envia se não houver texto e sem arquivos
 
-    // Cria um FormData e adiciona o comentário
+    // Cria um FormData e adiciona os arquivos
     const formData = new FormData();
-    formData.append("comment", message); // Adiciona a mensagem
-    formData.append("userCode", user.code as any); // Adiciona o código do usuário
-    formData.append("ticketCode", ticket_data.code as any); // Adiciona o código do ticket
 
-    // Adiciona arquivos ao FormData
     files.forEach((file) => {
-      formData.append("attachments", file); // Usa o nome de campo "attachments" para os arquivos
+      formData.append("files", file);
     });
 
-    // Log para verificar o conteúdo do FormData
-    for (const pair of formData.entries()) {
-      console.log(`${pair[0]}:`, pair[1]);
-    }
+    // Adiciona dados do comentário ao FormData
+    const commentData = {
+      comment: "message",
+      userCode: user.code,
+      ticketCode: ticket_data.code,
+    };
+
+    // Adiciona os dados do comentário ao FormData
+    Object.keys(commentData).forEach((key) => {
+      formData.append(key, commentData[key]);
+    });
 
     createComment(formData, {
       onSuccess: () => {

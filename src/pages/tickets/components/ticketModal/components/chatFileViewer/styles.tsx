@@ -11,15 +11,14 @@ const growAnimation = keyframes`
 `;
 
 export const ChatFileContainer = styled.div`
-  margin-top: 10px;
-
   ul {
     display: flex; /* Alinha os itens horizontalmente */
     gap: 8px; /* Espaçamento entre os itens */
-    min-width: 230px; /* Largura mínima */
-    max-width: 230px; /* Largura máxima */
+    width: 100%;
+    max-height: 90%;
+    max-width: 300px; /* Largura máxima */
     overflow-x: auto; /* Permite rolagem horizontal se necessário */
-    padding: 0;
+    padding: 6;
     list-style: none;
   }
 
