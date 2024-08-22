@@ -7,6 +7,8 @@ import { useFetch } from "../../../../services/hooks/getQuery";
 import { chatComment, TicketModel } from "../../../../models/ticket";
 import { useMutationQuery } from "../../../../services/hooks/useMutationQuery";
 import timeConverter from "../../../../utils/timeConverter";
+import ChatAddFilesButton from "./components/chatAddFileButton";
+import ChatFileViewer from "./components/chatFileViewer";
 
 interface ChatComponentProps {
   ticket_data: TicketModel;
@@ -16,9 +18,10 @@ interface ChatComponentProps {
 
 const ChatComponent = ({ ticket_data, ticketDone }: ChatComponentProps) => {
   const [chatConversation, setChatConversation] = useState<chatComment[]>([]);
-  const [textAreaValue, setTextAreaValue] = useState<string>();
+  const [textAreaValue, setTextAreaValue] = useState<string>("");
   const commentRef = useRef<HTMLDivElement>(null);
   const spanRef = useRef<HTMLDivElement>(null);
+  const [files, setFiles] = useState<File[]>([]);
 
   const { user } = useAuth();
 
@@ -40,22 +43,42 @@ const ChatComponent = ({ ticket_data, ticketDone }: ChatComponentProps) => {
   const handleChatSubmit = () => {
     if (ticketDone) return;
 
-    const message = spanRef.current?.innerText;
-    if (!message) return;
+    const message = spanRef.current?.innerText || "";
 
-    createComment(
-      {
-        comment: message,
-        userCode: user.code,
-        ticketCode: ticket_data.code,
+    if (!message && files.length === 0) return; // Não envia se não houver texto e sem arquivos
+
+    // Cria um FormData e adiciona o comentário
+    const formData = new FormData();
+    formData.append("comment", message); // Adiciona a mensagem
+    formData.append("userCode", user.code as any); // Adiciona o código do usuário
+    formData.append("ticketCode", ticket_data.code as any); // Adiciona o código do ticket
+
+    // Adiciona arquivos ao FormData
+    files.forEach((file) => {
+      formData.append("attachments", file); // Usa o nome de campo "attachments" para os arquivos
+    });
+
+    // Log para verificar o conteúdo do FormData
+    for (const pair of formData.entries()) {
+      console.log(`${pair[0]}:`, pair[1]);
+    }
+
+    createComment(formData, {
+      onSuccess: () => {
+        if (spanRef.current) {
+          spanRef.current.innerText = ""; // Limpa o texto do span se o ref não for nulo
+        }
+        setFiles([]); // Limpa a lista de arquivos após o envio
+        refetch();
       },
-      {
-        onSuccess: () => {
-          (spanRef.current as HTMLDivElement).innerText = "";
-          refetch();
-        },
-      }
-    );
+      onError: (error) => {
+        console.error("Error creating comment:", error);
+      },
+    });
+  };
+
+  const handleRemoveFile = (fileToRemove: File) => {
+    setFiles((prevFiles) => prevFiles.filter((file) => file !== fileToRemove));
   };
 
   const onKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
@@ -84,7 +107,6 @@ const ChatComponent = ({ ticket_data, ticketDone }: ChatComponentProps) => {
   useEffect(() => {
     const handleKeydown = (event: globalThis.KeyboardEvent) => {
       const value = (event.target as HTMLDivElement)?.innerText;
-
       setTextAreaValue(value);
     };
 
@@ -94,6 +116,9 @@ const ChatComponent = ({ ticket_data, ticketDone }: ChatComponentProps) => {
       spanRef.current?.removeEventListener("keyup", handleKeydown);
     };
   }, [spanRef]);
+
+  // Verifica se o botão deve ser habilitado
+  const isButtonEnabled = textAreaValue.trim().length > 0 || files.length > 0;
 
   return (
     <ChatContainer>
@@ -110,15 +135,22 @@ const ChatComponent = ({ ticket_data, ticketDone }: ChatComponentProps) => {
       </div>
 
       <div className="chat-input-container">
-        <div
-          className={textAreaValue ? "textarea" : "textarea empty-textarea"}
-          role="textbox"
-          ref={spanRef}
-          contentEditable={!ticketDone} // Desabilita edição se concluído
-          data-placeholder={ticketDone ? "" : "Escreva um comentário..."}
-          onKeyDown={onKeyDown}
-          style={{ userSelect: ticketDone ? "none" : "text" }} // Evita seleção se concluído
-        />
+        <ChatAddFilesButton setFiles={setFiles} files={files} />
+        {files.length > 0 ? (
+          <>
+            <ChatFileViewer files={files} onRemoveFile={handleRemoveFile} />
+          </>
+        ) : (
+          <div
+            className={textAreaValue ? "textarea" : "textarea empty-textarea"}
+            role="textbox"
+            ref={spanRef}
+            contentEditable={!ticketDone} // Desabilita edição se concluído
+            data-placeholder={ticketDone ? "" : "Escreva um comentário..."}
+            onKeyDown={onKeyDown}
+            style={{ userSelect: ticketDone ? "none" : "text" }} // Evita seleção se concluído
+          />
+        )}
         <div className="input-button-container">
           <ButtonComponent
             onClick={handleChatSubmit}
@@ -126,7 +158,7 @@ const ChatComponent = ({ ticket_data, ticketDone }: ChatComponentProps) => {
             buttonStylesType="fill"
             title="Enviar"
             isLoading={isLoadingUpdate}
-            disabled={ticketDone} // Desabilita botão se concluído
+            disabled={ticketDone || !isButtonEnabled} // Desabilita botão se concluído ou se não houver texto/arquivos
           >
             Enviar
           </ButtonComponent>

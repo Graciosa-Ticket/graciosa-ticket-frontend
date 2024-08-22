@@ -144,6 +144,7 @@ export const ChatContainer = styled.section`
     display: flex;
     margin-top: auto;
   }
+
   .chat-list {
     width: 100%;
     margin-top: auto;
@@ -179,6 +180,43 @@ export const ChatContainer = styled.section`
         ${({ theme }) => theme.font.p.small};
         position: absolute;
         color: ${({ theme }) => theme.colors.grayscale.gray_60};
+      }
+    }
+
+    .file-list {
+      width: 80%;
+      max-height: 250px;
+      padding: 0.8em 0.8em;
+      color: ${({ theme }) => theme.colors.grayscale.gray_50};
+      ${({ theme }) => theme.font.p.normal};
+      border-radius: 0.5em;
+      border: 1px solid;
+      margin-top: 2px;
+      text-align: center;
+      overflow-y: auto;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .file-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.4em;
+
+      p {
+        color: ${({ theme }) => theme.colors.brand.blue};
+        ${({ theme }) => theme.font.p.normal};
+      }
+
+      .remove-icon {
+        color: ${({ theme }) => theme.colors.brand.blue};
+        cursor: pointer;
+
+        &:hover {
+          background-color: ${({ theme }) => theme.colors.brand.blue};
+          color: ${({ theme }) => theme.colors.brand.white};
+          transition: background-color 0.3s ease;
+        }
       }
     }
 

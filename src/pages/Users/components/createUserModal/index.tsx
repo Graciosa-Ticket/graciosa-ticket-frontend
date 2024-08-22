@@ -151,6 +151,7 @@ export default function CreateUserModal({
       }
 
       const createUser = userData ? api.put : api.post;
+
       await createUser("/users", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
