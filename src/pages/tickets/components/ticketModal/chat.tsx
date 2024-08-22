@@ -59,7 +59,7 @@ const ChatComponent = ({ ticket_data, ticketDone }: ChatComponentProps) => {
 
     const message = spanRef.current?.innerText || "";
 
-    if (!message && files.length === 0) return; // Não envia se não houver texto e sem arquivos
+    if (!message && files.length === 0) return; // Não envia se não houver texto e arquivos
 
     // Cria um FormData e adiciona os arquivos
     const formData = new FormData();
@@ -70,13 +70,17 @@ const ChatComponent = ({ ticket_data, ticketDone }: ChatComponentProps) => {
 
     // Adiciona dados do comentário ao FormData
     const commentData: commentDataType = {
-      comment: "message",
+      comment: message,
       userCode: user.code as string,
       ticketCode: ticket_data.code as string,
     };
 
-    // Adiciona os dados do comentário ao FormData
+    // Adiciona os dados ao FormData, exceto o comment se estiver vazio
     Object.keys(commentData).forEach((key) => {
+      if (key === "comment" && !message) {
+        // Não adiciona o campo 'comment' se message for vazio
+        return;
+      }
       formData.append(key, commentData[key as keyof commentDataType]);
     });
 
@@ -135,7 +139,7 @@ const ChatComponent = ({ ticket_data, ticketDone }: ChatComponentProps) => {
   }, [spanRef]);
 
   // Verifica se o botão deve ser habilitado
-  const isButtonEnabled = textAreaValue.trim().length > 0 || files.length > 0;
+  const shouldShowChatInputContainer = !ticketDone;
 
   return (
     <ChatContainer>
@@ -160,7 +164,8 @@ const ChatComponent = ({ ticket_data, ticketDone }: ChatComponentProps) => {
         )}
       </div>
 
-      {isButtonEnabled && (
+      {/* Exibe o bloco apenas se o ticket não estiver concluído e o botão estiver habilitado */}
+      {shouldShowChatInputContainer && (
         <div className="chat-input-container">
           <ChatAddFilesButton setFiles={setFiles} files={files} />
           {files.length > 0 ? (
@@ -185,7 +190,7 @@ const ChatComponent = ({ ticket_data, ticketDone }: ChatComponentProps) => {
               buttonStylesType="fill"
               title="Enviar"
               isLoading={isLoadingUpdate}
-              disabled={ticketDone || !isButtonEnabled} // Desabilita botão se concluído ou se não houver texto/arquivos
+              disabled={ticketDone} // Desabilita botão se concluído ou se não houver texto/arquivos
             >
               Enviar
             </ButtonComponent>
