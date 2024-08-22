@@ -27,16 +27,26 @@ interface BarGraphProps {
   data?: CounterToChartModel | CounterToChartModelSector;
 }
 
+// Função para formatar os rótulos
+const formatLabel = (label: string) => {
+  // Substitui os sublinhados por espaços e capitaliza a primeira letra de cada palavra
+  return label
+    .replace(/_/g, " ")
+    .replace(/\b\w/g, (char) => char.toUpperCase());
+};
+
 export const BarGraph = ({ data }: BarGraphProps) => {
   const theme = useTheme();
 
-  if (!data) return;
-  <div> Carregando...</div>;
+  if (!data) return <div>Carregando...</div>;
+
+  // Formata os rótulos
+  const labels = Object.keys(data).map(formatLabel);
 
   return (
     <Bar
       data={{
-        labels: Object.keys(data),
+        labels: labels,
         datasets: [
           {
             label: "Chamados",
@@ -87,7 +97,7 @@ export const BarGraph = ({ data }: BarGraphProps) => {
               text: "Status",
             },
             ticks: {
-              display: false,
+              display: true, // Garante que os rótulos formatados sejam exibidos
             },
           },
           y: {

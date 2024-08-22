@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PageHeaderComponent from "../../components/pagesHeader";
 import AdminTicketsView from "./components/adminView";
 import { TicketsPageContainer } from "./styles";
@@ -13,13 +13,41 @@ import Modal from "../../components/modal";
 import UserTicketsView from "./components/userView";
 import { useAuth } from "../../hooks/auth";
 import TicketModal from "./components/ticketModal";
+import { api } from "../../services/api.service";
+import { toast } from "sonner";
 
 const TicketsPage = () => {
   const { user } = useAuth();
   const [dataSource, setDataSource] = useState<TicketModel[]>([]);
-
   const [openModal, setOpenModal] = useState(false);
   const [modalData, setModalData] = useState<TicketModel>();
+
+  const getTicketData = async (code: string) => {
+    try {
+      const { data } = await api.get(`/ticket/${code}`);
+
+      if (!Object.keys(data).length) {
+        return null;
+      }
+
+      setModalData(data);
+      setOpenModal(true);
+    } catch (error) {
+      toast.error("Erro ao encontrar o chamado");
+      return null;
+    }
+  };
+
+  useEffect(() => {
+    const href = window.location.search;
+    const params = new URLSearchParams(href);
+
+    const ticketId = params.get("ticketID");
+
+    if (ticketId) {
+      getTicketData(ticketId);
+    }
+  }, []);
 
   const handleOpenModal = (data: TicketModel) => {
     setModalData(data);

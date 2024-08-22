@@ -1,8 +1,7 @@
 import styled, { css, keyframes } from "styled-components";
 
 export const ModalContentBody = styled.main`
-  width: 100%;
-  min-width: 80vw;
+  width: 85vw;
   height: calc(100vh - 100px);
   display: flex;
   padding: 0 25px 25px;
@@ -25,8 +24,8 @@ export const ModalContentBody = styled.main`
   }
 
   .ticket-content-side {
+    width: 60%;
     display: flex;
-    flex-basis: 500px;
     flex-direction: column;
     overflow-y: auto;
     border-right: 1px solid ${({ theme }) => theme.colors.grayscale.gray_10};
@@ -94,9 +93,8 @@ export const ModalContentBody = styled.main`
   }
 
   .comment-section {
+    width: 40%;
     margin-left: 10px;
-    flex-basis: 400px;
-    flex-grow: 1;
     background-color: ${({ theme }) => theme.colors.grayscale.gray_10};
     padding: 1em;
     border-radius: 1em;
@@ -134,17 +132,24 @@ export const ModalHeaderSection = styled.div`
 `;
 
 export const ChatContainer = styled.section`
-  height: calc(100% - 70px);
+  height: calc(100% - 16px);
+  display: flex;
+  flex-direction: column;
 
   .chat-container {
-    height: 100%;
+    flex: 1;
+    overflow: hidden;
     display: flex;
     margin-top: auto;
   }
+
   .chat-list {
     width: 100%;
     height: 100%;
     margin-top: auto;
+    /* display: flex;
+    flex-direction: column;
+    justify-content: flex-end; */
     overflow-y: auto;
 
     li {
@@ -155,7 +160,7 @@ export const ChatContainer = styled.section`
 
   .chat-input-container {
     display: flex;
-    align-items: center;
+    align-items: flex-end;
     gap: 0.7em;
 
     .textarea {
@@ -176,6 +181,43 @@ export const ChatContainer = styled.section`
         ${({ theme }) => theme.font.p.small};
         position: absolute;
         color: ${({ theme }) => theme.colors.grayscale.gray_60};
+      }
+    }
+
+    .file-list {
+      width: 80%;
+      max-height: 250px;
+      padding: 0.8em 0.8em;
+      color: ${({ theme }) => theme.colors.grayscale.gray_50};
+      ${({ theme }) => theme.font.p.normal};
+      border-radius: 0.5em;
+      border: 1px solid;
+      margin-top: 2px;
+      text-align: center;
+      overflow-y: auto;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .file-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.4em;
+
+      p {
+        color: ${({ theme }) => theme.colors.brand.blue};
+        ${({ theme }) => theme.font.p.normal};
+      }
+
+      .remove-icon {
+        color: ${({ theme }) => theme.colors.brand.blue};
+        cursor: pointer;
+
+        &:hover {
+          background-color: ${({ theme }) => theme.colors.brand.blue};
+          color: ${({ theme }) => theme.colors.brand.white};
+          transition: background-color 0.3s ease;
+        }
       }
     }
 
@@ -208,11 +250,10 @@ to{
 interface chatCardProps {
   $self: boolean;
   $newStyle?: boolean;
+  $isDone?: boolean;
 }
 
-export const ChatCardContainer = styled.div<
-  chatCardProps & { $isDone?: boolean }
->`
+export const ChatCardContainer = styled.div<chatCardProps>`
   max-width: 90%;
   width: fit-content;
   display: flex;
@@ -246,6 +287,43 @@ export const ChatCardContainer = styled.div<
   .message-container {
     width: 100%;
     word-wrap: break-word;
+
+    .file-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+
+      li {
+        flex-basis: 100px;
+        flex-grow: 1;
+
+        &.not-image-container {
+          span {
+            max-width: 100px;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+            color: ${({ theme }) => theme.colors.brand.white};
+            ${({ theme }) => theme.font.p.extra_small};
+            font-size: 10px !important;
+          }
+        }
+
+        button {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          font-size: 2em;
+          color: ${({ theme }) => theme.colors.brand.white};
+          padding: 0.2em;
+
+          &:hover {
+            background-color: transparent;
+          }
+        }
+      }
+    }
   }
 
   .conclusion-message {
@@ -254,6 +332,35 @@ export const ChatCardContainer = styled.div<
       $self ? theme.colors.brand.white : theme.colors.grayscale.gray_80};
     margin-bottom: 0.5em; // Ajuste o espaçamento conforme necessário
     font-weight: 600;
+    max-width: 250px;
+  }
+
+  .header {
+    width: 100%;
+    display: flex;
+    justify-content: left;
+    flex-direction: row-reverse;
+    align-items: center;
+    color: white;
+    gap: 10px;
+
+    h6 {
+      color: ${({ theme }) => theme.colors.grayscale.gray_50};
+      ${({ theme }) => theme.font.p.extra_small};
+      font-size: 0.7em;
+    }
+
+    span {
+      color: ${({ theme }) => theme.colors.grayscale.gray_90};
+      ${({ theme }) => theme.font.p.small};
+      font-weight: 500;
+    }
+  }
+
+  .message-container {
+    flex: 1;
+    ${({ theme }) => theme.font.p.normal};
+    color: ${({ theme }) => theme.colors.grayscale.gray_80};
     max-width: 250px;
   }
 
@@ -267,30 +374,15 @@ export const ChatCardContainer = styled.div<
         border-radius: 6px 2px 6px 6px;
 
         .header {
-          display: flex;
-          justify-content: flex-end;
-          align-items: center;
-          width: 100%;
-          color: ${({ theme }) => theme.colors.brand.white};
-          gap: 20px;
+          flex-direction: row;
 
-          h1 {
+          h6 {
             color: white;
-            ${({ theme }) => theme.font.p.extra_small};
           }
 
           span {
             color: white;
-            ${({ theme }) => theme.font.p.small};
-            font-weight: 600;
           }
-        }
-
-        .message-container {
-          flex: 1;
-          ${({ theme }) => theme.font.p.normal};
-          color: ${({ theme }) => theme.colors.grayscale.gray_80};
-          max-width: 250px;
         }
 
         p {
@@ -306,31 +398,7 @@ export const ChatCardContainer = styled.div<
       background-color: ${({ theme }) => theme.colors.brand.white};
 
       .header {
-        display: flex;
-        justify-content: left;
-        flex-direction: row-reverse;
-        align-items: center;
-        width: 100%;
         color: white !important;
-        gap: 20px;
-
-        h1 {
-          color: ${({ theme }) => theme.colors.grayscale.gray_50};
-          ${({ theme }) => theme.font.p.extra_small};
-        }
-
-        span {
-          color: ${({ theme }) => theme.colors.grayscale.gray_90};
-          ${({ theme }) => theme.font.p.small};
-          font-weight: 600;
-        }
-      }
-
-      .message-container {
-        flex: 1;
-        ${({ theme }) => theme.font.p.normal};
-        color: ${({ theme }) => theme.colors.grayscale.gray_80};
-        max-width: 250px;
       }
 
       p {

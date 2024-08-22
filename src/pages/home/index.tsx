@@ -17,12 +17,15 @@ export default function Home() {
 
   useFetch<SectorCardModel[]>("/sectors", ["sectorsListData"], {
     onSuccess: (data) => {
-      setSectorListData(data);
+      if (data) {
+        console.log("sectorData", data);
+        setSectorListData(data);
+      }
     },
   });
 
   useEffect(() => {
-    if (sectorsListData.length > 0) {
+    if (sectorsListData?.length) {
       const sector = sectorsListData.find(
         (data) => data.responsible_code === user.code
       );

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { CSSProperties, useState } from "react";
 import { ImageViewerContainer, Thumbnail } from "./styles";
 import CenterModal from "../../../../../../components/centerModal";
 import ImageViewerModal from "./imageViewerModal";
@@ -6,9 +6,10 @@ import { amazonURL } from "../../../../../../components/Avatar";
 
 interface ImageViewerProps {
   imageUrl?: string;
+  style?: CSSProperties;
 }
 
-const ImageViewer = ({ imageUrl }: ImageViewerProps) => {
+const ImageViewer = ({ imageUrl, style }: ImageViewerProps) => {
   const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
 
   const openModal = () => {
@@ -31,6 +32,7 @@ const ImageViewer = ({ imageUrl }: ImageViewerProps) => {
         <Thumbnail
           src={amazonURL + imageUrl}
           onClick={openModal}
+          style={style}
           title="Clique para expandir"
         />
       </ImageViewerContainer>

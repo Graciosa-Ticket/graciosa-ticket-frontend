@@ -4,43 +4,18 @@ import { IoDocumentOutline } from "react-icons/io5";
 import { FaRegFileExcel, FaRegFilePdf } from "react-icons/fa";
 import ImageViewer from "../imageViewer";
 import ButtonComponent from "../../../../../../components/buttons";
-import { amazonURL } from "../../../../../../components/Avatar";
-
-type formattedFileType = {
-  file: string;
-  type: "image" | "pdf" | "doc" | "excel";
-};
+import {
+  IdentifyFiles,
+  formattedFileType,
+  getCleanFileName,
+  handleDownloadFile,
+} from "../../../../../../utils/fileIdentify";
 
 interface ticketFileViewerProps {
   files?: string[];
 }
 
-type TFileTypes =
-  | "pdf"
-  | "jpg"
-  | "jpeg"
-  | "png"
-  | "doc"
-  | "csv"
-  | "xlsx"
-  | "xls"
-  | "txt"
-  | "docx";
-
-const fileTypes = {
-  pdf: "pdf",
-  jpg: "image",
-  jpeg: "image",
-  png: "image",
-  doc: "doc",
-  docx: "doc",
-  txt: "doc",
-  csv: "excel",
-  xlsx: "excel",
-  xls: "excel",
-};
-
-const fileIcons = {
+export const fileIcons = {
   pdf: <FaRegFilePdf />,
   excel: <FaRegFileExcel />,
   doc: <IoDocumentOutline />,
@@ -48,35 +23,8 @@ const fileIcons = {
 
 const TicketFileViewer = ({ files }: ticketFileViewerProps) => {
   const formattedFiles: formattedFileType[] = useMemo(() => {
-    if (!files?.length) return [];
-
-    return files.map((file) => {
-      const fileExtension = file.split(".").pop()?.toLowerCase() || "";
-
-      return {
-        type: (fileTypes?.[fileExtension as TFileTypes] ||
-          "doc") as formattedFileType["type"],
-        file,
-      };
-    });
+    return IdentifyFiles(files);
   }, [files]);
-
-  const handleDownload = (file: string) => {
-    const link = document.createElement("a");
-    link.target = "_self";
-    const baseUrl = amazonURL;
-    const cleanFileName = getCleanFileName(file);
-    const fullUrl = baseUrl + file;
-    link.href = fullUrl;
-    link.download = cleanFileName;
-    link.click();
-  };
-
-  const getCleanFileName = (file: string) => {
-    const fileName = file.split("/").pop() || file;
-    // Remove todos os prefixos numéricos seguidos de "_"
-    return fileName.replace(/^\d+(_\d+)*_/, "");
-  };
 
   return (
     <TicketFileContainer>
@@ -89,7 +37,7 @@ const TicketFileViewer = ({ files }: ticketFileViewerProps) => {
                 <ImageViewer imageUrl={e.file} />
                 <ButtonComponent
                   buttonStyles="text"
-                  onClick={() => handleDownload(e.file)}
+                  onClick={() => handleDownloadFile(e.file)}
                   title="Clique para baixar a imagem"
                 >
                   <span>{cleanFileName}</span>
@@ -103,7 +51,7 @@ const TicketFileViewer = ({ files }: ticketFileViewerProps) => {
               <li key={i}>
                 <ButtonComponent
                   buttonStyles="text"
-                  onClick={() => handleDownload(e.file)}
+                  onClick={() => handleDownloadFile(e.file)}
                   title="Clique para baixar o PDF"
                 >
                   <FaRegFilePdf />
@@ -118,7 +66,7 @@ const TicketFileViewer = ({ files }: ticketFileViewerProps) => {
             <li key={i}>
               <ButtonComponent
                 buttonStyles="text"
-                onClick={() => handleDownload(e.file)}
+                onClick={() => handleDownloadFile(e.file)}
                 title="Clique para baixar"
               >
                 {fileIcons[e.type]}
