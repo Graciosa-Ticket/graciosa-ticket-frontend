@@ -303,7 +303,7 @@ export const ChatCardContainer = styled.div<chatCardProps>`
             text-overflow: ellipsis;
             overflow: hidden;
             white-space: nowrap;
-            color: ${({ theme }) => theme.colors.brand.white};
+            color: ${({ theme }) => theme.colors.brand.black};
             ${({ theme }) => theme.font.p.extra_small};
             font-size: 10px !important;
           }
@@ -315,7 +315,7 @@ export const ChatCardContainer = styled.div<chatCardProps>`
           align-items: center;
           justify-content: center;
           font-size: 2em;
-          color: ${({ theme }) => theme.colors.brand.white};
+          color: ${({ theme }) => theme.colors.brand.black};
           padding: 0.2em;
 
           &:hover {

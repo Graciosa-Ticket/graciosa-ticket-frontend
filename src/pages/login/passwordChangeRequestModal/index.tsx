@@ -48,11 +48,14 @@ export default function PasswordChangeRequestModal({
     useMutationQuery("/management/forgotPassword");
 
   const onSubmit = handleSubmit((data) => {
+    // Remove o campo confirmBox antes de enviar a solicitação
     delete data.confirmBox;
 
     createPasswordChangeTicket(data, {
       onSuccess: () => {
         toast.success("Tudo Certo, aguarde a resposta do chamado");
+        // Desmarca o checkbox e fecha o modal após o sucesso
+        setValue("confirmBox", false);
         onClose?.();
       },
       onError: () => {
@@ -92,6 +95,7 @@ export default function PasswordChangeRequestModal({
             <CheckBoxComponent
               id="ocurrence"
               label="Confirmo que desejo enviar uma solicitação de alteração de senha à administração."
+              checked={watch("confirmBox")} // Define o estado inicial do checkbox
               onCheckedChange={(value) => setValue("confirmBox", value)}
             />
             <div />

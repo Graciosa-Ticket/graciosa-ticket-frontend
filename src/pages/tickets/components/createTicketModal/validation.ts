@@ -5,8 +5,8 @@ export const createTicketValidation = yup.object().shape({
   description: yup
     .string()
     .required("A Descrição é obrigatoria")
-    .max(255)
-    .min(5, "Mais"),
+    .max(800, "maximo 800 caracteres")
+    .min(5, "minimo 5 caracteres"),
   sector_code: yup.string().required("O Código do setor é obrigatorio"),
 });
 

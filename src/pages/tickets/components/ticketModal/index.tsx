@@ -118,6 +118,7 @@ const TicketModal = ({
 
   const handleClose = () => {
     onClose?.();
+    onUpdate?.();
   };
 
   const shareTicket = () => {

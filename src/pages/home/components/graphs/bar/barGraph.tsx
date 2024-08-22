@@ -27,12 +27,22 @@ interface BarGraphProps {
   data?: CounterToChartModel | CounterToChartModelSector;
 }
 
-// Função para formatar os rótulos
 const formatLabel = (label: string) => {
-  // Substitui os sublinhados por espaços e capitaliza a primeira letra de cada palavra
-  return label
-    .replace(/_/g, " ")
-    .replace(/\b\w/g, (char) => char.toUpperCase());
+  // Substitui sublinhados por espaços e capitaliza a primeira letra de cada palavra
+  const formattedLabel = label
+    .replace(/_/g, " ") // Substitui sublinhados por espaços
+    .toLowerCase(); // Converte tudo para minúsculas inicialmente
+
+  // Capitaliza apenas a primeira letra da primeira palavra
+  const capitalizedLabel =
+    formattedLabel.charAt(0).toUpperCase() + formattedLabel.slice(1);
+
+  // Corrige casos específicos de acentuação e pontuação
+  return capitalizedLabel
+    .replace(/Aguardando aprovacao/g, "Aguardando aprovação") // Substitui 'Aguardando aprovacao' por 'Aguardando Aprovação'
+    .replace(/Em andamento/g, "Em andamento") // Substitui 'Em andamento' por 'Em Andamento'
+    .replace(/Impeditivo/g, "Impeditivo") // Certifica-se de que a palavra é corretamente formatada
+    .replace(/Reaberto/g, "Reaberto"); // Certifica-se de que a palavra é corretamente formatada
 };
 
 export const BarGraph = ({ data }: BarGraphProps) => {
@@ -40,8 +50,20 @@ export const BarGraph = ({ data }: BarGraphProps) => {
 
   if (!data) return <div>Carregando...</div>;
 
-  // Formata os rótulos
+  // Formata os rótulos e extrai as cores
   const labels = Object.keys(data).map(formatLabel);
+  const dataValues = Object.values(data);
+
+  // Certifique-se de que há uma cor para cada rótulo
+  const colors = [
+    theme.colors.ticket_status.open,
+    theme.colors.ticket_status.waiting_approval,
+    theme.colors.ticket_status.canceled,
+    theme.colors.ticket_status.done,
+    theme.colors.ticket_status.on_going,
+    theme.colors.ticket_status.impediment,
+    theme.colors.ticket_status.re_open,
+  ].slice(0, labels.length); // Ajusta o tamanho das cores para o número de rótulos
 
   return (
     <Bar
@@ -50,25 +72,9 @@ export const BarGraph = ({ data }: BarGraphProps) => {
         datasets: [
           {
             label: "Chamados",
-            data: Object.values(data),
-            backgroundColor: [
-              theme.colors.ticket_status.open,
-              theme.colors.ticket_status.waiting_approval,
-              theme.colors.ticket_status.canceled,
-              theme.colors.ticket_status.done,
-              theme.colors.ticket_status.on_going,
-              theme.colors.ticket_status.impediment,
-              theme.colors.ticket_status.re_open,
-            ],
-            borderColor: [
-              theme.colors.ticket_status.open,
-              theme.colors.ticket_status.waiting_approval,
-              theme.colors.ticket_status.canceled,
-              theme.colors.ticket_status.done,
-              theme.colors.ticket_status.on_going,
-              theme.colors.ticket_status.impediment,
-              theme.colors.ticket_status.re_open,
-            ],
+            data: dataValues,
+            backgroundColor: colors,
+            borderColor: colors,
             borderWidth: 1,
           },
         ],
@@ -80,13 +86,11 @@ export const BarGraph = ({ data }: BarGraphProps) => {
             display: false,
             position: "top",
           },
-
           title: {
             display: false,
             text: "Gráfico de Chamados por Status",
           },
         },
-
         scales: {
           x: {
             grid: {
