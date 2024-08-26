@@ -15,7 +15,6 @@ import { useMutationQuery } from "../../../../services/hooks/useMutationQuery";
 import EditedFormPopUp from "../../../../components/EditedFormPopUp";
 import CenterModal from "../../../../components/centerModal";
 import CreateSectorModal from "../createNewSector";
-import { FaArrowRightArrowLeft } from "react-icons/fa6";
 
 export default function SectorModal({
   data,

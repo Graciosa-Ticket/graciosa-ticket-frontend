@@ -1,15 +1,4 @@
-import styled, { keyframes } from "styled-components";
-
-const entranceAnimation = keyframes`
-  from {
-    transform: scale(0.8); /* Inicia com o card 20% menor */
-    opacity: 0;
-  }
-  to {
-    transform: scale(1); /* Cresce para o tamanho normal */
-    opacity: 1;
-  }
-`;
+import styled from "styled-components";
 
 export const FeedbackContainer = styled.div`
   width: 100%;
