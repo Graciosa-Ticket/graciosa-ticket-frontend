@@ -89,9 +89,6 @@ export default function SectorModal({
             defaultValue={data?.user as UserModel}
             onChange={handleChangeUser}
           />
-          <p className="arrows-button">
-            <FaArrowRightArrowLeft /> Substituir
-          </p>
         </div>
 
         <h1>Chamados do Setor</h1>

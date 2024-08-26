@@ -8,20 +8,40 @@ interface SectorTicketsDisplayProps {
 const SectorTicketsDisplay = ({ data }: SectorTicketsDisplayProps) => {
   return (
     <Layout>
-      <StatusP status="Aberto">Aberto</StatusP>
-      <span>{data?.counters?.aberto}</span>
-      <StatusP status="Em andamento">Em andamento</StatusP>
-      <span>{data?.counters?.em_andamento}</span>
-      <StatusP status="Aguardando aprovação">Aguardando aprovação</StatusP>
-      <span>{data?.counters?.aguardando_aprovacao}</span>
-      <StatusP status="Cancelado">Cancelado</StatusP>
-      <span>{data?.counters?.cancelado}</span>
-      <StatusP status="Reaberto">Reaberto</StatusP>
-      <span>{data?.counters?.reaberto}</span>
-      <StatusP status="Impeditivo">Impeditivo</StatusP>
-      <span>{data?.counters?.impeditivo}</span>
-      <StatusP status="Concluído">Concluído</StatusP>
-      <span>{data?.counters?.concluido}</span>
+      <StatusP status="Aberto">
+        Aberto
+        <span>{data?.counters?.aberto}</span>
+      </StatusP>
+
+      <StatusP status="Em andamento">
+        Em andamento
+        <span>{data?.counters?.em_andamento}</span>
+      </StatusP>
+
+      <StatusP status="Aguardando aprovação">
+        Aguardando aprovação
+        <span>{data?.counters?.aguardando_aprovacao}</span>
+      </StatusP>
+
+      <StatusP status="Cancelado">
+        Cancelado
+        <span>{data?.counters?.cancelado}</span>
+      </StatusP>
+
+      <StatusP status="Reaberto">
+        Reaberto
+        <span>{data?.counters?.reaberto}</span>
+      </StatusP>
+
+      <StatusP status="Impeditivo">
+        Impeditivo
+        <span>{data?.counters?.impeditivo}</span>
+      </StatusP>
+
+      <StatusP status="Concluído">
+        Concluído
+        <span>{data?.counters?.concluido}</span>
+      </StatusP>
     </Layout>
   );
 };

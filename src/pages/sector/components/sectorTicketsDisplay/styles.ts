@@ -3,18 +3,19 @@ import { TicketModel } from "../../../../models/ticket";
 
 export const Layout = styled.section`
   display: grid;
-  grid-template-columns: 1fr 25px;
   margin-top: 10px;
   gap: 4px;
   margin-bottom: 20px;
 
   span {
-    color: ${({ theme }) => theme.colors.brand.dark_blue};
-    ${({ theme }) => theme.font.p.normal};
+    color: white;
+    ${({ theme }) => theme.font.p.small};
+    font-weight: 500;
     text-align: center;
     display: flex;
     align-items: center;
-    justify-content: center; /* Centraliza o texto verticalmente e horizontalmente */
+    justify-content: center;
+    margin-left: 10px;
   }
 `;
 
@@ -66,7 +67,7 @@ export const StatusP = styled.p<StatusPProps>`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 40%; /* Garante que o retângulo ocupe toda a largura disponível */
+  width: 50%; /* Garante que o retângulo ocupe toda a largura disponível */
   min-width: 120px; /* Define um tamanho mínimo para manter consistência entre os elementos */
   height: 40px; /* Define uma altura padrão para todos os retângulos */
   padding: 0; /* Remove padding para garantir que a altura seja consistente */
@@ -74,4 +75,5 @@ export const StatusP = styled.p<StatusPProps>`
   color: white;
   ${({ theme }) => theme.font.p.extra_small};
   text-align: center; /* Centraliza o texto horizontalmente */
+  font-weight: 500;
 `;

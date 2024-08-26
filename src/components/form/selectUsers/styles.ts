@@ -15,6 +15,15 @@ export const SelectUsersContainer = styled.div`
     align-items: center;
     gap: 10px;
   }
+
+  .error-container {
+    margin-top: 0.5em;
+  }
+
+  .error-message {
+    ${({ theme }) => theme.font.p.small};
+    color: ${({ theme }) => theme.colors.support.error};
+  }
 `;
 
 export const SelectUsersContainerPlaceholder = styled.div`

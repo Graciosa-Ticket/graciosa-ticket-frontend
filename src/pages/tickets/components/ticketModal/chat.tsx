@@ -140,11 +140,12 @@ const ChatComponent = ({ ticket_data, ticketDone }: ChatComponentProps) => {
     };
   }, [spanRef]);
 
+  //chat auto scroll down
   useEffect(() => {
     const currentMessageCount = chatConversation.length;
     if (currentMessageCount > prevMessageCountRef.current) {
       if (lastMessageRef.current) {
-        lastMessageRef.current.scrollIntoView({ behavior: "smooth" });
+        lastMessageRef.current.scrollIntoView({ behavior: "instant" });
       }
     }
     prevMessageCountRef.current = currentMessageCount;
@@ -293,8 +294,10 @@ const ConnectionsMessageCard = ({
           <span>{data.user.name.slice(0, 10)}.</span>
           <div className="user-side">
             <Avatar
-              src={`profile-picture/${data?.user.code}/minSize_${data?.user.profile_picture}`}
-              style={{ width: 22, height: 22 }}
+              {...(data?.user.profile_picture && {
+                src: `profile-picture/${data?.code}/regularSize_${data?.user.profile_picture}`,
+              })}
+              alt=""
             />
           </div>
         </section>

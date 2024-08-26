@@ -11,8 +11,8 @@ export const SupportModalComponent = styled.section`
 
   span {
     display: block;
-    ${({ theme }) => theme.font.p.medium};
-    color: ${({ theme }) => theme.colors.brand.black};
+    ${({ theme }) => theme.font.p.normal};
+    color: ${({ theme }) => theme.colors.grayscale.gray_80};
     line-height: 2;
     padding: 10px;
     gap: 20px;
@@ -21,10 +21,9 @@ export const SupportModalComponent = styled.section`
 
   p {
     display: block;
-    ${({ theme }) => theme.font.p.large};
-    color: ${({ theme }) => theme.colors.brand.black};
+    ${({ theme }) => theme.font.p.normal};
+    color: ${({ theme }) => theme.colors.grayscale.gray_80};
     padding: 10px;
-    font-weight: 500;
   }
   .icon {
     margin-right: 8px;

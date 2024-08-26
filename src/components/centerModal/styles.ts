@@ -116,7 +116,7 @@ export const ModalOverlay = styled(Dialog.Overlay)<modalProps>`
 `;
 
 export const StyledModalContent = styled(Dialog.Content)<modalProps>`
-  min-width: 500px;
+  /* min-width: 500px; */
   top: 0.7em;
   bottom: 0.7em;
   background: ${({ theme }) => theme.colors.brand.white};

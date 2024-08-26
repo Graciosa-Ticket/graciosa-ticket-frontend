@@ -15,7 +15,6 @@ export const SuggestionsListModalComponent = styled.section`
   overflow-y: auto;
 
   .ticket-list {
-    margin-top: 100px;
     display: flex;
     flex-direction: column;
     gap: 15px;

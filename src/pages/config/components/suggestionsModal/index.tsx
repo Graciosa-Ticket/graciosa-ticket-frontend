@@ -84,6 +84,7 @@ export default function SuggestionsModal({
         <FormContainer onSubmit={handleSubmit(onSubmit)}>
           <FormContentContainer>
             <TextArea
+              inputStyle="secondary"
               placeholder="deixe sua sugestão aqui.
 As sugestões são realizadas de forma anônima, fique tranquilo."
               rows={5}

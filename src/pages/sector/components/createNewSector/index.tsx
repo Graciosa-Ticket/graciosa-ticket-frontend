@@ -69,13 +69,11 @@ export default function CreateSectorModal({
         onUpdate?.();
       },
       onError: (error: any) => {
-        // Tratar o erro como um objeto genérico
         const errorMessage =
-          error?.response?.message || // Extraí a mensagem de erro se disponível
-          "Ocorreu um erro ao salvar o setor. Por favor, tente novamente."; // Mensagem padrão
-
+          error?.response?.message ||
+          "Ocorreu um erro ao salvar o setor. Por favor, tente novamente.";
         toast.error(errorMessage);
-        console.error("Erro ao criar/atualizar setor:", error); // Exibe o erro no console para debug
+        console.error("Erro ao criar/atualizar setor:", error);
       },
     });
   });
@@ -104,10 +102,11 @@ export default function CreateSectorModal({
               title="Adicionar Responsável"
               defaultValue={sectorData?.user}
               onChange={(data) => {
-                setValue("responsible_code", data?.code as string, {
+                setValue("responsible_code", data?.code || "", {
                   shouldDirty: true,
                 });
               }}
+              error={errors.responsible_code?.message}
             />
 
             <Input
@@ -132,7 +131,6 @@ export default function CreateSectorModal({
               buttonStyles="confirm"
               title={sectorData ? "Confirmar Edição" : "Cadastrar Novo Setor"}
               className="confirm-btn"
-              onClick={onSubmit}
               isLoading={isLoadingUpdate}
             >
               {sectorData ? "Confirmar Edição" : "Cadastrar"}
