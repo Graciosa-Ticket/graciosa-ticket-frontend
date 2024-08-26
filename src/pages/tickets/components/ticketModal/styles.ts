@@ -68,7 +68,7 @@ export const ModalContentBody = styled.main`
     }
 
     .details-header {
-      margin-top: 30px;
+      margin-top: 5em;
       ${({ theme }) => theme.font.p.large};
       color: ${({ theme }) => theme.colors.brand.dark_blue};
       font-weight: 600;
@@ -125,6 +125,16 @@ export const ModalContentBody = styled.main`
     justify-content: flex-end;
     box-shadow: 0 -25px 30px -30px rgba(0, 0, 0, 0.2);
   }
+
+  .conclusion-header-div.conclusion-header-div {
+    text-align: center;
+    margin-bottom: 0.5em;
+  }
+
+  .conclusion-header {
+    ${({ theme }) => theme.font.p.extra_small};
+    color: ${({ theme }) => theme.colors.grayscale.gray_60};
+  }
 `;
 
 export const ModalHeaderSection = styled.div`
@@ -158,7 +168,7 @@ export const ChatContainer = styled.section`
     /* display: flex;
     flex-direction: column;
     justify-content: flex-end; */
-    overflow-y: auto;
+    overflow-y: scroll;
 
     li {
       padding: 3px 0;
@@ -333,18 +343,6 @@ export const ChatCardContainer = styled.div<ChatCardProps>`
     }
   }
 
-  .finalization-message {
-    display: flex;
-    justify-content: center;
-    color: ${({ theme }) =>
-      theme.colors.grayscale.gray_50}; /* Ajuste a cor conforme necessário */
-    font-weight: bold;
-    margin: 0.5em 0;
-    ${({ theme }) =>
-      theme.font.p.large}; /* Ajuste o estilo da fonte conforme necessário */
-    text-align: center; /* Centraliza o texto */
-  }
-
   .header {
     width: 100%;
     display: flex;
@@ -431,6 +429,6 @@ export const ChatCardContainer = styled.div<ChatCardProps>`
   ${({ $isDone, theme }) =>
     $isDone &&
     css`
-      border: 4px solid ${theme.colors.support.success};
+      background-color: ${theme.colors.support.success};
     `}
 `;

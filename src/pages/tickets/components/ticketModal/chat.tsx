@@ -35,6 +35,7 @@ const ChatComponent = ({ ticket_data, ticketDone }: ChatComponentProps) => {
   const [textAreaValue, setTextAreaValue] = useState<string>("");
   const commentRef = useRef<HTMLDivElement>(null);
   const spanRef = useRef<HTMLDivElement>(null);
+  const lastMessageRef = useRef<HTMLLIElement>(null); // Referência para a última mensagem
   const [files, setFiles] = useState<File[]>([]);
   const prevMessageCountRef = useRef<number>(0);
 
@@ -142,9 +143,8 @@ const ChatComponent = ({ ticket_data, ticketDone }: ChatComponentProps) => {
   useEffect(() => {
     const currentMessageCount = chatConversation.length;
     if (currentMessageCount > prevMessageCountRef.current) {
-      if (commentRef.current) {
-        const { scrollHeight, clientHeight } = commentRef.current;
-        commentRef.current.scrollTop = scrollHeight - clientHeight;
+      if (lastMessageRef.current) {
+        lastMessageRef.current.scrollIntoView({ behavior: "smooth" });
       }
     }
     prevMessageCountRef.current = currentMessageCount;
@@ -163,6 +163,7 @@ const ChatComponent = ({ ticket_data, ticketDone }: ChatComponentProps) => {
                 className={
                   user.code === e?.user?.code ? "is-current-user-list-item" : ""
                 }
+                ref={i === chatConversation.length - 1 ? lastMessageRef : null} // Referência para a última mensagem
               >
                 <ConnectionsMessageCard
                   data={e}
@@ -275,10 +276,13 @@ const ConnectionsMessageCard = ({
 
     return undefined;
   }, [data?.attachmentUrl]);
-
   return (
     <>
-      {isDone && <p className="finalization-message">Finalização do chamado</p>}
+      {isDone && (
+        <div className="conclusion-header-div">
+          <p className="conclusion-header">Finalização do chamado</p>
+        </div>
+      )}
       <ChatCardContainer $self={isCurrentUser} $isDone={isDone}>
         <section className="header">
           <h6>
