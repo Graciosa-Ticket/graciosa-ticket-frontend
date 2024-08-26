@@ -200,7 +200,7 @@ export default function CreateUserModal({
 
   useEffect(() => {
     if (userData) {
-      handleSectorSelect(userData?.sector_name || "01 - Caixa do Bar da Sede");
+      handleSectorSelect(userData?.sector?.name || "01 - Caixa do Bar da Sede");
     }
   }, [userData]);
 
@@ -295,7 +295,7 @@ export default function CreateUserModal({
             </Select>
             <SectorSelect
               onSelect={handleSectorSelect}
-              defaultValue={userData?.sector_name}
+              defaultValue={userData?.sector?.name}
             />
           </form>
         </div>
