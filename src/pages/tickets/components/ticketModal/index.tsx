@@ -182,7 +182,13 @@ const TicketModal = ({
                   : "Data inválida"}
               </span>
 
-              <ButtonComponent buttonStyles="text" onClick={shareTicket}>
+              <ButtonComponent
+                buttonStyles="text"
+                buttonSize="small"
+                className="shareButton"
+                title="Clique para compartilhar"
+                onClick={shareTicket}
+              >
                 <AiOutlineShareAlt />
               </ButtonComponent>
             </div>

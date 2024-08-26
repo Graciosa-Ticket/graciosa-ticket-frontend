@@ -36,6 +36,7 @@ const ChatComponent = ({ ticket_data, ticketDone }: ChatComponentProps) => {
   const commentRef = useRef<HTMLDivElement>(null);
   const spanRef = useRef<HTMLDivElement>(null);
   const [files, setFiles] = useState<File[]>([]);
+  const prevMessageCountRef = useRef<number>(0);
 
   const { user } = useAuth();
 
@@ -138,7 +139,17 @@ const ChatComponent = ({ ticket_data, ticketDone }: ChatComponentProps) => {
     };
   }, [spanRef]);
 
-  // Verifica se o botão deve ser habilitado
+  useEffect(() => {
+    const currentMessageCount = chatConversation.length;
+    if (currentMessageCount > prevMessageCountRef.current) {
+      if (commentRef.current) {
+        const { scrollHeight, clientHeight } = commentRef.current;
+        commentRef.current.scrollTop = scrollHeight - clientHeight;
+      }
+    }
+    prevMessageCountRef.current = currentMessageCount;
+  }, [chatConversation]);
+
   const shouldShowChatInputContainer = !ticketDone;
 
   return (
@@ -164,7 +175,6 @@ const ChatComponent = ({ ticket_data, ticketDone }: ChatComponentProps) => {
         )}
       </div>
 
-      {/* Exibe o bloco apenas se o ticket não estiver concluído e o botão estiver habilitado */}
       {shouldShowChatInputContainer && (
         <div className="chat-input-container">
           <ChatAddFilesButton setFiles={setFiles} files={files} />
@@ -188,6 +198,7 @@ const ChatComponent = ({ ticket_data, ticketDone }: ChatComponentProps) => {
               onClick={handleChatSubmit}
               buttonStyles="primary"
               buttonStylesType="fill"
+              buttonSize="small"
               title="Enviar"
               isLoading={isLoadingUpdate}
               disabled={ticketDone} // Desabilita botão se concluído ou se não houver texto/arquivos
@@ -232,6 +243,7 @@ const ConnectionsMessageCard = ({
                 <li key={i} className="not-image-container">
                   <ButtonComponent
                     buttonStyles="text"
+                    className="download-button"
                     onClick={() => handleDownloadFile(e.file)}
                     title="Clique para baixar o PDF"
                   >
@@ -249,6 +261,7 @@ const ConnectionsMessageCard = ({
                   buttonStyles="text"
                   onClick={() => handleDownloadFile(e.file)}
                   title="Clique para baixar"
+                  className="download-button"
                 >
                   {fileIcons[e.type]}
                   <span>{cleanFileName}</span>
@@ -264,27 +277,29 @@ const ConnectionsMessageCard = ({
   }, [data?.attachmentUrl]);
 
   return (
-    <ChatCardContainer $self={isCurrentUser} $isDone={isDone}>
-      <section className="header">
-        <h6>
-          {data?.created_at
-            ? timeConverter(new Date(data.created_at))
-            : "Data inválida"}{" "}
-        </h6>
-        <span>{data.user.name.slice(0, 10)}.</span>
-        <div className="user-side">
-          <Avatar
-            src={`profile-picture/${data?.user.code}/minSize_${data?.user.profile_picture}`}
-            style={{ width: 22, height: 22 }}
-          />
-        </div>
-      </section>
+    <>
+      {isDone && <p className="finalization-message">Finalização do chamado</p>}
+      <ChatCardContainer $self={isCurrentUser} $isDone={isDone}>
+        <section className="header">
+          <h6>
+            {data?.created_at
+              ? timeConverter(new Date(data.created_at))
+              : "Data inválida"}
+          </h6>
+          <span>{data.user.name.slice(0, 10)}.</span>
+          <div className="user-side">
+            <Avatar
+              src={`profile-picture/${data?.user.code}/minSize_${data?.user.profile_picture}`}
+              style={{ width: 22, height: 22 }}
+            />
+          </div>
+        </section>
 
-      <section className="message-container">
-        {isDone && <p className="conclusion-message">Conclusão do chamado:</p>}
-        {commentFiles ? commentFiles : <p>{data.comment}</p>}
-      </section>
-    </ChatCardContainer>
+        <section className="message-container">
+          {commentFiles ? commentFiles : <p>{data.comment}</p>}
+        </section>
+      </ChatCardContainer>
+    </>
   );
 };
 

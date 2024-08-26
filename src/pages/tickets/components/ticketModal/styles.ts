@@ -45,10 +45,18 @@ export const ModalContentBody = styled.main`
       }
 
       .right-side {
+        display: flex;
+        gap: 4px;
         span {
+          display: flex;
           text-align: right;
           ${({ theme }) => theme.font.p.extra_small};
           color: ${({ theme }) => theme.colors.grayscale.gray_80};
+          align-items: center;
+        }
+        .shareButton {
+          padding: 2px;
+          color: ${({ theme }) => theme.colors.grayscale.gray_70};
         }
       }
     }
@@ -162,6 +170,7 @@ export const ChatContainer = styled.section`
     display: flex;
     align-items: flex-end;
     gap: 0.7em;
+    margin-top: 10px;
 
     .textarea {
       width: 100%;
@@ -222,9 +231,6 @@ export const ChatContainer = styled.section`
     }
 
     .input-button-container {
-      margin-top: 10px;
-      display: flex;
-      flex-direction: column;
       gap: 0.2em;
       justify-content: center;
       align-items: center;
@@ -247,13 +253,12 @@ to{
 
 `;
 
-interface chatCardProps {
+interface ChatCardProps {
   $self: boolean;
   $newStyle?: boolean;
   $isDone?: boolean;
 }
-
-export const ChatCardContainer = styled.div<chatCardProps>`
+export const ChatCardContainer = styled.div<ChatCardProps>`
   max-width: 90%;
   width: fit-content;
   display: flex;
@@ -303,36 +308,41 @@ export const ChatCardContainer = styled.div<chatCardProps>`
             text-overflow: ellipsis;
             overflow: hidden;
             white-space: nowrap;
-            color: ${({ theme }) => theme.colors.brand.black};
             ${({ theme }) => theme.font.p.extra_small};
             font-size: 10px !important;
           }
         }
 
-        button {
+        .download-button {
           display: flex;
           flex-direction: column;
           align-items: center;
           justify-content: center;
           font-size: 2em;
-          color: ${({ theme }) => theme.colors.brand.black};
           padding: 0.2em;
 
           &:hover {
             background-color: transparent;
+          }
+
+          svg {
+            color: inherit;
           }
         }
       }
     }
   }
 
-  .conclusion-message {
-    ${({ theme }) => theme.font.p.normal};
-    color: ${({ $self, theme }) =>
-      $self ? theme.colors.brand.white : theme.colors.grayscale.gray_80};
-    margin-bottom: 0.5em; // Ajuste o espaçamento conforme necessário
-    font-weight: 600;
-    max-width: 250px;
+  .finalization-message {
+    display: flex;
+    justify-content: center;
+    color: ${({ theme }) =>
+      theme.colors.grayscale.gray_50}; /* Ajuste a cor conforme necessário */
+    font-weight: bold;
+    margin: 0.5em 0;
+    ${({ theme }) =>
+      theme.font.p.large}; /* Ajuste o estilo da fonte conforme necessário */
+    text-align: center; /* Centraliza o texto */
   }
 
   .header {
@@ -364,22 +374,19 @@ export const ChatCardContainer = styled.div<chatCardProps>`
     max-width: 250px;
   }
 
-  ${({ $self }) => {
+  ${({ $self, theme }) => {
     if ($self) {
       return css`
         transform-origin: right;
         justify-self: flex-end;
         flex-direction: column;
-        background-color: ${({ theme }) => theme.colors.brand.blue};
+        background-color: ${theme.colors.brand.blue};
         border-radius: 6px 2px 6px 6px;
 
         .header {
           flex-direction: row;
 
-          h6 {
-            color: white;
-          }
-
+          h6,
           span {
             color: white;
           }
@@ -389,20 +396,33 @@ export const ChatCardContainer = styled.div<chatCardProps>`
           color: white;
           ${({ theme }) => theme.font.p.small};
         }
+
+        .message-container .file-list {
+          li.not-image-container span {
+            color: white;
+          }
+          .download-button {
+            color: white;
+
+            svg {
+              color: white;
+            }
+          }
+        }
       `;
     }
 
     return css`
       transform-origin: left;
       border-radius: 2px 6px 6px 6px;
-      background-color: ${({ theme }) => theme.colors.brand.white};
+      background-color: ${theme.colors.brand.white};
 
       .header {
         color: white !important;
       }
 
       p {
-        color: ${({ theme }) => theme.colors.grayscale.gray_80};
+        color: ${theme.colors.grayscale.gray_80};
         ${({ theme }) => theme.font.p.small};
       }
     `;

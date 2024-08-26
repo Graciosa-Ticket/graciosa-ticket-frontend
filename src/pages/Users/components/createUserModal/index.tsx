@@ -195,7 +195,7 @@ export default function CreateUserModal({
   };
 
   const handleSectorSelect = (value: string) => {
-    setValue("sector_name", value, { shouldDirty: true });
+    setValue("sector_code", value, { shouldDirty: true });
   };
 
   useEffect(() => {
