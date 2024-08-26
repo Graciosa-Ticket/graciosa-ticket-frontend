@@ -1,69 +1,87 @@
 import { UserModel } from "../../../../models/user";
 import { IconComponent } from "./styles";
-// import {
-//   RiBuilding2Line,
-//   RiBuilding3Line,
-//   RiBuildingLine,
-// } from "react-icons/ri";
-import { MdOutlineFastfood } from "react-icons/md";
-import { AiOutlineCoffee } from "react-icons/ai";
-import { TbSteeringWheel } from "react-icons/tb";
+import { MdOutlineFastfood, MdOutlineLocalGroceryStore } from "react-icons/md";
+import { AiOutlineCoffee, AiOutlineFlag } from "react-icons/ai";
 import { PiCashRegisterBold } from "react-icons/pi";
+import { FaComputer } from "react-icons/fa6";
+import { IoGolfOutline } from "react-icons/io5";
 
 interface UserCardProps {
   data: UserModel;
 }
 
-const SectorIcon = ({ data }: UserCardProps) => {
-  const { sector_name } = data;
-
-  // Função para formatar o setor
-  const formatSectorName = (name: string) => {
-    // Converte o nome do setor para minúsculas
-    const lowerCaseName = name.toLowerCase();
-    // Usa uma expressão regular para extrair o número e o tipo principal
-    const match = lowerCaseName.match(
-      /^(\d{1,3}) - (caixa|bar|restaurante|[a-z\s]+)/
-    );
-    if (match) {
-      const [_, number, type] = match;
-      if (type === "caixa") {
+const formatSectorName = (name: string): string => {
+  const match = name.match(
+    /^(\d{1,3}) - (caixa|bar|restaurante|pdv|ponto de venda|driving range|clubinho|[a-z\s]+)/i
+  );
+  if (match) {
+    const [_, number, type] = match;
+    switch (type.toLowerCase()) {
+      case "caixa":
         return `Caixa - ${number}`;
-      } else if (type === "bar") {
+      case "bar":
         return `Bar - ${number}`;
-      } else if (type === "restaurante") {
+      case "restaurante":
         return `Restaurante - ${number}`;
-      } else {
-        // Formata o nome do setor com o número no final
+      case "pdv":
+      case "ponto de venda":
+        return `Ponto de Venda - ${number}`;
+      case "driving range":
+        return `Driving Range - ${number}`;
+      case "clubinho":
+        return `Clubinho - ${number}`;
+      default:
         return `${type.replace(/\s+/g, " ").trim()} - ${number}`;
-      }
     }
-    // Retorna o nome completo se não corresponder ao padrão
-    return name;
-  };
+  }
+  return name;
+};
 
-  const getIcon = (name: string) => {
-    const lowerCaseName = name.toLowerCase();
+const getIcon = (name?: string) => {
+  if (!name) return null;
 
-    if (lowerCaseName.includes("driving range")) {
-      return <TbSteeringWheel className="icon" />;
-    } else if (lowerCaseName.includes("restaurante")) {
-      return <MdOutlineFastfood className="icon" />;
-    } else if (lowerCaseName.includes("bar")) {
-      return <AiOutlineCoffee className="icon" />;
-    } else if (lowerCaseName.includes("caixa")) {
-      return <PiCashRegisterBold className="icon" />;
-    }
+  // Verifica se o nome contém números e formata o nome do setor
+  const formattedName = hasNumbers(name)
+    ? formatSectorName(name)
+    : name.toLowerCase().replace(/\./g, ""); // Remove pontos para facilitar a comparação
 
-    return null; // Retorna null se nenhum ícone corresponder
-  };
+  if (formattedName.includes("driving range")) {
+    return <IoGolfOutline className="icon" />;
+  } else if (formattedName.includes("restaurante")) {
+    return <MdOutlineFastfood className="icon" />;
+  } else if (formattedName.includes("bar")) {
+    return <AiOutlineCoffee className="icon" />;
+  } else if (formattedName.includes("caixa")) {
+    return <PiCashRegisterBold className="icon" />;
+  } else if (formattedName.includes("clubinho")) {
+    return <AiOutlineFlag className="icon" />;
+  } else if (
+    formattedName.includes("ponto de venda") ||
+    formattedName.includes("pdv")
+  ) {
+    return <MdOutlineLocalGroceryStore className="icon" />;
+  } else if (
+    formattedName.includes("ti") ||
+    formattedName.includes("tecnologia da informação")
+  ) {
+    return <FaComputer className="icon" />;
+  }
+
+  return null;
+};
+
+// Função para verificar se o nome contém números
+const hasNumbers = (str: string) => /\d/.test(str);
+
+const SectorIcon = ({ data }: UserCardProps) => {
+  const sector = data.sector?.name; // Obtém o nome do setor
 
   return (
     <IconComponent>
-      {getIcon(sector_name)}
+      {getIcon(sector)}
       <div className="prints">
         <p>Setor</p>
-        <h2>{formatSectorName(sector_name)}</h2>
+        <h2>{sector || "Desconhecido"}</h2>
       </div>
     </IconComponent>
   );

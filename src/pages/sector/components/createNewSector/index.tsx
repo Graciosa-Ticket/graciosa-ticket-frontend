@@ -68,7 +68,15 @@ export default function CreateSectorModal({
         }
         onUpdate?.();
       },
-      onError: () => {},
+      onError: (error: any) => {
+        // Tratar o erro como um objeto genérico
+        const errorMessage =
+          error?.response?.message || // Extraí a mensagem de erro se disponível
+          "Ocorreu um erro ao salvar o setor. Por favor, tente novamente."; // Mensagem padrão
+
+        toast.error(errorMessage);
+        console.error("Erro ao criar/atualizar setor:", error); // Exibe o erro no console para debug
+      },
     });
   });
 

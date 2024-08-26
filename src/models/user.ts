@@ -1,3 +1,7 @@
+export interface Sector {
+  name: string;
+}
+
 export interface UserModel {
   id: string;
   code?: string;
@@ -15,5 +19,6 @@ export interface UserModel {
   deleted_at?: Date;
   status?: boolean;
   file?: File;
-  sector_name: string;
+  sector?: Sector;
+  sector_code?: string;
 }

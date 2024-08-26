@@ -3,12 +3,11 @@ import styled from "styled-components";
 export const ChatAddFilesButtonContainer = styled.button`
   color: ${({ theme }) => theme.colors.brand.dark_blue};
   border-radius: 0.5em;
-  display: flex;
-  flex-direction: column;
+  size: 3em;
 
   h3 {
     margin-top: 5px;
-    margin-left: 2px;
+    margin-left: 5px;
     margin-bottom: 5px;
     color: ${({ theme }) => theme.colors.brand.dark_blue};
     ${({ theme }) => theme.font.p.small};
@@ -24,11 +23,9 @@ export const ChatAddFilesButtonContainer = styled.button`
     justify-content: center;
     gap: 10px;
     border-radius: 0.5em;
-    padding: 8px;
+    padding: 12px;
     cursor: pointer;
     ${({ theme }) => theme.font.p.normal};
-    margin-top: 2px;
-    margin-left: 2px;
     text-align: center;
     transition: 300ms;
 
