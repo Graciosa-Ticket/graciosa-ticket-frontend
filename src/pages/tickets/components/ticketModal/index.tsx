@@ -114,6 +114,7 @@ const TicketModal = ({
   const handleCloseTicket = () => {
     setValue("status", "Concluído");
     onUpdate?.();
+    onClose?.();
   };
 
   const handleClose = () => {

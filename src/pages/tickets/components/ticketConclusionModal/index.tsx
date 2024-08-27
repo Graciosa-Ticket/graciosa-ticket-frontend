@@ -69,7 +69,11 @@ export default function TicketConclusionModal({
               is_done: true,
             },
             {
-              onSuccess: () => {
+              onSuccess: ({ data: res }) => {
+                if (res?.statusCode && res?.statusCode != 200) {
+                  toast.error(res.message);
+                  return;
+                }
                 toast.success("Chamado Concluido");
                 onUpdate?.();
                 onClose?.();
