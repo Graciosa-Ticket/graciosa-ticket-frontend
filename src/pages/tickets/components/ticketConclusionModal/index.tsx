@@ -59,7 +59,7 @@ export default function TicketConclusionModal({
     };
 
     updateTicket(data, {
-      onSuccess: async () => {
+      onSuccess: () => {
         if (description) {
           createComment(
             {

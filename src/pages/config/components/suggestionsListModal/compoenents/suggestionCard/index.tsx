@@ -24,7 +24,7 @@ export default function FeedbackViewer({ data }: FeedbackViewerProps) {
               <FaRegTrashCan
                 size={".6em"}
                 className="trash-icon"
-                title="excluir sujestão"
+                title="excluir sugestão"
               />
               <AiOutlineCheck
                 size={".6em"}

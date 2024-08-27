@@ -27,9 +27,9 @@ export default function User() {
   useEffect(() => {
     refetch();
   }, [selectedBtn]);
-  //getUsersByRole/${selectedBtn}
+
   const { isLoading, isFetching, refetch } = useFetch<UserModel[]>(
-    `/users`,
+    `/users/getUsersByRole/${selectedBtn}`,
     ["users", selectedBtn],
     {
       onSuccess: (data) => {

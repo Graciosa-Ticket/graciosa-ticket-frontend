@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const DeletePopUpContainer = styled.div`
-  min-width: 250px;
+  min-width: 400px;
   padding: 10px 1em;
 
   .alert-icon {
