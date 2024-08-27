@@ -12,11 +12,27 @@ import UserSkeletonLoading from "./skeleton";
 import { modalActions } from "../../shared/global.interface";
 import EditedFormPopUp from "../../components/EditedFormPopUp";
 import SelectUsers from "../../components/form/selectUsers";
+import SearchBarComponent from "../../components/searchBarComponent";
+
+const searchUsers = (value: string, data: UserModel[]): UserModel[] => {
+  const searchRegex = new RegExp(value, "i");
+
+  return data.filter((user) => {
+    const code = user?.code || "";
+    const name = user?.name || "";
+    const email = user?.email || "";
+
+    return (
+      searchRegex.test(code) ||
+      searchRegex.test(name) ||
+      searchRegex.test(email)
+    );
+  });
+};
 
 export default function User() {
   const [dataSource, setDataSource] = useState<UserModel[]>([]);
-  const [foundUser, setfoundUser] = useState<UserModel>();
-
+  const [searchUser, setSearchUser] = useState("");
   const [selectedBtn, setSelectedBtn] =
     useState<UserModel["role"]>("Administrator");
 
@@ -42,10 +58,13 @@ export default function User() {
 
   const userlist = useMemo(() => {
     if (dataSource.length) {
+      if (searchUser) {
+        return searchUsers(searchUser, dataSource);
+      }
       return dataSource.filter((user) => !user.deleted_at);
     }
     return [];
-  }, [dataSource, selectedBtn]);
+  }, [dataSource, selectedBtn, searchUser]);
 
   const deletedUserlist = useMemo(() => {
     if (dataSource.length) {
@@ -53,10 +72,6 @@ export default function User() {
     }
     return [];
   }, [dataSource, selectedBtn]);
-
-  const handleUserSelect = (data: UserModel) => {
-    setfoundUser(data);
-  };
 
   return (
     <>
@@ -66,13 +81,7 @@ export default function User() {
           <AddNewButton onUpdate={refetch} />
 
           <div className="search-user">
-            <SelectUsers
-              title="Buscar"
-              onChange={handleUserSelect}
-              filterCollaborators={false}
-              showPicturePlaceholder={true}
-              showSearchIcon={true}
-            />
+            <SearchBarComponent onValueChange={setSearchUser} />
           </div>
         </PageHeaderComponent.container>
 
@@ -101,29 +110,23 @@ export default function User() {
         </div>
 
         <div className="user-cards">
-          {!foundUser ? (
-            isLoadingFecth ? (
-              <UserSkeletonLoading />
-            ) : !dataSource.length ? (
-              <NotFoundComponent />
-            ) : (
-              <>
-                {userlist.map((user, key) => (
-                  <UserCard
-                    data={user}
-                    key={user.id + "" + key}
-                    refetch={refetch}
-                  />
-                ))}
-                {deletedUserlist.map((user) => (
-                  <UserCard data={user} key={user.id} refetch={refetch} />
-                ))}
-              </>
-            )
+          {isLoadingFecth ? (
+            <UserSkeletonLoading />
+          ) : !dataSource.length ? (
+            <NotFoundComponent />
           ) : (
-            <div>
-              <UserCard data={foundUser} key={foundUser.id} refetch={refetch} />
-            </div>
+            <>
+              {userlist.map((user, key) => (
+                <UserCard
+                  data={user}
+                  key={user.id + "" + key}
+                  refetch={refetch}
+                />
+              ))}
+              {deletedUserlist.map((user) => (
+                <UserCard data={user} key={user.id} refetch={refetch} />
+              ))}
+            </>
           )}
         </div>
       </UserContainer>
