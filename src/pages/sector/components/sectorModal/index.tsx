@@ -15,7 +15,6 @@ import { useMutationQuery } from "../../../../services/hooks/useMutationQuery";
 import EditedFormPopUp from "../../../../components/EditedFormPopUp";
 import CenterModal from "../../../../components/centerModal";
 import CreateSectorModal from "../createNewSector";
-import { FaArrowRightArrowLeft } from "react-icons/fa6";
 
 export default function SectorModal({
   data,
@@ -89,9 +88,6 @@ export default function SectorModal({
             defaultValue={data?.user as UserModel}
             onChange={handleChangeUser}
           />
-          <p className="arrows-button">
-            <FaArrowRightArrowLeft /> Substituir
-          </p>
         </div>
 
         <h1>Chamados do Setor</h1>

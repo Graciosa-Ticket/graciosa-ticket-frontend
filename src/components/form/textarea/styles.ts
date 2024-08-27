@@ -22,7 +22,8 @@ const secondary = css`
       color: ${theme.colors.grayscale.gray_30};
 
       textarea {
-        border: 1px solid ${theme.colors.grayscale.gray_40};
+        border: 1px solid ${theme.colors.grayscale.gray_20};
+        ${({ theme }) => theme.font.p.extra_small};
       }
     `;
   }}

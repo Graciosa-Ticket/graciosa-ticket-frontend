@@ -22,6 +22,7 @@ interface selectUserProps {
   filterCollaborators?: boolean;
   showPicturePlaceholder?: boolean;
   showSearchIcon?: boolean;
+  error?: string;
 }
 
 const SelectUsers = ({
@@ -34,6 +35,7 @@ const SelectUsers = ({
   filterCollaborators = true,
   showPicturePlaceholder = true,
   showSearchIcon = false,
+  error,
 }: selectUserProps) => {
   const [open, setOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState<UserModel | undefined>(
@@ -53,60 +55,57 @@ const SelectUsers = ({
   };
 
   return (
-    <>
-      <SelectUsersContainer title={title}>
-        {label && <label>{label}</label>}
+    <SelectUsersContainer title={title}>
+      {label && <label>{label}</label>}
+      <PopOverRoot
+        open={open}
+        onOpenChange={() => setOpen(!open)}
+        contentProps={{
+          style: {
+            animation: "unset",
+            marginBottom: "2em",
+          },
+        }}
+        trigger={
+          <div className="add-user-button-container">
+            <button
+              type="button"
+              className="add-user-button"
+              onClick={() => setOpen(!open)}
+            >
+              {selectedUser ? (
+                <SelectedUserContainer
+                  data={selectedUser}
+                  showPicturePlaceholder={showPicturePlaceholder}
+                />
+              ) : (
+                <PicturePlaceholder
+                  title={title}
+                  icon={placeholderIcon}
+                  showPicturePlaceholder={showPicturePlaceholder}
+                  showSearchIcon={showSearchIcon}
+                />
+              )}
+            </button>
 
-        <PopOverRoot
-          open={open}
-          onOpenChange={() => setOpen(!open)}
-          contentProps={{
-            style: {
-              animation: "unset",
-              marginBottom: "2em",
-            },
-          }}
-          trigger={
-            <div className="add-user-button-container">
-              <button
-                type="button"
-                className="add-user-button"
-                onClick={() => setOpen(!open)}
-              >
-                {selectedUser ? (
-                  <SelectedUserContainer
-                    data={selectedUser}
-                    showPicturePlaceholder={showPicturePlaceholder}
-                  />
-                ) : (
-                  <PicturePlaceholder
-                    title={title}
-                    icon={placeholderIcon}
-                    showPicturePlaceholder={showPicturePlaceholder}
-                    showSearchIcon={showSearchIcon}
-                  />
-                )}
-              </button>
-
-              {selectedUser && showRemoveButton ? (
-                <ButtonComponent
-                  buttonStyles="text"
-                  onClick={handleClearSelect}
-                >
-                  <FaXmark />
-                </ButtonComponent>
-              ) : null}
-            </div>
-          }
-        >
-          <SearchUsers
-            onChange={handleSelectUser}
-            selectedUser={selectedUser}
-            filterCollaborators={filterCollaborators}
-          />
-        </PopOverRoot>
-      </SelectUsersContainer>
-    </>
+            {selectedUser && showRemoveButton ? (
+              <ButtonComponent buttonStyles="text" onClick={handleClearSelect}>
+                <FaXmark />
+              </ButtonComponent>
+            ) : null}
+          </div>
+        }
+      >
+        <SearchUsers
+          onChange={handleSelectUser}
+          selectedUser={selectedUser}
+          filterCollaborators={filterCollaborators}
+        />
+      </PopOverRoot>
+      <div className="error-container">
+        {error && <div className="error-message">{error}</div>}
+      </div>
+    </SelectUsersContainer>
   );
 };
 

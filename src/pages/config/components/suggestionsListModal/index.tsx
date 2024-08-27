@@ -34,10 +34,7 @@ export default function SuggestionsListModal({ onClose }: modalActions) {
 
       <SuggestionsListModalComponent>
         {isLoading ? (
-          <SkeletonAnimation.card>
-            <SkeletonAnimation.text />
-            <SkeletonAnimation.text />
-          </SkeletonAnimation.card>
+          <p>nem um feedback encontrado</p>
         ) : !dataSource.length ? (
           <SkeletonAnimation.card>
             <SkeletonAnimation.text />

@@ -59,7 +59,7 @@ const UserCard = ({ data, refetch }: UserCardProps) => {
           />
         </div>
         <div className="userdata-container">
-          <h5>{data.name.slice(0, 10) + "."}</h5>
+          <h5>{data.name.slice(0, 18) + "."}</h5>
           <span>{data?.role}</span>
         </div>
         {data?.role !== "Administrator" && (
