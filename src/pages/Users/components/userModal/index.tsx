@@ -23,12 +23,15 @@ import CreateUserModal from "../createUserModal";
 import Avatar from "../../../../components/Avatar";
 import EditedFormPopUp from "../../../../components/EditedFormPopUp";
 import StatusComponent from "../Status";
+import DeleteUserPopUp from "../../../../components/deleteUserPopUp";
 
 export default function UserModal({
   data,
   onClose,
   onUpdate,
 }: modalActions<UserModel>) {
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
+
   const { mutate: deleteUser, isLoading: isLoadingDelete } = useMutationQuery(
     `/users/${data?.code}`,
     "delete"
@@ -59,6 +62,10 @@ export default function UserModal({
         },
       }
     );
+  };
+
+  const handleOpenDeleteModal = () => {
+    setOpenDeleteModal(true);
   };
 
   return (
@@ -129,25 +136,21 @@ export default function UserModal({
         <div className="footer">
           <div />
           {!data?.deleted_at ? (
-            <ActionsModalComponent
-              message="Confirme para deletar este usuário. Esta ação não pode ser desfeita."
-              actionButton={
-                <ButtonComponent
-                  buttonStyles="delete"
-                  buttonStylesType="outline"
-                  onClick={handleDeleteUser}
-                  isLoading={isLoadingDelete}
-                >
-                  Confirmar Deletar usuário
-                </ButtonComponent>
-              }
-              buttonProps={{
-                buttonStyles: "delete",
-                buttonStylesType: "outline",
-              }}
-            >
-              <AiOutlineDelete /> Deletar
-            </ActionsModalComponent>
+            <>
+              <DeleteUserPopUp
+                open={openDeleteModal}
+                onOpenChange={(open) => setOpenDeleteModal(open)}
+                onConfirmDelete={handleDeleteUser}
+              />
+              <ButtonComponent
+                buttonStyles="delete"
+                buttonStylesType="outline"
+                onClick={handleOpenDeleteModal}
+                isLoading={isLoadingDelete}
+              >
+                <AiOutlineDelete /> Desativar
+              </ButtonComponent>
+            </>
           ) : (
             <ActionsModalComponent
               message="Confirme para reativar este usuário."
@@ -214,7 +217,6 @@ const EditUserButton = ({ onUpdate, data }: modalActions) => {
         onOpenChange={() => setOpenConfirmCloseModal(!openConfirmCloseModal)}
         onConfirmCloseModal={onConfirmCloseModal}
       />
-
       <Modal open={openModal} onOpenChange={onOpenChange}>
         <CreateUserModal
           onClose={onOpenChange}

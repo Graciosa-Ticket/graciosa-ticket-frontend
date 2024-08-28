@@ -11,9 +11,30 @@ import CenterModal from "../../components/centerModal";
 import CreateSectorModal from "./components/createNewSector";
 import { useEffect, useState } from "react";
 import SectorCard from "./components/sectorCard";
+import SearchBarComponent from "../../components/searchBarComponent";
+
+const filterSectors = (
+  value: string,
+  data: SectorCardModel[]
+): SectorCardModel[] => {
+  const searchRegex = new RegExp(value, "i");
+
+  return data.filter((sector) => {
+    const code = sector?.code || "";
+    const name = sector?.name || "";
+    const responsible_code = sector?.responsible_code || "";
+
+    return (
+      searchRegex.test(code) ||
+      searchRegex.test(name) ||
+      searchRegex.test(responsible_code)
+    );
+  });
+};
 
 export default function Sector() {
   const [dataSource, setDataSource] = useState<SectorCardModel[]>([]);
+  const [searchValue, setSearchValue] = useState("");
 
   const {
     isLoading,
@@ -64,6 +85,9 @@ export default function Sector() {
   const isLoadingFetch =
     isLoading || isFetching || loadingCounter || fetchingCounter;
 
+  // Filtra os setores com base no valor de pesquisa
+  const filteredSectors = filterSectors(searchValue, dataSource);
+
   return (
     <SectorContainer>
       <PageHeaderComponent.container>
@@ -73,16 +97,17 @@ export default function Sector() {
             onRefetchData();
           }}
         />
+        <SearchBarComponent onValueChange={setSearchValue} />
       </PageHeaderComponent.container>
 
       <div className="div-sector-all">
-        {!dataSource.length && !loadingCounter && !fetchingCounter ? (
+        {!filteredSectors.length && !loadingCounter && !fetchingCounter ? (
           <NotFoundComponent />
         ) : isLoadingFetch ? (
           <SectorSkeletonLoading />
         ) : (
           <ul>
-            {dataSource.map((e, i) => (
+            {filteredSectors.map((e, i) => (
               <li key={i}>
                 <SectorCard
                   data={e}

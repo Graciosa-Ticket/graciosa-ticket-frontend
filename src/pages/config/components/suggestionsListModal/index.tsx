@@ -9,6 +9,7 @@ import { SuggestionsListModalComponent } from "./styles";
 import { useFetch } from "../../../../services/hooks/getQuery";
 import { SkeletonAnimation } from "../../../../components/skeleton";
 import FeedbackViewer from "./compoenents/suggestionCard";
+import PrettyCheckBoxComponent from "../../../../components/prettyCheckBox";
 
 export default function SuggestionsListModal({ onClose }: modalActions) {
   const [dataSource, setDataSource] = useState<FeedbackModel[]>([]);
@@ -33,6 +34,21 @@ export default function SuggestionsListModal({ onClose }: modalActions) {
       </ModalHeader>
 
       <SuggestionsListModalComponent>
+        <div className="select-buttons-area">
+          <PrettyCheckBoxComponent
+            id="Novos"
+            label="Novos"
+            // checked={isRecurrent}
+            // onCheckedChange={(value) => setValue("is_recurrent", value)}
+          />
+
+          <PrettyCheckBoxComponent
+            id="Concluidos"
+            label="Concluidos"
+            // checked={isRecurrent}
+            // onCheckedChange={(value) => setValue("is_recurrent", value)}
+          />
+        </div>
         {isLoading ? (
           <p>nem um feedback encontrado</p>
         ) : !dataSource.length ? (

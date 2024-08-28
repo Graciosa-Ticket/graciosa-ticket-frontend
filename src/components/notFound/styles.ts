@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 export const NotFoundContainer = styled.section`
   padding: 3em 4em;
+  grid-column: span 3;
   display: flex;
   align-items: center;
   justify-content: center;

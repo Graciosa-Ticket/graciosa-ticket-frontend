@@ -14,6 +14,13 @@ export const SuggestionsListModalComponent = styled.section`
   max-height: 500px;
   overflow-y: auto;
 
+  .select-buttons-area {
+    margin-top: 5em;
+    display: flex;
+    gap: 20px;
+    width: 100%;
+  }
+
   .ticket-list {
     display: flex;
     flex-direction: column;

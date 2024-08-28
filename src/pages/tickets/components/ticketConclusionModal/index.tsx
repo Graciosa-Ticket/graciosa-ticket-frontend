@@ -17,6 +17,8 @@ import { AiOutlineClose } from "react-icons/ai";
 import { TicketConclusionModalComponent } from "./style";
 import { TicketModel } from "../../../../models/ticket";
 import { useAuth } from "../../../../hooks/auth";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { concludeTicketValidation } from "./validation";
 
 export default function TicketConclusionModal({
   data: ticketData,
@@ -25,12 +27,16 @@ export default function TicketConclusionModal({
   onClose,
 }: modalActions<TicketModel>) {
   const { user } = useAuth();
+
+  // Integrando o validador yup com react-hook-form
   const {
     handleSubmit,
     register,
     getValues,
     formState: { errors, dirtyFields },
-  } = useForm<TicketModel>({});
+  } = useForm<TicketModel>({
+    resolver: yupResolver(concludeTicketValidation as any),
+  });
 
   useEffect(() => {
     const hasDirty = Object.keys(dirtyFields).length;
@@ -59,7 +65,7 @@ export default function TicketConclusionModal({
     };
 
     updateTicket(data, {
-      onSuccess: async () => {
+      onSuccess: () => {
         if (description) {
           createComment(
             {
@@ -69,8 +75,12 @@ export default function TicketConclusionModal({
               is_done: true,
             },
             {
-              onSuccess: () => {
-                toast.success("Chamado Concluido");
+              onSuccess: ({ data: res }) => {
+                if (res?.statusCode && res?.statusCode != 200) {
+                  toast.error(res.message);
+                  return;
+                }
+                toast.success("Chamado Concluído");
                 onUpdate?.();
                 onClose?.();
               },
@@ -103,7 +113,7 @@ export default function TicketConclusionModal({
         <FormContainer onSubmit={onSubmit}>
           <FormContentContainer>
             <TextArea
-              label="Detalhe a conclusão do chamado"
+              label="Detalhe a conclusão do chamado."
               error={errors.description?.message}
               placeholder="Descreva o que foi feito para resolver o problema e o resultado final do ticket. Isso ajuda a garantir que todos entendam a conclusão."
               rows={5}
@@ -115,12 +125,12 @@ export default function TicketConclusionModal({
             <ButtonComponent
               type="submit"
               buttonStyles="confirm"
-              title={"confirmar"}
+              title="Confirmar"
               className="confirm-btn"
               onClick={onSubmit}
               isLoading={isLoadingComment || isLoadingUpdate}
             >
-              confirmar
+              Confirmar
             </ButtonComponent>
           </FormButtonsContainer>
         </FormContainer>

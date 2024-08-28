@@ -34,6 +34,7 @@ import { useAuth } from "../../../../hooks/auth";
 import getDirtyFields from "../../../../utils/getDirtyFields";
 import { AiOutlineCloseCircle, AiOutlineFileAdd } from "react-icons/ai";
 import fileLimit from "../../../../utils/fileSizeLimit";
+import { Select, SelectItem } from "../../../../components/form/select";
 
 type viewOptions = "sector" | "main";
 
@@ -435,14 +436,22 @@ const TicketAdvancedOptionsForm = ({ formProps }: StepsProps) => {
         register={{ ...register("end_date") }}
         disabled={!isRecurrent}
       />
-      <Input
-        label="Intervalo (min)"
-        type="number"
-        step={10}
-        min={30}
-        register={{ ...register("break") }}
+      <Select
+        label="Intervalo"
+        defaultValue="30" // Valor padrão correspondente a 30 min
+        selectStyle="secondary"
+        onValueChange={(value: string) =>
+          setValue("break", value, { shouldDirty: true })
+        }
         disabled={!isRecurrent}
-      />
+      >
+        <SelectItem value="30">30 min</SelectItem>
+        <SelectItem value="60">1h</SelectItem>
+        <SelectItem value="1440">Diário</SelectItem>
+        <SelectItem value="10080">Semanalmente</SelectItem>
+        <SelectItem value="43200">Mensalmente</SelectItem>
+        <SelectItem value="525600">Anualmente</SelectItem>
+      </Select>
     </FormContentContainer>
   );
 };

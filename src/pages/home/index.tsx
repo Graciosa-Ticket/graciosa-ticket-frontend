@@ -18,7 +18,6 @@ export default function Home() {
   useFetch<SectorCardModel[]>("/sectors", ["sectorsListData"], {
     onSuccess: (data) => {
       if (data) {
-        console.log("sectorData", data);
         setSectorListData(data);
       }
     },
