@@ -430,6 +430,7 @@ export const ChatCardContainer = styled.div<ChatCardProps>`
     $isDone &&
     css`
       background-color: ${theme.colors.support.success};
+
       h6,
       span,
       p,
@@ -438,6 +439,13 @@ export const ChatCardContainer = styled.div<ChatCardProps>`
       .message-container .file-list .download-button,
       .message-container .file-list .download-button svg {
         color: white;
+      }
+
+      .header {
+        h6,
+        span {
+          color: white; /* Força a cor branca no header e na hora */
+        }
       }
     `}
 `;

@@ -4,6 +4,9 @@ import { TicketModel } from "../../../../models/ticket";
 
 export const UserTicketsViewContainer = styled.section`
   margin-top: 0.8em;
+  border: solid 1px ${({ theme }) => theme.colors.grayscale.gray_20};
+  padding: 0 10px;
+  border-radius: 12px;
 
   .section-group-header {
     border-bottom: 1px solid ${({ theme }) => theme.colors.grayscale.gray_10};
@@ -161,6 +164,10 @@ export const GroupedListContainer = styled.section`
     margin-top: 0.8em;
     transition: 0.3s;
     overflow: hidden;
+    cursor: pointer;
+  }
+  .header {
+    margin-top: 20px;
   }
 `;
 

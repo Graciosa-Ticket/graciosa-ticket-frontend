@@ -11,7 +11,6 @@ import NotFoundComponent from "../../components/notFound";
 import UserSkeletonLoading from "./skeleton";
 import { modalActions } from "../../shared/global.interface";
 import EditedFormPopUp from "../../components/EditedFormPopUp";
-import SelectUsers from "../../components/form/selectUsers";
 import SearchBarComponent from "../../components/searchBarComponent";
 
 const searchUsers = (value: string, data: UserModel[]): UserModel[] => {

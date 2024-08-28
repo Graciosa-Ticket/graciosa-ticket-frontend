@@ -2,6 +2,8 @@ import { AiOutlineCheck } from "react-icons/ai";
 import { FeedbackContainer } from "./styles";
 import { FeedbackModel } from "../../../../../../models/feedback";
 import { FaRegTrashCan } from "react-icons/fa6";
+import { useMutationQuery } from "../../../../../../services/hooks/useMutationQuery";
+import { toast } from "sonner";
 
 interface FeedbackViewerProps {
   data: FeedbackModel;
@@ -12,6 +14,19 @@ export default function FeedbackViewer({ data }: FeedbackViewerProps) {
   const formatTime = (dateString: string) => {
     const date = new Date(dateString);
     return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+  };
+
+  const { mutate: doneTicket } = useMutationQuery(
+    `/feedback/${data?.code}`,
+    "put"
+  );
+
+  const handleDoneTicket = () => {
+    doneTicket({
+      onSuccess: () => {
+        toast.success("FeedBack Concluidoo!");
+      },
+    });
   };
 
   return (
@@ -30,6 +45,7 @@ export default function FeedbackViewer({ data }: FeedbackViewerProps) {
                 size={".6em"}
                 className="check-icon"
                 title="Concluir"
+                onClick={handleDoneTicket}
               />
             </div>
             <div>

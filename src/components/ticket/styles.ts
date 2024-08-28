@@ -93,7 +93,6 @@ const statusStyle = {
 
 export const TicketContainer = styled.button<ticketContainerProps>`
   width: 100%;
-  max-width: 350px;
   background-color: ${({ theme }) => theme.colors.brand.white};
   border-radius: 15px;
   padding: 10px;
