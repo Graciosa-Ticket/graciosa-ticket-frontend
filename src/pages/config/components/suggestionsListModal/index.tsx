@@ -5,7 +5,7 @@ import { FeedbackModel } from "../../../../models/feedback";
 import { ModalHeader } from "../../../../components/modal";
 import { ModalTitle } from "../../../../components/centerModal";
 import ButtonComponent from "../../../../components/buttons";
-import { SuggestionsListModalComponent } from "./styles";
+import { SelectButtonsArea, SuggestionsListModalComponent } from "./styles";
 import { useFetch } from "../../../../services/hooks/getQuery";
 import { SkeletonAnimation } from "../../../../components/skeleton";
 import FeedbackViewer from "./compoenents/suggestionCard";
@@ -13,12 +13,22 @@ import PrettyCheckBoxComponent from "../../../../components/prettyCheckBox";
 
 export default function SuggestionsListModal({ onClose }: modalActions) {
   const [dataSource, setDataSource] = useState<FeedbackModel[]>([]);
+  const [showDoneFeedbacks, setShowDoneFeedbacks] = useState(false); // Estado booleano adicionado
 
-  const { isLoading } = useFetch<FeedbackModel[]>("/feedback", ["feedback"], {
-    onSuccess: (data: FeedbackModel[]) => {
-      setDataSource(data);
-    },
-  });
+  const handleCheckboxChange = (id: string) => {
+    setShowDoneFeedbacks(id === "Concluidos");
+  };
+
+  const { isLoading: isLoadingFeedback } = useFetch<FeedbackModel[]>(
+    showDoneFeedbacks ? "/feedback/doneFeedbacks" : "/feedback", // Rota definida com base na condição
+    ["feedbackData", showDoneFeedbacks], // As dependências para o hook
+    {
+      onSuccess: (feedbackResponse) => {
+        // Atualiza o estado com os dados recebidos
+        setDataSource(feedbackResponse);
+      },
+    }
+  );
 
   return (
     <>
@@ -33,24 +43,24 @@ export default function SuggestionsListModal({ onClose }: modalActions) {
         </div>
       </ModalHeader>
 
-      <SuggestionsListModalComponent>
-        <div className="select-buttons-area">
-          <PrettyCheckBoxComponent
-            id="Novos"
-            label="Novos"
-            // checked={isRecurrent}
-            // onCheckedChange={(value) => setValue("is_recurrent", value)}
-          />
+      <SelectButtonsArea>
+        <PrettyCheckBoxComponent
+          id="Novos"
+          label="Novos"
+          checked={!showDoneFeedbacks}
+          onCheckedChange={() => handleCheckboxChange("Novos")}
+        />
+        <PrettyCheckBoxComponent
+          id="Concluidos"
+          label="Concluidos"
+          checked={showDoneFeedbacks}
+          onCheckedChange={() => handleCheckboxChange("Concluidos")}
+        />
+      </SelectButtonsArea>
 
-          <PrettyCheckBoxComponent
-            id="Concluidos"
-            label="Concluidos"
-            // checked={isRecurrent}
-            // onCheckedChange={(value) => setValue("is_recurrent", value)}
-          />
-        </div>
-        {isLoading ? (
-          <p>nem um feedback encontrado</p>
+      <SuggestionsListModalComponent>
+        {isLoadingFeedback ? (
+          <p>Carregando feedbacks...</p>
         ) : !dataSource.length ? (
           <SkeletonAnimation.card>
             <SkeletonAnimation.text />

@@ -117,8 +117,6 @@ const HomeGraph = ({
 
   // Calcula o número total de tickets de todos os setores
   const allSetorsTicketsCount = useMemo(() => {
-    console.log(countersDataSource);
-
     if (
       (countersDataSource as ResponseError)?.statusCode &&
       (countersDataSource as ResponseError)?.statusCode !== 200

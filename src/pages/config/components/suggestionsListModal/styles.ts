@@ -1,31 +1,32 @@
 import styled from "styled-components";
 
-export const SuggestionsListModalComponent = styled.section`
+export const SelectButtonsArea = styled.div`
+  position: sticky;
+  top: 0;
+  background-color: ${({ theme }) => theme.colors.brand.white};
+  z-index: 1;
+  padding: 0px 20px;
+  display: flex;
   gap: 20px;
-  padding: 20px;
+  width: 100%;
+`;
+
+export const SuggestionsListModalComponent = styled.section`
+  padding: 8px 20px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background-color: ${({ theme }) =>
-    theme.colors.brand.white}; /* Cor de fundo para garantir contraste */
+  background-color: ${({ theme }) => theme.colors.brand.white};
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   max-height: 500px;
   overflow-y: auto;
 
-  .select-buttons-area {
-    margin-top: 5em;
-    display: flex;
-    gap: 20px;
-    width: 100%;
-  }
-
   .ticket-list {
     display: flex;
     flex-direction: column;
     gap: 15px;
-    width: 100%; /* Garante que a lista ocupe toda a largura disponível */
-    max-width: 600px; /* Limita a largura dos cards para centralizá-los */
+    width: 100%;
+    max-width: 600px;
+    overflow-y: auto;
   }
 `;

@@ -9,7 +9,15 @@ interface skeletonProps {
 
 const SectorSkeletonLoading = ({ style }: skeletonProps) => {
   return (
-    <div style={{ display: "flex", gridColumn: "span 2", gap: 20, ...style }}>
+    <div
+      style={{
+        display: "flex",
+        gridColumn: "span 2",
+        gap: 20,
+        marginTop: 30,
+        ...style,
+      }}
+    >
       {arr.map((e) => (
         <SkeletonAnimation.base key={e} $columns={1} style={{ width: "200px" }}>
           <SkeletonAnimation.base
