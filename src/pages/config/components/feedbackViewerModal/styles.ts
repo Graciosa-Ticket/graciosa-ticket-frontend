@@ -1,19 +1,4 @@
-import styled, { keyframes } from "styled-components";
-
-// Animação para a transição suave
-const fadeInOut = keyframes`
-  0% {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  50% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-`;
+import styled from "styled-components";
 
 export const FeedBackContainer = styled.section`
   width: 500px;
