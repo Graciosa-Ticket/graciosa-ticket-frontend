@@ -10,6 +10,7 @@ import TabComponent from "../../../../components/tabComponent";
 import { SectorCardModel } from "../../../../models/sector";
 import GCCBarGraph from "./barGraphGCC";
 import GraphSkeletonLoading from "../../graphSkeleton";
+import { useAuth } from "../../../../hooks/auth";
 
 // Define as propriedades esperadas para o componente HomeGraph
 interface homeGraphProps {
@@ -25,6 +26,8 @@ const HomeGraph = ({
   isadmin = false,
   sectorsListData = [],
 }: homeGraphProps) => {
+  const { user } = useAuth();
+
   // Estado para armazenar os dados dos contadores recebidos da API
   const [countersDataSource, setcountersDataSource] = useState<
     CounterToChartModel | CounterToChartModelSector | ResponseError
@@ -42,8 +45,9 @@ const HomeGraph = ({
   const { isLoading: isLoadingAllSectorsCounters } = useFetch<
     CounterToChartModel | CounterToChartModelSector
   >(
-    "/counters/counterToChart" + (isadmin ? "" : `/sector/${userSector?.code}`), // Define a URL de acordo com o tipo de usuário
-    ["geralCountData", isadmin, userSector?.code],
+    "/counters/counterToChart" +
+      (isadmin ? "" : `/sector/${user?.sector_code}`), // Define a URL de acordo com o tipo de usuário
+    ["geralCountData", isadmin, user?.sector_code],
     {
       onSuccess: (geralCountData) => {
         // Atualiza o estado com os dados recebidos
@@ -62,8 +66,9 @@ const HomeGraph = ({
   const { isLoading: isLoadingCreatedTicketsCounterDataByCode } = useFetch<
     number | ResponseError
   >(
-    `/ticket/count/getCreatedTickets` + (isadmin ? "" : "/" + userSector?.code), // Define a URL de acordo com o tipo de usuário
-    ["createdTicketsCounterDataByCode", isadmin, userSector?.code],
+    `/ticket/count/getCreatedTickets` +
+      (isadmin ? "" : "/" + user?.sector_code), // Define a URL de acordo com o tipo de usuário
+    ["createdTicketsCounterDataByCode", isadmin, user?.sector_code],
     {
       onSuccess: (createdTicketsCounterDataByCode) => {
         // Atualiza o estado com o número de tickets criados
@@ -153,11 +158,10 @@ const HomeGraph = ({
   }, [countersDataSource, selectedDataSource]);
 
   // Se estiver carregando, exibe um elemento de carregamento (comentado no momento)
+
   if (isLoading) {
     return (
-      <div>
-        <GraphSkeletonLoading style={{ margin: "20px" }} />
-      </div>
+      <GraphSkeletonLoading style={{ margin: "20px", gridColumn: "span 2" }} />
     );
   }
 

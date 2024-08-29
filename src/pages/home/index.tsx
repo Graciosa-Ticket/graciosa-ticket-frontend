@@ -13,6 +13,7 @@ export default function Home() {
   const [userSector, setUserSector] = useState<SectorCardModel | undefined>(
     undefined
   );
+
   const isadmin = user.role === "Administrator";
 
   useFetch<SectorCardModel[]>("/sectors", ["sectorsListData"], {
@@ -26,7 +27,7 @@ export default function Home() {
   useEffect(() => {
     if (sectorsListData?.length) {
       const sector = sectorsListData.find(
-        (data) => data.responsible_code === user.code
+        (data) => data.code === user.sector_code
       );
       setUserSector(sector);
     }
