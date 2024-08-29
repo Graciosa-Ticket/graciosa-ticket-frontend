@@ -129,6 +129,7 @@ export const ModalContentBody = styled.main`
   .conclusion-header-div.conclusion-header-div {
     text-align: center;
     margin-bottom: 0.5em;
+    margin-top: 1.5em;
   }
 
   .conclusion-header {

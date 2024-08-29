@@ -109,7 +109,9 @@ export default function CreateUserModal({
 
       Object.entries(dataToSend).forEach(([key, value]) => {
         if (value !== undefined && value !== null) {
-          formData.append(key, String(value));
+          if (key !== "file") {
+            formData.append(key, String(value));
+          }
         }
       });
 

@@ -44,7 +44,7 @@ const EditedFormPopUp = ({
             buttonSize="small"
             onClick={handleConfirmClose}
           >
-            sim, Fechar
+            Sim, fechar
           </ButtonComponent>
         </div>
       </EditedFormContainer>

@@ -1,6 +1,6 @@
 export interface Sector {
   name: string;
-  phone?: string;
+  ramal?: string;
 }
 
 export interface UserModel {

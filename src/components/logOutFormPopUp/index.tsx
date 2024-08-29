@@ -40,7 +40,7 @@ const LogoutPopUp = ({ onConfirmLogout, ...props }: LogoutPopUpProps) => {
             buttonStylesType="outline"
             onClick={handleConfirmLogout}
           >
-            Sim, Sair
+            Sim, sair
           </ButtonComponent>
         </div>
       </LogOutFormContainer>

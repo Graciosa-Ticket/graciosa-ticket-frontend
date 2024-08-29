@@ -14,6 +14,7 @@ import CreateUserModal from "../../pages/Users/components/createUserModal";
 import { AiOutlineEdit } from "react-icons/ai";
 import SectorIcon from "../../pages/Users/components/sectorIcon";
 import LogoutPopUp from "../logOutFormPopUp";
+import phoneMask from "../../utils/phoneMask";
 
 export default function UserViewModal({ onClose }: modalActions<UserModel>) {
   const { user } = useAuth();
@@ -48,11 +49,11 @@ export default function UserViewModal({ onClose }: modalActions<UserModel>) {
             value={user?.email}
             copyText={user?.email as string}
           />
-          {/* <InputPlaceholder
+          <InputPlaceholder
             label="Telefone/Ramal"
-            value={phoneMask(user?.phone_number as string)}
-            copyText={user?.phone_number as string}
-          /> */}
+            value={phoneMask(user?.sector?.ramal as string)}
+            copyText={user?.sector?.ramal as string}
+          />
         </div>
         {user.role !== "Administrator" && (
           <div className="function-area">
@@ -69,7 +70,7 @@ export default function UserViewModal({ onClose }: modalActions<UserModel>) {
         <div className="footer">
           <div />
           <div />
-          {user?.role !== "Collaborator" && <EditUserButton data={user} />}
+          {user?.role === "Administrator" && <EditUserButton data={user} />}
         </div>
       </UserComponent>
     </>
