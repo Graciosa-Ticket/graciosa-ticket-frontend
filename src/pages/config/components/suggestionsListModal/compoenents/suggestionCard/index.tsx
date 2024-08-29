@@ -1,4 +1,4 @@
-import { AiOutlineCheck } from "react-icons/ai";
+import { AiOutlineCheck, AiOutlineLike } from "react-icons/ai";
 import { FeedbackContainer } from "./styles";
 import { FeedbackModel } from "../../../../../../models/feedback";
 import { FaRegTrashCan } from "react-icons/fa6";
@@ -16,17 +16,32 @@ export default function FeedbackViewer({ data }: FeedbackViewerProps) {
     return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
   };
 
-  const { mutate: doneTicket } = useMutationQuery(
+  const { mutate: doneFeedback } = useMutationQuery(
     `/feedback/${data?.code}`,
     "put"
   );
 
-  const handleDoneTicket = () => {
-    doneTicket({
-      onSuccess: () => {
-        toast.success("FeedBack Concluidoo!");
-      },
+  const handleDoneFeedback = () => {
+    toast.success("Feedback Concluído!"); // Verificar mensagem do toast
+    doneFeedback({
+      onSuccess: () => {},
     });
+  };
+
+  const { mutate: deleteFeedback } = useMutationQuery(
+    `/feedback/${data?.code}`,
+    "delete"
+  );
+
+  const handleDeleteFeedback = () => {
+    deleteFeedback(
+      {},
+      {
+        onSuccess: () => {
+          toast.success("Feedback deletado com sucesso!");
+        },
+      }
+    );
   };
 
   return (
@@ -40,13 +55,22 @@ export default function FeedbackViewer({ data }: FeedbackViewerProps) {
                 size={".6em"}
                 className="trash-icon"
                 title="excluir sugestão"
+                onClick={handleDeleteFeedback}
               />
-              <AiOutlineCheck
-                size={".6em"}
-                className="check-icon"
-                title="Concluir"
-                onClick={handleDoneTicket}
-              />
+              {data.is_done ? (
+                <AiOutlineLike
+                  size={".6em"}
+                  className="check-icon"
+                  title="Concluído"
+                />
+              ) : (
+                <AiOutlineCheck
+                  size={".6em"}
+                  className="check-icon"
+                  title="Concluir"
+                  onClick={handleDoneFeedback}
+                />
+              )}
             </div>
             <div>
               <p>{formatTime(data?.created_at as any)}</p>

@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { ChangeEvent, useEffect } from "react";
 import { ModalHeader } from "../../../../components/modal";
 import { SectorModalComponent } from "./styles";
 import { modalActions } from "../../../../shared/global.interface";
@@ -20,6 +20,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { createSectorValidation, updateSectorValidation } from "./validation";
 import { toast } from "sonner";
 import { AiOutlineClose } from "react-icons/ai";
+import formatPhoneNumber from "../../../../utils/formatPhoneNumber";
 
 export default function CreateSectorModal({
   data: sectorData,
@@ -32,6 +33,7 @@ export default function CreateSectorModal({
     getValues,
     formState: { errors, dirtyFields },
     setValue,
+    watch,
   } = useForm<SectorCardModel>({
     resolver: yupResolver(
       sectorData ? updateSectorValidation : (createSectorValidation as any)
@@ -60,23 +62,51 @@ export default function CreateSectorModal({
     };
 
     createSector(data, {
-      onSuccess: () => {
+      onSuccess: ({ data: res }) => {
+        // Verifica se o statusCode é diferente de 200 e exibe a mensagem de erro
+        if (res?.statusCode && res.statusCode !== 200) {
+          // Usa a mensagem da resposta se disponível, caso contrário, mensagem padrão
+          toast.error(
+            res.message ||
+              "Ocorreu um erro ao salvar o setor. Por favor, tente novamente."
+          );
+          return;
+        }
+
+        // Exibe mensagem de sucesso baseada na presença de sectorData
         if (sectorData) {
           toast.success("Setor Atualizado");
         } else {
           toast.success("Setor Criado com sucesso");
         }
+
         onUpdate?.();
       },
       onError: (error: any) => {
-        const errorMessage =
-          error?.response?.message ||
+        // Extraia a mensagem de erro com base na estrutura conhecida
+        let errorMessage =
           "Ocorreu um erro ao salvar o setor. Por favor, tente novamente.";
+
+        if (error.response) {
+          // Caso seja uma resposta de erro da API
+          const data = error.response.data;
+          errorMessage = data?.message || errorMessage;
+        } else if (error.message) {
+          // Caso seja um erro genérico com mensagem
+          errorMessage = error.message;
+        }
+
         toast.error(errorMessage);
         console.error("Erro ao criar/atualizar setor:", error);
       },
     });
   });
+
+  const handlePhoneChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+    const formattedValue = formatPhoneNumber(value);
+    setValue("phone", formattedValue, { shouldDirty: true });
+  };
 
   return (
     <>
@@ -114,6 +144,14 @@ export default function CreateSectorModal({
               placeholder="Digite o Nome do Setor"
               error={errors.name?.message}
               register={{ ...register("name") }}
+            />
+            <Input
+              label="Ramal"
+              placeholder="Digite o ramal"
+              error={errors.phone?.message}
+              onChange={handlePhoneChange}
+              value={watch("phone")}
+              register={{ ...register("phone") }}
             />
             <TextArea
               label="Descrição"

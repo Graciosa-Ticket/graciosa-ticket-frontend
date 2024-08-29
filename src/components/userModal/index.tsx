@@ -7,10 +7,6 @@ import { MdLogout } from "react-icons/md";
 import Modal, { ModalHeader, ModalTitle } from "../modal";
 import { UserComponent } from "../../pages/Users/components/userModal/styles";
 import InputPlaceholder from "../form/inputPlaceholder";
-import { formatDate } from "date-fns";
-import { calculateAge } from "../../utils/calculateAge";
-import formatCEP from "../../utils/cepMask";
-import phoneMask from "../../utils/phoneMask";
 import Avatar from "../Avatar";
 import { useState } from "react";
 import EditedFormPopUp from "../EditedFormPopUp";
@@ -52,24 +48,11 @@ export default function UserViewModal({ onClose }: modalActions<UserModel>) {
             value={user?.email}
             copyText={user?.email as string}
           />
-          <InputPlaceholder
-            label="Nascimento"
-            value={
-              user.birth_date ? formatDate(user.birth_date, "dd/MM/yyyy") : ""
-            }
-            affix={{
-              suffix: user.birth_date
-                ? calculateAge(user.birth_date) + " Anos"
-                : undefined,
-            }}
-          />
-          <InputPlaceholder label="Endereço" value={user.address} />
-          <InputPlaceholder label="CEP" value={formatCEP(user.cep as string)} />
-          <InputPlaceholder
+          {/* <InputPlaceholder
             label="Telefone/Ramal"
             value={phoneMask(user?.phone_number as string)}
             copyText={user?.phone_number as string}
-          />
+          /> */}
         </div>
         {user.role !== "Administrator" && (
           <div className="function-area">

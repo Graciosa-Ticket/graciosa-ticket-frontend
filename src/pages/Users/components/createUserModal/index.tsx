@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { ChangeEvent, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { CreateUserComponent } from "./styles";
 import { ModalHeader, ModalTitle } from "../../../../components/modal";
 import ButtonComponent from "../../../../components/buttons";
@@ -17,10 +17,8 @@ import getDirtyFields from "../../../../utils/getDirtyFields";
 import { FaAngleLeft } from "react-icons/fa";
 import PictureInput from "../../../../components/form/picture";
 import { useAuth } from "../../../../hooks/auth";
-import { AddressByCep } from "../../../../utils/addressByCep";
 import { api } from "../../../../services/api.service";
 import formatPhoneNumber from "../../../../utils/formatPhoneNumber";
-import formatCep from "../../../../utils/cepMask";
 import SectorSelect from "./components/sectorSelect";
 
 export default function CreateUserModal({
@@ -59,34 +57,8 @@ export default function CreateUserModal({
     }
   }, [dirtyFields]);
 
-  const onSearchByCEP = async () => {
-    const cep = watch("cep");
-
-    if (cep.length < 8) {
-      toast.error("CEP inválido");
-    }
-
-    try {
-      const data = await AddressByCep(cep);
-
-      setValue(
-        "address",
-        `${data?.logradouro ? `${data.logradouro}, ` : ""}${
-          data?.bairro || ""
-        }`,
-        {
-          shouldDirty: true,
-        }
-      );
-    } catch (error) {
-      toast.error("CEP inválido");
-    }
-  };
-
-  // Watch the email field
   const emailValue = watch("email");
 
-  // Validate the email field on change
   useEffect(() => {
     if (emailValue) {
       createUserValidation
@@ -113,42 +85,33 @@ export default function CreateUserModal({
       );
       const formData = new FormData();
 
-      // Handle file upload
       const file = watch("file");
       if (file) {
         formData.append("file", file);
       }
 
-      if (userData) {
-        // Atualização de usuário existente
-        const dataToSend = {
-          ...userData,
-          phone_number: phone_number
-            ? getRawPhoneNumber(phone_number)
-            : userData.phone_number,
-          cep: cep ? getRawCep(cep) : userData.cep,
-          role: rest.role || userData.role || "Collaborator",
-          status: userData.status || true,
-          ...rest,
-        };
+      const formattedPhoneNumber = formatPhoneNumber(phone_number || "");
 
-        Object.entries(dataToSend).forEach(([key, value]) => {
-          if (value !== undefined && value !== null) {
-            formData.append(key, String(value));
+      const dataToSend = userData
+        ? {
+            ...userData,
+            phone_number: formattedPhoneNumber,
+            role: rest.role || userData.role || "Collaborator",
+            status: userData.status || true,
+            registration_number:
+              rest.registration_number || userData.registration_number,
+            ...rest,
           }
-        });
-      } else {
-        // Criação de novo usuário
-        formData.append("phone_number", getRawPhoneNumber(phone_number || ""));
-        formData.append("cep", getRawCep(cep || ""));
-        formData.append("role", rest.role || "Collaborator");
+        : {
+            role: rest.role || "Collaborator",
+            ...rest,
+          };
 
-        Object.entries(rest).forEach(([key, value]) => {
-          if (key !== "role" && value !== undefined && value !== null) {
-            formData.append(key, String(value));
-          }
-        });
-      }
+      Object.entries(dataToSend).forEach(([key, value]) => {
+        if (value !== undefined && value !== null) {
+          formData.append(key, String(value));
+        }
+      });
 
       const createUser = userData ? api.put : api.post;
 
@@ -156,14 +119,10 @@ export default function CreateUserModal({
         headers: { "Content-Type": "multipart/form-data" },
       });
 
-      if (userData) {
-        if (userData.code === user.code) {
-          updateProfile({ ...userData, ...rest });
-        }
-        toast.success("Cadastro Atualizado!");
-      } else {
-        toast.success("Cadastro concluído!");
+      if (userData && userData.code === user.code) {
+        updateProfile({ ...userData, ...rest });
       }
+      toast.success(userData ? "Cadastro Atualizado!" : "Cadastro concluído!");
 
       setLoading(false);
       onUpdate?.();
@@ -174,33 +133,13 @@ export default function CreateUserModal({
     }
   });
 
-  function getRawPhoneNumber(value: string): string {
-    return value.replace(/\D/g, "");
-  }
-
-  const handlePhoneChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.target;
-    const formattedValue = formatPhoneNumber(value);
-    setValue("phone_number", formattedValue, { shouldDirty: true });
-  };
-
-  function getRawCep(value: string): string {
-    return value.replace(/\D/g, "");
-  }
-
-  const handleCepChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.target;
-    const formattedValue = formatCep(value);
-    setValue("cep", formattedValue, { shouldDirty: true });
-  };
-
   const handleSectorSelect = (value: string) => {
     setValue("sector_code", value, { shouldDirty: true });
   };
 
   useEffect(() => {
     if (userData) {
-      handleSectorSelect(userData?.sector?.name || "01 - Caixa do Bar da Sede");
+      handleSectorSelect(userData?.sector?.name || "desconhecido");
     }
   }, [userData]);
 
@@ -241,35 +180,10 @@ export default function CreateUserModal({
               register={{ ...register("email") }}
             />
             <Input
-              type="date"
-              label="Nascimento"
-              placeholder="Digite o Nascimento"
-              maxLength={4}
-              error={errors.birth_date?.message}
-              register={{ ...register("birth_date") }}
-            />
-            <Input
-              label="Cep"
-              placeholder="Digite o Cep"
-              error={errors.cep?.message}
-              onBlur={onSearchByCEP}
-              onChange={handleCepChange}
-              value={watch("cep")}
-              register={{ ...register("cep") }}
-            />
-            <Input
-              label="Endereço"
-              placeholder="Digite o Endereço"
-              error={errors.address?.message}
-              register={{ ...register("address") }}
-            />
-            <Input
-              label="Telefone"
-              placeholder="Digite DD + Telefone"
-              error={errors.phone_number?.message}
-              onChange={handlePhoneChange}
-              value={watch("phone_number")}
-              register={{ ...register("phone_number") }}
+              label="Codigo de registro"
+              placeholder="Digite o Codigo de registro"
+              error={errors.registration_number?.message}
+              register={{ ...register("registration_number") }}
             />
             {!userData && (
               <Input
@@ -280,7 +194,7 @@ export default function CreateUserModal({
               />
             )}
             <Select
-              label="Tipo"
+              label="Função"
               defaultValue={userData?.role || "Collaborator"}
               selectStyle="secondary"
               onValueChange={(value: UserModel["role"]) =>

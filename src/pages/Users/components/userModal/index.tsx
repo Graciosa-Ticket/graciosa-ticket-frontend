@@ -8,13 +8,9 @@ import ButtonComponent from "../../../../components/buttons";
 import Modal, { ModalHeader, ModalTitle } from "../../../../components/modal";
 import SectorIcon from "../sectorIcon";
 import { UserComponent } from "./styles";
-import { formatDate } from "date-fns";
 import { useState } from "react";
 import InputPlaceholder from "../../../../components/form/inputPlaceholder";
-import { calculateAge } from "../../../../utils/calculateAge";
 import { useMutationQuery } from "../../../../services/hooks/useMutationQuery";
-import phoneMask from "../../../../utils/phoneMask";
-import formatCEP from "../../../../utils/cepMask";
 import ActionsModalComponent from "../../../../components/actionModal";
 import { modalActions } from "../../../../shared/global.interface";
 import { UserModel } from "../../../../models/user";
@@ -99,27 +95,15 @@ export default function UserModal({
             value={data?.email}
             copyText={data?.email as string}
           />
-
           <InputPlaceholder
-            label="Nascimento"
-            value={
-              data?.birth_date ? formatDate(data?.birth_date, "dd/MM/yyyy") : ""
-            }
-            affix={{
-              suffix: data?.birth_date
-                ? calculateAge(data?.birth_date) + " Anos"
-                : undefined,
-            }}
-          />
-          <InputPlaceholder label="Endereço" value={data?.address} />
-          <InputPlaceholder
-            label="CEP"
-            value={formatCEP(data?.cep as string)}
+            label="Ramal"
+            value={data?.sector?.phone as string}
+            copyText={data?.sector?.phone as string}
           />
           <InputPlaceholder
-            label="Telefone/Ramal"
-            value={phoneMask(data?.phone_number as string)}
-            copyText={data?.phone_number as string}
+            label="Matricula"
+            value={data?.registration_number as string}
+            copyText={data?.registration_number as string}
           />
         </div>
         {data?.role !== "Administrator" && (
