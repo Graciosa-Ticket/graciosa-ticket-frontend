@@ -13,6 +13,7 @@ import {
   CounterToChartModel,
   CounterToChartModelSector,
 } from "../../../../../models/counterToChart";
+import NotFoundComponent from "../../../../../components/notFound";
 
 ChartJS.register(
   CategoryScale,
@@ -48,7 +49,9 @@ const formatLabel = (label: string) => {
 export const BarGraph = ({ data }: BarGraphProps) => {
   const theme = useTheme();
 
-  if (!data) return <div>Carregando...</div>;
+  if (!data) {
+    return <NotFoundComponent message="Nenhum dado encontrado" />;
+  }
 
   // Formata os rótulos e extrai as cores
   const labels = Object.keys(data).map(formatLabel);
