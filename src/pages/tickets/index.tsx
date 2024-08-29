@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import PageHeaderComponent from "../../components/pagesHeader";
 import AdminTicketsView from "./components/adminView";
 import { TicketsPageContainer } from "./styles";
@@ -15,21 +15,27 @@ import { useAuth } from "../../hooks/auth";
 import TicketModal from "./components/ticketModal";
 import { api } from "../../services/api.service";
 import { toast } from "sonner";
+import ButtonComponent from "../../components/buttons";
 
 const TicketsPage = () => {
   const { user } = useAuth();
   const [dataSource, setDataSource] = useState<TicketModel[]>([]);
   const [openModal, setOpenModal] = useState(false);
   const [modalData, setModalData] = useState<TicketModel>();
+  const [selectedBtn, setSelectedBtn] = useState<"Setor" | "Meus chamados">(
+    "Setor"
+  );
+
+  const handleBtnClick = (btnType: "Setor" | "Meus chamados") => {
+    setSelectedBtn(btnType);
+  };
 
   const getTicketData = async (code: string) => {
     try {
       const { data } = await api.get(`/ticket/${code}`);
-
       if (!Object.keys(data).length) {
         return null;
       }
-
       setModalData(data);
       setOpenModal(true);
     } catch (error) {
@@ -41,9 +47,7 @@ const TicketsPage = () => {
   useEffect(() => {
     const href = window.location.search;
     const params = new URLSearchParams(href);
-
     const ticketId = params.get("ticketID");
-
     if (ticketId) {
       getTicketData(ticketId);
     }
@@ -74,6 +78,24 @@ const TicketsPage = () => {
     refetch();
   };
 
+  // Filtragem de tickets baseada no botão selecionado e função do usuário
+  const filteredTickets = useMemo(() => {
+    if (user.role === "Administrator") {
+      // Administradores veem todos os tickets
+      return dataSource;
+    }
+
+    if (selectedBtn === "Meus chamados") {
+      // Usuários veem apenas seus próprios tickets
+      return dataSource.filter((ticket) => ticket.user.code === user.code);
+    }
+
+    // Usuários veem tickets do setor
+    return dataSource.filter(
+      (ticket) => ticket.sector_code === user.sector_code
+    );
+  }, [dataSource, selectedBtn, user.code, user.role]);
+
   return (
     <>
       <Modal open={openModal} onOpenChange={handleModalClose}>
@@ -88,8 +110,28 @@ const TicketsPage = () => {
           <PageHeaderComponent.title>Chamados</PageHeaderComponent.title>
           <AddNewButton onUpdate={handleUpdate} />
         </PageHeaderComponent.container>
+        {user?.role !== "Administrator" && (
+          <div className="select-buttons-area">
+            <ButtonComponent
+              buttonStyles={selectedBtn === "Setor" ? "primary" : "text"}
+              onClick={() => handleBtnClick("Setor")}
+              className="select-button"
+            >
+              Chamados do setor
+            </ButtonComponent>
+            <ButtonComponent
+              buttonStyles={
+                selectedBtn === "Meus chamados" ? "primary" : "text"
+              }
+              onClick={() => handleBtnClick("Meus chamados")}
+              className="select-button"
+            >
+              Meus chamados
+            </ButtonComponent>
+          </div>
+        )}
 
-        {!dataSource.length && !isLoadingFecth ? (
+        {!filteredTickets.length && !isLoadingFecth ? (
           <NotFoundComponent />
         ) : isLoadingFecth ? (
           <TicketSkeletonLoading />
@@ -99,7 +141,10 @@ const TicketsPage = () => {
             onOpenModal={handleOpenModal}
           />
         ) : (
-          <UserTicketsView tickets={dataSource} onOpenModal={handleOpenModal} />
+          <UserTicketsView
+            tickets={filteredTickets}
+            onOpenModal={handleOpenModal}
+          />
         )}
       </TicketsPageContainer>
     </>
@@ -116,7 +161,6 @@ const AddNewButton = ({ onUpdate }: modalActions) => {
       setOpenConfirmCloseModal(true);
       return;
     }
-
     setOpenModal(!openModal);
   };
 

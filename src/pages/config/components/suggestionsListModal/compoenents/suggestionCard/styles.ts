@@ -1,4 +1,16 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
+
+// Defina a animação para aparecer com um efeito de fade
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`;
 
 export const FeedbackContainer = styled.div`
   width: 100%;
@@ -8,6 +20,9 @@ export const FeedbackContainer = styled.div`
   max-width: 500px;
   color: ${({ theme }) => theme.colors.grayscale.gray_80};
   border-bottom: 1px solid #e9eaea;
+
+  /* Aplica a animação de fade-in ao container com uma duração de 1.5 segundos */
+  animation: ${fadeIn} 1.5s ease-out;
 
   .top-feedbackViewer {
     display: flex;

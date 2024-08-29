@@ -33,11 +33,15 @@ const UserTicketsView = ({ tickets, onOpenModal }: userTicketProps) => {
 
   const filteredTickets = useMemo(() => {
     if (user.role === "Collaborator") {
-      return tickets.filter((ticket) => ticket.user.code === user.code);
+      return tickets.filter(
+        (ticket) =>
+          ticket.sector_code === user.sector_code ||
+          ticket.user.code === user.code
+      );
     }
     return tickets.filter(
       (ticket) =>
-        ticket.sector.responsible_code === user.code ||
+        ticket.sector_code === user.sector_code ||
         ticket.user.code === user.code
     );
   }, [tickets, user.code, user.role]);

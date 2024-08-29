@@ -1,5 +1,6 @@
 export interface Sector {
   name: string;
+  phone?: string;
 }
 
 export interface UserModel {
@@ -10,9 +11,7 @@ export interface UserModel {
   email: string;
   password?: string;
   birth_date?: Date | string;
-  address: string;
-  cep: string;
-  phone_number: string;
+  registration_number?: string;
   profile_picture?: string;
   created_at?: Date;
   updated_at?: Date;

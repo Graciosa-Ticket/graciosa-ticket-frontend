@@ -10,22 +10,25 @@ import { useFetch } from "../../../../services/hooks/getQuery";
 import { SkeletonAnimation } from "../../../../components/skeleton";
 import FeedbackViewer from "./compoenents/suggestionCard";
 import PrettyCheckBoxComponent from "../../../../components/prettyCheckBox";
+import { useMutationQuery } from "../../../../services/hooks/useMutationQuery";
 
 export default function SuggestionsListModal({ onClose }: modalActions) {
   const [dataSource, setDataSource] = useState<FeedbackModel[]>([]);
-  const [showDoneFeedbacks, setShowDoneFeedbacks] = useState(false); // Estado booleano adicionado
+  const [showDoneFeedbacks, setShowDoneFeedbacks] = useState(false);
+  const [animateList, setAnimateList] = useState(false); // Novo estado para animação
 
   const handleCheckboxChange = (id: string) => {
     setShowDoneFeedbacks(id === "Concluidos");
+    setAnimateList(true); // Ativa animação ao mudar o estado
   };
 
   const { isLoading: isLoadingFeedback } = useFetch<FeedbackModel[]>(
-    showDoneFeedbacks ? "/feedback/doneFeedbacks" : "/feedback", // Rota definida com base na condição
-    ["feedbackData", showDoneFeedbacks], // As dependências para o hook
+    showDoneFeedbacks ? "/feedback/doneFeedbacks" : "/feedback",
+    ["feedbackData", showDoneFeedbacks],
     {
       onSuccess: (feedbackResponse) => {
-        // Atualiza o estado com os dados recebidos
         setDataSource(feedbackResponse);
+        setAnimateList(false); // Desativa animação após a mudança
       },
     }
   );
@@ -67,7 +70,7 @@ export default function SuggestionsListModal({ onClose }: modalActions) {
             <SkeletonAnimation.text />
           </SkeletonAnimation.card>
         ) : (
-          <ul className="ticket-list">
+          <ul className={`ticket-list ${animateList ? "fade-in" : ""}`}>
             {dataSource.map((feedback, index) => (
               <li key={index}>
                 <FeedbackViewer data={feedback} />

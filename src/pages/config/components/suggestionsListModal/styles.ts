@@ -1,4 +1,19 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
+
+// Animação para a transição suave
+const fadeInOut = keyframes`
+  0% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`;
 
 export const SelectButtonsArea = styled.div`
   position: sticky;
@@ -28,5 +43,10 @@ export const SuggestionsListModalComponent = styled.section`
     width: 100%;
     max-width: 600px;
     overflow-y: auto;
+
+    /* Aplicando animação de fade-in e fade-out */
+    &.fade-in {
+      animation: ${fadeInOut} 0.8s ease-out;
+    }
   }
 `;

@@ -53,19 +53,6 @@ export default function UserViewModal({ onClose }: modalActions<UserModel>) {
             copyText={user?.email as string}
           />
           <InputPlaceholder
-            label="Nascimento"
-            value={
-              user.birth_date ? formatDate(user.birth_date, "dd/MM/yyyy") : ""
-            }
-            affix={{
-              suffix: user.birth_date
-                ? calculateAge(user.birth_date) + " Anos"
-                : undefined,
-            }}
-          />
-          <InputPlaceholder label="Endereço" value={user.address} />
-          <InputPlaceholder label="CEP" value={formatCEP(user.cep as string)} />
-          <InputPlaceholder
             label="Telefone/Ramal"
             value={phoneMask(user?.phone_number as string)}
             copyText={user?.phone_number as string}

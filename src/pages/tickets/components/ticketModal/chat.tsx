@@ -295,7 +295,7 @@ const ConnectionsMessageCard = ({
           <div className="user-side">
             <Avatar
               {...(data?.user.profile_picture && {
-                src: `profile-picture/${data?.code}/regularSize_${data?.user.profile_picture}`,
+                src: `profile-picture/${data?.user.code}/regularSize_${data?.user.profile_picture}`,
               })}
               alt=""
             />
