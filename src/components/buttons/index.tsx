@@ -27,6 +27,7 @@ const ButtonComponent = ({
       $buttonSize={buttonSize}
       $buttonStyles={buttonStyles}
       $buttonStylesType={buttonStylesType}
+      $loading={isLoading || false}
       {...{ type, ...props }}
     >
       {props.children}

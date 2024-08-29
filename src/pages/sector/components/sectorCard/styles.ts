@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 export const SectorComponent = styled.button`
   width: 100%;
+  height: 100%;
   border-radius: 16px;
   display: flex;
   flex-direction: column;

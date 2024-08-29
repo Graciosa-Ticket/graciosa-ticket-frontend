@@ -57,7 +57,7 @@ const UserTicketsView = ({ tickets, onOpenModal }: userTicketProps) => {
           <GroupedList
             tickets={e.tickets}
             title={e.title}
-            key={i}
+            key={e.title + i}
             onOpenModal={onOpenModal}
           />
         ))}

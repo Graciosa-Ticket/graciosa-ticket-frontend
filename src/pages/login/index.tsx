@@ -9,6 +9,7 @@ import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import LoadingScreen from "../../components/loading/loadingScreen";
 import CenterModal from "../../components/centerModal";
 import PasswordChangeRequestModal from "./passwordChangeRequestModal";
+import GraciosaFrontEntry from "../../assets/Log-in.jpg";
 
 interface login {
   code: string;
@@ -54,6 +55,12 @@ export default function LoginPage() {
             eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
             ad minim.
           </p>
+
+          <img
+            src={GraciosaFrontEntry}
+            className="gcc-entry"
+            alt="graciosa front entry"
+          />
         </div>
 
         <section className="right-container">

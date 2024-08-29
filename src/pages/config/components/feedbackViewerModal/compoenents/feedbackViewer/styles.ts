@@ -14,15 +14,13 @@ const fadeIn = keyframes`
 
 export const FeedbackContainer = styled.div`
   width: 100%;
-  padding: 10px;
   transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
   align-items: center;
   max-width: 500px;
   color: ${({ theme }) => theme.colors.grayscale.gray_80};
-  border-bottom: 1px solid #e9eaea;
 
   /* Aplica a animação de fade-in ao container com uma duração de 1.5 segundos */
-  animation: ${fadeIn} 1.5s ease-out;
+  animation: 100ms ${fadeIn} ease-out;
 
   .top-feedbackViewer {
     display: flex;

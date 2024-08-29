@@ -4,6 +4,7 @@ import { buttonSize, buttonStyles, buttonStylesType } from ".";
 interface buttonProps {
   $buttonSize: buttonSize;
   $buttonStyles: buttonStyles;
+  $loading: boolean;
   $buttonStylesType: buttonStylesType;
 }
 
@@ -147,6 +148,13 @@ export const ButtonsLoginContainer = styled.button<buttonProps>`
   ${({ $buttonStyles }) => styles[$buttonStyles]};
   ${({ $buttonSize }) => sizes[$buttonSize]};
 
+  ${({ $loading }) => {
+    if ($loading) {
+      return css`
+        pointer-events: none;
+      `;
+    }
+  }}
   .loading-button {
     display: flex;
     align-items: center;

@@ -3,7 +3,9 @@ import { TicketModel } from "../../../../models/ticket";
 
 export const Layout = styled.section`
   display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   margin-top: 10px;
+
   gap: 4px;
   margin-bottom: 20px;
 
@@ -63,17 +65,18 @@ const statusStyle = {
 };
 
 export const StatusP = styled.p<StatusPProps>`
+  width: 100%; /* Garante que o retângulo ocupe toda a largura disponível */
+  padding: 10px; /* Remove padding para garantir que a altura seja consistente */
   ${({ status }) => statusStyle[status]}
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 50%; /* Garante que o retângulo ocupe toda a largura disponível */
-  min-width: 120px; /* Define um tamanho mínimo para manter consistência entre os elementos */
-  height: 40px; /* Define uma altura padrão para todos os retângulos */
-  padding: 0; /* Remove padding para garantir que a altura seja consistente */
   border-radius: 8px;
   color: white;
   ${({ theme }) => theme.font.p.extra_small};
-  text-align: center; /* Centraliza o texto horizontalmente */
   font-weight: 500;
+
+  span {
+    ${({ theme }) => theme.font.p.medium_bold};
+  }
 `;

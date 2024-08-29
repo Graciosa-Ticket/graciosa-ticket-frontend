@@ -18,20 +18,36 @@ export const LoginContainer = styled.section`
     flex-direction: column;
     gap: 30px;
     padding: 50px;
+    position: relative;
+    overflow: hidden;
+
+    .gcc-entry {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      object-fit: cover;
+      z-index: 0;
+    }
 
     h1 {
       margin-top: 80px;
       ${({ theme }) => theme.font.h3};
       color: white;
       font-weight: 700;
+      position: relative;
       max-width: 85%;
+      z-index: 1;
       margin-left: 25px;
     }
 
     p {
       color: white;
       ${({ theme }) => theme.font.p.extra_small};
+      position: relative;
       max-width: 70%;
+      z-index: 1;
       margin-left: 25px;
     }
   }

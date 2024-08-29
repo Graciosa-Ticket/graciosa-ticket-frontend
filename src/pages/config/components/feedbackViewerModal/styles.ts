@@ -15,6 +15,10 @@ const fadeInOut = keyframes`
   }
 `;
 
+export const FeedBackContainer = styled.section`
+  width: 500px;
+`;
+
 export const SelectButtonsArea = styled.div`
   position: sticky;
   top: 0;
@@ -37,16 +41,36 @@ export const SuggestionsListModalComponent = styled.section`
   overflow-y: auto;
 
   .ticket-list {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
     width: 100%;
-    max-width: 600px;
+    display: flex;
+    margin-top: 12px;
+    flex-direction: column;
+    padding: 0 6px 0 0;
     overflow-y: auto;
 
-    /* Aplicando animação de fade-in e fade-out */
-    &.fade-in {
-      animation: ${fadeInOut} 0.8s ease-out;
+    .time-indicator {
+      ${({ theme }) => theme.font.p.extra_small};
+      color: ${({ theme }) => theme.colors.grayscale.gray_60};
+      font-size: 12px;
     }
+
+    .feedback-item {
+      padding: 10px 0;
+
+      .feedback-list {
+        li {
+          padding: 10px 0;
+          & + li {
+            border-top: 1px solid #e9eaea;
+          }
+        }
+      }
+
+      & + .feedback-item {
+        border-top: 1px solid #e9eaea;
+      }
+    }
+
+    /* Aplicando animação de fade-in e fade-out */
   }
 `;
