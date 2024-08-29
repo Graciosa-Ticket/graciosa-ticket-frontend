@@ -21,7 +21,7 @@ import SupportModal from "./components/supportModal";
 import { useDarkMode } from "../../hooks/theme";
 import FaqModal from "./components/faqModal";
 import { IoMegaphoneOutline } from "react-icons/io5";
-import SuggestionsListModal from "./components/suggestionsListModal";
+import SuggestionsListModal from "./components/feedbackViewerModal";
 
 export default function Config({}: modalActions<UserModel>) {
   const [openPasswordChangeModal, setopenPasswordChangeModal] = useState(false);

@@ -20,6 +20,7 @@ import Avatar from "../../../../components/Avatar";
 import EditedFormPopUp from "../../../../components/EditedFormPopUp";
 import StatusComponent from "../Status";
 import DeleteUserPopUp from "../../../../components/deleteUserPopUp";
+import { useAuth } from "../../../../hooks/auth";
 
 export default function UserModal({
   data,
@@ -27,7 +28,7 @@ export default function UserModal({
   onUpdate,
 }: modalActions<UserModel>) {
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
-
+  const { user } = useAuth();
   const { mutate: deleteUser, isLoading: isLoadingDelete } = useMutationQuery(
     `/users/${data?.code}`,
     "delete"
@@ -97,8 +98,8 @@ export default function UserModal({
           />
           <InputPlaceholder
             label="Ramal"
-            value={data?.sector?.phone as string}
-            copyText={data?.sector?.phone as string}
+            value={data?.sector?.ramal as string}
+            copyText={data?.sector?.ramal as string}
           />
           <InputPlaceholder
             label="Matricula"
@@ -117,47 +118,49 @@ export default function UserModal({
             </div>
           </div>
         )}
-        <div className="footer">
-          <div />
-          {!data?.deleted_at ? (
-            <>
-              <DeleteUserPopUp
-                open={openDeleteModal}
-                onOpenChange={(open) => setOpenDeleteModal(open)}
-                onConfirmDelete={handleDeleteUser}
-              />
-              <ButtonComponent
-                buttonStyles="delete"
-                buttonStylesType="outline"
-                onClick={handleOpenDeleteModal}
-                isLoading={isLoadingDelete}
-              >
-                <AiOutlineDelete /> Desativar
-              </ButtonComponent>
-            </>
-          ) : (
-            <ActionsModalComponent
-              message="Confirme para reativar este usuário."
-              actionButton={
+        {user?.role === "Administrator" && ( // Verifica se o usuário é administrador antes de renderizar o footer
+          <div className="footer">
+            <div />
+            {!data?.deleted_at ? (
+              <>
+                <DeleteUserPopUp
+                  open={openDeleteModal}
+                  onOpenChange={(open) => setOpenDeleteModal(open)}
+                  onConfirmDelete={handleDeleteUser}
+                />
                 <ButtonComponent
-                  buttonStyles="confirm"
-                  onClick={handleReactiveUser}
-                  isLoading={isLoadingUnDelete}
+                  buttonStyles="delete"
+                  buttonStylesType="outline"
+                  onClick={handleOpenDeleteModal}
+                  isLoading={isLoadingDelete}
                 >
-                  Confirmar
+                  <AiOutlineDelete /> Desativar
                 </ButtonComponent>
-              }
-              buttonProps={{
-                buttonStyles: "confirm",
-                buttonStylesType: "outline",
-              }}
-            >
-              <AiOutlineCheckCircle /> Reativar
-            </ActionsModalComponent>
-          )}
+              </>
+            ) : (
+              <ActionsModalComponent
+                message="Confirme para reativar este usuário."
+                actionButton={
+                  <ButtonComponent
+                    buttonStyles="confirm"
+                    onClick={handleReactiveUser}
+                    isLoading={isLoadingUnDelete}
+                  >
+                    Confirmar
+                  </ButtonComponent>
+                }
+                buttonProps={{
+                  buttonStyles: "confirm",
+                  buttonStylesType: "outline",
+                }}
+              >
+                <AiOutlineCheckCircle /> Reativar
+              </ActionsModalComponent>
+            )}
 
-          <EditUserButton data={data} onUpdate={onUpdate} />
-        </div>
+            <EditUserButton data={data} onUpdate={onUpdate} />
+          </div>
+        )}
       </UserComponent>
     </>
   );

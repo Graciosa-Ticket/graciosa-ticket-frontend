@@ -63,11 +63,21 @@ export const FeedbackContainer = styled.div`
         color: ${({ theme }) =>
           theme.colors.support.success}; /* Muda a cor para verde */
       }
-    }
 
-    p {
-      ${({ theme }) => theme.font.p.extra_small};
-      color: ${({ theme }) => theme.colors.grayscale.gray_80};
+      .like-icon {
+        transition: transform 0.6s ease, color 0.6s ease; /* Suaviza a transição da escala e da cor */
+
+        &:hover {
+          transform: scale(2); /* Aumenta o ícone em 20% */
+          color: ${({ theme }) =>
+            theme.colors.support.success}; /* Muda a cor para verde */
+        }
+      }
     }
+  }
+
+  p {
+    ${({ theme }) => theme.font.p.extra_small};
+    color: ${({ theme }) => theme.colors.grayscale.gray_80};
   }
 `;

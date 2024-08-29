@@ -105,7 +105,7 @@ export default function CreateSectorModal({
   const handlePhoneChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
     const formattedValue = formatPhoneNumber(value);
-    setValue("phone", formattedValue, { shouldDirty: true });
+    setValue("ramal", formattedValue, { shouldDirty: true });
   };
 
   return (
@@ -148,10 +148,10 @@ export default function CreateSectorModal({
             <Input
               label="Ramal"
               placeholder="Digite o ramal"
-              error={errors.phone?.message}
+              error={errors.ramal?.message}
               onChange={handlePhoneChange}
-              value={watch("phone")}
-              register={{ ...register("phone") }}
+              value={watch("ramal")}
+              register={{ ...register("ramal") }}
             />
             <TextArea
               label="Descrição"

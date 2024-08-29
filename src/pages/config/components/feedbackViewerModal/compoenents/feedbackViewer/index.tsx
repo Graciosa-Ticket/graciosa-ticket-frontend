@@ -60,7 +60,7 @@ export default function FeedbackViewer({ data }: FeedbackViewerProps) {
               {data.is_done ? (
                 <AiOutlineLike
                   size={".6em"}
-                  className="check-icon"
+                  className="like-icon"
                   title="Concluído"
                 />
               ) : (

@@ -115,7 +115,7 @@ export default function PasswordChangeRequestModal({
               isLoading={isLoadingFeedback}
               disabled={!watch("confirmBox")}
             >
-              Sim, Solicitar
+              Sim, solicitar
             </ButtonComponent>
           </FormButtonsContainer>
         </FormContainer>

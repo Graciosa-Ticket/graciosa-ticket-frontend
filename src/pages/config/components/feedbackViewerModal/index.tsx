@@ -8,8 +8,9 @@ import ButtonComponent from "../../../../components/buttons";
 import { SelectButtonsArea, SuggestionsListModalComponent } from "./styles";
 import { useFetch } from "../../../../services/hooks/getQuery";
 import { SkeletonAnimation } from "../../../../components/skeleton";
-import FeedbackViewer from "./compoenents/suggestionCard";
+
 import PrettyCheckBoxComponent from "../../../../components/prettyCheckBox";
+import FeedbackViewer from "./compoenents/feedbackViewer";
 
 export default function SuggestionsListModal({ onClose }: modalActions) {
   const [dataSource, setDataSource] = useState<FeedbackModel[]>([]);
