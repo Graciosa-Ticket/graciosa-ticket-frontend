@@ -7,9 +7,6 @@ import { MdLogout } from "react-icons/md";
 import Modal, { ModalHeader, ModalTitle } from "../modal";
 import { UserComponent } from "../../pages/Users/components/userModal/styles";
 import InputPlaceholder from "../form/inputPlaceholder";
-import { formatDate } from "date-fns";
-import { calculateAge } from "../../utils/calculateAge";
-import formatCEP from "../../utils/cepMask";
 import phoneMask from "../../utils/phoneMask";
 import Avatar from "../Avatar";
 import { useState } from "react";
@@ -52,11 +49,11 @@ export default function UserViewModal({ onClose }: modalActions<UserModel>) {
             value={user?.email}
             copyText={user?.email as string}
           />
-          <InputPlaceholder
+          {/* <InputPlaceholder
             label="Telefone/Ramal"
             value={phoneMask(user?.phone_number as string)}
             copyText={user?.phone_number as string}
-          />
+          /> */}
         </div>
         {user.role !== "Administrator" && (
           <div className="function-area">

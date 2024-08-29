@@ -10,7 +10,6 @@ import { useFetch } from "../../../../services/hooks/getQuery";
 import { SkeletonAnimation } from "../../../../components/skeleton";
 import FeedbackViewer from "./compoenents/suggestionCard";
 import PrettyCheckBoxComponent from "../../../../components/prettyCheckBox";
-import { useMutationQuery } from "../../../../services/hooks/useMutationQuery";
 
 export default function SuggestionsListModal({ onClose }: modalActions) {
   const [dataSource, setDataSource] = useState<FeedbackModel[]>([]);
