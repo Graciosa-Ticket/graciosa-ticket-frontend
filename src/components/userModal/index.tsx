@@ -7,7 +7,6 @@ import { MdLogout } from "react-icons/md";
 import Modal, { ModalHeader, ModalTitle } from "../modal";
 import { UserComponent } from "../../pages/Users/components/userModal/styles";
 import InputPlaceholder from "../form/inputPlaceholder";
-import phoneMask from "../../utils/phoneMask";
 import Avatar from "../Avatar";
 import { useState } from "react";
 import EditedFormPopUp from "../EditedFormPopUp";
