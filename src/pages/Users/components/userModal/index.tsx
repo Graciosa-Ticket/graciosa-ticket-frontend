@@ -146,6 +146,7 @@ export default function UserModal({
                     onClick={handleReactiveUser}
                     isLoading={isLoadingUnDelete}
                   >
+                    <AiOutlineCheckCircle />
                     Confirmar
                   </ButtonComponent>
                 }
