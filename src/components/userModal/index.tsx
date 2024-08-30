@@ -50,9 +50,14 @@ export default function UserViewModal({ onClose }: modalActions<UserModel>) {
             copyText={user?.email as string}
           />
           <InputPlaceholder
-            label="Telefone/Ramal"
+            label="Ramal"
             value={phoneMask(user?.sector?.ramal as string)}
             copyText={user?.sector?.ramal as string}
+          />
+          <InputPlaceholder
+            label="Matricula"
+            value={user?.registration_code as string}
+            copyText={user?.registration_code as string}
           />
         </div>
         {user.role !== "Administrator" && (
