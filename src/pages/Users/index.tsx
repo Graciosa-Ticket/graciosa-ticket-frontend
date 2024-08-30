@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo } from "react";
 import ButtonComponent from "../../components/buttons";
 import { UserModel } from "../../models/user";
 import { UserContainer } from "./styles";
