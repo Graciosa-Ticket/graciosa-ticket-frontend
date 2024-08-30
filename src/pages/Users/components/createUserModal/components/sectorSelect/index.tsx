@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Select, SelectItem } from "../../../../../../components/form/select";
 import { useFetch } from "../../../../../../services/hooks/getQuery";
 import { SectorCardModel } from "../../../../../../models/sector";
@@ -14,30 +14,51 @@ interface sectorDataSourceProps {
 }
 
 function SectorSelect({ onSelect, defaultValue }: SectorSelectProps) {
-  const [selectedValue, setSelectedValue] = useState<string>(
-    defaultValue as any
-  );
   const [sectorDataSource, setSectorDataSource] = useState<
     sectorDataSourceProps[]
   >([]);
+  const [selectedValue, setSelectedValue] = useState<string>("");
 
   useFetch<SectorCardModel[]>("/sectors", ["sector"], {
     onSuccess: (res) => {
       if (res?.length) {
-        setSectorDataSource(() =>
-          res.map((e) => ({
-            value: e.code as string,
-            label: e.name as string,
-          }))
-        );
+        const mappedData = res.map((e) => ({
+          value: e.code as string,
+          label: e.name as string,
+        }));
+
+        setSectorDataSource(mappedData);
+
+        // Define o valor selecionado com base no defaultValue, se existir
+        if (defaultValue) {
+          const matchedSector = mappedData.find(
+            (item) => item.label === defaultValue
+          );
+          if (matchedSector) {
+            setSelectedValue(matchedSector.value);
+          }
+        }
       }
     },
   });
+
+  useEffect(() => {
+    // Se o defaultValue mudar (por exemplo, ao carregar dados do usuário), tente atualizar o selectedValue novamente
+    if (defaultValue && sectorDataSource.length > 0) {
+      const matchedSector = sectorDataSource.find(
+        (item) => item.label === defaultValue
+      );
+      if (matchedSector) {
+        setSelectedValue(matchedSector.value);
+      }
+    }
+  }, [defaultValue, sectorDataSource]);
 
   const handleValueChange = (value: string) => {
     setSelectedValue(value);
     onSelect(value);
   };
+
   return (
     <Select
       label="Setor"
@@ -47,7 +68,9 @@ function SectorSelect({ onSelect, defaultValue }: SectorSelectProps) {
       onValueChange={handleValueChange}
     >
       {sectorDataSource.map((e) => (
-        <SelectItem value={e.value}>{e.label}</SelectItem>
+        <SelectItem key={e.value} value={e.value}>
+          {e.label}
+        </SelectItem>
       ))}
     </Select>
   );

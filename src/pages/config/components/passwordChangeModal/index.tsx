@@ -21,7 +21,6 @@ import SelectUsers from "../../../../components/form/selectUsers";
 import { useMutationQuery } from "../../../../services/hooks/useMutationQuery";
 
 export default function PasswordChangeModal({
-  data: Userdata,
   onClose,
 }: modalActions<UserModel>) {
   const {
@@ -32,7 +31,6 @@ export default function PasswordChangeModal({
     formState: { errors },
   } = useForm<UserModel & { confirmPassword: string }>({
     resolver: yupResolver(ChangePasswordValidation) as any,
-    defaultValues: Userdata,
   });
 
   const { mutate: passwordChange, isLoading: isLoadingUpdate } =

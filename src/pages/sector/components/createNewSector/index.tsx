@@ -55,6 +55,37 @@ export default function CreateSectorModal({
     sectorData ? "put" : "post"
   );
 
+  const { mutate: updateUserSector, isLoading: isLoadingUserUpdate } =
+    useMutationQuery("/users", "put");
+
+  const handleUpdateUserSector = (
+    responsibleCode: string,
+    sectorCode: string
+  ) => {
+    console.log("Chamada para updateUserSector com:", {
+      responsibleCode,
+      sectorCode,
+    });
+
+    updateUserSector(
+      {
+        code: responsibleCode,
+        sector_code: sectorCode,
+      },
+      {
+        onSuccess: (response) => {
+          console.log(
+            "Atualização do setor do usuário bem-sucedida:",
+            response
+          );
+        },
+        onError: (error) => {
+          console.error("Erro ao atualizar setor do usuário:", error);
+        },
+      }
+    );
+  };
+
   const onSubmit = handleSubmit(() => {
     const { ...rest } = getDirtyFields(dirtyFields, getValues);
 
@@ -83,6 +114,13 @@ export default function CreateSectorModal({
           toast.success("Setor Criado com sucesso");
         }
 
+        // Chama o handleUpdateUserSector após sucesso
+        if (sectorData) {
+          handleUpdateUserSector(sectorData.responsible_code, sectorData.code);
+        } else {
+          handleUpdateUserSector(getValues().responsible_code, data.code);
+        }
+
         onUpdate?.();
       },
       onError: (error: any) => {
@@ -104,7 +142,6 @@ export default function CreateSectorModal({
       },
     });
   });
-
   const handlePhoneChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
     const formattedValue = formatPhoneNumber(value);
@@ -176,7 +213,7 @@ export default function CreateSectorModal({
               buttonStyles="confirm"
               title={sectorData ? "Confirmar Edição" : "Cadastrar Novo Setor"}
               className="confirm-btn"
-              isLoading={isLoadingUpdate}
+              isLoading={isLoadingUpdate || isLoadingUserUpdate}
             >
               {sectorData ? "Confirmar Edição" : "Cadastrar"}
             </ButtonComponent>

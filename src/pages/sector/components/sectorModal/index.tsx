@@ -38,6 +38,37 @@ export default function SectorModal({
     );
   };
 
+  const { mutate: updateUserSector, isLoading: isLoadingUserUpdate } =
+    useMutationQuery("/users", "put");
+
+  const handleUpdateUserSector = (
+    responsibleCode: string,
+    sectorCode: string
+  ) => {
+    console.log("Chamada para updateUserSector com:", {
+      responsibleCode,
+      sectorCode,
+    });
+
+    updateUserSector(
+      {
+        code: responsibleCode,
+        sector_code: sectorCode,
+      },
+      {
+        onSuccess: (response) => {
+          console.log(
+            "Atualização do setor do usuário bem-sucedida:",
+            response
+          );
+        },
+        onError: (error) => {
+          console.error("Erro ao atualizar setor do usuário:", error);
+        },
+      }
+    );
+  };
+
   const { mutate: updateSectorUser, isLoading: isLoadingUpdate } =
     useMutationQuery(`/sectors`, "put");
 
@@ -50,6 +81,7 @@ export default function SectorModal({
       {
         onSuccess: () => {
           toast.success("Responsável Alterado!");
+          handleUpdateUserSector(user?.code as any, data?.code as any);
           onUpdate?.();
         },
         onError: (error: any) => {
@@ -117,7 +149,7 @@ export default function SectorModal({
           </ActionsModalComponent>
 
           <EditSectorButton
-            isLoading={isLoadingUpdate}
+            isLoading={isLoadingUpdate || isLoadingUserUpdate}
             data={data}
             onUpdate={onUpdate}
           />
