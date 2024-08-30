@@ -67,7 +67,6 @@ export const LoginContainer = styled.section`
       img {
         width: 80px;
         text-align: center;
-        mix-blend-mode: multiply;
       }
 
       h1 {
