@@ -204,7 +204,7 @@ export default function CreateUserModal({
             </Select>
             <SectorSelect
               onSelect={handleSectorSelect}
-              defaultValue={userData?.sector?.name}
+              defaultValue={userData?.sector?.name || "Tecnologia"}
             />
           </form>
         </div>
