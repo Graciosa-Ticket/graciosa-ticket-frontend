@@ -99,7 +99,7 @@ export default function CreateUserModal({
             role: rest.role || userData.role || "Collaborator",
             status: userData.status || true,
             registration_number:
-              rest.registration_number || userData.registration_number,
+              rest.registration_number || userData.registration_code,
             ...rest,
           }
         : {
@@ -182,10 +182,10 @@ export default function CreateUserModal({
               register={{ ...register("email") }}
             />
             <Input
-              label="Codigo de registro"
-              placeholder="Digite o Codigo de registro"
-              error={errors.registration_number?.message}
-              register={{ ...register("registration_number") }}
+              label="Matricula"
+              placeholder="Digite a Matricula"
+              error={errors.registration_code?.message}
+              register={{ ...register("registration_code") }}
             />
             {!userData && (
               <Input

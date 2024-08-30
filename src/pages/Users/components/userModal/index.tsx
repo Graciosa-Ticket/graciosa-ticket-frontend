@@ -103,8 +103,8 @@ export default function UserModal({
           />
           <InputPlaceholder
             label="Matricula"
-            value={data?.registration_number as string}
-            copyText={data?.registration_number as string}
+            value={data?.registration_code as string}
+            copyText={data?.registration_code as string}
           />
         </div>
         {data?.role !== "Administrator" && (
