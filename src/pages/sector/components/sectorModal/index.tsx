@@ -149,7 +149,7 @@ export default function SectorModal({
           </ActionsModalComponent>
 
           <EditSectorButton
-            isLoading={isLoadingUpdate}
+            isLoading={isLoadingUpdate || isLoadingUserUpdate}
             data={data}
             onUpdate={onUpdate}
           />
