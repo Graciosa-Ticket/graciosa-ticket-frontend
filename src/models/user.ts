@@ -11,7 +11,7 @@ export interface UserModel {
   email: string;
   password?: string;
   birth_date?: Date | string;
-  registration_number?: string;
+  registration_code?: string;
   profile_picture?: string;
   created_at?: Date;
   updated_at?: Date;

@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo } from "react";
 import ButtonComponent from "../../components/buttons";
 import { UserModel } from "../../models/user";
 import { UserContainer } from "./styles";
@@ -39,13 +39,9 @@ export default function User() {
     setSelectedBtn(role);
   };
 
-  useEffect(() => {
-    refetch();
-  }, [selectedBtn]);
-
   const { isLoading, isFetching, refetch } = useFetch<UserModel[]>(
-    `/users/getUsersByRole/${selectedBtn}`,
-    ["users", selectedBtn],
+    `/users`,
+    ["users"],
     {
       onSuccess: (data) => {
         setDataSource(data);
@@ -57,21 +53,27 @@ export default function User() {
 
   const userlist = useMemo(() => {
     if (dataSource.length) {
+      let filteredUsers = dataSource.filter(
+        (user) => !user.deleted_at && user.role === selectedBtn
+      );
+
       if (searchUser) {
-        return searchUsers(searchUser, dataSource);
+        filteredUsers = searchUsers(searchUser, filteredUsers);
       }
-      return dataSource.filter((user) => !user.deleted_at);
+
+      return filteredUsers;
     }
     return [];
   }, [dataSource, selectedBtn, searchUser]);
 
   const deletedUserlist = useMemo(() => {
     if (dataSource.length) {
-      return dataSource.filter((user) => user.deleted_at);
+      return dataSource.filter(
+        (user) => user.deleted_at && user.role === selectedBtn
+      );
     }
     return [];
   }, [dataSource, selectedBtn]);
-
   return (
     <>
       <UserContainer>
