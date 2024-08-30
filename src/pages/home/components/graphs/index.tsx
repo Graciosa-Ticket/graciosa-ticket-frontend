@@ -10,7 +10,6 @@ import TabComponent from "../../../../components/tabComponent";
 import { SectorCardModel } from "../../../../models/sector";
 import GCCBarGraph from "./barGraphGCC";
 import GraphSkeletonLoading from "../../graphSkeleton";
-import { useAuth } from "../../../../hooks/auth";
 
 // Define as propriedades esperadas para o componente HomeGraph
 interface homeGraphProps {
@@ -26,8 +25,6 @@ const HomeGraph = ({
   isadmin = false,
   sectorsListData = [],
 }: homeGraphProps) => {
-  const { user } = useAuth();
-
   // Estado para armazenar os dados dos contadores recebidos da API
   const [countersDataSource, setcountersDataSource] = useState<
     CounterToChartModel | CounterToChartModelSector | ResponseError
@@ -45,9 +42,8 @@ const HomeGraph = ({
   const { isLoading: isLoadingAllSectorsCounters } = useFetch<
     CounterToChartModel | CounterToChartModelSector
   >(
-    "/counters/counterToChart" +
-      (isadmin ? "" : `/sector/${user?.sector_code}`), // Define a URL de acordo com o tipo de usuário
-    ["geralCountData", isadmin, user?.sector_code],
+    "/counters/counterToChart" + (isadmin ? "" : `/sector/${userSector?.code}`), // Define a URL de acordo com o tipo de usuário
+    ["geralCountData", isadmin, userSector?.code],
     {
       onSuccess: (geralCountData) => {
         // Atualiza o estado com os dados recebidos
@@ -66,9 +62,8 @@ const HomeGraph = ({
   const { isLoading: isLoadingCreatedTicketsCounterDataByCode } = useFetch<
     number | ResponseError
   >(
-    `/ticket/count/getCreatedTickets` +
-      (isadmin ? "" : "/" + user?.sector_code), // Define a URL de acordo com o tipo de usuário
-    ["createdTicketsCounterDataByCode", isadmin, user?.sector_code],
+    `/ticket/count/getCreatedTickets` + (isadmin ? "" : "/" + userSector?.code), // Define a URL de acordo com o tipo de usuário
+    ["createdTicketsCounterDataByCode", isadmin, userSector?.code],
     {
       onSuccess: (createdTicketsCounterDataByCode) => {
         // Atualiza o estado com o número de tickets criados
@@ -130,6 +125,7 @@ const HomeGraph = ({
 
     const dataSourceKeys = Object.values(countersDataSource || {});
     if (!dataSourceKeys.length) return 0;
+    console.log(countersDataSource);
     return dataSourceKeys.reduce((a, b) => a + b, 0);
   }, [countersDataSource]);
 
