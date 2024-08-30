@@ -79,10 +79,7 @@ export default function CreateUserModal({
     setLoading(true);
 
     try {
-      const { phone_number, cep, ...rest } = getDirtyFields(
-        dirtyFields,
-        getValues
-      );
+      const { ...rest } = getDirtyFields(dirtyFields, getValues);
       const formData = new FormData();
 
       const file = watch("file");
@@ -90,12 +87,9 @@ export default function CreateUserModal({
         formData.append("file", file);
       }
 
-      const formattedPhoneNumber = formatPhoneNumber(phone_number || "");
-
       const dataToSend = userData
         ? {
             ...userData,
-            phone_number: formattedPhoneNumber,
             role: rest.role || userData.role || "Collaborator",
             status: userData.status || true,
             registration_number:
@@ -145,9 +139,9 @@ export default function CreateUserModal({
     }
   }, [userData]);
 
-  const defaultUrl = userData
-    ? `profile-picture/${userData?.code}/regularSize_${userData?.profile_picture}`
-    : undefined;
+  const defaultUrl = userData?.profile_picture
+    ? `profile-picture/${userData.code}/regularSize_${userData.profile_picture}`
+    : "";
 
   return (
     <>
@@ -162,7 +156,7 @@ export default function CreateUserModal({
       <CreateUserComponent>
         <div className="img-sector">
           <PictureInput
-            defaultUrl={defaultUrl}
+            defaultUrl={defaultUrl as any}
             onChangeImage={handleImageChange}
           />
         </div>

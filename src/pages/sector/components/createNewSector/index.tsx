@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { ModalHeader } from "../../../../components/modal";
 import { SectorModalComponent } from "./styles";
 import { modalActions } from "../../../../shared/global.interface";
@@ -41,6 +41,8 @@ export default function CreateSectorModal({
     defaultValues: sectorData,
   });
 
+  const [originalRamal, setOriginalRamal] = useState(sectorData?.ramal || "");
+
   useEffect(() => {
     const hasDirty = Object.keys(dirtyFields).length;
     if (hasDirty) {
@@ -58,6 +60,7 @@ export default function CreateSectorModal({
 
     const data = {
       ...rest,
+      ramal: originalRamal,
       code: sectorData?.code,
     };
 
@@ -105,9 +108,13 @@ export default function CreateSectorModal({
   const handlePhoneChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
     const formattedValue = formatPhoneNumber(value);
+
+    // Armazena o valor original
+    setOriginalRamal(value);
+
+    // Atualiza o campo de entrada com o valor formatado apenas para exibição
     setValue("ramal", formattedValue, { shouldDirty: true });
   };
-
   return (
     <>
       <ModalHeader>
