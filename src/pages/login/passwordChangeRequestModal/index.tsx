@@ -17,7 +17,7 @@ import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 
 interface PasswordChangeRequestModalProps {
-  user_code: string;
+  registration_code: string;
   email: string;
   confirmBox?: boolean;
 }
@@ -25,7 +25,7 @@ interface PasswordChangeRequestModalProps {
 // Esquema de validação com Yup
 const passwordChangeRequestSchema = Yup.object().shape({
   email: Yup.string().email("Email inválido").required("Email é obrigatório"),
-  user_code: Yup.string().required("Código de usuário é obrigatório"),
+  registration_code: Yup.string().required("Matricula é obrigatório"),
   confirmBox: Yup.boolean()
     .oneOf([true], "Você deve confirmar para solicitar a alteração de senha")
     .required("Confirmação é obrigatória"),
@@ -87,10 +87,10 @@ export default function PasswordChangeRequestModal({
               register={{ ...register("email") }}
             />
             <Input
-              label="Código de Usuário"
-              placeholder="Informe código de usuário"
-              error={errors.user_code?.message}
-              register={{ ...register("user_code") }}
+              label="Matricula"
+              placeholder="Informe matricula"
+              error={errors.registration_code?.message}
+              register={{ ...register("registration_code") }}
             />
             <CheckBoxComponent
               id="ocurrence"
