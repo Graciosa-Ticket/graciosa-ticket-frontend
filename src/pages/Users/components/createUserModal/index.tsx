@@ -18,7 +18,6 @@ import { FaAngleLeft } from "react-icons/fa";
 import PictureInput from "../../../../components/form/picture";
 import { useAuth } from "../../../../hooks/auth";
 import { api } from "../../../../services/api.service";
-import formatPhoneNumber from "../../../../utils/formatPhoneNumber";
 import SectorSelect from "./components/sectorSelect";
 
 export default function CreateUserModal({
