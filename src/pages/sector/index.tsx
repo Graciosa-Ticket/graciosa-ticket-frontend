@@ -1,6 +1,5 @@
 import { SectorCardModel } from "../../models/sector";
 import { SectorContainer } from "./styles";
-import { map } from "lodash";
 import PageHeaderComponent from "../../components/pagesHeader";
 import { useFetch } from "../../services/hooks/getQuery";
 import NotFoundComponent from "../../components/notFound";
@@ -48,7 +47,7 @@ export default function Sector() {
     isFetching: fetchingCounter,
     data: counterData,
     refetch: refetchCounter,
-  } = useFetch<SectorCardModel[]>("/counters/counterToChart/allSectors", [
+  } = useFetch<SectorCardModel>("/counters/counterToChart/allSectors", [
     "sectorCounter",
   ]);
 
@@ -58,22 +57,26 @@ export default function Sector() {
   };
 
   useEffect(() => {
-    if (sectorData && sectorData?.length && counterData?.length) {
-      const counters = map(counterData[0], (a, b) => ({
-        sector_code: b,
-        counters: a,
-      }));
+    if (sectorData && sectorData?.length && counterData) {
+      // Cria um array de objetos com sector_code e counters a partir de counterData
+      const counters = Object.entries(counterData).map(
+        ([sector_code, counters]) => ({
+          sector_code,
+          counters,
+        })
+      );
 
       const data = sectorData.map((item) => {
-        const counter = counters.filter(
+        // Encontra o contador correspondente ao setor
+        const counter = counters.find(
           (filter) => filter.sector_code === item.code
         );
 
-        if (counter?.length) {
+        if (counter) {
           return {
             ...item,
-            counters: counter[0].counters,
-          } as unknown as SectorCardModel;
+            counters: counter.counters,
+          } as SectorCardModel;
         }
         return item;
       });
