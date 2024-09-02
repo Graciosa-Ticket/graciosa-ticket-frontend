@@ -83,14 +83,14 @@ const HomeGraph = ({
 
   // Hook para buscar os dados dos contadores de todos os setores
   const { isLoading: isLoadingSelectedSector, data: allSectorsCountData } =
-    useFetch<CounterToChartModel[]>("/counters/counterToChart/allSectors", [
+    useFetch<CounterToChartModel>("/counters/counterToChart/allSectors", [
       "selectedSectorCounter",
     ]);
 
   // Efeito que é executado quando os dados de todos os setores são carregados
   useEffect(() => {
-    if (allSectorsCountData?.length && sectorsListData?.length) {
-      const counters = allSectorsCountData[0];
+    if (allSectorsCountData && sectorsListData?.length) {
+      const counters = allSectorsCountData;
       const updatedData = Object.entries(counters)
         .map(([sector_code, values]) => {
           // Encontra o setor correspondente e adiciona o nome ao objeto
