@@ -43,13 +43,13 @@ export default function SectorCard({
         </div>
         <div className="p-sector">
           <p>Aberto</p>
-          <span>{data?.counters?.aberto}</span>
+          <span>{data?.counters?.aberto ?? 0}</span>
           <p>Em andamento</p>
-          <span>{data?.counters?.em_andamento}</span>
+          <span>{data?.counters?.em_andamento ?? 0}</span>
           <p>Aguardando aprovação</p>
-          <span>{data?.counters?.aguardando_aprovacao}</span>
+          <span>{data?.counters?.aguardando_aprovacao ?? 0}</span>
           <p>Concluído</p>
-          <span>{data?.counters?.concluido}</span>
+          <span>{data?.counters?.concluido ?? 0}</span>
         </div>
         <div className="description-section">
           <h6>Descrição</h6>
