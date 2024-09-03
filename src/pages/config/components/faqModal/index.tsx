@@ -45,19 +45,21 @@ export default function FaqModal({ onClose }: modalActions) {
             de receber notificações sobre atualizações e resoluções.
           </p>
         </div>
-
-        {/* <h2>Quem pode utilizar o sistema?</h2>
-        <p>
-          O sistema é acessível para todos os membros autorizados do Clube
-          Graciosa.
-        </p>
-
-        <h2>Como entro em contato com o suporte técnico?</h2>
-        <p>
-          Você pode abrir um chamado de suporte diretamente no sistema ou entrar
-          em contato através dos canais de atendimento disponíveis na seção de
-          suporte.
-        </p> */}
+        <div className="faq-div">
+          <h2>Quem pode utilizar o sistema?</h2>
+          <p>
+            O sistema é acessível para todos os membros autorizados do Clube
+            Graciosa.
+          </p>
+        </div>
+        <div className="faq-div">
+          <h2>Como entro em contato com o suporte técnico?</h2>
+          <p>
+            Você pode abrir um chamado de suporte diretamente no sistema ou
+            entrar em contato através dos canais de atendimento disponíveis na
+            seção de suporte.
+          </p>
+        </div>
       </FaqModalComponent>
     </>
   );

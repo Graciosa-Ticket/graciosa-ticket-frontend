@@ -110,9 +110,10 @@ const ChatComponent = ({ ticket_data, ticketDone }: ChatComponentProps) => {
       return;
     }
 
+    const maxChars = 512;
     const textLength = spanRef.current?.innerText.length || 0;
-    const maxChars = 255;
 
+    // Limita o número de caracteres ao digitar
     if (
       textLength >= maxChars &&
       event.key !== "Backspace" &&
@@ -121,9 +122,29 @@ const ChatComponent = ({ ticket_data, ticketDone }: ChatComponentProps) => {
       event.preventDefault();
     }
 
+    // Envia a mensagem com "Enter" (sem Shift)
     if (!event.shiftKey && event.code === "Enter") {
       event.preventDefault();
       handleChatSubmit();
+    }
+
+    // Limita o número de caracteres ao colar
+    if (event.ctrlKey && event.key === "v") {
+      event.preventDefault();
+      navigator.clipboard.readText().then((clipboardText) => {
+        const remainingChars = maxChars - textLength;
+        const textToInsert = clipboardText.slice(0, remainingChars);
+
+        // Insere o texto cortado diretamente
+        const selection = window.getSelection();
+        if (selection && selection.rangeCount > 0) {
+          selection.deleteFromDocument();
+          selection
+            .getRangeAt(0)
+            .insertNode(document.createTextNode(textToInsert));
+          selection.collapseToEnd();
+        }
+      });
     }
   };
 
@@ -192,6 +213,20 @@ const ChatComponent = ({ ticket_data, ticketDone }: ChatComponentProps) => {
               contentEditable={!ticketDone} // Desabilita edição se concluído
               data-placeholder={ticketDone ? "" : "Escreva um comentário..."}
               onKeyDown={onKeyDown}
+              onPaste={(e) => {
+                e.preventDefault();
+                const text = e.clipboardData.getData("text/plain");
+
+                // Use o método de inserção de texto que evita `execCommand`
+                const selection = window.getSelection();
+                if (!selection?.rangeCount) return;
+
+                selection.deleteFromDocument();
+                selection
+                  .getRangeAt(0)
+                  .insertNode(document.createTextNode(text));
+                selection.collapseToEnd();
+              }}
               style={{ userSelect: ticketDone ? "none" : "text" }} // Evita seleção se concluído
             />
           )}

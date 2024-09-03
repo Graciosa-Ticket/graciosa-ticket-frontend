@@ -89,7 +89,7 @@ export default function SupportModal({ onClose }: modalActions) {
             size={".8em"}
             className="copy-icon"
             title="Clique aqui para copiar"
-            onClick={() => FieldCopy("41 9610-6776")}
+            onClick={() => FieldCopy("41 99610-6776")}
           />
         </span>
       </SupportModalComponent>
