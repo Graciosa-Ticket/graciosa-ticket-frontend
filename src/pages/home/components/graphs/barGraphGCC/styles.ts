@@ -214,7 +214,8 @@ export const GraphItem = styled.div<releaseGraphItemProps>`
 
   &:hover {
     filter: brightness(85%);
-    transform: scaleY(1.05);
+    transform: scale(1.05);
+    transform-origin: bottom center;
     box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
     z-index: 3;
   }

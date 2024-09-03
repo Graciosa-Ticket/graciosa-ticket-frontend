@@ -37,10 +37,10 @@ export default function PasswordChangeModal({
     useMutationQuery("/users/resetPassword", "put");
 
   const onSubmit = handleSubmit(() => {
-    const { code, password } = getValues();
+    const { registration_code, password } = getValues();
 
     const data = {
-      code,
+      registration_code,
       password,
     };
 
@@ -79,9 +79,13 @@ export default function PasswordChangeModal({
               label="Usuario"
               title="Alterar Senha"
               onChange={(data) => {
-                setValue("code", data?.code as string, {
-                  shouldDirty: true,
-                });
+                setValue(
+                  "registration_code",
+                  data?.registration_code as string,
+                  {
+                    shouldDirty: true,
+                  }
+                );
               }}
               filterCollaborators={false}
             />
