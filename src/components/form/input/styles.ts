@@ -74,6 +74,7 @@ export const InputContainer = styled.div<inputStyleProps>`
     color: ${({ theme }) => theme.colors.grayscale.gray_90};
     ${({ theme }) => theme.font.p.normal};
     border-radius: 0.5em;
+    cursor: ${({ $disabled }) => ($disabled ? "not-allowed" : "pointer")};
   }
 
   .input-label {

@@ -3,6 +3,13 @@ import styled from "styled-components";
 export const ActionModalContainer = styled.section`
   padding: 10px 1em;
 
+  .alert-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: ${({ theme }) => theme.colors.support.warning};
+  }
+
   .content-container {
     display: flex;
     justify-content: center;

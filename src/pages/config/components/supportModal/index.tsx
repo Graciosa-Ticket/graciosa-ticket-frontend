@@ -84,7 +84,7 @@ export default function SupportModal({ onClose }: modalActions) {
               clipPath: "circle(50%)", // Aplica um clip circular para arredondar as bordas
             }}
           />
-          Telefone: 41 9610-6776
+          Telefone: 41 99610-6776
           <AiOutlineCopy
             size={".8em"}
             className="copy-icon"

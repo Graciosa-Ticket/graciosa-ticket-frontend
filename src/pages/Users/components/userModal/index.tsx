@@ -139,15 +139,17 @@ export default function UserModal({
               </>
             ) : (
               <ActionsModalComponent
-                message="Confirme para reativar este usuário."
+                modalTitle="Reativação de usuario"
+                message="Você está prestes a reativar este usuário, Concorda em reativá-lo?"
                 actionButton={
                   <ButtonComponent
                     buttonStyles="confirm"
                     onClick={handleReactiveUser}
                     isLoading={isLoadingUnDelete}
+                    buttonStylesType="outline"
+                    title="Reativar"
                   >
-                    <AiOutlineCheckCircle />
-                    Confirmar
+                    Sim, reativar
                   </ButtonComponent>
                 }
                 buttonProps={{

@@ -1,5 +1,5 @@
 import { ReactNode, useState } from "react";
-import { AiOutlineClose } from "react-icons/ai";
+import { AiOutlineClose, AiOutlineWarning } from "react-icons/ai";
 import { ActionModalContainer } from "./styles";
 import ButtonComponent, { ButtonProps } from "../buttons";
 import CenterModal, { CenterModalHeader, ModalTitle } from "../centerModal";
@@ -10,6 +10,7 @@ interface actionModalProps {
   actionButton: ReactNode;
   children: ReactNode;
   buttonProps?: ButtonProps;
+  iconColor?: "warning" | "error";
 }
 
 const defaultButtonProps: ButtonProps = {
@@ -22,8 +23,11 @@ const ActionsModalComponent = ({
   actionButton,
   children,
   buttonProps = defaultButtonProps,
+  iconColor = "warning",
 }: actionModalProps) => {
   const [openModal, setOpenModal] = useState(false);
+
+  const iconColorClass = iconColor === "error" ? "error-icon" : "warning-icon";
 
   return (
     <>
@@ -42,6 +46,9 @@ const ActionsModalComponent = ({
           </ButtonComponent>
         </CenterModalHeader>
         <ActionModalContainer>
+          <div className={`alert-icon ${iconColorClass}`}>
+            <AiOutlineWarning size={80} />
+          </div>
           <div className="content-container">
             <p>{message}</p>
           </div>

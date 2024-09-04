@@ -24,7 +24,6 @@ import SectorSkeletonLoading from "../../../sector/skeleton";
 import SectorCard from "./components/sectorCard";
 import { FaAngleLeft } from "react-icons/fa";
 import { TicketModel } from "../../../../models/ticket";
-import CheckBoxComponent from "../../../../components/form/checkbox";
 import { SectorCardModel } from "../../../../models/sector";
 import { useMutationQuery } from "../../../../services/hooks/useMutationQuery";
 import { toast } from "sonner";
@@ -35,6 +34,7 @@ import getDirtyFields from "../../../../utils/getDirtyFields";
 import { AiOutlineCloseCircle, AiOutlineFileAdd } from "react-icons/ai";
 import fileLimit from "../../../../utils/fileSizeLimit";
 import { Select, SelectItem } from "../../../../components/form/select";
+import PrettyCheckBoxComponent from "../../../../components/prettyCheckBox";
 
 type viewOptions = "sector" | "main";
 
@@ -291,15 +291,17 @@ const TicketFormStep = ({ formProps, onClose, onUpdate }: StepsProps) => {
           >
             Cancelar
           </ButtonComponent>
-          <ButtonComponent
-            buttonStyles="confirm"
-            type="button"
-            title="Enviar chamado"
-            onClick={onSubmit}
-            isLoading={isLoadingUpdate}
-          >
-            Enviar
-          </ButtonComponent>
+          {!viewAdvancedOptions && (
+            <ButtonComponent
+              buttonStyles="confirm"
+              type="button"
+              title="Enviar chamado"
+              onClick={onSubmit}
+              isLoading={isLoadingUpdate}
+            >
+              Enviar
+            </ButtonComponent>
+          )}
         </FormButtonsContainer>
       </FormContainer>
     </TicketFormContainer>
@@ -408,14 +410,21 @@ const TicketMainForm = ({
     </TicketMainFormContainer>
   );
 };
+
 const TicketAdvancedOptionsForm = ({ formProps }: StepsProps) => {
   const { setValue, watch, register } = formProps;
 
   const isRecurrent = watch("is_recurrent") || false;
 
+  useEffect(() => {
+    if (isRecurrent) {
+      setValue("break", "30", { shouldDirty: true });
+    }
+  }, [isRecurrent, setValue]);
+
   return (
     <FormContentContainer $columns={2}>
-      <CheckBoxComponent
+      <PrettyCheckBoxComponent
         id="ocurrence"
         label="Recorrente"
         checked={isRecurrent}
@@ -438,7 +447,7 @@ const TicketAdvancedOptionsForm = ({ formProps }: StepsProps) => {
       />
       <Select
         label="Intervalo"
-        defaultValue="30" // Valor padrão correspondente a 30 min
+        defaultValue="30"
         selectStyle="secondary"
         onValueChange={(value: string) =>
           setValue("break", value, { shouldDirty: true })
