@@ -75,7 +75,7 @@ export const UserCallerContainer = styled(ButtonComponent)`
 
     &.user-name {
       ${({ theme }) => theme.font.p.small};
-      max-width: 80px;
+      max-width: 85px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;

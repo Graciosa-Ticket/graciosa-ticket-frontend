@@ -1,4 +1,5 @@
 import { format } from "date-fns";
+import { ptBR } from "date-fns/locale";
 import { TicketModel } from "../../models/ticket";
 import { TicketContainer } from "./styles";
 import TicketModal from "../../pages/tickets/components/ticketModal";
@@ -33,7 +34,9 @@ export default function TicketCard({ data }: ticketCardProps) {
           <div className="left-side">
             <h4>{data?.title}</h4>
             <p>
-              {data?.created_at ? format(data.created_at, "dd 'de' LLL") : ""}
+              {data?.created_at
+                ? format(data.created_at, "dd 'de' MMM", { locale: ptBR })
+                : ""}
             </p>
           </div>
           <div className="mockup">{data?.status}</div>

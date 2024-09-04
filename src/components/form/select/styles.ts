@@ -17,6 +17,7 @@ to{
 
 interface selectStyleProps {
   $selectStyle: selectStyles;
+  $disabled?: boolean;
 }
 
 const loading = keyframes`
@@ -27,8 +28,9 @@ const loading = keyframes`
     transform: rotate(360deg);
   }
 `;
+export const SelectContainer = styled.div<{ $disabled?: boolean }>`
+  opacity: ${({ $disabled }) => ($disabled ? 0.5 : 1)};
 
-export const SelectContainer = styled.div`
   .select-label {
     ${({ theme }) => theme.font.p.small};
     color: ${({ theme }) => theme.colors.brand.dark_blue};
@@ -73,6 +75,7 @@ export const SelectTrigger = styled(SelectPrimitive.Trigger)<selectStyleProps>`
   align-items: center;
   gap: 10px;
   ${({ $selectStyle }) => styles[$selectStyle]};
+  cursor: ${({ $disabled }) => ($disabled ? "not-allowed" : "pointer")};
 
   .loading-button {
     display: flex;

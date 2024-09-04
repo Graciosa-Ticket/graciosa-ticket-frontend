@@ -35,18 +35,20 @@ export const Select = React.forwardRef(
       label,
       isLoading,
       placeholder,
+      disabled,
       ...props
     }: SelectComponentProps,
     forwardedRef: ForwardedRef<HTMLButtonElement>
   ) => {
     return (
-      <SelectContainer>
+      <SelectContainer $disabled={disabled}>
         {label && <span className="select-label">{label}</span>}
         <SelectRoot {...props}>
           <SelectTrigger
             ref={forwardedRef}
             style={triggerStyle}
             $selectStyle={selectStyle}
+            $disabled={disabled} // Passando o estado disabled para o SelectTrigger
           >
             {isLoading && (
               <div className="loading-button">
@@ -74,7 +76,6 @@ export const Select = React.forwardRef(
     );
   }
 );
-
 export const SelectItem = React.forwardRef(
   (
     { children, ...props }: SelectItemProps,
