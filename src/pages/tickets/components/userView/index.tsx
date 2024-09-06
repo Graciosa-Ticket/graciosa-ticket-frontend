@@ -168,8 +168,9 @@ const GroupedList = ({ tickets, title, onOpenModal }: groupTickets) => {
         >
           <TableComponent
             columns={columns}
+            idProperty="code"
             dataSource={tickets}
-            onRowDoubleClick={(_, { data }) => onOpenModal?.(data)}
+            onCellDoubleClick={(_, { data }) => onOpenModal?.(data)}
           />
         </section>
       </GroupedListContainer>

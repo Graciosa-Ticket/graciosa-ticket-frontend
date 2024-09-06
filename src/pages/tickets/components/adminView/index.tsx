@@ -43,7 +43,7 @@ const AdminTicketsView = ({ tickets, onOpenModal }: adminTicketProps) => {
         {(ticketList as AdminGroupTickets[]).map((e, i) => (
           <SectorList
             tickets={e.tickets}
-            key={i}
+            key={e.title + i}
             title={e.title}
             handleOpenModal={onOpenModal}
           />
@@ -90,14 +90,16 @@ const SectorList = ({
           openAccordeon ? { ...openSectionStyle, maxHeight } : closeSectionStyle
         }
       >
-        {tickets.map((ticket, index) => (
-          <GroupedList
-            tickets={ticket.tickets}
-            title={ticket.title}
-            key={index}
-            onOpenModal={handleOpenModal}
-          />
-        ))}
+        {tickets.map((ticket, index) => {
+          return (
+            <GroupedList
+              tickets={ticket.tickets}
+              title={ticket.title}
+              key={index}
+              onOpenModal={handleOpenModal}
+            />
+          );
+        })}
       </section>
     </SectorListContainer>
   );
@@ -205,8 +207,9 @@ const GroupedList = ({ tickets, title, onOpenModal }: groupTickets) => {
         >
           <TableComponent
             columns={columns}
+            idProperty="code"
             dataSource={tickets}
-            onRowDoubleClick={(_, { data }) => onOpenModal?.(data)}
+            onCellDoubleClick={(_, { data }) => onOpenModal?.(data)}
           />
         </section>
       </GroupedListContainer>
