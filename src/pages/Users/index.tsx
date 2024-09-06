@@ -17,12 +17,12 @@ const searchUsers = (value: string, data: UserModel[]): UserModel[] => {
   const searchRegex = new RegExp(value, "i");
 
   return data.filter((user) => {
-    const code = user?.code || "";
+    const registration_code = user?.registration_code || "";
     const name = user?.name || "";
     const email = user?.email || "";
 
     return (
-      searchRegex.test(code) ||
+      searchRegex.test(registration_code) ||
       searchRegex.test(name) ||
       searchRegex.test(email)
     );
