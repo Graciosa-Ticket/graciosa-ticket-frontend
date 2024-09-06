@@ -21,7 +21,7 @@ export const TableComponent = ({ ...props }: tableProps) => {
         headerHeight={30}
         style={{
           height: props.dataSource.length * 40 + 40,
-          maxHeight: 500,
+          maxHeight: "100%",
         }}
         {...props}
       />

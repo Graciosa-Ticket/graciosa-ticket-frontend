@@ -16,7 +16,8 @@ export const UserTicketsViewContainer = styled.section`
   .tickets-list {
     margin: 0.8em 0 0 2em;
     transition: 0.3s;
-    overflow: hidden;
+    overflow-y: auto;
+    max-height: 500px;
   }
 `;
 
