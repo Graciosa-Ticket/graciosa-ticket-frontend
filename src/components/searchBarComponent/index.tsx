@@ -19,7 +19,10 @@ const SearchBarComponent = ({
   };
 
   const onChange = (value: string) => {
-    onValueChange(value);
+    // Filtra o caractere de barra invertida
+    const filteredValue = value.replace(/\\/g, "");
+
+    onValueChange(filteredValue);
     setLoading(false);
   };
 

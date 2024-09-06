@@ -172,7 +172,7 @@ export const GroupedListContainer = styled.section`
 
 export const SectorListContainer = styled.div`
   border: solid 1px ${({ theme }) => theme.colors.grayscale.gray_20};
-  padding: 0 10px;
+  padding: 0 10px 15px 10px;
   border-radius: 12px;
 `;
 
