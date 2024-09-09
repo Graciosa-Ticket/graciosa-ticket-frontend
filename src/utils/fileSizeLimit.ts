@@ -1,6 +1,6 @@
 import { toast } from "sonner";
 
-const fileLimit = (file: File, limit = 1, message = "Arquivo Muito grande") => {
+const fileLimit = (file: File, limit = 2, message = "Arquivo Muito grande") => {
   let canUpload = true;
   const fileSize = file.size;
   const fileMb = Math.round(fileSize / 1024 ** limit);

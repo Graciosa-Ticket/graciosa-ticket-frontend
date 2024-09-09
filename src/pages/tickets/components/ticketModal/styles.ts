@@ -1,15 +1,15 @@
 import styled, { css, keyframes } from "styled-components";
 
 export const ModalContentBody = styled.main`
-  width: 85vw;
+  width: 75vw;
   height: calc(100vh - 100px);
   display: flex;
   padding: 0 25px 25px;
 
   @media (max-width: 950px) {
-    grid-template-columns: 1fr; /* Ajuste a coluna para telas menores */
-    grid-template-rows: auto; /* Ajuste as linhas para telas menores */
-    padding: 10px; /* Ajuste o padding para telas menores */
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    padding: 10px;
   }
 
   .img-sector {
@@ -61,14 +61,21 @@ export const ModalContentBody = styled.main`
       }
     }
 
+    .description-container {
+      max-height: 350px;
+      overflow-y: auto;
+      margin-bottom: 5em;
+    }
+
     .description {
       margin-top: 40px;
       ${({ theme }) => theme.font.p.small};
       color: ${({ theme }) => theme.colors.grayscale.gray_70};
+      white-space: pre-wrap;
+      word-wrap: break-word;
     }
 
     .details-header {
-      margin-top: 5em;
       ${({ theme }) => theme.font.p.large};
       color: ${({ theme }) => theme.colors.brand.dark_blue};
       font-weight: 600;
