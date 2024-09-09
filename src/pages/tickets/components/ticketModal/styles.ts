@@ -67,6 +67,8 @@ export const ModalContentBody = styled.main`
       color: ${({ theme }) => theme.colors.grayscale.gray_70};
       white-space: pre-wrap;
       word-wrap: break-word;
+      max-height: 350px;
+      overflow-y: auto;
     }
 
     .details-header {
