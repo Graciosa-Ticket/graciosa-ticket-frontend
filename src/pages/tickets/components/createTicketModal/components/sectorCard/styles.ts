@@ -21,7 +21,7 @@ export const SectorComponent = styled.button`
   flex-direction: column;
   padding: 15px;
   background-color: ${({ theme }) => theme.colors.brand.white};
-  box-shadow: 0 2px 10px -2px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 2px 10px -2px rgba(0, 0, 0, 0.4);
   cursor: pointer;
   transition: 0.3s;
   animation: 0.2s ${grow} ease;
