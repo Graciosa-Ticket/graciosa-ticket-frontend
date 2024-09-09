@@ -197,10 +197,9 @@ const TicketModal = ({
 
           <div className="description-container">
             <p className="description">{currentTicket?.description}</p>
-
-            <div className="details-header">
-              <h6>Detalhes</h6>
-            </div>
+          </div>
+          <div className="details-header">
+            <h6>Detalhes</h6>
           </div>
 
           <section className="layout">
