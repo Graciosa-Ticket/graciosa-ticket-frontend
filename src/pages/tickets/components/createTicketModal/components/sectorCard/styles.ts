@@ -25,7 +25,7 @@ export const SectorComponent = styled.button`
   cursor: pointer;
   transition: 0.3s;
   animation: 0.2s ${grow} ease;
-
+  min-height: 150px;
   &:hover {
     transform: translateY(-5px);
   }
@@ -50,7 +50,7 @@ export const SectorComponent = styled.button`
       gap: 6px;
 
       span {
-        max-width: 70px;
+        max-width: 125px;
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;
@@ -72,19 +72,6 @@ export const SectorComponent = styled.button`
     }
   }
 
-  .p-sector {
-    width: 100%;
-    display: grid;
-    grid-template-columns: 1fr 25px;
-    margin-top: 10px;
-
-    p {
-      text-align: left;
-      ${({ theme }) => theme.font.p.extra_small};
-      color: ${({ theme }) => theme.colors.grayscale.gray_80};
-    }
-  }
-
   .description-section {
     width: 100%;
     margin-top: 1em;
@@ -93,16 +80,14 @@ export const SectorComponent = styled.button`
       text-align: left;
       ${({ theme }) => theme.font.p.extra_small_bold};
       color: ${({ theme }) => theme.colors.brand.dark_blue};
-      max-width: 250px; /* Define o limite máximo de largura */
-      overflow-wrap: break-word; /* Garante que o texto quebre em palavras longas */
     }
 
     p {
       text-align: left;
       ${({ theme }) => theme.font.p.extra_small};
       color: ${({ theme }) => theme.colors.grayscale.gray_80};
-      max-width: 250px; /* Define o limite máximo de largura */
-      overflow-wrap: break-word; /* Garante que o texto quebre em palavras longas */
+      max-width: 250px;
+      overflow-wrap: break-word;
     }
   }
 `;

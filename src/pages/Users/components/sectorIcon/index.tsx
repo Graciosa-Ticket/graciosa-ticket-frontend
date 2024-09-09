@@ -85,7 +85,7 @@ const getIcon = (name?: string) => {
   }
 
   // Ícone para setores desconhecidos
-  return <AiOutlineQuestionCircle className="icon" />;
+  return <AiOutlineQuestionCircle className="icon" size={25} />;
 };
 
 // Função para verificar se o nome contém números
@@ -93,13 +93,14 @@ const hasNumbers = (str: string) => /\d/.test(str);
 
 const SectorIcon = ({ data }: UserCardProps) => {
   const sector = data.sector?.name || "Desconhecido"; // Obtém o nome do setor ou "Desconhecido" se for nulo
-
+  const firstWord = sector.split(" ")[0]; // Pega a primeira palavra
+  const isTruncated = sector.split(" ").length > 1; // Verifica se há mais de uma palavra
   return (
     <IconComponent>
       {getIcon(sector)}
       <div className="prints">
         <p>Setor</p>
-        <h2>{sector}</h2>
+        <h2 title={sector}>{isTruncated ? `${firstWord}...` : sector}</h2>
       </div>
     </IconComponent>
   );

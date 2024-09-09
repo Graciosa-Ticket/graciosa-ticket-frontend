@@ -93,8 +93,8 @@ export const SectorComponent = styled.button`
       display: block;
       overflow: hidden;
       text-overflow: ellipsis;
-      line-height: 1.5em; /* Ajuste conforme necessário */
-      max-height: 3em; /* Define a altura máxima para duas linhas de texto (1.5em * 2 linhas) */
+      line-height: 1.5em;
+      max-height: 3em;
     }
   }
 `;

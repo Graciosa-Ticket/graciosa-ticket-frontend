@@ -4,10 +4,7 @@ import { FormContentContainer } from "../../../../components/form/form";
 export const TicketModalComponent = styled.div`
   padding: 1em;
   height: 100%;
-  @media (max-height: 850px) {
-    max-height: 200vh; /* Limite a altura do modal a 90% da viewport */
-    overflow-y: auto; /* Adicione rolagem vertical se necessário */
-  }
+  overflow-y: scroll;
 `;
 
 const fadeInLeft = keyframes`
