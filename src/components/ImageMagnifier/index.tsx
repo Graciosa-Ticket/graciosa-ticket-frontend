@@ -4,39 +4,33 @@ import ReactImageMagnify from "react-image-magnify";
 interface ImageMagnifierProps {
   src: string;
   alt?: string;
-  width?: string;
-  height?: string;
 }
 
 function ImageMagnifier(props: ImageMagnifierProps): JSX.Element {
   const { src, alt = "" } = props;
-  const [imageWidth, setImageWidth] = useState<string>("400px");
-  const [zoomDimensions, setZoomDimensions] = useState({
-    width: 1200,
-    height: 1200,
-  });
+  const [imageWidth, setImageWidth] = useState<string>("350px");
 
-  const [enlargedDimensions, setEnlargedDimensions] = useState({
-    width: "120%",
-    height: "120%",
-  });
+  const [isImageLoaded, setIsImageLoaded] = useState(false);
 
   useEffect(() => {
     const img = new Image();
     img.src = src;
-
     img.onload = () => {
       if (img.naturalHeight > img.naturalWidth) {
-        setImageWidth("300px"); // Ajuste para formato vertical
-        setZoomDimensions({ width: 600, height: 800 });
-        setEnlargedDimensions({ width: "80%", height: "90%" });
+        // Imagem no formato vertical (celular)
+        setImageWidth("350px");
       } else {
+        // Imagem no formato horizontal (normal)
         setImageWidth("700px");
-        setZoomDimensions({ width: 1200, height: 1200 });
-        setEnlargedDimensions({ width: "120%", height: "120%" });
       }
+
+      setIsImageLoaded(true);
     };
   }, [src]);
+
+  if (!isImageLoaded) {
+    return <div>Carregando imagem...</div>;
+  }
 
   return (
     <div style={{ position: "relative", width: imageWidth }}>
@@ -49,12 +43,12 @@ function ImageMagnifier(props: ImageMagnifierProps): JSX.Element {
           },
           largeImage: {
             src,
-            width: zoomDimensions.width,
-            height: zoomDimensions.height,
+            width: 1200,
+            height: 1200,
           },
           enlargedImageContainerDimensions: {
-            width: enlargedDimensions.width,
-            height: enlargedDimensions.height,
+            width: "100%",
+            height: "100%",
           },
           enlargedImageContainerStyle: {
             position: "absolute",
