@@ -65,6 +65,8 @@ export const ModalContentBody = styled.main`
       margin-top: 40px;
       ${({ theme }) => theme.font.p.small};
       color: ${({ theme }) => theme.colors.grayscale.gray_70};
+      white-space: pre-wrap;
+      word-wrap: break-word;
     }
 
     .details-header {
