@@ -24,7 +24,11 @@ export default function SectorCard({ data, onClick }: sectorCardProps) {
 
       <div className="description-section">
         <h6>Descrição</h6>
-        <p>{data?.description}</p>
+        <p title={data?.description}>
+          {(data?.description?.length as any) > 50
+            ? `${data?.description?.substring(0, 50)}...`
+            : data?.description}
+        </p>
       </div>
     </SectorComponent>
   );

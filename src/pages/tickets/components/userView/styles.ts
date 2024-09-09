@@ -168,7 +168,7 @@ export const GroupedListContainer = styled.section`
     cursor: pointer;
   }
   .header {
-    margin-top: 20px;
+    margin-top: 10px;
   }
 `;
 

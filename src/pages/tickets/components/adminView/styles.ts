@@ -163,6 +163,9 @@ export const StatusGroupButton = styled(ButtonComponent)<statusButtonProps>`
 `;
 
 export const GroupedListContainer = styled.section`
+  .header {
+    margin-top: 10px;
+  }
   .ticket-table {
     margin-top: 0.8em;
     transition: 0.3s;
