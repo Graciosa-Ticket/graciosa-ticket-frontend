@@ -11,7 +11,6 @@ import {
   AiOutlineSolution,
   AiOutlineTeam,
   AiOutlineTool,
-  AiOutlineUser,
 } from "react-icons/ai";
 import { PiGolf } from "react-icons/pi";
 
