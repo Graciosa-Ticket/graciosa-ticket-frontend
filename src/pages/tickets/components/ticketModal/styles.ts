@@ -62,24 +62,24 @@ export const ModalContentBody = styled.main`
     }
 
     .description-container {
+      margin-top: 40px;
       max-height: 350px;
       overflow-y: auto;
-      margin-bottom: 5em;
     }
 
     .description {
-      margin-top: 40px;
       ${({ theme }) => theme.font.p.small};
       color: ${({ theme }) => theme.colors.grayscale.gray_70};
       white-space: pre-wrap;
-      word-wrap: break-word;
+      line-height: unset;
     }
 
     .details-header {
+      margin-top: 2em;
       ${({ theme }) => theme.font.p.large};
       color: ${({ theme }) => theme.colors.brand.dark_blue};
       font-weight: 600;
-      border-top: ridge;
+      border-top: solid;
       border-top-color: ${({ theme }) => theme.colors.grayscale.gray_05};
     }
   }

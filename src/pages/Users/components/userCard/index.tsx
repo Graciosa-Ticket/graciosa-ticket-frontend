@@ -59,7 +59,16 @@ const UserCard = ({ data, refetch }: UserCardProps) => {
           />
         </div>
         <div className="userdata-container">
-          <h5>{data.name.slice(0, 18) + "."}</h5>
+          <h5>
+            {(() => {
+              const nameParts = data.name.trim().split(" ");
+              const firstName = nameParts[0]; // O primeiro nome
+              const lastNameInitial =
+                nameParts.length > 1 ? nameParts[1][0] : ""; // Primeira letra do sobrenome
+              return `${firstName} ${lastNameInitial}.`; // Exibe o nome e a inicial do sobrenome
+            })()}
+          </h5>
+
           <span>{data?.role}</span>
         </div>
         {data?.role !== "Administrator" && (

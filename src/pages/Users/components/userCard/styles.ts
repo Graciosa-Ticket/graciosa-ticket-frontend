@@ -52,6 +52,8 @@ export const UserComponent = styled.button`
       ${({ theme }) => theme.font.p.normal};
       font-weight: 500;
       color: ${({ theme }) => theme.colors.brand.dark_blue};
+      white-space: nowrap;
+      text-overflow: ellipsis;
     }
 
     p {
