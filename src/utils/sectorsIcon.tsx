@@ -6,9 +6,12 @@ import {
   AiOutlineDollar,
   AiOutlineDribbble,
   AiOutlineFlag,
+  AiOutlineInbox,
   AiOutlineQuestionCircle,
+  AiOutlineSolution,
   AiOutlineTeam,
   AiOutlineTool,
+  AiOutlineUser,
 } from "react-icons/ai";
 import { PiGolf } from "react-icons/pi";
 
@@ -33,7 +36,9 @@ const sportWords = [
   "volei",
 ];
 const itWords = ["informatica", "it", "ti", "tecnologia da informacao"];
-const repairWords = ["manutencao", "almoxarifado", "compras & almoxarifado"];
+const repairWords = ["manutencao"];
+const a = ["secretaria geral"];
+const stockWords = ["almoxarifado", "compras & almoxarifado"];
 const gardenWords = ["clubinho da crianca", "clubinho", "clube"];
 const eventsWords = [
   "eventos",
@@ -81,6 +86,14 @@ const allWords = {
     list: eventsWords,
     icon: <AiOutlineCamera className="icon" />,
   },
+  stock: {
+    list: stockWords,
+    icon: <AiOutlineInbox className="icon" />,
+  },
+  secretaria: {
+    list: a,
+    icon: <AiOutlineSolution className="icon" />,
+  },
   unknown: {
     list: [""],
     icon: <AiOutlineQuestionCircle className="icon" />,
@@ -97,7 +110,9 @@ type selectedSectorType =
   | "sport"
   | "golf"
   | "pdv"
-  | "it";
+  | "it"
+  | "stock"
+  | "secretaria";
 
 export const sectorIcons = (sector_name: string) => {
   let selectedSector: selectedSectorType = "unknown";
