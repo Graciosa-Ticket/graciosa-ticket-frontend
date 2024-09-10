@@ -12,10 +12,39 @@ export const UserContainer = styled.section`
   }
 
   .user-cards {
-    margin-top: 2em;
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(147px, 1fr));
-    gap: 20px;
+    margin: 2em 0;
+
+    .letter-section {
+      display: flex;
+      flex-direction: column;
+      gap: 60px;
+
+      .letter-box {
+        .box-title {
+          display: flex;
+          align-items: center;
+          gap: 1em;
+
+          h6 {
+            ${({ theme }) => theme.font.p.small};
+            color: ${({ theme }) => theme.colors.grayscale.gray_70};
+          }
+
+          .line {
+            flex: 1;
+            height: 1px;
+            background-color: ${({ theme }) => theme.colors.grayscale.gray_20};
+          }
+        }
+      }
+
+      ul {
+        margin-top: 12px;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(147px, 1fr));
+        gap: 20px;
+      }
+    }
   }
 
   .select-button {

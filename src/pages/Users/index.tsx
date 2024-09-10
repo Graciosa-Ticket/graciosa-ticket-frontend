@@ -12,6 +12,7 @@ import UserSkeletonLoading from "./skeleton";
 import { modalActions } from "../../shared/global.interface";
 import EditedFormPopUp from "../../components/EditedFormPopUp";
 import SearchBarComponent from "../../components/searchBarComponent";
+import { chain } from "lodash";
 
 const searchUsers = (value: string, data: UserModel[]): UserModel[] => {
   const searchRegex = new RegExp(value, "i");
@@ -61,7 +62,23 @@ export default function User() {
         filteredUsers = searchUsers(searchUser, filteredUsers);
       }
 
-      return filteredUsers;
+      const groupByLetter = chain(filteredUsers)
+        .groupBy((e) => e?.name?.toLocaleUpperCase?.()?.slice?.(0, 1))
+        .map((data, key) => {
+          return {
+            letter: key,
+            data,
+          };
+        })
+        .sort((a, b) => {
+          if (a.letter > b.letter) {
+            return 1;
+          }
+          return -1;
+        })
+        .value();
+
+      return groupByLetter;
     }
     return [];
   }, [dataSource, selectedBtn, searchUser]);
@@ -116,18 +133,30 @@ export default function User() {
           ) : !dataSource.length ? (
             <NotFoundComponent />
           ) : (
-            <>
-              {userlist.map((user, key) => (
-                <UserCard
-                  data={user}
-                  key={user.id + "" + key}
-                  refetch={refetch}
-                />
+            <section className="letter-section">
+              {userlist.map((e, i) => (
+                <div key={e.letter} className="letter-box">
+                  <div className="box-title">
+                    <h6>{e.letter}</h6>
+
+                    <span className="line" />
+                  </div>
+
+                  <ul>
+                    {e.data.map((user, key) => (
+                      <UserCard
+                        data={user}
+                        key={user.id + "" + key}
+                        refetch={refetch}
+                      />
+                    ))}
+                  </ul>
+                </div>
               ))}
               {deletedUserlist.map((user) => (
                 <UserCard data={user} key={user.id} refetch={refetch} />
               ))}
-            </>
+            </section>
           )}
         </div>
       </UserContainer>
