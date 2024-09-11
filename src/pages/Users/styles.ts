@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 export const UserContainer = styled.section`
+  margin-bottom: 2em;
   .search-user {
     margin-left: 20 px;
   }

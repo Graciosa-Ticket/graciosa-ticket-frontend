@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const SectorContainer = styled.section`
-
+  margin-bottom: 2em;
   .div-sector-all {
     width: 100%;
 
