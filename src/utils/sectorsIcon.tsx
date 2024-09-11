@@ -7,6 +7,7 @@ import {
   AiOutlineDribbble,
   AiOutlineFlag,
   AiOutlineInbox,
+  AiOutlineKey,
   AiOutlineQuestionCircle,
   AiOutlineSolution,
   AiOutlineTeam,
@@ -36,12 +37,11 @@ const sportWords = [
 ];
 const itWords = ["informatica", "it", "ti", "tecnologia da informacao"];
 const repairWords = ["manutencao"];
-const a = ["secretaria geral"];
+const secretaryWords = ["secretaria geral"];
 const stockWords = ["almoxarifado", "compras & almoxarifado"];
 const gardenWords = ["clubinho da crianca", "clubinho", "clube"];
-const eventsWords = [
-  "eventos",
-  "evento",
+const eventsWords = ["eventos", "evento"];
+const secWords = [
   "portaria",
   "portarias & telefonia",
   "vigilancia noturna",
@@ -89,9 +89,13 @@ const allWords = {
     list: stockWords,
     icon: <AiOutlineInbox className="icon" />,
   },
-  secretaria: {
-    list: a,
+  secretary: {
+    list: secretaryWords,
     icon: <AiOutlineSolution className="icon" />,
+  },
+  security: {
+    list: secWords,
+    icon: <AiOutlineKey className="icon" />,
   },
   unknown: {
     list: [""],
@@ -111,7 +115,8 @@ type selectedSectorType =
   | "pdv"
   | "it"
   | "stock"
-  | "secretaria";
+  | "secretary"
+  | "security";
 
 export const sectorIcons = (sector_name: string) => {
   let selectedSector: selectedSectorType = "unknown";

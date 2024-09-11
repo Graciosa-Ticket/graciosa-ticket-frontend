@@ -51,9 +51,8 @@ export default function LoginPage() {
         <div className="left-container">
           <h1>Gestão de chamados Graciosa Country Club</h1>
           <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim.
+            Plataforma simples e eficiente para registro, acompanhamento e
+            gerencia de solicitações das áreas do clube.
           </p>
 
           <img

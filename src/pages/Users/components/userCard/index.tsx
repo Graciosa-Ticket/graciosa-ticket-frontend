@@ -63,9 +63,9 @@ const UserCard = ({ data, refetch }: UserCardProps) => {
             {(() => {
               const nameParts = data.name.trim().split(" ");
               const firstName = nameParts[0]; // O primeiro nome
-              const lastNameInitial =
-                nameParts.length > 1 ? nameParts[1][0] : ""; // Primeira letra do sobrenome
-              return `${firstName} ${lastNameInitial}.`; // Exibe o nome e a inicial do sobrenome
+              const lastName =
+                nameParts.length > 1 ? nameParts[nameParts.length - 1] : "";
+              return `${firstName} ${lastName}`;
             })()}
           </h5>
 
