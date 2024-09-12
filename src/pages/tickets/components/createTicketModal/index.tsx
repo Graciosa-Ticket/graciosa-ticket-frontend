@@ -328,7 +328,7 @@ const TicketMainForm = ({
         );
         const { canUpload } = fileLimit(
           file,
-          1,
+          2,
           `O arquivo: ${file.name}, é muito grande`
         );
         return !isDuplicate && canUpload;
