@@ -43,7 +43,6 @@ interface createInputProps {
   title: string;
   description: string;
   status: TicketModel["status"];
-  urgency: TicketModel["urgency"];
   user_code: string;
   sector_code?: string;
   sector?: SectorCardModel;
@@ -218,7 +217,6 @@ const TicketFormStep = ({ formProps, onClose, onUpdate }: StepsProps) => {
     const ticketData = {
       ...rest,
       user_code: user.code,
-      urgency: "Normal",
       status: "Aberto",
       is_recurrent: isRecurrent,
     };

@@ -10,14 +10,11 @@ export type TicketStatusEnum =
   | "Impeditivo"
   | "Concluído";
 
-export type TicketUrgencyEnum = "Normal" | "Urgente" | "Alta" | "Baixa";
-
 export interface TicketModel {
   status: TicketStatusEnum;
   code?: string;
   title: string;
   description: string;
-  urgency?: TicketUrgencyEnum;
   start_date?: Date;
   end_date?: Date;
   break?: string;
