@@ -12,6 +12,7 @@ export default function ImageViewerModal({
   imageUrl,
   onClose,
 }: ImageViewerModalProps) {
+  console.log(imageUrl);
   return (
     <ImageViewerModalComponent>
       <section className="close-button">

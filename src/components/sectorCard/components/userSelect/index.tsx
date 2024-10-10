@@ -42,7 +42,7 @@ const SectorUserSelect = ({ data, refetch }: UserCardProps) => {
       <SelectUserContainer buttonStyles="text" onClick={() => setOpen(true)}>
         <div className="header-container">
           <Avatar
-            src={`profile-picture/${user.code}/minSize_${user?.profile_picture}`}
+            src={`profile_pictures/${data?.profile_picture}`}
             alt=""
             className="user-avatar"
           />

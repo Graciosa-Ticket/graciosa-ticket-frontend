@@ -35,7 +35,7 @@ export default function SectorCard({
             {/* <span>{data?.user?.name}</span> */}
             <Avatar
               {...(data?.user.profile_picture && {
-                src: `profile-picture/${data?.user.code}/regularSize_${data?.user.profile_picture}`,
+                src: `profile_pictures/${data?.user?.profile_picture}`,
               })}
               alt=""
             />

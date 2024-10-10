@@ -58,7 +58,7 @@ const TicketUserCard = ({ data }: ticketUserCardProps) => {
       >
         <Avatar
           {...(data?.profile_picture && {
-            src: `profile-picture/${data?.code}/regularSize_${data?.profile_picture}`,
+            src: `profile_pictures/${data?.profile_picture}`,
           })}
           alt=""
           className="user-avatar"

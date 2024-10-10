@@ -24,13 +24,13 @@ const ImageViewer = ({ imageUrl, style }: ImageViewerProps) => {
     <>
       <CenterModal open={modalIsOpen} onOpenChange={setModalIsOpen}>
         <ImageViewerModal
-          imageUrl={(amazonURL + imageUrl) as any}
+          imageUrl={(amazonURL + "ticket_attachments/" + imageUrl) as any}
           onClose={closeModal}
         />
       </CenterModal>
       <ImageViewerContainer>
         <Thumbnail
-          src={amazonURL + imageUrl}
+          src={amazonURL + "ticket_attachments/" + imageUrl}
           onClick={openModal}
           style={style}
           title="Clique para expandir"

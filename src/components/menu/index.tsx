@@ -126,7 +126,7 @@ const UserCaller = () => {
         </span>
         <Avatar
           {...(user?.profile_picture && {
-            src: `profile-picture/${user?.code}/regularSize_${user?.profile_picture}`,
+            src: `profile_pictures/${user?.profile_picture}`,
           })}
           alt=""
           className="user-avatar"

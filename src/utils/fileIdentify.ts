@@ -46,7 +46,6 @@ export const IdentifyFiles = (files?: string[]): formattedFileType[] => {
 
 export const getCleanFileName = (file: string) => {
   const fileName = file.split("/").pop() || file;
-  // Remove todos os prefixos numéricos seguidos de "_"
   return fileName.replace(/^\d+(_\d+)*_/, "");
 };
 
@@ -55,7 +54,7 @@ export const handleDownloadFile = (file: string) => {
   link.target = "_self";
   const baseUrl = amazonURL;
   const cleanFileName = getCleanFileName(file);
-  const fullUrl = baseUrl + file;
+  const fullUrl = baseUrl + "ticket_attachments/" + file;
   link.href = fullUrl;
   link.download = cleanFileName;
   link.click();
