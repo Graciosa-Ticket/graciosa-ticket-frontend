@@ -49,12 +49,16 @@ export const getCleanFileName = (file: string) => {
   return fileName.replace(/^\d+(_\d+)*_/, "");
 };
 
-export const handleDownloadFile = (file: string) => {
+export const handleDownloadFile = (file: string, fronComments?: boolean) => {
+  const pasteUrl = fronComments
+    ? "comment_attachments/"
+    : "ticket_attachments/";
+
   const link = document.createElement("a");
   link.target = "_self";
   const baseUrl = amazonURL;
   const cleanFileName = getCleanFileName(file);
-  const fullUrl = baseUrl + "ticket_attachments/" + file;
+  const fullUrl = baseUrl + pasteUrl + file;
   link.href = fullUrl;
   link.download = cleanFileName;
   link.click();
