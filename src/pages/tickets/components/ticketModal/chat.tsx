@@ -35,7 +35,7 @@ const ChatComponent = ({ ticket_data, ticketDone }: ChatComponentProps) => {
   const [textAreaValue, setTextAreaValue] = useState<string>("");
   const commentRef = useRef<HTMLDivElement>(null);
   const spanRef = useRef<HTMLDivElement>(null);
-  const lastMessageRef = useRef<HTMLLIElement>(null); // Referência para a última mensagem
+  const lastMessageRef = useRef<HTMLLIElement>(null);
   const [files, setFiles] = useState<File[]>([]);
   const prevMessageCountRef = useRef<number>(0);
 

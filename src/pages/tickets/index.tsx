@@ -78,19 +78,15 @@ const TicketsPage = () => {
     refetch();
   };
 
-  // Filtragem de tickets baseada no botão selecionado e função do usuário
   const filteredTickets = useMemo(() => {
     if (user.role === "Administrator") {
-      // Administradores veem todos os tickets
       return dataSource;
     }
 
     if (selectedBtn === "Meus chamados") {
-      // Usuários veem apenas seus próprios tickets
       return dataSource.filter((ticket) => ticket.user.code === user.code);
     }
 
-    // Usuários veem tickets do setor
     return dataSource.filter(
       (ticket) => ticket.sector_code === user.sector_code
     );
