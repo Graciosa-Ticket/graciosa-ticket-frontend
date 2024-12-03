@@ -52,7 +52,7 @@ const UserCard = ({ data, refetch }: UserCardProps) => {
         <div className="header-container">
           <Avatar
             {...(data?.profile_picture && {
-              src: `profile-picture/${data?.code}/regularSize_${data?.profile_picture}`,
+              src: `profile_pictures/${data?.profile_picture}`,
             })}
             alt=""
             className="user-avatar"
@@ -62,7 +62,7 @@ const UserCard = ({ data, refetch }: UserCardProps) => {
           <h5>
             {(() => {
               const nameParts = data.name.trim().split(" ");
-              const firstName = nameParts[0]; // O primeiro nome
+              const firstName = nameParts[0];
               const lastName =
                 nameParts.length > 1 ? nameParts[nameParts.length - 1] : "";
               return `${firstName} ${lastName}`;

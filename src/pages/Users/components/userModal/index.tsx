@@ -33,6 +33,7 @@ export default function UserModal({
     `/users/${data?.code}`,
     "delete"
   );
+  console.log("pp", data);
 
   const handleDeleteUser = () => {
     deleteUser(
@@ -81,7 +82,7 @@ export default function UserModal({
         <div className="img-sector">
           <Avatar
             {...(data?.profile_picture && {
-              src: `profile-picture/${data?.code}/regularSize_${data?.profile_picture}`,
+              src: `profile_pictures/${data?.profile_picture}`,
             })}
             alt=""
             className="user-avatar"

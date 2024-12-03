@@ -14,7 +14,7 @@ export default function SectorCard({ data, onClick }: sectorCardProps) {
         <div className="user-container">
           <Avatar
             {...(data?.user?.profile_picture && {
-              src: `profile-picture/${data?.user?.code}/regularSize_${data?.user?.profile_picture}`,
+              src: `profile_pictures/${data?.user?.profile_picture}`,
             })}
             style={{ width: 30, height: 30 }}
           />

@@ -147,7 +147,7 @@ const SelectedUserContainer = ({
   showPicturePlaceholder,
 }: selectedUserProps) => {
   const profilePictureSrc = data.profile_picture
-    ? `profile-picture/${data.code}/regularSize_${data.profile_picture}`
+    ? `profile_pictures/${data?.profile_picture}`
     : undefined;
 
   return (

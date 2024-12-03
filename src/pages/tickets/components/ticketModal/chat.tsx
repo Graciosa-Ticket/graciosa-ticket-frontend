@@ -35,7 +35,7 @@ const ChatComponent = ({ ticket_data, ticketDone }: ChatComponentProps) => {
   const [textAreaValue, setTextAreaValue] = useState<string>("");
   const commentRef = useRef<HTMLDivElement>(null);
   const spanRef = useRef<HTMLDivElement>(null);
-  const lastMessageRef = useRef<HTMLLIElement>(null); // Referência para a última mensagem
+  const lastMessageRef = useRef<HTMLLIElement>(null);
   const [files, setFiles] = useState<File[]>([]);
   const prevMessageCountRef = useRef<number>(0);
 
@@ -61,26 +61,22 @@ const ChatComponent = ({ ticket_data, ticketDone }: ChatComponentProps) => {
 
     const message = spanRef.current?.innerText || "";
 
-    if (!message && files.length === 0) return; // Não envia se não houver texto e arquivos
+    if (!message && files.length === 0) return;
 
-    // Cria um FormData e adiciona os arquivos
     const formData = new FormData();
 
     files.forEach((file) => {
       formData.append("files", file);
     });
 
-    // Adiciona dados do comentário ao FormData
     const commentData: commentDataType = {
       comment: message,
       userCode: user.code as string,
       ticketCode: ticket_data.code as string,
     };
 
-    // Adiciona os dados ao FormData, exceto o comment se estiver vazio
     Object.keys(commentData).forEach((key) => {
       if (key === "comment" && !message) {
-        // Não adiciona o campo 'comment' se message for vazio
         return;
       }
       formData.append(key, commentData[key as keyof commentDataType]);
@@ -89,9 +85,9 @@ const ChatComponent = ({ ticket_data, ticketDone }: ChatComponentProps) => {
     createComment(formData, {
       onSuccess: () => {
         if (spanRef.current) {
-          spanRef.current.innerText = ""; // Limpa o texto do span se o ref não for nulo
+          spanRef.current.innerText = "";
         }
-        setFiles([]); // Limpa a lista de arquivos após o envio
+        setFiles([]);
         refetch();
       },
       onError: (error) => {
@@ -113,7 +109,6 @@ const ChatComponent = ({ ticket_data, ticketDone }: ChatComponentProps) => {
     const maxChars = 512;
     const textLength = spanRef.current?.innerText.length || 0;
 
-    // Limita o número de caracteres ao digitar
     if (
       textLength >= maxChars &&
       event.key !== "Backspace" &&
@@ -122,21 +117,18 @@ const ChatComponent = ({ ticket_data, ticketDone }: ChatComponentProps) => {
       event.preventDefault();
     }
 
-    // Envia a mensagem com "Enter" (sem Shift)
     if (!event.shiftKey && event.code === "Enter") {
       event.preventDefault();
       handleChatSubmit();
     }
 
-    // Limita o número de caracteres ao colar
     if (event.ctrlKey && event.key === "v") {
       event.preventDefault();
       navigator.clipboard.readText().then((clipboardText) => {
         const remainingChars = maxChars - textLength;
         const textToInsert = clipboardText.slice(0, remainingChars);
-
-        // Insere o texto cortado diretamente
         const selection = window.getSelection();
+
         if (selection && selection.rangeCount > 0) {
           selection.deleteFromDocument();
           selection
@@ -161,7 +153,6 @@ const ChatComponent = ({ ticket_data, ticketDone }: ChatComponentProps) => {
     };
   }, [spanRef]);
 
-  //chat auto scroll down
   useEffect(() => {
     const currentMessageCount = chatConversation.length;
     if (currentMessageCount > prevMessageCountRef.current) {
@@ -210,14 +201,13 @@ const ChatComponent = ({ ticket_data, ticketDone }: ChatComponentProps) => {
               className={textAreaValue ? "textarea" : "textarea empty-textarea"}
               role="textbox"
               ref={spanRef}
-              contentEditable={!ticketDone} // Desabilita edição se concluído
+              contentEditable={!ticketDone}
               data-placeholder={ticketDone ? "" : "Escreva um comentário..."}
               onKeyDown={onKeyDown}
               onPaste={(e) => {
                 e.preventDefault();
                 const text = e.clipboardData.getData("text/plain");
 
-                // Use o método de inserção de texto que evita `execCommand`
                 const selection = window.getSelection();
                 if (!selection?.rangeCount) return;
 
@@ -270,7 +260,11 @@ const ConnectionsMessageCard = ({
             if (e.type === "image") {
               return (
                 <li key={i}>
-                  <ImageViewer imageUrl={e.file} style={{ width: "100%" }} />
+                  <ImageViewer
+                    imageUrl={e.file}
+                    style={{ width: "100%" }}
+                    fronComments={true}
+                  />
                 </li>
               );
             }
@@ -281,7 +275,7 @@ const ConnectionsMessageCard = ({
                   <ButtonComponent
                     buttonStyles="text"
                     className="download-button"
-                    onClick={() => handleDownloadFile(e.file)}
+                    onClick={() => handleDownloadFile(e.file, true)}
                     title="Clique para baixar o PDF"
                   >
                     <FaRegFilePdf />
@@ -291,12 +285,11 @@ const ConnectionsMessageCard = ({
               );
             }
 
-            // Renderiza o ícone e o nome do arquivo para outros tipos (doc, excel)
             return (
               <li key={i} className="not-image-container">
                 <ButtonComponent
                   buttonStyles="text"
-                  onClick={() => handleDownloadFile(e.file)}
+                  onClick={() => handleDownloadFile(e.file, true)}
                   title="Clique para baixar"
                   className="download-button"
                 >
@@ -312,6 +305,7 @@ const ConnectionsMessageCard = ({
 
     return undefined;
   }, [data?.attachmentUrl]);
+
   return (
     <>
       {isDone && (
@@ -330,7 +324,7 @@ const ConnectionsMessageCard = ({
           <div className="user-side">
             <Avatar
               {...(data?.user.profile_picture && {
-                src: `profile-picture/${data?.user.code}/regularSize_${data?.user.profile_picture}`,
+                src: `profile_pictures/${data?.user?.profile_picture}`,
               })}
               alt=""
             />

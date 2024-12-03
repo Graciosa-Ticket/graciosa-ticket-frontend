@@ -46,16 +46,19 @@ export const IdentifyFiles = (files?: string[]): formattedFileType[] => {
 
 export const getCleanFileName = (file: string) => {
   const fileName = file.split("/").pop() || file;
-  // Remove todos os prefixos numéricos seguidos de "_"
   return fileName.replace(/^\d+(_\d+)*_/, "");
 };
 
-export const handleDownloadFile = (file: string) => {
+export const handleDownloadFile = (file: string, fronComments?: boolean) => {
+  const pasteUrl = fronComments
+    ? "comment_attachments/"
+    : "ticket_attachments/";
+
   const link = document.createElement("a");
   link.target = "_self";
   const baseUrl = amazonURL;
   const cleanFileName = getCleanFileName(file);
-  const fullUrl = baseUrl + file;
+  const fullUrl = baseUrl + pasteUrl + file;
   link.href = fullUrl;
   link.download = cleanFileName;
   link.click();

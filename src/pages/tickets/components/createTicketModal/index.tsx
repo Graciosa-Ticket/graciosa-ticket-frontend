@@ -224,7 +224,6 @@ const TicketFormStep = ({ formProps, onClose, onUpdate }: StepsProps) => {
     for (const key in ticketData) {
       if (ticketData[key]) {
         if (key === "files") {
-          // Adiciona cada arquivo apenas uma vez
           ticketData[key].forEach((file: File) => {
             formData.append("files", file);
           });
@@ -233,8 +232,6 @@ const TicketFormStep = ({ formProps, onClose, onUpdate }: StepsProps) => {
         }
       }
     }
-
-    // Envia os dados do formulário
     createTicket(formData, {
       onSuccess: () => {
         toast.success("Chamado Cadastrado!");
@@ -319,7 +316,6 @@ const TicketMainForm = ({
     if (fileList?.length) {
       const filesArray = Array.from(fileList);
 
-      // Filtra arquivos duplicados e grandes
       const newFiles = filesArray.filter((file) => {
         const isDuplicate = files.some(
           (existingFile) => existingFile.name === file.name
@@ -331,8 +327,6 @@ const TicketMainForm = ({
         );
         return !isDuplicate && canUpload;
       });
-
-      // Adiciona novos arquivos à lista existente
       setFiles((prevFiles) => [...prevFiles, ...newFiles]);
       setValue("files", [...files, ...newFiles], {
         shouldDirty: true,
@@ -414,11 +408,11 @@ const TicketAdvancedOptionsForm = ({ formProps }: StepsProps) => {
 
   const isRecurrent = watch("is_recurrent") || false;
 
+  const selectedBreak = watch("break") || "30";
+
   useEffect(() => {
-    if (isRecurrent) {
-      setValue("break", "30", { shouldDirty: true });
-    }
-  }, [isRecurrent, setValue]);
+    setValue("break", selectedBreak, { shouldDirty: true });
+  }, [isRecurrent, setValue, selectedBreak]);
 
   return (
     <FormContentContainer $columns={2}>
@@ -445,7 +439,7 @@ const TicketAdvancedOptionsForm = ({ formProps }: StepsProps) => {
       />
       <Select
         label="Intervalo"
-        defaultValue="30"
+        defaultValue={selectedBreak}
         selectStyle="secondary"
         onValueChange={(value: string) =>
           setValue("break", value, { shouldDirty: true })

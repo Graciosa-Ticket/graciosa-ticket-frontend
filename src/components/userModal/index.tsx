@@ -34,7 +34,7 @@ export default function UserViewModal({ onClose }: modalActions<UserModel>) {
         <div className="img-sector">
           <Avatar
             {...(user?.profile_picture && {
-              src: `profile-picture/${user?.code}/regularSize_${user?.profile_picture}`,
+              src: `profile_pictures/${user?.profile_picture}`,
             })}
             alt=""
             className="user-avatar"

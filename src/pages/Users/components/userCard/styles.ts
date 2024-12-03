@@ -49,6 +49,8 @@ export const UserComponent = styled.button`
 
   .userdata-container {
     h5 {
+      margin-left: 8px;
+      margin-right: 8px;
       ${({ theme }) => theme.font.p.normal};
       font-weight: 500;
       color: ${({ theme }) => theme.colors.brand.dark_blue};
@@ -64,7 +66,6 @@ export const UserComponent = styled.button`
 
   span {
     ${({ theme }) => theme.font.p.extra_small};
-
     color: ${({ theme }) => theme.colors.grayscale.gray_60};
   }
 `;
