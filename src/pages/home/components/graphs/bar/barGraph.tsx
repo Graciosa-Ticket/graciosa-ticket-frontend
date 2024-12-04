@@ -29,21 +29,16 @@ interface BarGraphProps {
 }
 
 const formatLabel = (label: string) => {
-  // Substitui sublinhados por espaços e capitaliza a primeira letra de cada palavra
-  const formattedLabel = label
-    .replace(/_/g, " ") // Substitui sublinhados por espaços
-    .toLowerCase(); // Converte tudo para minúsculas inicialmente
+  const formattedLabel = label.replace(/_/g, " ").toLowerCase();
 
-  // Capitaliza apenas a primeira letra da primeira palavra
   const capitalizedLabel =
     formattedLabel.charAt(0).toUpperCase() + formattedLabel.slice(1);
 
-  // Corrige casos específicos de acentuação e pontuação
   return capitalizedLabel
-    .replace(/Aguardando aprovacao/g, "Aguardando aprovação") // Substitui 'Aguardando aprovacao' por 'Aguardando Aprovação'
-    .replace(/Em andamento/g, "Em andamento") // Substitui 'Em andamento' por 'Em Andamento'
-    .replace(/Impeditivo/g, "Impeditivo") // Certifica-se de que a palavra é corretamente formatada
-    .replace(/Reaberto/g, "Reaberto"); // Certifica-se de que a palavra é corretamente formatada
+    .replace(/Aguardando aprovacao/g, "Aguardando aprovação")
+    .replace(/Em andamento/g, "Em andamento")
+    .replace(/Impeditivo/g, "Impeditivo")
+    .replace(/Reaberto/g, "Reaberto");
 };
 
 export const BarGraph = ({ data }: BarGraphProps) => {
@@ -53,11 +48,9 @@ export const BarGraph = ({ data }: BarGraphProps) => {
     return <NotFoundComponent message="Nenhum dado encontrado" />;
   }
 
-  // Formata os rótulos e extrai as cores
   const labels = Object.keys(data).map(formatLabel);
   const dataValues = Object.values(data);
 
-  // Certifique-se de que há uma cor para cada rótulo
   const colors = [
     theme.colors.ticket_status.open,
     theme.colors.ticket_status.waiting_approval,
@@ -66,7 +59,7 @@ export const BarGraph = ({ data }: BarGraphProps) => {
     theme.colors.ticket_status.on_going,
     theme.colors.ticket_status.impediment,
     theme.colors.ticket_status.re_open,
-  ].slice(0, labels.length); // Ajusta o tamanho das cores para o número de rótulos
+  ].slice(0, labels.length);
 
   return (
     <Bar
@@ -104,7 +97,7 @@ export const BarGraph = ({ data }: BarGraphProps) => {
               text: "Status",
             },
             ticks: {
-              display: true, // Garante que os rótulos formatados sejam exibidos
+              display: true,
             },
           },
           y: {
