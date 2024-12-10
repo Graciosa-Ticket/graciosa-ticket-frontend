@@ -11,7 +11,6 @@ import { SectorCardModel } from "../../../../models/sector";
 import GCCBarGraph from "./barGraphGCC";
 import GraphSkeletonLoading from "../../graphSkeleton";
 
-// Define as propriedades esperadas para o componente HomeGraph
 interface homeGraphProps {
   userSector?: SectorCardModel;
   isadmin: boolean;
@@ -25,20 +24,16 @@ const HomeGraph = ({
   isadmin = false,
   sectorsListData = [],
 }: homeGraphProps) => {
-  // Estado para armazenar os dados dos contadores recebidos da API
   const [countersDataSource, setcountersDataSource] = useState<
     CounterToChartModel | CounterToChartModelSector | ResponseError
   >();
 
-  // Estado para armazenar o número de tickets criados
   const [createdTicketsCounterDataSource, setcreatedTicketsCounterDataSource] =
     useState<number>(0);
 
-  // Estado para armazenar os dados selecionados de um setor específico
   const [selectedDataSource, setSelectedDataSource] =
     useState<CounterToChartModel[]>();
 
-  // Hook para buscar os dados gerais dos contadores de todos os setores ou de um setor específico
   const { isLoading: isLoadingAllSectorsCounters } = useFetch<
     CounterToChartModel | CounterToChartModelSector
   >(
@@ -46,7 +41,6 @@ const HomeGraph = ({
     ["geralCountData", isadmin, userSector?.code],
     {
       onSuccess: (geralCountData) => {
-        // Atualiza o estado com os dados recebidos
         setcountersDataSource(() => {
           if (isadmin) return geralCountData;
 
@@ -58,7 +52,6 @@ const HomeGraph = ({
     }
   );
 
-  // Hook para buscar o número de tickets criados, filtrando por setor se o usuário não for administrador
   const { isLoading: isLoadingCreatedTicketsCounterDataByCode } = useFetch<
     number | ResponseError
   >(
@@ -66,8 +59,6 @@ const HomeGraph = ({
     ["createdTicketsCounterDataByCode", isadmin, userSector?.code],
     {
       onSuccess: (createdTicketsCounterDataByCode) => {
-        // Atualiza o estado com o número de tickets criados
-
         if (
           (createdTicketsCounterDataByCode as ResponseError)?.statusCode &&
           (createdTicketsCounterDataByCode as ResponseError)?.statusCode !== 200
@@ -81,19 +72,16 @@ const HomeGraph = ({
     }
   );
 
-  // Hook para buscar os dados dos contadores de todos os setores
   const { isLoading: isLoadingSelectedSector, data: allSectorsCountData } =
     useFetch<CounterToChartModel>("/counters/counterToChart/allSectors", [
       "selectedSectorCounter",
     ]);
 
-  // Efeito que é executado quando os dados de todos os setores são carregados
   useEffect(() => {
     if (allSectorsCountData && sectorsListData?.length) {
       const counters = allSectorsCountData;
       const updatedData = Object.entries(counters)
         .map(([sector_code, values]) => {
-          // Encontra o setor correspondente e adiciona o nome ao objeto
           const sector = sectorsListData?.find((s) => s.code === sector_code);
 
           return {
@@ -104,18 +92,15 @@ const HomeGraph = ({
         })
         .filter((sector) => sector.name !== "Desconhecido"); // Filtra setores com o nome "Desconhecido"
 
-      // Atualiza o estado com os dados dos setores selecionados
       setSelectedDataSource(updatedData);
     }
   }, [allSectorsCountData, sectorsListData]);
 
-  // Define a flag de carregamento combinando os estados de carregamento dos diferentes hooks
   const isLoading =
     isLoadingAllSectorsCounters ||
     isLoadingCreatedTicketsCounterDataByCode ||
     isLoadingSelectedSector;
 
-  // Calcula o número total de tickets de todos os setores
   const allSetorsTicketsCount = useMemo(() => {
     if (
       (countersDataSource as ResponseError)?.statusCode &&
@@ -129,7 +114,6 @@ const HomeGraph = ({
     return dataSourceKeys.reduce((a, b) => a + b, 0);
   }, [countersDataSource]);
 
-  // Define as opções de abas (tabs) para o componente TabComponent
   const tabOptions = useMemo(() => {
     return [
       {
@@ -143,17 +127,15 @@ const HomeGraph = ({
                 | CounterToChartModelSector
             }
           />
-        ), // Gráfico de barras para dados gerais
+        ),
       },
       {
         title: "Setores",
         value: "sector",
-        content: <GCCBarGraph data={selectedDataSource as any} />, // Gráfico de barras para setores específicos
+        content: <GCCBarGraph data={selectedDataSource as any} />,
       },
     ];
   }, [countersDataSource, selectedDataSource]);
-
-  // Se estiver carregando, exibe um elemento de carregamento (comentado no momento)
 
   if (isLoading) {
     return (
@@ -161,7 +143,6 @@ const HomeGraph = ({
     );
   }
 
-  // Retorna o conteúdo do componente HomeGraph
   return (
     <HomeGraphContainer>
       <section className="big-numbers">
