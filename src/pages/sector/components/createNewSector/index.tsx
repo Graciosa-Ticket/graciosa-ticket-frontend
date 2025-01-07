@@ -62,23 +62,13 @@ export default function CreateSectorModal({
     responsibleCode: string,
     sectorCode: string
   ) => {
-    console.log("Chamada para updateUserSector com:", {
-      responsibleCode,
-      sectorCode,
-    });
-
     updateUserSector(
       {
         code: responsibleCode,
         sector_code: sectorCode,
       },
       {
-        onSuccess: (response) => {
-          console.log(
-            "Atualização do setor do usuário bem-sucedida:",
-            response
-          );
-        },
+        onSuccess: (response) => {},
         onError: (error) => {
           console.error("Erro ao atualizar setor do usuário:", error);
         },

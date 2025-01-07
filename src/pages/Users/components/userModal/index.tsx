@@ -34,7 +34,6 @@ export default function UserModal({
     `/users/${data?.code}`,
     "delete"
   );
-  console.log("pp", data);
 
   const handleDeleteUser = () => {
     deleteUser(
