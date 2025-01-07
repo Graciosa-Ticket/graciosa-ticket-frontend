@@ -48,7 +48,7 @@ export const Select = React.forwardRef(
             ref={forwardedRef}
             style={triggerStyle}
             $selectStyle={selectStyle}
-            $disabled={disabled} // Passando o estado disabled para o SelectTrigger
+            $disabled={disabled}
           >
             {isLoading && (
               <div className="loading-button">

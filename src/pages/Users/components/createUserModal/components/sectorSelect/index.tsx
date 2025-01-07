@@ -29,7 +29,6 @@ function SectorSelect({ onSelect, defaultValue }: SectorSelectProps) {
 
         setSectorDataSource(mappedData);
 
-        // Define o valor selecionado com base no defaultValue, se existir
         if (defaultValue) {
           const matchedSector = mappedData.find(
             (item) => item.label === defaultValue
@@ -43,7 +42,6 @@ function SectorSelect({ onSelect, defaultValue }: SectorSelectProps) {
   });
 
   useEffect(() => {
-    // Se o defaultValue mudar (por exemplo, ao carregar dados do usuário), tente atualizar o selectedValue novamente
     if (defaultValue && sectorDataSource.length > 0) {
       const matchedSector = sectorDataSource.find(
         (item) => item.label === defaultValue
