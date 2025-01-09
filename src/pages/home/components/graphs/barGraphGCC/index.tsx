@@ -57,7 +57,6 @@ const GCCBarGraph = ({ data }: graphProps) => {
   useEffect(() => {
     if (data?.length) {
       setIsLoading(false);
-      // console.log("Data sent to the graph:", data); // add for debbuggin
     }
   }, [data]);
 

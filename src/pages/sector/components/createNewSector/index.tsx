@@ -62,23 +62,13 @@ export default function CreateSectorModal({
     responsibleCode: string,
     sectorCode: string
   ) => {
-    console.log("Chamada para updateUserSector com:", {
-      responsibleCode,
-      sectorCode,
-    });
-
     updateUserSector(
       {
         code: responsibleCode,
         sector_code: sectorCode,
       },
       {
-        onSuccess: (response) => {
-          console.log(
-            "Atualização do setor do usuário bem-sucedida:",
-            response
-          );
-        },
+        onSuccess: (response) => {},
         onError: (error) => {
           console.error("Erro ao atualizar setor do usuário:", error);
         },
@@ -97,9 +87,7 @@ export default function CreateSectorModal({
 
     createSector(data, {
       onSuccess: ({ data: res }) => {
-        // Verifica se o statusCode é diferente de 200 e exibe a mensagem de erro
         if (res?.statusCode && res.statusCode !== 200) {
-          // Usa a mensagem da resposta se disponível, caso contrário, mensagem padrão
           toast.error(
             res.message ||
               "Ocorreu um erro ao salvar o setor. Por favor, tente novamente."
@@ -107,14 +95,12 @@ export default function CreateSectorModal({
           return;
         }
 
-        // Exibe mensagem de sucesso baseada na presença de sectorData
         if (sectorData) {
           toast.success("Setor Atualizado");
         } else {
           toast.success("Setor Criado com sucesso");
         }
 
-        // Chama o handleUpdateUserSector após sucesso
         if (sectorData) {
           handleUpdateUserSector(sectorData.responsible_code, sectorData.code);
         } else {
@@ -124,16 +110,13 @@ export default function CreateSectorModal({
         onUpdate?.();
       },
       onError: (error: any) => {
-        // Extraia a mensagem de erro com base na estrutura conhecida
         let errorMessage =
           "Ocorreu um erro ao salvar o setor. Por favor, tente novamente.";
 
         if (error.response) {
-          // Caso seja uma resposta de erro da API
           const data = error.response.data;
           errorMessage = data?.message || errorMessage;
         } else if (error.message) {
-          // Caso seja um erro genérico com mensagem
           errorMessage = error.message;
         }
 
@@ -146,10 +129,8 @@ export default function CreateSectorModal({
     const { value } = event.target;
     const formattedValue = formatPhoneNumber(value);
 
-    // Armazena o valor original
     setOriginalRamal(value);
 
-    // Atualiza o campo de entrada com o valor formatado apenas para exibição
     setValue("ramal", formattedValue, { shouldDirty: true });
   };
   return (

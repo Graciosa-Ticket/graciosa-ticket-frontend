@@ -198,9 +198,9 @@ export default function CreateUserModal({
                 })
               }
             >
-              <SelectItem value="Collaborator">Collaborator</SelectItem>
+              <SelectItem value="Collaborator">Colaborador</SelectItem>
               <SelectItem value="Supervisor">Supervisor</SelectItem>
-              <SelectItem value="Administrator">Administrator</SelectItem>
+              <SelectItem value="Administrator">Administrador</SelectItem>
             </Select>
             <SectorSelect
               onSelect={handleSectorSelect}

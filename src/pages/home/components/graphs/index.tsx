@@ -110,7 +110,6 @@ const HomeGraph = ({
 
     const dataSourceKeys = Object.values(countersDataSource || {});
     if (!dataSourceKeys.length) return 0;
-    console.log(countersDataSource);
     return dataSourceKeys.reduce((a, b) => a + b, 0);
   }, [countersDataSource]);
 

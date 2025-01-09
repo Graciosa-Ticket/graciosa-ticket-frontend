@@ -21,6 +21,7 @@ import EditedFormPopUp from "../../../../components/EditedFormPopUp";
 import StatusComponent from "../Status";
 import DeleteUserPopUp from "../../../../components/deleteUserPopUp";
 import { useAuth } from "../../../../hooks/auth";
+import { roleTranslation } from "../../../../utils/roleTranslation";
 
 export default function UserModal({
   data,
@@ -33,7 +34,6 @@ export default function UserModal({
     `/users/${data?.code}`,
     "delete"
   );
-  console.log("pp", data);
 
   const handleDeleteUser = () => {
     deleteUser(
@@ -65,7 +65,9 @@ export default function UserModal({
   const handleOpenDeleteModal = () => {
     setOpenDeleteModal(true);
   };
-
+  const roleName = data?.role
+    ? roleTranslation[data.role]
+    : "Função não definida";
   return (
     <>
       <ModalHeader>
@@ -112,14 +114,14 @@ export default function UserModal({
           <div className="function-area">
             <div className="left-side">
               <span>Função</span>
-              <h5>{data?.role}</h5>
+              <h5>{roleName}</h5>
             </div>
             <div className="right-side">
               <SectorIcon data={data as UserModel} />
             </div>
           </div>
         )}
-        {user?.role === "Administrator" && ( // Verifica se o usuário é administrador antes de renderizar o footer
+        {user?.role === "Administrator" && (
           <div className="footer">
             <div />
             {!data?.deleted_at ? (

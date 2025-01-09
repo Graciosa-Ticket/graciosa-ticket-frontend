@@ -68,12 +68,19 @@ export default function User() {
 
   const deletedUserlist = useMemo(() => {
     if (dataSource.length) {
-      return dataSource.filter(
+      let filteredUsers = dataSource.filter(
         (user) => user.deleted_at && user.role === selectedBtn
       );
+
+      if (searchUser) {
+        filteredUsers = searchUsers(searchUser, filteredUsers);
+      }
+
+      return filteredUsers;
     }
     return [];
-  }, [dataSource, selectedBtn]);
+  }, [dataSource, selectedBtn, searchUser]);
+
   return (
     <>
       <UserContainer>

@@ -8,6 +8,7 @@ import Avatar from "../../../../components/Avatar";
 import { useAuth } from "../../../../hooks/auth";
 import UserViewModal from "../../../../components/userModal";
 import StatusComponent from "../Status";
+import { roleTranslation } from "../../../../utils/roleTranslation";
 
 interface UserCardProps {
   data: UserModel;
@@ -69,7 +70,7 @@ const UserCard = ({ data, refetch }: UserCardProps) => {
             })()}
           </h5>
 
-          <span>{data?.role}</span>
+          <span>{roleTranslation[data?.role]}</span>
         </div>
         {data?.role !== "Administrator" && (
           <div>
